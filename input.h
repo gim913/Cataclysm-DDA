@@ -26,6 +26,6 @@ enum InputEvent {
 };
 
 InputEvent get_input(int ch = '\0');
-void get_direction(int &x, int &y, InputEvent &input);
+void get_direction(int& x, int& y, InputEvent& input);
 
 #endif

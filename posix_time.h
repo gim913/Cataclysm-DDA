@@ -15,11 +15,10 @@ enum { BILLION = 1000 * 1000 * 1000 };
 extern "C" {
 #   endif
 
-struct timespec
-{
-  time_t tv_sec;
-  long int tv_nsec;
-};
+	struct timespec {
+		time_t tv_sec;
+		long int tv_nsec;
+	};
 
 #   ifdef __cplusplus
 }
@@ -35,8 +34,8 @@ struct timespec
    we use the QueryPerformanceCounter() function.  */
 
 int
-nanosleep (const struct timespec *requested_delay,
-           struct timespec *remaining_delay);
+nanosleep(const struct timespec* requested_delay,
+	  struct timespec* remaining_delay);
 
 #endif
 #endif
