@@ -24,11 +24,17 @@ static void add_or_drop_item(game *g, player *p, item *it)
         iter++;
     }
     if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+    {
         drop = true;
+    }
     if (drop)
+    {
         g->m.add_item(p->posx, p->posy, replacement);
+    }
     else
+    {
         p->i_add(replacement, g);
+    }
 }
 
 /* To mark an item as "removed from inventory", set its invlet to 0
@@ -38,7 +44,9 @@ void iuse::sewage(game *g, player *p, item *it, bool t)
 {
     p->vomit(g);
     if (one_in(4))
+    {
         p->mutate(g);
+    }
 }
 void iuse::honeycomb(game *g, player *p, item *it, bool t)
 {
@@ -93,9 +101,13 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
         {
             int damage = p->hp_max[i] - p->hp_cur[i];
             if (i == hp_head)
+            {
                 damage *= 1.5;
+            }
             if (i == hp_torso)
+            {
                 damage *= 1.2;
+            }
             if (damage > highest_damage)
             {
                 highest_damage = damage;
@@ -142,31 +154,53 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
                 }
                 curhp += tmpbonus;
                 if (curhp > p->hp_max[i])
+                {
                     curhp = p->hp_max[i];
+                }
                 if (curhp == p->hp_max[i])
+                {
                     col = c_green;
+                }
                 else if (curhp > p->hp_max[i] * .8)
+                {
                     col = c_ltgreen;
+                }
                 else if (curhp > p->hp_max[i] * .5)
+                {
                     col = c_yellow;
+                }
                 else if (curhp > p->hp_max[i] * .3)
+                {
                     col = c_ltred;
+                }
                 else
+                {
                     col = c_red;
+                }
                 if (p->has_trait(PF_HPIGNORANT))
+                {
                     mvwprintz(w, i + 2, 15, col, "***");
+                }
                 else
                 {
                     if (curhp >= 100)
+                    {
                         mvwprintz(w, i + 2, 15, col, "%d", curhp);
+                    }
                     else if (curhp >= 10)
+                    {
                         mvwprintz(w, i + 2, 16, col, "%d", curhp);
+                    }
                     else
+                    {
                         mvwprintz(w, i + 2, 17, col, "%d", curhp);
+                    }
                 }
             }
             else	// curhp is 0; requires surgical attention
+            {
                 mvwprintz(w, i + 2, 15, c_dkgray, "---");
+            }
         }
         wrefresh(w);
         char ch;
@@ -174,9 +208,13 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
         {
             ch = getch();
             if (ch == '1')
+            {
                 healed = hp_head;
+            }
             else if (ch == '2')
+            {
                 healed = hp_torso;
+            }
             else if (ch == '3')
             {
                 if (p->hp_cur[hp_arm_l] == 0)
@@ -186,7 +224,9 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
                     return;
                 }
                 else
+                {
                     healed = hp_arm_l;
+                }
             }
             else if (ch == '4')
             {
@@ -197,7 +237,9 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
                     return;
                 }
                 else
+                {
                     healed = hp_arm_r;
+                }
             }
             else if (ch == '5')
             {
@@ -208,7 +250,9 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
                     return;
                 }
                 else
+                {
                     healed = hp_leg_l;
+                }
             }
             else if (ch == '6')
             {
@@ -219,7 +263,9 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
                     return;
                 }
                 else
+                {
                     healed = hp_leg_r;
+                }
             }
             else if (ch == '8')
             {
@@ -245,11 +291,17 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
     p->practice("firstaid", 8);
     int dam = 0;
     if (healed == hp_head)
+    {
         dam = 1 + bonus * .8;
+    }
     else if (healed == hp_torso)
+    {
         dam = 4 + bonus * 1.5;
+    }
     else
+    {
         dam = 3 + bonus;
+    }
     p->heal(healed, dam);
 }
 
@@ -265,9 +317,13 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
         {
             int damage = p->hp_max[i] - p->hp_cur[i];
             if (i == hp_head)
+            {
                 damage *= 1.5;
+            }
             if (i == hp_torso)
+            {
                 damage *= 1.2;
+            }
             if (damage > highest_damage)
             {
                 highest_damage = damage;
@@ -313,31 +369,53 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
                 }
                 curhp += tmpbonus;
                 if (curhp > p->hp_max[i])
+                {
                     curhp = p->hp_max[i];
+                }
                 if (curhp == p->hp_max[i])
+                {
                     col = c_green;
+                }
                 else if (curhp > p->hp_max[i] * .8)
+                {
                     col = c_ltgreen;
+                }
                 else if (curhp > p->hp_max[i] * .5)
+                {
                     col = c_yellow;
+                }
                 else if (curhp > p->hp_max[i] * .3)
+                {
                     col = c_ltred;
+                }
                 else
+                {
                     col = c_red;
+                }
                 if (p->has_trait(PF_HPIGNORANT))
+                {
                     mvwprintz(w, i + 2, 15, col, "***");
+                }
                 else
                 {
                     if (curhp >= 100)
+                    {
                         mvwprintz(w, i + 2, 15, col, "%d", curhp);
+                    }
                     else if (curhp >= 10)
+                    {
                         mvwprintz(w, i + 2, 16, col, "%d", curhp);
+                    }
                     else
+                    {
                         mvwprintz(w, i + 2, 17, col, "%d", curhp);
+                    }
                 }
             }
             else	// curhp is 0; requires surgical attention
+            {
                 mvwprintz(w, i + 2, 15, c_dkgray, "---");
+            }
         }
         wrefresh(w);
         char ch;
@@ -345,9 +423,13 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
         {
             ch = getch();
             if (ch == '1')
+            {
                 healed = hp_head;
+            }
             else if (ch == '2')
+            {
                 healed = hp_torso;
+            }
             else if (ch == '3')
             {
                 if (p->hp_cur[hp_arm_l] == 0)
@@ -357,7 +439,9 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
                     return;
                 }
                 else
+                {
                     healed = hp_arm_l;
+                }
             }
             else if (ch == '4')
             {
@@ -368,7 +452,9 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
                     return;
                 }
                 else
+                {
                     healed = hp_arm_r;
+                }
             }
             else if (ch == '5')
             {
@@ -379,7 +465,9 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
                     return;
                 }
                 else
+                {
                     healed = hp_leg_l;
+                }
             }
             else if (ch == '6')
             {
@@ -390,7 +478,9 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
                     return;
                 }
                 else
+                {
                     healed = hp_leg_r;
+                }
             }
             else if (ch == '7')
             {
@@ -409,11 +499,17 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
     p->practice("firstaid", 8);
     int dam = 0;
     if (healed == hp_head)
+    {
         dam = 10 + bonus * .8;
+    }
     else if (healed == hp_torso)
+    {
         dam = 18 + bonus * 1.5;
+    }
     else
+    {
         dam = 14 + bonus;
+    }
     p->heal(healed, dam);
 }
 
@@ -423,7 +519,9 @@ void iuse::pkill_1(game *g, player *p, item *it, bool t)
     g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
     if (!p->has_disease(DI_PKILL1))
+    {
         p->add_disease(DI_PKILL1, 120, g);
+    }
     else
     {
         for (int i = 0; i < p->illness.size(); i++)
@@ -473,9 +571,13 @@ void iuse::xanax(game *g, player *p, item *it, bool t)
     g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
     if (!p->has_disease(DI_TOOK_XANAX))
+    {
         p->add_disease(DI_TOOK_XANAX, 900, g);
+    }
     else
+    {
         p->add_disease(DI_TOOK_XANAX, 200, g);
+    }
 }
 
 void iuse::caff(game *g, player *p, item *it, bool t)
@@ -488,7 +590,9 @@ void iuse::alcohol(game *g, player *p, item *it, bool t)
 {
     int duration = 680 - (10 * p->str_max); // Weaker characters are cheap drunks
     if (p->has_trait(PF_LIGHTWEIGHT))
+    {
         duration += 300;
+    }
     p->pkill += 8;
     p->add_disease(DI_DRUNK, duration, g);
 }
@@ -496,15 +600,21 @@ void iuse::alcohol(game *g, player *p, item *it, bool t)
 void iuse::cig(game *g, player *p, item *it, bool t)
 {
     if (it->type->id == itm_cig)
+    {
         g->add_msg_if_player(p,"You light a cigarette and smoke it.");
+    }
     else //cigar
+    {
         g->add_msg_if_player(p,"You take a few puffs from your cigar.");
+    }
     p->add_disease(DI_CIG, 200, g);
     for (int i = 0; i < p->illness.size(); i++)
     {
         if (p->illness[i].type == DI_CIG && p->illness[i].duration > 600 &&
                 !p->is_npc())
+        {
             g->add_msg_if_player(p,"Ugh, too much smoke... you feel gross.");
+        }
     }
 }
 
@@ -514,10 +624,14 @@ void iuse::weed(game *g, player *p, item *it, bool t)
 
     int duration = 60;
     if (p->has_trait(PF_LIGHTWEIGHT))
+    {
         duration = 90;
+    }
     p->hunger += 8;
     if (p->pkill < 15)
+    {
         p->pkill += 5;
+    }
     p->add_disease(DI_HIGH, duration, g);
 }
 
@@ -527,7 +641,9 @@ void iuse::coke(game *g, player *p, item *it, bool t)
 
     int duration = 21 - p->str_cur;
     if (p->has_trait(PF_LIGHTWEIGHT))
+    {
         duration += 20;
+    }
     p->hunger -= 8;
     p->add_disease(DI_HIGH, duration, g);
 }
@@ -538,7 +654,9 @@ void iuse::crack(game *g, player *p, item *it, bool t)
     p->use_charges(itm_lighter, 1);
     int duration = 10;
     if (p->has_trait(PF_LIGHTWEIGHT))
+    {
         duration += 10;
+    }
     p->hunger -= 8;
     p->add_disease(DI_HIGH, duration, g);
 }
@@ -549,7 +667,9 @@ void iuse::grack(game *g, player *p, item *it, bool t)
     p->use_charges(itm_lighter, 1);
     int duration = 1000;
     if (p->has_trait(PF_LIGHTWEIGHT))
+    {
         duration += 10;
+    }
     p->hunger -= 8;
     p->add_disease(DI_GRACK, duration, g);
 }
@@ -565,9 +685,13 @@ void iuse::meth(game *g, player *p, item *it, bool t)
         duration *= 1.5;
     }
     else
+    {
         g->add_msg_if_player(p,"You snort some crystals.");
+    }
     if (!p->has_disease(DI_METH))
+    {
         duration += 600;
+    }
     int hungerpen = (p->str_cur < 10 ? 20 : 30 - p->str_cur);
     p->hunger -= hungerpen;
     p->add_disease(DI_METH, duration, g);
@@ -591,16 +715,22 @@ void iuse::thorazine(game *g, player *p, item *it, bool t)
     p->rem_disease(DI_VISUALS);
     p->rem_disease(DI_HIGH);
     if (!p->has_disease(DI_DERMATIK))
+    {
         p->rem_disease(DI_FORMICATION);
+    }
     g->add_msg_if_player(p,"You feel somewhat sedated.");
 }
 
 void iuse::prozac(game *g, player *p, item *it, bool t)
 {
     if (!p->has_disease(DI_TOOK_PROZAC) && p->morale_level() < 0)
+    {
         p->add_disease(DI_TOOK_PROZAC, 7200, g);
+    }
     else
+    {
         p->stim += 3;
+    }
 }
 
 void iuse::sleep(game *g, player *p, item *it, bool t)
@@ -644,16 +774,22 @@ void iuse::blech(game *g, player *p, item *it, bool t)
 void iuse::mutagen(game *g, player *p, item *it, bool t)
 {
     if (!one_in(3))
+    {
         p->mutate(g);
+    }
 }
 
 void iuse::mutagen_3(game *g, player *p, item *it, bool t)
 {
     p->mutate(g);
     if (!one_in(3))
+    {
         p->mutate(g);
+    }
     if (one_in(2))
+    {
         p->mutate(g);
+    }
 }
 
 void iuse::purifier(game *g, player *p, item *it, bool t)
@@ -662,7 +798,9 @@ void iuse::purifier(game *g, player *p, item *it, bool t)
     for (int i = 1; i < PF_MAX2; i++)
     {
         if (p->has_trait(pl_flag(i)) && p->has_mutation(pl_flag(i)))
+        {
             valid.push_back(i);
+        }
     }
     if (valid.size() == 0)
     {
@@ -671,7 +809,9 @@ void iuse::purifier(game *g, player *p, item *it, bool t)
     }
     int num_cured = rng(1, valid.size());
     if (num_cured > 4)
+    {
         num_cured = 4;
+    }
     for (int i = 0; i < num_cured && valid.size() > 0; i++)
     {
         int index = rng(0, valid.size() - 1);
@@ -683,7 +823,9 @@ void iuse::purifier(game *g, player *p, item *it, bool t)
 void iuse::marloss(game *g, player *p, item *it, bool t)
 {
     if (p->is_npc())
+    {
         return;
+    }
 // If we have the marloss in our veins, we are a "breeder" and will spread
 // alien lifeforms.
     if (p->has_trait(PF_MARLOSS))
@@ -700,7 +842,9 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
             {
                 if (rng(0, 10) > trig_dist(x, y, p->posx, p->posy) &&
                         rng(0, 10) > trig_dist(x, y, p->posx, p->posy)   )
+                {
                     g->m.marlossify(x, y);
+                }
                 if (one_in(10 + 5 * trig_dist(x, y, p->posx, p->posy)) &&
                         (goo_spawned == 0 || one_in(goo_spawned * 2)))
                 {
@@ -751,7 +895,9 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
         p->toggle_trait(PF_MARLOSS);
     }
     if (effect == 6)
+    {
         p->radiation = 0;
+    }
 }
 
 void iuse::dogfood(game *g, player *p, item *it, bool t)
@@ -777,10 +923,14 @@ void iuse::dogfood(game *g, player *p, item *it, bool t)
             g->z[mon_dex].friendly = -1;
         }
         else
+        {
             g->add_msg_if_player(p,"The %s seems quit unimpressed!",g->z[mon_dex].type->name.c_str());
+        }
     }
     else
+    {
         g->add_msg_if_player(p,"You spill the dogfood all over the ground.");
+    }
 
 }
 
@@ -813,7 +963,9 @@ void iuse::lighter(game *g, player *p, item *it, bool t)
     if (g->m.flammable_items_at(dirx, diry))
     {
         if (g->m.add_field(g, dirx, diry, fd_fire, 1))
+        {
             g->m.field_at(dirx, diry).age = 30;
+        }
     }
     else
     {
@@ -856,11 +1008,17 @@ void iuse::sew(game *g, player *p, item *it, bool t)
         p->practice("tailor", 10);
         int rn = dice(4, 2 + p->skillLevel("tailor").level());
         if (p->dex_cur < 8 && one_in(p->dex_cur))
+        {
             rn -= rng(2, 6);
+        }
         if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur)))
+        {
             rn += rng(2, 6);
+        }
         if (p->dex_cur > 16)
+        {
             rn += rng(0, p->dex_cur - 16);
+        }
         if (rn <= 4)
         {
             g->add_msg_if_player(p,"You damage your %s!", fix->tname().c_str());
@@ -872,7 +1030,9 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             fix->damage--;
         }
         else
+        {
             g->add_msg_if_player(p,"You practice your sewing.");
+        }
     }
     else
     {
@@ -881,11 +1041,17 @@ void iuse::sew(game *g, player *p, item *it, bool t)
         int rn = dice(4, 2 + p->skillLevel("tailor").level());
         rn -= rng(fix->damage, fix->damage * 2);
         if (p->dex_cur < 8 && one_in(p->dex_cur))
+        {
             rn -= rng(2, 6);
+        }
         if (p->dex_cur >= 8 && (p->dex_cur >= 16 || one_in(16 - p->dex_cur)))
+        {
             rn += rng(2, 6);
+        }
         if (p->dex_cur > 16)
+        {
             rn += rng(0, p->dex_cur - 16);
+        }
 
         if (rn <= 4)
         {
@@ -903,9 +1069,13 @@ void iuse::sew(game *g, player *p, item *it, bool t)
                                  fix->tname().c_str());
             int waste = rng(1, 8);
             if (waste > it->charges)
+            {
                 it->charges = 0;
+            }
             else
+            {
                 it->charges -= waste;
+            }
         }
         else if (rn <= 8)
         {
@@ -914,9 +1084,13 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             fix->damage--;
             int waste = rng(1, 8);
             if (waste > it->charges)
+            {
                 it->charges = 0;
+            }
             else
+            {
                 it->charges -= waste;
+            }
         }
         else if (rn <= 16)
         {
@@ -966,11 +1140,17 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
                 iter++;
             }
             if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+            {
                 drop = true;
+            }
             if (drop)
+            {
                 g->m.add_item(p->posx, p->posy, string);
+            }
             else
+            {
                 p->i_add(string, g);
+            }
         }
         return;
     }
@@ -984,11 +1164,17 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
         p->moves -= 25 * cut->volume();
         int count = cut->volume();
         if (p->skillLevel("tailor") == 0)
+        {
             count = rng(0, count);
+        }
         else if (p->skillLevel("tailor") == 1 && count >= 2)
+        {
             count -= rng(0, 2);
+        }
         if (dice(3, 3) > p->dex_cur)
+        {
             count -= rng(1, 3);
+        }
 
         if (count <= 0)
         {
@@ -1012,11 +1198,17 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
                 iter++;
             }
             if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+            {
                 drop = true;
+            }
             if (drop)
+            {
                 g->m.add_item(p->posx, p->posy, rag);
+            }
             else
+            {
                 p->i_add(rag, g);
+            }
         }
     }
     if (cut->made_of(LEATHER))
@@ -1024,11 +1216,17 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
         p->moves -= 25 * cut->volume();
         int count = cut->volume();
         if (p->skillLevel("tailor") == 0)
+        {
             count = rng(0, count);
+        }
         else if (p->skillLevel("tailor") == 1 && count >= 2)
+        {
             count -= rng(0, 2);
+        }
         if (dice(3, 3) > p->dex_cur)
+        {
             count -= rng(1, 3);
+        }
 
         if (count <= 0)
         {
@@ -1052,11 +1250,17 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
                 iter++;
             }
             if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+            {
                 drop = true;
+            }
             if (drop)
+            {
                 g->m.add_item(p->posx, p->posy, rag);
+            }
             else
+            {
                 p->i_add(rag, g);
+            }
         }
     }
 }
@@ -1091,15 +1295,23 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
         int linet;
         g->z[mondex].moves -= 150;
         if (g->u_see(&(g->z[mondex]), linet))
+        {
             g->add_msg_if_player(p,"The %s is sprayed!", g->z[mondex].name().c_str());
+        }
         if (g->z[mondex].made_of(LIQUID))
         {
             if (g->u_see(&(g->z[mondex]), linet))
+            {
                 g->add_msg_if_player(p,"The %s is frozen!", g->z[mondex].name().c_str());
+            }
             if (g->z[mondex].hurt(rng(20, 60)))
+            {
                 g->kill_mon(mondex, (p == &(g->u)));
+            }
             else
+            {
                 g->z[mondex].speed /= 2;
+            }
         }
     }
     if (g->m.move_cost(x, y) != 0)
@@ -1165,7 +1377,9 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
 void iuse::light_off(game *g, player *p, item *it, bool t)
 {
     if (it->charges == 0)
+    {
         g->add_msg_if_player(p,"The flashlight's batteries are dead.");
+    }
     else
     {
         g->add_msg_if_player(p,"You turn the flashlight on.");
@@ -1246,17 +1460,29 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
         }
         int bonus = 0;
         if (fac->goal == FACGOAL_CIVILIZATION)
+        {
             bonus += 2;
+        }
         if (fac->has_job(FACJOB_MERCENARIES))
+        {
             bonus += 4;
+        }
         if (fac->has_job(FACJOB_DOCTORS))
+        {
             bonus += 2;
+        }
         if (fac->has_value(FACVAL_CHARITABLE))
+        {
             bonus += 3;
+        }
         if (fac->has_value(FACVAL_LONERS))
+        {
             bonus -= 3;
+        }
         if (fac->has_value(FACVAL_TREACHERY))
+        {
             bonus -= rng(0, 8);
+        }
         bonus += fac->respects_u + 3 * fac->likes_u;
         if (bonus >= 25)
         {
@@ -1290,7 +1516,9 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
             if (g->cur_om.npcs[i].op_of_u.value >= 4 &&
                     rl_dist(g->levx, g->levy, g->cur_om.npcs[i].mapx,
                             g->cur_om.npcs[i].mapy) <= 30)
+            {
                 in_range.push_back(&(g->cur_om.npcs[i]));
+            }
         }
         if (in_range.size() > 0)
         {
@@ -1300,10 +1528,14 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
             coming->mission = NPC_MISSION_RESCUE_U;
         }
         else
+        {
             popup("No-one seems to reply...");
+        }
     }
     else
-        it->charges++;	// Canceled the call, get our charge back
+    {
+        it->charges++;    // Canceled the call, get our charge back
+    }
     werase(w);
     wrefresh(w);
     delwin(w);
@@ -1313,7 +1545,9 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
 void iuse::radio_off(game *g, player *p, item *it, bool t)
 {
     if (it->charges == 0)
+    {
         g->add_msg_if_player(p,"It's dead.");
+    }
     else
     {
         g->add_msg_if_player(p,"You turn the radio on.");
@@ -1346,9 +1580,13 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
                 if (dice(10, 100) > dice(10, best_signal * 3))
                 {
                     if (!one_in(10))
+                    {
                         message[j] = '#';
+                    }
                     else
+                    {
                         message[j] = char(rng('a', 'z'));
+                    }
                 }
             }
 
@@ -1357,7 +1595,9 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
             {
                 int spot = message.find_last_of(' ', RADIO_PER_TURN);
                 if (spot == std::string::npos)
+                {
                     spot = RADIO_PER_TURN;
+                }
                 segments.push_back( message.substr(0, spot) );
                 message = message.substr(spot + 1);
             }
@@ -1542,7 +1782,9 @@ void iuse::makemound(game *g, player *p, item *it, bool t)
         g->m.ter(p->posx, p->posy) = t_dirtmound;
     }
     else
+    {
         g->add_msg_if_player(p,"You can't churn up this ground.");
+    }
 }
 
 void iuse::dig(game *g, player *p, item *it, bool t)
@@ -1580,7 +1822,9 @@ void iuse::chainsaw_off(game *g, player *p, item *it, bool t)
         it->active = true;
     }
     else
+    {
         g->add_msg_if_player(p,"You yank the cord, but nothing happens.");
+    }
 }
 
 void iuse::chainsaw_on(game *g, player *p, item *it, bool t)
@@ -1588,7 +1832,9 @@ void iuse::chainsaw_on(game *g, player *p, item *it, bool t)
     if (t)  	// Effects while simply on
     {
         if (one_in(15))
+        {
             g->sound(p->posx, p->posy, 12, "Your chainsaw rumbles.");
+        }
     }
     else  	// Toggling
     {
@@ -1873,7 +2119,9 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
             for (int j = -1; j <= 1; j++)
             {
                 if (i != 0 || j != 0)
+                {
                     g->m.add_trap(posx + i, posy + j, tr_blade);
+                }
             }
         }
     }
@@ -1886,22 +2134,38 @@ void iuse::geiger(game *g, player *p, item *it, bool t)
     {
         int rads = g->m.radiation(p->posx, p->posy);
         if (rads == 0)
+        {
             return;
+        }
         g->sound(p->posx, p->posy, 6, "");
         if (rads > 50)
+        {
             g->add_msg("The geiger counter buzzes intensely.");
+        }
         else if (rads > 35)
+        {
             g->add_msg("The geiger counter clicks wildly.");
+        }
         else if (rads > 25)
+        {
             g->add_msg("The geiger counter clicks rapidly.");
+        }
         else if (rads > 15)
+        {
             g->add_msg("The geiger counter clicks steadily.");
+        }
         else if (rads > 8)
+        {
             g->add_msg("The geiger counter clicks slowly.");
+        }
         else if (rads > 4)
+        {
             g->add_msg("The geiger counter clicks intermittantly.");
+        }
         else
+        {
             g->add_msg("The geiger counter clicks once.");
+        }
         return;
     }
 // Otherwise, we're activating the geiger counter
@@ -1956,7 +2220,9 @@ void iuse::can_goo(game *g, player *p, item *it, bool t)
     }
     while (g->m.move_cost(goox, gooy) == 0 && tries < 10);
     if (tries == 10)
+    {
         return;
+    }
     int mondex = g->mon_at(goox, gooy);
     if (mondex != -1)
     {
@@ -1970,7 +2236,9 @@ void iuse::can_goo(game *g, player *p, item *it, bool t)
     else
     {
         if (g->u_see(goox, gooy, junk))
+        {
             g->add_msg("Living black goo emerges from the canister!");
+        }
         monster goo(g->mtypes[mon_blob]);
         goo.friendly = -1;
         goo.spawn(goox, gooy);
@@ -1991,7 +2259,9 @@ void iuse::can_goo(game *g, player *p, item *it, bool t)
         if (tries < 10)
         {
             if (g->u_see(goox, gooy, junk))
+            {
                 g->add_msg("A nearby splatter of goo forms into a goo pit.");
+            }
             g->m.tr_at(goox, gooy) = tr_goo;
         }
     }
@@ -2017,15 +2287,23 @@ void iuse::pipebomb_act(game *g, player *p, item *it, bool t)
     int linet;
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999)
+    {
         return;
+    }
     if (t) // Simple timer effects
-        g->sound(pos.x, pos.y, 0, "Ssssss");	// Vol 0 = only heard if you hold it
+    {
+        g->sound(pos.x, pos.y, 0, "Ssssss");    // Vol 0 = only heard if you hold it
+    }
     else  	// The timer has run down
     {
         if (one_in(10) && g->u_see(pos.x, pos.y, linet))
+        {
             g->add_msg("The pipe bomb fizzles out.");
+        }
         else
+        {
             g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
+        }
     }
 }
 
@@ -2041,11 +2319,17 @@ void iuse::grenade_act(game *g, player *p, item *it, bool t)
 {
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999)
+    {
         return;
+    }
     if (t) // Simple timer effects
-        g->sound(pos.x, pos.y, 0, "Tick.");	// Vol 0 = only heard if you hold it
+    {
+        g->sound(pos.x, pos.y, 0, "Tick.");    // Vol 0 = only heard if you hold it
+    }
     else	// When that timer runs down...
+    {
         g->explosion(pos.x, pos.y, 12, 28, false);
+    }
 }
 
 void iuse::flashbang(game *g, player *p, item *it, bool t)
@@ -2060,11 +2344,17 @@ void iuse::flashbang_act(game *g, player *p, item *it, bool t)
 {
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999)
+    {
         return;
+    }
     if (t) // Simple timer effects
-        g->sound(pos.x, pos.y, 0, "Tick.");	// Vol 0 = only heard if you hold it
+    {
+        g->sound(pos.x, pos.y, 0, "Tick.");    // Vol 0 = only heard if you hold it
+    }
     else	// When that timer runs down...
+    {
         g->flashbang(pos.x, pos.y);
+    }
 }
 
 void iuse::c4(game *g, player *p, item *it, bool t)
@@ -2085,11 +2375,17 @@ void iuse::c4armed(game *g, player *p, item *it, bool t)
 {
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999)
+    {
         return;
+    }
     if (t) // Simple timer effects
-        g->sound(pos.x, pos.y, 0, "Tick.");	// Vol 0 = only heard if you hold it
+    {
+        g->sound(pos.x, pos.y, 0, "Tick.");    // Vol 0 = only heard if you hold it
+    }
     else	// When that timer runs down...
+    {
         g->explosion(pos.x, pos.y, 40, 3, false);
+    }
 }
 
 void iuse::EMPbomb(game *g, player *p, item *it, bool t)
@@ -2104,15 +2400,21 @@ void iuse::EMPbomb_act(game *g, player *p, item *it, bool t)
 {
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999)
+    {
         return;
+    }
     if (t)	// Simple timer effects
-        g->sound(pos.x, pos.y, 0, "Tick.");	// Vol 0 = only heard if you hold it
+    {
+        g->sound(pos.x, pos.y, 0, "Tick.");    // Vol 0 = only heard if you hold it
+    }
     else  	// When that timer runs down...
     {
         for (int x = pos.x - 4; x <= pos.x + 4; x++)
         {
             for (int y = pos.y - 4; y <= pos.y + 4; y++)
+            {
                 g->emp_blast(x, y);
+            }
         }
     }
 }
@@ -2129,15 +2431,21 @@ void iuse::scrambler_act(game *g, player *p, item *it, bool t)
 {
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999)
+    {
         return;
+    }
     if (t)	// Simple timer effects
-        g->sound(pos.x, pos.y, 0, "Tick.");	// Vol 0 = only heard if you hold it
+    {
+        g->sound(pos.x, pos.y, 0, "Tick.");    // Vol 0 = only heard if you hold it
+    }
     else  	// When that timer runs down...
     {
         for (int x = pos.x - 4; x <= pos.x + 4; x++)
         {
             for (int y = pos.y - 4; y <= pos.y + 4; y++)
+            {
                 g->scrambler_blast(x, y);
+            }
         }
     }
 }
@@ -2154,11 +2462,15 @@ void iuse::gasbomb_act(game *g, player *p, item *it, bool t)
 {
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999)
+    {
         return;
+    }
     if (t)
     {
         if (it->charges > 15)
-            g->sound(pos.x, pos.y, 0, "Tick.");	// Vol 0 = only heard if you hold it
+        {
+            g->sound(pos.x, pos.y, 0, "Tick.");    // Vol 0 = only heard if you hold it
+        }
         else
         {
             int junk;
@@ -2168,13 +2480,17 @@ void iuse::gasbomb_act(game *g, player *p, item *it, bool t)
                 {
                     if (g->m.sees(pos.x, pos.y, pos.x + i, pos.y + j, 3, junk) &&
                             g->m.move_cost(pos.x + i, pos.y + j) > 0)
+                    {
                         g->m.add_field(g, pos.x + i, pos.y + j, fd_tear_gas, 3);
+                    }
                 }
             }
         }
     }
     else
+    {
         it->make(g->itypes[itm_canister_empty]);
+    }
 }
 
 void iuse::smokebomb(game *g, player *p, item *it, bool t)
@@ -2189,11 +2505,15 @@ void iuse::smokebomb_act(game *g, player *p, item *it, bool t)
 {
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999)
+    {
         return;
+    }
     if (t)
     {
         if (it->charges > 17)
-            g->sound(pos.x, pos.y, 0, "Tick.");	// Vol 0 = only heard if you hold it
+        {
+            g->sound(pos.x, pos.y, 0, "Tick.");    // Vol 0 = only heard if you hold it
+        }
         else
         {
             int junk;
@@ -2203,13 +2523,17 @@ void iuse::smokebomb_act(game *g, player *p, item *it, bool t)
                 {
                     if (g->m.sees(pos.x, pos.y, pos.x + i, pos.y + j, 3, junk) &&
                             g->m.move_cost(pos.x + i, pos.y + j) > 0)
+                    {
                         g->m.add_field(g, pos.x + i, pos.y + j, fd_smoke, rng(1, 2) + rng(0, 1));
+                    }
                 }
             }
         }
     }
     else
+    {
         it->make(g->itypes[itm_canister_empty]);
+    }
 }
 
 void iuse::acidbomb(game *g, player *p, item *it, bool t)
@@ -2228,12 +2552,16 @@ void iuse::acidbomb_act(game *g, player *p, item *it, bool t)
     {
         point pos = g->find_item(it);
         if (pos.x == -999)
+        {
             pos = point(p->posx, p->posy);
+        }
         it->charges = 0;
         for (int x = pos.x - 1; x <= pos.x + 1; x++)
         {
             for (int y = pos.y - 1; y <= pos.y + 1; y++)
+            {
                 g->m.add_field(g, x, y, fd_acid, 3);
+            }
         }
     }
 }
@@ -2293,11 +2621,17 @@ void iuse::dynamite_act(game *g, player *p, item *it, bool t)
 {
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999)
+    {
         return;
+    }
     if (t) // Simple timer effects
+    {
         g->sound(pos.x, pos.y, 0, "ssss...");
+    }
     else	// When that timer runs down...
+    {
         g->explosion(pos.x, pos.y, 60, 0, false);
+    }
 }
 
 void iuse::mininuke(game *g, player *p, item *it, bool t)
@@ -2312,9 +2646,13 @@ void iuse::mininuke_act(game *g, player *p, item *it, bool t)
 {
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999)
+    {
         return;
+    }
     if (t) 	// Simple timer effects
+    {
         g->sound(pos.x, pos.y, 2, "Tick.");
+    }
     else  	// When that timer runs down...
     {
         g->explosion(pos.x, pos.y, 200, 0, false);
@@ -2325,7 +2663,9 @@ void iuse::mininuke_act(game *g, player *p, item *it, bool t)
             {
                 if (g->m.sees(pos.x, pos.y, pos.x + i, pos.y + j, 3, junk) &&
                         g->m.move_cost(pos.x + i, pos.y + j) > 0)
+                {
                     g->m.add_field(g, pos.x + i, pos.y + j, fd_nuke_gas, 3);
+                }
             }
         }
     }
@@ -2338,12 +2678,18 @@ void iuse::pheromone(game *g, player *p, item *it, bool t)
     int junk;
     bool is_u = !p->is_npc(), can_see = (is_u || g->u_see(p->posx, p->posy, junk));
     if (pos.x == -999 || pos.y == -999)
+    {
         return;
+    }
 
     if (is_u)
+    {
         g->add_msg("You squeeze the pheromone ball...");
+    }
     else if (can_see)
+    {
         g->add_msg("%s squeezes a pheromone ball...", p->name.c_str());
+    }
     p->moves -= 15;
 
     int converts = 0;
@@ -2364,11 +2710,17 @@ void iuse::pheromone(game *g, player *p, item *it, bool t)
     if (can_see)
     {
         if (converts == 0)
+        {
             g->add_msg("...but nothing happens.");
+        }
         else if (converts == 1)
+        {
             g->add_msg("...and a nearby zombie turns friendly!");
+        }
         else
+        {
             g->add_msg("...and several nearby zombies turn friendly!");
+        }
     }
 }
 
@@ -2386,7 +2738,9 @@ void iuse::manhack(game *g, player *p, item *it, bool t)
         for (int y = p->posy - 1; y <= p->posy + 1; y++)
         {
             if (g->is_empty(x, y))
+            {
                 valid.push_back(point(x, y));
+            }
         }
     }
     if (valid.size() == 0)  	// No valid points!
@@ -2400,9 +2754,13 @@ void iuse::manhack(game *g, player *p, item *it, bool t)
     monster manhack(g->mtypes[mon_manhack], valid[index].x, valid[index].y);
     if (rng(0, p->int_cur / 2) + p->skillLevel("electronics").level() / 2 +
             p->skillLevel("computer").level() < rng(0, 4))
+    {
         g->add_msg_if_player(p,"You misprogram the manhack; it's hostile!");
+    }
     else
+    {
         manhack.friendly = -1;
+    }
     g->z.push_back(manhack);
 }
 
@@ -2429,21 +2787,29 @@ void iuse::turret(game *g, player *p, item *it, bool t)
     monster turret(g->mtypes[mon_turret], dirx, diry);
     if (rng(0, p->int_cur / 2) + p->skillLevel("electronics").level() / 2 +
             p->skillLevel("computer").level() < rng(0, 6))
+    {
         g->add_msg_if_player(p,"You misprogram the turret; it's hostile!");
+    }
     else
+    {
         turret.friendly = -1;
+    }
     g->z.push_back(turret);
 }
 
 void iuse::UPS_off(game *g, player *p, item *it, bool t)
 {
     if (it->charges == 0)
+    {
         g->add_msg_if_player(p,"The power supply's batteries are dead.");
+    }
     else
     {
         g->add_msg_if_player(p,"You turn the power supply on.");
         if (p->is_wearing(itm_goggles_nv))
+        {
             g->add_msg_if_player(p,"Your light amp goggles power on.");
+        }
         it->make(g->itypes[itm_UPS_on]);
         it->active = true;
     }
@@ -2521,7 +2887,9 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
         int shock = rng(5, 25);
         z->moves -= shock * 100;
         if (z->hurt(shock))
+        {
             g->kill_mon(mondex, (p == &(g->u)));
+        }
         return;
     }
 
@@ -2529,11 +2897,17 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
     {
         npc *foe = dynamic_cast<npc*>(&g->active_npc[npcdex]);
         if (foe->attitude != NPCATT_FLEE)
+        {
             foe->attitude = NPCATT_KILL;
+        }
         if (foe->str_max >= 17)
-            numdice++;	// Minor bonus against huge people
+        {
+            numdice++;    // Minor bonus against huge people
+        }
         else if (foe->str_max <= 5)
-            numdice--;	// Minor penalty against tiny people
+        {
+            numdice--;    // Minor penalty against tiny people
+        }
         if (dice(numdice, 10) <= dice(foe->dodge(g), 6))
         {
             g->add_msg_if_player(p,"You attempt to shock %s, but miss.", foe->name.c_str());
@@ -2555,9 +2929,13 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
 void iuse::mp3(game *g, player *p, item *it, bool t)
 {
     if (it->charges == 0)
+    {
         g->add_msg_if_player(p,"The mp3 player's batteries are dead.");
+    }
     else if (p->has_active_item(itm_mp3_on))
+    {
         g->add_msg_if_player(p,"You are already listening to an mp3 player!");
+    }
     else
     {
         g->add_msg_if_player(p,"You put in the earbuds and start listening to music.");
@@ -2571,7 +2949,9 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
     if (t)  	// Normal use
     {
         if (!p->has_item(it))
-            return;	// We're not carrying it!
+        {
+            return;    // We're not carrying it!
+        }
         p->add_morale(MORALE_MUSIC, 1, 50);
 
         if (int(g->turn) % 10 == 0)  	// Every 10 turns, describe the music
@@ -2595,11 +2975,15 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
             case 5:
                 sound = "dramatic classical music.";
                 if (p->int_cur >= 10)
+                {
                     p->add_morale(MORALE_MUSIC, 1, 100);
+                }
                 break;
             }
             if (sound.length() > 0)
+            {
                 g->add_msg_if_player(p,"You listen to %s", sound.c_str());
+            }
         }
     }
     else  	// Turning it off
@@ -2616,13 +3000,21 @@ void iuse::vortex(game *g, player *p, item *it, bool t)
     for (int i = -3; i <= 3; i++)
     {
         if (g->is_empty(p->posx - 3, p->posy + i))
+        {
             spawn.push_back( point(p->posx - 3, p->posy + i) );
+        }
         if (g->is_empty(p->posx + 3, p->posy + i))
+        {
             spawn.push_back( point(p->posx + 3, p->posy + i) );
+        }
         if (g->is_empty(p->posx + i, p->posy - 3))
+        {
             spawn.push_back( point(p->posx + i, p->posy - 3) );
+        }
         if (g->is_empty(p->posx + i, p->posy + 3))
+        {
             spawn.push_back( point(p->posx + i, p->posy + 3) );
+        }
     }
     if (spawn.empty())
     {
@@ -2652,13 +3044,17 @@ void iuse::dog_whistle(game *g, player *p, item *it, bool t)
             if (g->z[i].has_effect(ME_DOCILE))
             {
                 if (u_see)
+                {
                     g->add_msg_if_player(p,"Your %s looks ready to attack.", g->z[i].name().c_str());
+                }
                 g->z[i].rem_effect(ME_DOCILE);
             }
             else
             {
                 if (u_see)
+                {
                     g->add_msg_if_player(p,"Your %s goes docile.", g->z[i].name().c_str());
+                }
                 g->z[i].add_effect(ME_DOCILE, -1);
             }
         }
@@ -2668,7 +3064,9 @@ void iuse::dog_whistle(game *g, player *p, item *it, bool t)
 void iuse::vacutainer(game *g, player *p, item *it, bool t)
 {
     if (p->is_npc())
-        return; // No NPCs for now!
+    {
+        return;    // No NPCs for now!
+    }
 
     if (!it->contents.empty())
     {
@@ -2690,10 +3088,14 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
     }
 
     if (!drew_blood && query_yn("Draw your own blood?"))
+    {
         drew_blood = true;
+    }
 
     if (!drew_blood)
+    {
         return;
+    }
 
     it->put_in(blood);
 }
@@ -2705,7 +3107,9 @@ void iuse::knife(game *g, player *p, item *it, bool t)
     switch (ch)
     {
         if (ch == 3)
+        {
             break;
+        }
 
     case 1:
     {
@@ -2742,11 +3146,17 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                     iter++;
                 }
                 if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+                {
                     drop = true;
+                }
                 if (drop)
+                {
                     g->m.add_item(p->posx, p->posy, string);
+                }
                 else
+                {
                     p->i_add(string);
+                }
             }
             return;
         }
@@ -2767,11 +3177,17 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                     iter++;
                 }
                 if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+                {
                     drop = true;
+                }
                 if (drop)
+                {
                     g->m.add_item(p->posx, p->posy, string);
+                }
                 else
+                {
                     p->i_add(string);
+                }
             }
             return;
         }
@@ -2785,11 +3201,17 @@ void iuse::knife(game *g, player *p, item *it, bool t)
             p->moves -= 25 * cut->volume();
             int count = cut->volume();
             if (p->skillLevel("tailor") == 0)
+            {
                 count = rng(0, count);
+            }
             else if (p->skillLevel("tailor") == 1 && count >= 2)
+            {
                 count -= rng(0, 2);
+            }
             if (dice(3, 3) > p->dex_cur)
+            {
                 count -= rng(1, 3);
+            }
 
             if (count <= 0)
             {
@@ -2813,11 +3235,17 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                     iter++;
                 }
                 if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+                {
                     drop = true;
+                }
                 if (drop)
+                {
                     g->m.add_item(p->posx, p->posy, rag);
+                }
                 else
+                {
                     p->i_add(rag);
+                }
             }
         }
         if (cut->made_of(LEATHER))
@@ -2825,11 +3253,17 @@ void iuse::knife(game *g, player *p, item *it, bool t)
             p->moves -= 25 * cut->volume();
             int count = cut->volume();
             if (p->skillLevel("tailor") == 0)
+            {
                 count = rng(0, count);
+            }
             else if (p->skillLevel("tailor") == 1 && count >= 2)
+            {
                 count -= rng(0, 2);
+            }
             if (dice(3, 3) > p->dex_cur)
+            {
                 count -= rng(1, 3);
+            }
 
             if (count <= 0)
             {
@@ -2853,11 +3287,17 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                     iter++;
                 }
                 if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+                {
                     drop = true;
+                }
                 if (drop)
+                {
                     g->m.add_item(p->posx, p->posy, rag);
+                }
                 else
+                {
                     p->i_add(rag, g);
+                }
             }
             break;
         }
@@ -2891,11 +3331,17 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                     iter++;
                 }
                 if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+                {
                     drop = true;
+                }
                 if (drop)
+                {
                     g->m.add_item(p->posx, p->posy, skewer);
+                }
                 else
+                {
                     p->i_add(skewer);
+                }
             }
         }
         else
@@ -2927,9 +3373,13 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
         int planks = (rng(1, 3) + (p->skillLevel("carpentry").level() * 2));
         int scraps = 12 - planks;
         if (planks >= 12)
+        {
             planks = 12;
+        }
         if (scraps >= planks)
+        {
             g->add_msg("You waste a lot of the wood.");
+        }
         for (int i = 0; i < planks; i++)
         {
             int iter = 0;
@@ -2940,11 +3390,17 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
                 iter++;
             }
             if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+            {
                 drop = true;
+            }
             if (drop)
+            {
                 g->m.add_item(p->posx, p->posy, plank);
+            }
             else
+            {
                 p->i_add(plank);
+            }
         }
         for (int i = 0; i < scraps; i++)
         {
@@ -2956,11 +3412,17 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
                 iter++;
             }
             if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+            {
                 drop = true;
+            }
             if (drop)
+            {
                 g->m.add_item(p->posx, p->posy, scrap);
+            }
             else
+            {
                 p->i_add(scrap);
+            }
         }
         return;
     }
@@ -3052,7 +3514,9 @@ void iuse::tent(game *g, player *p, item *it, bool t)
             }
     for (int i = -1; i <= 1; i++)
         for (int j = -1; j <= 1; j++)
+        {
             g->m.ter(posx + i, posy + j) = t_canvas_wall;
+        }
     g->m.ter(posx, posy) = t_groundsheet;
     g->m.ter(posx - dirx, posy - diry) = t_canvas_door;
     it->invlet = 0;
@@ -3061,7 +3525,9 @@ void iuse::tent(game *g, player *p, item *it, bool t)
 void iuse::torch(game *g, player *p, item *it, bool t)
 {
     if (!p->has_charges(itm_lighter, 1))
+    {
         g->add_msg_if_player(p,"You need a lighter or fire to light this.");
+    }
     else
     {
         p->use_charges(itm_lighter, 1);
@@ -3090,7 +3556,9 @@ void iuse::torch_lit(game *g, player *p, item *it, bool t)
 void iuse::candle(game *g, player *p, item *it, bool t)
 {
     if (!p->has_charges(itm_lighter, 1))
+    {
         g->add_msg_if_player(p,"You need a lighter to light this.");
+    }
     else
     {
         p->use_charges(itm_lighter, 1);
@@ -3132,16 +3600,22 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
     }
     int multiply = pull->charges;
     if (multiply > 20)
+    {
         multiply = 20;
+    }
     item casing;
     item primer;
     item gunpowder;
     item lead;
     if (pull->type->id == itm_556_incendiary || pull->type->id == itm_3006_incendiary ||
             pull->type->id == itm_762_51_incendiary)
+    {
         lead.make(g->itypes[itm_incendiary]);
+    }
     else
+    {
         lead.make(g->itypes[itm_lead]);
+    }
     if (pull->type->id == itm_shot_bird)
     {
         casing.make(g->itypes[itm_shot_hull]);
@@ -3348,7 +3822,9 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
     }
     pull->charges = pull->charges - multiply;
     if (pull->charges == 0)
+    {
         p->i_rem(ch);
+    }
     g->add_msg("You take apart the ammunition.");
     p->moves -= 500;
     if (casing.type->id != itm_null)
@@ -3367,7 +3843,9 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
             p->i_add(casing);
         }
         else
+        {
             g->m.add_item(p->posx, p->posy, casing);
+        }
     }
     if (primer.type->id != itm_null)
     {
@@ -3385,7 +3863,9 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
             p->i_add(primer);
         }
         else
+        {
             g->m.add_item(p->posx, p->posy, primer);
+        }
     }
     int iter = 0;
     while ((gunpowder.invlet == 0 || p->has_item(gunpowder.invlet)) && iter < 52)
@@ -3400,7 +3880,9 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
         p->i_add(gunpowder);
     }
     else
+    {
         g->m.add_item(p->posx, p->posy, gunpowder);
+    }
     iter = 0;
     while ((lead.invlet == 0 || p->has_item(lead.invlet)) && iter < 52)
     {
@@ -3414,7 +3896,9 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
         p->i_add(lead);
     }
     else
+    {
         g->m.add_item(p->posx, p->posy, lead);
+    }
 }
 
 void iuse::boltcutters(game *g, player *p, item *it, bool t)
@@ -3514,7 +3998,9 @@ void iuse::rag(game *g, player *p, item *it, bool t)
 void iuse::pda(game *g, player *p, item *it, bool t)
 {
     if (it->charges == 0)
+    {
         g->add_msg_if_player(p,"The PDA's batteries are dead.");
+    }
     else
     {
         g->add_msg_if_player(p,"You activate the flashlight app.");
@@ -3604,7 +4090,9 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
     it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(it->type);
     int num_used = rng(1, art->effects_activated.size());
     if (num_used < art->effects_activated.size())
+    {
         num_used += rng(1, art->effects_activated.size() - num_used);
+    }
 
     std::vector<art_effect_active> effects = art->effects_activated;
     for (int i = 0; i < num_used; i++)
@@ -3637,16 +4125,24 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
                     if (one_in(4))
                     {
                         if (xdir == 0)
+                        {
                             xdir = rng(0, 1) * 2 - 1;
+                        }
                         else
+                        {
                             xdir = 0;
+                        }
                     }
                     if (one_in(4))
                     {
                         if (ydir == 0)
+                        {
                             ydir = rng(0, 1) * 2 - 1;
+                        }
                         else
+                        {
                             ydir = 0;
+                        }
                     }
                 }
             }
@@ -3657,7 +4153,9 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
         {
             point fireball = g->look_around();
             if (fireball.x != -1 && fireball.y != -1)
+            {
                 g->explosion(fireball.x, fireball.y, 8, 0, true);
+            }
         }
         break;
 
@@ -3698,11 +4196,15 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
                 {
                     if (!one_in(4) && g->m.add_field(g, x, y, fd_blood, 3) &&
                             (blood || g->u_see(x, y, j)))
+                    {
                         blood = true;
+                    }
                 }
             }
             if (blood)
+            {
                 g->add_msg_if_player(p,"Blood soaks out of the ground and walls.");
+            }
         }
         break;
 
@@ -3712,9 +4214,13 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
             int x = rng(p->posx - 3, p->posx + 3), y = rng(p->posy - 3, p->posy + 3);
             if (g->m.field_at(x, y).type == fd_fatigue &&
                     g->m.field_at(x, y).density < 3)
+            {
                 g->m.field_at(x, y).density++;
+            }
             else
+            {
                 g->m.add_field(g, x, y, fd_fatigue, rng(1, 2));
+            }
         }
         break;
 
@@ -3729,9 +4235,13 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
                     {
                         if (g->m.field_at(x, y).type == fd_acid &&
                                 g->m.field_at(x, y).density < 3)
+                        {
                             g->m.field_at(x, y).density++;
+                        }
                         else
+                        {
                             g->m.add_field(g, x, y, fd_acid, rng(2, 3));
+                        }
                     }
                 }
             }
@@ -3749,7 +4259,9 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
                     g->m.bash(x, y, 40, junk);  // Multibash effect, so that doors &c will fall
                     g->m.bash(x, y, 40, junk);
                     if (g->m.is_destructable(x, y) && rng(1, 10) >= 3)
+                    {
                         g->m.ter(x, y) = t_rubble;
+                    }
                 }
             }
             break;
@@ -3766,7 +4278,9 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
                 {
                     int mondex = g->mon_at(x, y);
                     if (mondex != -1)
+                    {
                         g->z[mondex].add_effect(ME_STUNNED, rng(5, 15));
+                    }
                 }
             }
 
@@ -3778,7 +4292,9 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
                     int mondex = g->mon_at(x, y);
                     if (mondex != -1 &&  g->z[mondex].friendly == 0 &&
                             rng(0, 600) > g->z[mondex].hp)
+                    {
                         g->z[mondex].make_friendly();
+                    }
                 }
             }
             break;
@@ -3794,11 +4310,15 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
                 for (int y = p->posy - 1; y <= p->posy + 1; y++)
                 {
                     if (g->is_empty(x, y))
+                    {
                         empty.push_back( point(x, y) );
+                    }
                 }
             }
             if (empty.empty() || roll <= 4)
+            {
                 g->add_msg_if_player(p,"Flies buzz around you.");
+            }
             else if (roll <= 7)
             {
                 g->add_msg_if_player(p,"Giant flies appear!");
@@ -3852,7 +4372,9 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
 
         case AEA_HURTALL:
             for (int i = 0; i < g->z.size(); i++)
+            {
                 g->z[i].hurt(rng(0, 5));
+            }
             break;
 
         case AEA_RADIATION:
@@ -3860,7 +4382,9 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
             for (int x = p->posx - 1; x <= p->posx + 1; x++)
             {
                 for (int y = p->posy - 1; y <= p->posy + 1; y++)
+                {
                     g->m.add_field(g, x, y, fd_nuke_gas, rng(2, 3));
+                }
             }
             break;
 
@@ -3871,7 +4395,9 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
 
         case AEA_MUTATE:
             if (!one_in(3))
+            {
                 p->mutate(g);
+            }
             break;
 
         case AEA_PARALYZE:
@@ -3888,7 +4414,9 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
                     if (!one_in(3))
                     {
                         if (g->m.add_field(g, x, y, fd_fire, 1 + rng(0, 1) * rng(0, 1)))
+                        {
                             g->m.field_at(x, y).age = 30;
+                        }
                     }
                 }
             }
@@ -3962,9 +4490,13 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
                 }
             }
             if (num_spawned > 1)
+            {
                 g->add_msg_if_player(p,"Shadows form around you.");
+            }
             else if (num_spawned == 1)
+            {
                 g->add_msg_if_player(p,"A shadow forms nearby.");
+            }
         }
         break;
 
@@ -3976,7 +4508,11 @@ void iuse::spray_can(game *g, player *p, item *it, bool t)
 {
     std::string message = string_input_popup("Spray what?");
     if(g->m.add_graffiti(g, p->posx, p->posy, message))
+    {
         g->add_msg("You spray a message on the ground.");
+    }
     else
+    {
         g->add_msg("You fail to spray a message here.");
+    }
 }

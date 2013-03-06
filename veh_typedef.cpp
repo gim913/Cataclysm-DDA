@@ -913,6 +913,8 @@ void game::init_vehicles()
     PART ( -8, 2, vp_window);
 
     if (vtypes.size() != num_vehicles)
+    {
         debugmsg("%d vehicles, %d types", vtypes.size(), num_vehicles);
+    }
 }
 

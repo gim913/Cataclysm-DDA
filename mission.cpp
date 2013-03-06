@@ -12,9 +12,13 @@ mission mission_type::create(game *g, int npc_id)
     ret.follow_up = follow_up;
 
     if (deadline_low != 0 || deadline_high != 0)
+    {
         ret.deadline = int(g->turn) + rng(deadline_low, deadline_high);
+    }
     else
+    {
         ret.deadline = 0;
+    }
 
     return ret;
 }
@@ -22,7 +26,9 @@ mission mission_type::create(game *g, int npc_id)
 std::string mission::name()
 {
     if (type == NULL)
+    {
         return "NULL";
+    }
     return type->name;
 }
 
@@ -30,9 +36,13 @@ std::string mission::save_info()
 {
     std::stringstream ret;
     if (type == NULL)
+    {
         ret << -1;
+    }
     else
+    {
         ret << type->id;
+    }
     ret << description << " <> " << (failed ? 1 : 0) << " " << value <<
         " " << reward.type << " " << reward.value << " " << reward.item_id <<
         " " << (reward.skill?reward.skill->id():0) << " " << uid << " " << target.x << " " <<
@@ -53,7 +63,9 @@ void mission::load_info(game *g, std::ifstream &data)
     {
         data >> tmpdesc;
         if (tmpdesc != "<>")
+        {
             description += tmpdesc + " ";
+        }
     }
     while (tmpdesc != "<>");
     description = description.substr( 0, description.size() - 1 ); // Ending ' '

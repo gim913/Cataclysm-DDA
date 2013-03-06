@@ -70,6 +70,8 @@ void game::init_moncats()
 bool moncat_is_safe(moncat_id id)
 {
     if (id == mcat_null || id == mcat_forest)
+    {
         return true;
+    }
     return false;
 }

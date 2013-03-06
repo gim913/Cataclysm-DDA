@@ -37,7 +37,9 @@ void setupDebug()
 #endif
 
     if( level != 0 )
+    {
         limitDebugLevel(level);
+    }
 
     int cl = 0;
 
@@ -58,7 +60,9 @@ void setupDebug()
 #endif
 
     if( cl != 0 )
+    {
         limitDebugClass(cl);
+    }
 }
 
 void limitDebugLevel( int i )
@@ -140,13 +144,21 @@ std::ostream & operator<<(std::ostream & out, DebugLevel lev)
     if( lev != DL_ALL )
     {
         if( lev & D_INFO )
+        {
             out << "INFO ";
+        }
         if( lev & D_WARNING )
+        {
             out << "WARNING ";
+        }
         if( lev & D_ERROR )
+        {
             out << "ERROR ";
+        }
         if( lev & D_PEDANTIC_INFO )
+        {
             out << "PEDANTIC ";
+        }
     }
     return out;
 }
@@ -156,9 +168,13 @@ std::ostream & operator<<(std::ostream & out, DebugClass cl)
     if( cl != DC_ALL )
     {
         if( cl & D_MAIN )
+        {
             out << "MAIN ";
+        }
         if( cl & D_MAP )
+        {
             out << "MAP ";
+        }
     }
     return out;
 }
@@ -183,9 +199,13 @@ std::ostream & dout(DebugLevel lev,DebugClass cl)
         debugFile.file << std::endl;
         debugFile.currentTime() << " ";
         if( lev != debugLevel )
+        {
             debugFile.file << lev;
+        }
         if( cl != debugClass )
+        {
             debugFile.file << cl;
+        }
         debugFile.file << ": ";
 
         // Backtrace on error.
@@ -195,7 +215,9 @@ std::ostream & dout(DebugLevel lev,DebugClass cl)
             int count = backtrace( tracePtrs, TRACE_SIZE );
             char** funcNames = backtrace_symbols( tracePtrs, count );
             for(int i = 0; i < count; ++i)
+            {
                 debugFile.file << "\n\t(" << funcNames[i] << "), ";
+            }
             debugFile.file << "\n\t";
             free(funcNames);
         }

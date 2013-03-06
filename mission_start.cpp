@@ -49,7 +49,9 @@ void mission_start::place_dog(game *g, mission *miss)
     for (int x = house.x - 6; x <= house.x + 6; x++)
     {
         for (int y = house.y - 6; y <= house.y + 6; y++)
+        {
             g->cur_om.seen(x, y) = true;
+        }
     }
 
     tinymap doghouse(&(g->itypes), &(g->mapitems), &(g->traps));
@@ -68,7 +70,9 @@ void mission_start::place_zombie_mom(game *g, mission *miss)
     for (int x = house.x - 6; x <= house.x + 6; x++)
     {
         for (int y = house.y - 6; y <= house.y + 6; y++)
+        {
             g->cur_om.seen(x, y) = true;
+        }
     }
 
     tinymap zomhouse(&(g->itypes), &(g->mapitems), &(g->traps));
@@ -115,13 +119,17 @@ void mission_start::place_npc_software(game *g, mission *miss)
         place = g->cur_om.random_house_in_city(city_id);
     }
     else
+    {
         place = g->cur_om.find_closest(g->om_location(), ter, 4, dist, false);
+    }
     miss->target = place;
 // Make it seen on our map
     for (int x = place.x - 6; x <= place.x + 6; x++)
     {
         for (int y = place.y - 6; y <= place.y + 6; y++)
+        {
             g->cur_om.seen(x, y) = true;
+        }
     }
     tinymap compmap(&(g->itypes), &(g->mapitems), &(g->traps));
     compmap.load(g, place.x * 2, place.y * 2, false);
@@ -157,9 +165,13 @@ void mission_start::place_npc_software(game *g, mission *miss)
             }
         }
         if (valid.empty())
+        {
             comppoint = point( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7) );
+        }
         else
+        {
             comppoint = valid[rng(0, valid.size() - 1)];
+        }
     }
     break;
     case ot_s_pharm_north:
@@ -253,7 +265,9 @@ void mission_start::reveal_hospital(game *g, mission *miss)
     for (int x = place.x - 3; x <= place.x + 3; x++)
     {
         for (int y = place.y - 3; y <= place.y + 3; y++)
+        {
             g->cur_om.seen(x, y) = true;
+        }
     }
     miss->target = place;
 }

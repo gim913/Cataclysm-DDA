@@ -12,8 +12,14 @@ std::vector <point> line_to(int x1, int y1, int x2, int y2, int t)
     int ay = abs(dy)<<1;
     int sx = SGN(dx);
     int sy = SGN(dy);
-    if (dy == 0) sy = 0;
-    if (dx == 0) sx = 0;
+    if (dy == 0)
+    {
+        sy = 0;
+    }
+    if (dx == 0)
+    {
+        sx = 0;
+    }
     point cur;
     cur.x = x1;
     cur.y = y1;
@@ -81,7 +87,9 @@ int rl_dist(int x1, int y1, int x2, int y2)
 {
     int dx = abs(x1 - x2), dy = abs(y1 - y2);
     if (dx > dy)
+    {
         return dx;
+    }
     return dy;
 }
 
@@ -89,7 +97,9 @@ int rl_dist(point a, point b)
 {
     int dx = abs(a.x - b.x), dy = abs(a.y - b.y);
     if (dx > dy)
+    {
         return dx;
+    }
     return dy;
 }
 
@@ -97,7 +107,9 @@ double slope_of(std::vector<point> line)
 {
     double dX = line.back().x - line.front().x, dY = line.back().y - line.front().y;
     if (dX == 0)
+    {
         return SLOPE_VERTICAL;
+    }
     return (dY / dX);
 }
 
@@ -121,7 +133,9 @@ std::vector<point> continue_line(std::vector<point> line, int distance)
     {
         end.y += distance * sY;
         if (slope != SLOPE_VERTICAL)
+        {
             end.x += int(distance / abs(slope)) * sX;
+        }
     }
     return line_to(start.x, start.y, end.x, end.y, 0);
 }
@@ -139,16 +153,24 @@ direction direction_from(int x1, int y1, int x2, int y2)
         else if (abs(dy) / 2 > abs(dx))
         {
             if (dy < 0)
+            {
                 return NORTH;
+            }
             else
+            {
                 return SOUTH;
+            }
         }
         else
         {
             if (dy < 0)
+            {
                 return NORTHWEST;
+            }
             else
+            {
                 return SOUTHWEST;
+            }
         }
     }
     else
@@ -160,16 +182,24 @@ direction direction_from(int x1, int y1, int x2, int y2)
         else if (abs(dy) / 2 > dx || dx == 0)
         {
             if (dy < 0)
+            {
                 return NORTH;
+            }
             else
+            {
                 return SOUTH;
+            }
         }
         else
         {
             if (dy < 0)
+            {
                 return NORTHEAST;
+            }
             else
+            {
                 return SOUTHEAST;
+            }
         }
     }
 }
@@ -226,7 +256,9 @@ std::string direction_name_short(direction dir)
 float rl_vec2d::norm()
 {
     if (fabs(x) > fabs(y))
+    {
         return fabs(x);
+    }
     return fabs(y);
 }
 

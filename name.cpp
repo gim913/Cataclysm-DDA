@@ -70,7 +70,9 @@ std::vector<std::string> NameGenerator::filteredNames(uint32_t searchFlags)
     for (std::vector<Name>::const_iterator aName = names.begin(); aName != names.end(); ++aName)
     {
         if ((aName->flags() & searchFlags) == searchFlags)
+        {
             retval.push_back(aName->value());
+        }
     }
 
     return retval;

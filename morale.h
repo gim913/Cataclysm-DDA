@@ -54,7 +54,9 @@ struct morale_point
         std::string ret = morale_data[type];
         std::string item_name = "";
         if (item_type != NULL)
+        {
             item_name = item_type->name;
+        }
         size_t it = ret.find("%i");
         while (it != std::string::npos)
         {

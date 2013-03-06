@@ -24,7 +24,9 @@ void game::load_keyboard_settings()
         std::string id;
         fin >> id;
         if (id == "")
-            getline(fin, id); // Empty line, chomp it
+        {
+            getline(fin, id);    // Empty line, chomp it
+        }
         else if (id[0] != '#')
         {
             action_id act = look_up_action(id);
@@ -44,7 +46,9 @@ Warning!  '%c' assigned twice in the keymap!\n\
 %s is being ignored.\n\
 Fix data/keymap.txt at your next chance!", ch, id.c_str());
                     else
+                    {
                         keymap[ ch ] = act;
+                    }
                 }
             }
         }
@@ -67,7 +71,9 @@ void game::save_keymap()
     }
     std::map<char, action_id>::iterator it;
     for (it = keymap.begin(); it != keymap.end(); it++)
+    {
         fout << action_ident( (*it).second ) << " " << (*it).first << std::endl;
+    }
 
     fout.close();
 }
@@ -79,7 +85,9 @@ std::vector<char> game::keys_bound_to(action_id act)
     for (it = keymap.begin(); it != keymap.end(); it++)
     {
         if ( (*it).second == act )
+        {
             ret.push_back( (*it).first );
+        }
     }
 
     return ret;
@@ -253,7 +261,9 @@ action_id look_up_action(std::string ident)
     for (int i = 0; i < NUM_ACTIONS; i++)
     {
         if (action_ident( action_id(i) ) == ident)
+        {
             return action_id(i);
+        }
     }
     return ACTION_NULL;
 }

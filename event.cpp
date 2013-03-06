@@ -13,19 +13,27 @@ void event::actualize(game *g)
         npc tmp;
         int num = 1;
         if (faction_id >= 0)
+        {
             num = rng(1, 6);
+        }
         for (int i = 0; i < num; i++)
         {
             if (faction_id != -1)
             {
                 faction* fac = g->faction_by_id(faction_id);
                 if (fac)
+                {
                     tmp.randomize_from_faction(g, fac);
+                }
                 else
+                {
                     debugmsg("EVENT_HELP run with invalid faction_id");
+                }
             }
             else
+            {
                 tmp.randomize(g);
+            }
             tmp.attitude = NPCATT_DEFEND;
             tmp.posx = g->u.posx - SEEX * 2 + rng(-5, 5);
             tmp.posy = g->u.posy - SEEY * 2 + rng(-5, 5);
@@ -40,7 +48,9 @@ void event::actualize(game *g)
         {
             mtype *robot_type = g->mtypes[mon_tripod];
             if (faction_id == 0) // The cops!
+            {
                 robot_type = g->mtypes[mon_copbot];
+            }
             monster robot(robot_type);
             int robx = (g->levx > map_point.x ? 0 - SEEX * 2 : SEEX * 4),
                 roby = (g->levy > map_point.y ? 0 - SEEY * 2 : SEEY * 4);
@@ -53,7 +63,9 @@ void event::actualize(game *g)
     case EVENT_SPAWN_WYRMS:
     {
         if (g->levz >= 0)
+        {
             return;
+        }
         monster wyrm(g->mtypes[mon_dark_wyrm]);
         int num_wyrms = rng(1, 4);
         for (int i = 0; i < num_wyrms; i++)
@@ -75,7 +87,9 @@ void event::actualize(game *g)
             }
         }
         if (!one_in(25)) // They just keep coming!
+        {
             g->add_event(EVENT_SPAWN_WYRMS, int(g->turn) + rng(15, 25));
+        }
     }
     break;
 
@@ -93,9 +107,13 @@ void event::actualize(game *g)
                     faultx = x;
                     faulty = y;
                     if (g->m.ter(x - 1, y) == t_fault || g->m.ter(x + 1, y) == t_fault)
+                    {
                         horizontal = true;
+                    }
                     else
+                    {
                         horizontal = false;
+                    }
                 }
             }
         }
@@ -112,7 +130,9 @@ void event::actualize(game *g)
                     for (int n = -1; n <= 1; n++)
                     {
                         if (g->m.ter(monx, faulty + n) == t_rock_floor)
+                        {
                             mony = faulty + n;
+                        }
                     }
                 }
                 else     // Vertical fault
@@ -121,7 +141,9 @@ void event::actualize(game *g)
                     for (int n = -1; n <= 1; n++)
                     {
                         if (g->m.ter(faultx + n, mony) == t_rock_floor)
+                        {
                             monx = faultx + n;
+                        }
                     }
                 }
                 tries++;
@@ -143,7 +165,9 @@ void event::actualize(game *g)
             for (int y = 0; y < SEEY * MAPSIZE; y++)
             {
                 if (g->m.ter(x, y) == t_root_wall && one_in(3))
+                {
                     g->m.ter(x, y) = t_underbrush;
+                }
             }
         }
         break;
@@ -160,12 +184,16 @@ void event::actualize(game *g)
                     g->m.ter(x, y) = t_stairs_down;
                     int j;
                     if (!saw_grate && g->u_see(x, y, j))
+                    {
                         saw_grate = true;
+                    }
                 }
             }
         }
         if (saw_grate)
+        {
             g->add_msg("The nearby grates open to reveal a staircase!");
+        }
     }
     break;
 
@@ -177,7 +205,9 @@ void event::actualize(game *g)
         for (int x = 0; x < SEEX * MAPSIZE; x++)
         {
             for (int y = 0; y < SEEY * MAPSIZE; y++)
+            {
                 flood_buf[x][y] = g->m.ter(x, y);
+            }
         }
         for (int x = 0; x < SEEX * MAPSIZE; x++)
         {
@@ -191,7 +221,9 @@ void event::actualize(game *g)
                         for (int wy = y - 1;  wy <= y + 1 && !deepen; wy++)
                         {
                             if (g->m.ter(wx, wy) == t_water_dp)
+                            {
                                 deepen = true;
+                            }
                         }
                     }
                     if (deepen)
@@ -208,7 +240,9 @@ void event::actualize(game *g)
                         for (int wy = y - 1;  wy <= y + 1 && !flood; wy++)
                         {
                             if (g->m.ter(wx, wy) == t_water_dp || g->m.ter(wx, wy) == t_water_sh)
+                            {
                                 flood = true;
+                            }
                         }
                     }
                     if (flood)
@@ -220,12 +254,16 @@ void event::actualize(game *g)
             }
         }
         if (!flooded)
-            return; // We finished flooding the entire chamber!
+        {
+            return;    // We finished flooding the entire chamber!
+        }
 // Check if we should print a message
         if (flood_buf[g->u.posx][g->u.posy] != g->m.ter(g->u.posx, g->u.posy))
         {
             if (flood_buf[g->u.posx][g->u.posy] == t_water_sh)
+            {
                 g->add_msg("Water quickly floods up to your knees.");
+            }
             else   // Must be deep water!
             {
                 g->add_msg("Water fills nearly to the ceiling!");
@@ -236,7 +274,9 @@ void event::actualize(game *g)
         for (int x = 0; x < SEEX * MAPSIZE; x++)
         {
             for (int y = 0; y < SEEY * MAPSIZE; y++)
+            {
                 g->m.ter(x, y) = flood_buf[x][y];
+            }
         }
         g->add_event(EVENT_TEMPLE_FLOOD, int(g->turn) + rng(2, 3));
     }
@@ -295,12 +335,16 @@ void event::per_turn(game *g)
             eyebot.faction_id = faction_id;
             point place = g->m.random_outdoor_tile();
             if (place.x == -1 && place.y == -1)
-                return; // We're safely indoors!
+            {
+                return;    // We're safely indoors!
+            }
             eyebot.spawn(place.x, place.y);
             g->z.push_back(eyebot);
             int t;
             if (g->u_see(place.x, place.y, t))
+            {
                 g->add_msg("An eyebot swoops down nearby!");
+            }
         }
     }
     break;
@@ -312,7 +356,9 @@ void event::per_turn(game *g)
             return;
         }
         if (int(g->turn) % 3 == 0)
+        {
             g->add_msg("You hear screeches from the rock above and around you!");
+        }
         break;
 
     case EVENT_AMIGARA:

@@ -9,14 +9,18 @@
 void weather_effect::glare(game *g)
 {
     if (g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing(itm_sunglasses))
+    {
         g->u.infect(DI_GLARE, bp_eyes, 1, 2, g);
+    }
 }
 
 void weather_effect::wet(game *g)
 {
     if (!g->u.is_wearing(itm_coat_rain) && !g->u.has_trait(PF_FEATHERS) &&
             !g->u.warmth(bp_torso) >= 35 && PLAYER_OUTSIDE && one_in(2))
+    {
         g->u.add_morale(MORALE_WET, -1, -30);
+    }
 // Put out fires and reduce scent
     for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++)
     {
@@ -26,9 +30,13 @@ void weather_effect::wet(game *g)
             {
                 field *fd = &(g->m.field_at(x, y));
                 if (fd->type == fd_fire)
+                {
                     fd->age += 15;
+                }
                 if (g->scent(x, y) > 0)
+                {
                     g->scent(x, y)--;
+                }
             }
         }
     }
@@ -38,7 +46,9 @@ void weather_effect::very_wet(game *g)
 {
     if (!g->u.is_wearing(itm_coat_rain) && !g->u.has_trait(PF_FEATHERS) &&
             PLAYER_OUTSIDE)
+    {
         g->u.add_morale(MORALE_WET, -1, -60);
+    }
 // Put out fires and reduce scent
     for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++)
     {
@@ -48,9 +58,13 @@ void weather_effect::very_wet(game *g)
             {
                 field *fd = &(g->m.field_at(x, y));
                 if (fd->type == fd_fire)
+                {
                     fd->age += 45;
+                }
                 if (g->scent(x, y) > 0)
+                {
                     g->scent(x, y)--;
+                }
             }
         }
     }
@@ -62,9 +76,13 @@ void weather_effect::thunder(game *g)
     if (one_in(THUNDER_CHANCE))
     {
         if (g->levz >= 0)
+        {
             g->add_msg("You hear a distant rumble of thunder.");
+        }
         else if (!g->u.has_trait(PF_BADHEARING) && one_in(1 - 3 * g->levz))
+        {
             g->add_msg("You hear a rumble of thunder from above.");
+        }
     }
 }
 
@@ -92,7 +110,9 @@ void weather_effect::light_acid(game *g)
 {
     wet(g);
     if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE)
+    {
         g->add_msg("The acid rain stings, but is harmless for now...");
+    }
 }
 
 void weather_effect::acid(game *g)
@@ -101,7 +121,9 @@ void weather_effect::acid(game *g)
     {
         g->add_msg("The acid rain burns!");
         if (one_in(6))
+        {
             g->u.hit(g, bp_head, 0, 0, 1);
+        }
         if (one_in(10))
         {
             g->u.hit(g, bp_legs, 0, 0, 1);
@@ -113,7 +135,9 @@ void weather_effect::acid(game *g)
             g->u.hit(g, bp_feet, 1, 0, 1);
         }
         if (one_in(6))
+        {
             g->u.hit(g, bp_torso, 0, 0, 1);
+        }
         if (one_in(8))
         {
             g->u.hit(g, bp_arms, 0, 0, 1);
@@ -128,7 +152,9 @@ void weather_effect::acid(game *g)
             {
                 if (!g->m.has_flag(diggable, x, y) && !g->m.has_flag(noitem, x, y) &&
                         g->m.move_cost(x, y) > 0 && g->m.is_outside(x, y) && one_in(400))
+                {
                     g->m.add_field(g, x, y, fd_acid, 1);
+                }
             }
         }
     }
@@ -137,7 +163,9 @@ void weather_effect::acid(game *g)
         if (g->m.is_outside(g->z[i].posx, g->z[i].posy))
         {
             if (!g->z[i].has_flag(MF_ACIDPROOF))
+            {
                 g->z[i].hurt(1);
+            }
         }
     }
     very_wet(g);

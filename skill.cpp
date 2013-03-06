@@ -106,7 +106,9 @@ SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExerc
 int SkillLevel::comprehension(int intellect, bool fastLearner)
 {
     if (intellect == 0)
+    {
         return 0;
+    }
 
     int base_comprehension;
 
@@ -190,7 +192,9 @@ int SkillLevel::readBook(int minimumGain, int maximumGain, int maximumLevel)
         train(level);
 
         if (level >= maximumLevel)
+        {
             break;
+        }
     }
 
     return _exercise;

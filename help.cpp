@@ -465,7 +465,9 @@ from frostbite and to keep your distance from large fires.");
                 }
 // Clear the lines
                 for (int i = 0; i < 25; i++)
+                {
                     mvprintz(i, 0, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                }
 
                 for (int i = 0; i < 25 && offset + i < NUM_ACTIONS; i++)
                 {
@@ -473,14 +475,18 @@ from frostbite and to keep your distance from large fires.");
                     nc_color col = (keys.empty() ? c_ltred : c_white);
                     mvprintz(i, 3, col, "%s: ", action_name( action_id(offset + i) ).c_str());
                     if (keys.empty())
+                    {
                         printz(c_red, "Unbound!");
+                    }
                     else
                     {
                         for (int j = 0; j < keys.size(); j++)
                         {
                             printz(c_yellow, "%c", keys[j]);
                             if (j < keys.size() - 1)
+                            {
                                 printz(c_white, " or ");
+                            }
                         }
                     }
                 }
@@ -489,9 +495,13 @@ from frostbite and to keep your distance from large fires.");
                 int sx = 0, sy = 0;
                 get_direction(this, sx, sy, ch);
                 if (sy == -1 && offset > 1)
+                {
                     offset--;
+                }
                 if (sy == 1 && offset + 20 < NUM_ACTIONS)
+                {
                     offset++;
+                }
                 if (ch == '-' || ch == '+')
                 {
                     needs_refresh = true;
@@ -528,7 +538,9 @@ from frostbite and to keep your distance from large fires.");
             }
             while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
             if (changed_keymap && query_yn("Save changes?"))
+            {
                 save_keymap();
+            }
             erase();
         }
         break;
@@ -570,7 +582,9 @@ from frostbite and to keep your distance from large fires.");
 
 // Clear the lines
                 for (int i = 0; i < 25; i++)
+                {
                     mvprintz(i, 0, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                }
                 int valid_option_count = 0;
 
 // display options
@@ -584,17 +598,25 @@ from frostbite and to keep your distance from large fires.");
                     {
                         bool on = OPTIONS[ option_key(offset + i) ];
                         if (i == line)
+                        {
                             mvprintz(i, 30, hilite(c_ltcyan), (on ? "True" : "False"));
+                        }
                         else
+                        {
                             mvprintz(i, 30, (on ? c_ltgreen : c_ltred), (on ? "True" : "False"));
+                        }
                     }
                     else
                     {
                         char option_val = OPTIONS[ option_key(offset + i) ];
                         if (i == line)
+                        {
                             mvprintz(i, 30, hilite(c_ltcyan), "%d", option_val );
+                        }
                         else
+                        {
                             mvprintz(i, 30, c_ltgreen, "%d", option_val );
+                        }
                     }
                 }
                 refresh();
@@ -608,33 +630,45 @@ from frostbite and to keep your distance from large fires.");
                 case 'j':
                     line++;
                     if (line == NUM_OPTION_KEYS - 1)
+                    {
                         line = 0;
+                    }
                     break;
                 case 'k':
                     line--;
                     if (line < 0)
+                    {
                         line = NUM_OPTION_KEYS - 2;
+                    }
                     break;
 // toggle options with left/right keys
                 case 'h':
                     if (option_is_bool(option_key(offset + line)))
+                    {
                         OPTIONS[ option_key(offset + line) ] = !(OPTIONS[ option_key(offset + line) ]);
+                    }
                     else
                     {
                         OPTIONS[ option_key(offset + line) ]--;
                         if ((OPTIONS[ option_key(offset + line) ]) < 0 )
+                        {
                             OPTIONS[ option_key(offset + line) ] = option_max_options(option_key(offset + line)) - 1;
+                        }
                     }
                     changed_options = true;
                     break;
                 case 'l':
                     if (option_is_bool(option_key(offset + line)))
+                    {
                         OPTIONS[ option_key(offset + line) ] = !(OPTIONS[ option_key(offset + line) ]);
+                    }
                     else
                     {
                         OPTIONS[ option_key(offset + line) ]++;
                         if ((OPTIONS[ option_key(offset + line) ]) >= option_max_options(option_key(offset + line)))
+                        {
                             OPTIONS[ option_key(offset + line) ] = 0;
+                        }
                     }
                     changed_options = true;
                     break;
@@ -643,7 +677,9 @@ from frostbite and to keep your distance from large fires.");
             while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
             if (changed_options && query_yn("Save changes?"))
+            {
                 save_options();
+            }
             erase();
         }
         break;

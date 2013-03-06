@@ -197,7 +197,9 @@ struct npc_opinion
         owed = copy.owed;
         favors.clear();
         for (int i = 0; i < copy.favors.size(); i++)
+        {
             favors.push_back( copy.favors[i] );
+        }
     };
 
     npc_opinion& operator+= (npc_opinion &rhs)
@@ -379,9 +381,13 @@ struct npc_chatbin
         ret << first_topic << " " << mission_selected << " " << tempvalue << " " <<
             missions.size() << " " << missions_assigned.size();
         for (int i = 0; i < missions.size(); i++)
+        {
             ret << " " << missions[i];
+        }
         for (int i = 0; i < missions_assigned.size(); i++)
+        {
             ret << " " << missions_assigned[i];
+        }
         return ret.str();
     }
 

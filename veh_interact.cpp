@@ -57,13 +57,17 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     {
         mvwputch(w_grid, i, winx2, c_ltgray, i == winy1 || i == winy2? LINE_XOXX : LINE_XOXO);
         if (i >= winy1 && i < winy2)
+        {
             mvwputch(w_grid, i, winx1, c_ltgray, LINE_XOXO);
+        }
     }
     for (int i = 0; i < 80; i++)
     {
         mvwputch(w_grid, winy1, i, c_ltgray, i == winx1? LINE_OXXX : (i == winx2? LINE_OXXX : LINE_OXOX));
         if (i < winx2)
+        {
             mvwputch(w_grid, winy2, i, c_ltgray, i == winx1? LINE_XXOX : LINE_OXOX);
+        }
     }
     wrefresh(w_grid);
 
@@ -89,11 +93,15 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
         int dx, dy;
         get_direction (gm, dx, dy, ch);
         if (ch == KEY_ESCAPE)
+        {
             finish = true;
+        }
         else if (dx != -2 && (dx || dy) &&
                  cx + dx >= -6 && cx + dx < 6 &&
                  cy + dy >= -6 && cy + dy < 6)
+        {
             move_cursor(dx, dy);
+        }
         else
         {
             int mval = cant_do(ch);
@@ -119,7 +127,9 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
                 ;
             }
             if (sel_cmd != ' ')
+            {
                 finish = true;
+            }
             display_mode (' ');
         }
     }
@@ -239,9 +249,13 @@ void veh_interact::do_install(int reason)
         {
             pos += dy;
             if (pos < 0)
+            {
                 pos = can_mount.size()-1;
+            }
             else if (pos >= can_mount.size())
+            {
                 pos = 0;
+            }
         }
     }
 }
@@ -316,9 +330,13 @@ void veh_interact::do_repair(int reason)
         {
             pos += dy;
             if(pos >= need_repair.size())
+            {
                 pos = 0;
+            }
             else if(pos < 0)
+            {
                 pos = need_repair.size() - 1;
+            }
         }
     }
 }
@@ -407,9 +425,13 @@ void veh_interact::do_remove(int reason)
         {
             pos += dy;
             if (pos < first)
+            {
                 pos = parts_here.size()-1;
+            }
             else if (pos >= parts_here.size())
+            {
                 pos = first;
+            }
         }
     }
 }
@@ -432,7 +454,9 @@ int veh_interact::part_at (int dx, int dy)
     {
         int p = veh->external_parts[ep];
         if (veh->parts[p].mount_dx == vdx && veh->parts[p].mount_dy == vdy)
+        {
             return p;
+        }
     }
     return -1;
 }
@@ -452,7 +476,9 @@ void veh_interact::move_cursor (int dx, int dy)
     bool obstruct = g->m.move_cost_ter_only (vehx, vehy) == 0;
     vehicle *oveh = g->m.veh_at (vehx, vehy);
     if (oveh && oveh != veh)
+    {
         obstruct = true;
+    }
     nc_color col = cpart >= 0? veh->part_color (cpart) : c_black;
     mvwputch (w_disp, cy+6, cx+6, obstruct? red_background(col) : hilite(col),
               special_symbol(cpart >= 0? veh->part_sym (cpart) : ' '));
@@ -467,7 +493,9 @@ void veh_interact::move_cursor (int dx, int dy)
         for (int i = 1; i < num_vparts; i++)
         {
             if (veh->can_mount (vdx, vdy, (vpart_id) i))
+            {
                 can_mount.push_back (i);
+            }
         }
     need_repair.clear();
     parts_here.clear();
@@ -480,9 +508,13 @@ void veh_interact::move_cursor (int dx, int dy)
         {
             int p = parts_here[i];
             if (veh->parts[p].hp < veh->part_info(p).durability)
+            {
                 need_repair.push_back (i);
+            }
             if (veh->part_flag(p, vpf_fuel_tank) && veh->parts[p].amount < veh->part_info(p).size)
+            {
                 ptank = p;
+            }
         }
     }
     has_fuel = ptank >= 0? g->pl_refill_vehicle(*veh, ptank, true) : false;
@@ -498,13 +530,21 @@ void veh_interact::display_veh ()
     {
         int p = veh->external_parts[ep];
         if (veh->parts[p].mount_dx < x1)
+        {
             x1 = veh->parts[p].mount_dx;
+        }
         if (veh->parts[p].mount_dy < y1)
+        {
             y1 = veh->parts[p].mount_dy;
+        }
         if (veh->parts[p].mount_dx > x2)
+        {
             x2 = veh->parts[p].mount_dx;
+        }
         if (veh->parts[p].mount_dy > y2)
+        {
             y2 = veh->parts[p].mount_dy;
+        }
     }
     ddx = 0;
     ddy = 0;
@@ -519,13 +559,21 @@ void veh_interact::display_veh ()
         y2++;
     }
     if (x1 < -5)
+    {
         ddx = -5 - x1;
+    }
     else if (x2 > 6)
+    {
         ddx = 6 - x2;
+    }
     if (y1 < -6)
+    {
         ddy = -6 - y1;
+    }
     else if (y2 > 5)
+    {
         ddy = 5 - y2;
+    }
 
     for (int ep = 0; ep < veh->external_parts.size(); ep++)
     {
@@ -536,7 +584,9 @@ void veh_interact::display_veh ()
         int x = veh->parts[p].mount_dy + ddy;
         mvwputch (w_disp, 6+y, 6+x, cx == x && cy == y? hilite(col) : col, special_symbol(sym));
         if (cx == x && cy == y)
+        {
             cpart = p;
+        }
     }
     wrefresh (w_disp);
 }
@@ -586,12 +636,22 @@ void veh_interact::display_stats ()
         {
             fu = fu / 100;
             if (fu < 1)
+            {
                 fu = 1;
+            }
             if (!first)
+            {
                 mvwprintz(w_stats, 6, xfu++, c_ltgray, "/");
+            }
             mvwprintz(w_stats, 6, xfu++, fcs[i], "%d", fu);
-            if (fu > 9) xfu++;
-            if (fu > 99) xfu++;
+            if (fu > 9)
+            {
+                xfu++;
+            }
+            if (fu > 99)
+            {
+                xfu++;
+            }
             first = false;
         }
     }
@@ -675,14 +735,18 @@ item consume_vpart_item (game *g, vpart_id vpid)
             {
                 item* ith_item = &(g->m.i_at(x,y)[i]);
                 if (ith_item->type->id == itid)
+                {
                     candidates.push_back (candidate_vpart(x,y,i,*ith_item));
+                }
             }
 
     for (int i=0; i<g->u.inv.size(); i++)
     {
         item* ith_item = &(g->u.inv[i]);
         if (ith_item->type->id  == itid)
+        {
             candidates.push_back (candidate_vpart(i,*ith_item));
+        }
     }
     if (g->u.weapon.type->id == itid)
     {
@@ -711,9 +775,13 @@ item consume_vpart_item (game *g, vpart_id vpid)
             if(candidates[i].in_inventory)
             {
                 if (candidates[i].index == -1)
+                {
                     options.push_back(candidates[i].vpart_item.tname() + " (wielded)");
+                }
                 else
+                {
                     options.push_back(candidates[i].vpart_item.tname());
+                }
             }
             else   //nearby.
             {
@@ -727,9 +795,13 @@ item consume_vpart_item (game *g, vpart_id vpid)
     if(candidates[selection].in_inventory)
     {
         if(candidates[selection].index == -1) //weapon
+        {
             g->u.remove_weapon();
+        }
         else //non-weapon inventory
+        {
             g->u.inv.remove_item (candidates[selection].index);
+        }
     }
     else     //map.
     {
@@ -774,7 +846,9 @@ void complete_vehicle (game *g)
     case 'i':
         partnum = veh->install_part (dx, dy, (vpart_id) part);
         if(partnum < 0)
+        {
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part);
+        }
         used_item = consume_vpart_item (g, (vpart_id) part);
         veh->get_part_properties_from_item(g, partnum, used_item); //transfer damage, etc.
         tools.push_back(component(itm_welder, welder_charges));
@@ -804,12 +878,16 @@ void complete_vehicle (game *g)
         break;
     case 'f':
         if (!g->pl_refill_vehicle(*veh, part, true))
+        {
             debugmsg ("complete_vehicle refill broken");
+        }
         g->pl_refill_vehicle(*veh, part);
         break;
     case 'o':
         for (int i = 0; i < veh->parts[part].items.size(); i++)
+        {
             g->m.add_item (g->u.posx, g->u.posy, veh->parts[part].items[i]);
+        }
         veh->parts[part].items.clear();
         itm = veh->part_info(part).item;
         broken = veh->parts[part].hp <= 0;

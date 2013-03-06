@@ -28,12 +28,16 @@ void tileray::init (int adx, int ady)
     deltax = adx;
     deltay = ady;
     if (!adx && !ady)
+    {
         direction = 0;
+    }
     else
     {
         direction = (int) (atan2 (deltay, deltax) * 180.0 / M_PI);
         if (direction <0)
+        {
             direction += 360;
+        }
     }
     infinite = false;
     steps = 0;
@@ -44,9 +48,13 @@ void tileray::init (int adir)
     leftover = 0;
     direction = adir;
     if (direction <0)
+    {
         direction += 360;
+    }
     if (direction >= 360)
+    {
         direction -= 360;
+    }
     last_dx = 0;
     last_dy = 0;
     deltax = abs((int) (cos ((float) direction * M_PI / 180.0) * 100));
@@ -73,13 +81,21 @@ int tileray::dir ()
 int tileray::dir4 ()
 {
     if (direction >= 45 && direction <= 135)
+    {
         return 1;
+    }
     else if (direction > 135 && direction < 225)
+    {
         return 2;
+    }
     else if (direction >= 225 && direction <= 315)
+    {
         return 3;
+    }
     else
+    {
         return 0;
+    }
 }
 
 char tileray::dir_symbol (char sym)
@@ -353,7 +369,9 @@ void tileray::advance (int num)
 bool tileray::end ()
 {
     if (infinite)
+    {
         return true;
+    }
     return mostly_vertical()? steps >= abs(deltay) - 1 : steps >= abs(deltax) - 1;
 }
 

@@ -4196,7 +4196,9 @@ A poppy stalk with some petals.");
 Contains some substances commonly produced by mutated poppy flower");
 
     if (itypes.size() > num_items)
+    {
         debugmsg("%d items, %d itypes", itypes.size(), num_all_items);
+    }
 
 
     MELEE("Null 2 - num_items",0,0,'#',c_white,MNULL,MNULL,0,0,0,0,0,0,"");
@@ -4455,13 +4457,17 @@ attacks with no penalty.",
 
 
     if (itypes.size() != num_all_items)
+    {
         debugmsg("%d items, %d itypes (+bio)", itypes.size(), num_all_items - 1);
+    }
 
 // Finally, load up artifacts!
     std::ifstream fin;
     fin.open("save/artifacts.gsav");
     if (!fin.is_open())
-        return; // No artifacts yet!
+    {
+        return;    // No artifacts yet!
+    }
 
     bool done = fin.eof();
     while (!done)
@@ -4520,9 +4526,13 @@ attacks with no penalty.",
                 if (namepart != "-")
                 {
                     if (!start)
+                    {
                         namedata << " ";
+                    }
                     else
+                    {
                         start = false;
+                    }
                     namedata << namepart;
                 }
             }
@@ -4542,7 +4552,9 @@ attacks with no penalty.",
                 else if (namepart != "-")
                 {
                     if (!start)
+                    {
                         descdata << " ";
+                    }
                     descdata << namepart;
                     start = false;
                 }
@@ -4595,12 +4607,18 @@ attacks with no penalty.",
             do
             {
                 if (!start)
+                {
                     namedata << " ";
+                }
                 else
+                {
                     start = false;
+                }
                 fin >> namepart;
                 if (namepart != "-")
+                {
                     namedata << namepart;
+                }
             }
             while (namepart.find("-") == std::string::npos);
             art->name = namedata.str();
@@ -4618,7 +4636,9 @@ attacks with no penalty.",
                 else if (namepart != "-")
                 {
                     if (!start)
+                    {
                         descdata << " ";
+                    }
                     descdata << namepart;
                     start = false;
                 }
@@ -4636,7 +4656,9 @@ attacks with no penalty.",
           getline(fin, chomper);
         */
         if (fin.eof())
+        {
             done = true;
+        }
     } // Done reading the file
     fin.close();
 }

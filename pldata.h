@@ -165,7 +165,9 @@ struct player_activity
         placement = copy.placement;
         values.clear();
         for (int i = 0; i < copy.values.size(); i++)
+        {
             values.push_back(copy.values[i]);
+        }
     }
 
     std::string save_info()
@@ -174,7 +176,9 @@ struct player_activity
         ret << type << " " << moves_left << " " << index << " " << placement.x <<
             " " << placement.y << " " << values.size();
         for (int i = 0; i < values.size(); i++)
+        {
             ret << " " << values[i];
+        }
 
         return ret.str();
     }

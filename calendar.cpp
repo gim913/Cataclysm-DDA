@@ -72,7 +72,9 @@ calendar::operator int() const
 calendar& calendar::operator =(calendar &rhs)
 {
     if (this == &rhs)
+    {
         return *this;
+    }
 
     second = rhs.second;
     minute = rhs.minute;
@@ -197,7 +199,9 @@ void calendar::increment()
 {
     second += 6;
     if (second >= 60)
+    {
         standardize();
+    }
 }
 
 void calendar::standardize()
@@ -243,9 +247,13 @@ moon_phase calendar::moon()
     int phase = day / (DAYS_IN_SEASON / 4);
 //phase %= 4;   Redundant?
     if (phase == 3)
+    {
         return MOON_HALF;
+    }
     else
+    {
         return moon_phase(phase);
+    }
 }
 
 calendar calendar::sunrise()
@@ -337,7 +345,9 @@ int calendar::sunlight()
     int moonlight = 1 + int(moon()) * MOONLIGHT_LEVEL;
 
     if (mins > sunset_mins + TWILIGHT_MINUTES || mins < sunrise_mins) // Night
+    {
         return moonlight;
+    }
 
     else if (mins >= sunrise_mins && mins <= sunrise_mins + TWILIGHT_MINUTES)
     {
@@ -356,7 +366,9 @@ int calendar::sunlight()
 
     }
     else
+    {
         return DAYLIGHT_LEVEL;
+    }
 }
 
 std::string calendar::print_time(bool twentyfour)
@@ -366,7 +378,9 @@ std::string calendar::print_time(bool twentyfour)
     {
         ret << hour << ":";
         if (minute < 10)
+        {
             ret << "0";
+        }
         ret << minute;
     }
     else
@@ -375,7 +389,9 @@ std::string calendar::print_time(bool twentyfour)
         {
             int hours = hour % 24;
             if (hours < 10)
+            {
                 ret << "0";
+            }
             ret << hours;
         }
         else if (OPTIONS[OPT_24_HOUR] == 2)
@@ -387,18 +403,26 @@ std::string calendar::print_time(bool twentyfour)
         {
             int hours = hour % 12;
             if (hours == 0)
+            {
                 hours = 12;
+            }
             ret << hours << ":";
         }
         if (minute < 10)
+        {
             ret << "0";
+        }
         ret << minute;
         if (OPTIONS[OPT_24_HOUR] == 0)
         {
             if (hour < 12)
+            {
                 ret << " AM";
+            }
             else
+            {
                 ret << " PM";
+            }
         }
     }
 

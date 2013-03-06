@@ -937,7 +937,9 @@ inline const std::string& get_last_error()
 inline bool operator==(const value& x, const value& y)
 {
     if (x.is<null>())
+    {
         return y.is<null>();
+    }
 #define PICOJSON_CMP(type)					\
     if (x.is<type>())						\
       return y.is<type>() && x.get<type>() == y.get<type>()
@@ -1000,7 +1002,9 @@ static void ok(bool b, const char* name = "")
 {
     static int n = 1;
     if (! b)
+    {
         success = false;
+    }
     printf("%s %d - %s\n", b ? "ok" : "ng", n++, name);
 }
 

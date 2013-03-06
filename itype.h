@@ -586,9 +586,14 @@ struct it_comest : public itype
 
     virtual bool count_by_charges()
     {
-        if (m1 == LIQUID) return true;
+        if (m1 == LIQUID)
+        {
+            return true;
+        }
         else
+        {
             return charges > 1 ;
+        }
     }
 
 
@@ -659,8 +664,14 @@ struct it_var_veh_part: public itype
     }
     virtual bool is_engine()
     {
-        if (id < itm_1cyl_combustion) return false;
-        if (id > itm_v8_combustion) return false;
+        if (id < itm_1cyl_combustion)
+        {
+            return false;
+        }
+        if (id > itm_v8_combustion)
+        {
+            return false;
+        }
         return true;
     }
 };
@@ -1010,7 +1021,9 @@ struct it_bionic : public itype
         va_start(ap, pdifficulty);
         bionic_id tmp;
         while ((tmp = (bionic_id)va_arg(ap, int)))
+        {
             options.push_back(tmp);
+        }
         va_end(ap);
     }
 };
@@ -1109,15 +1122,21 @@ struct it_artifact_tool : public it_tool
              int(charge_type) << " " << max_charges << " " <<
              effects_wielded.size();
         for (int i = 0; i < effects_wielded.size(); i++)
+        {
             data << " " << int(effects_wielded[i]);
+        }
 
         data << " " << effects_activated.size();
         for (int i = 0; i < effects_activated.size(); i++)
+        {
             data << " " << int(effects_activated[i]);
+        }
 
         data << " " << effects_carried.size();
         for (int i = 0; i < effects_carried.size(); i++)
+        {
             data << " " << int(effects_carried[i]);
+        }
 
         data << " " << name << " - ";
         std::string desctmp = description;
@@ -1126,7 +1145,9 @@ struct it_artifact_tool : public it_tool
         {
             endline = desctmp.find("\n");
             if (endline != std::string::npos)
+            {
                 desctmp.replace(endline, 1, " = ");
+            }
         }
         while (endline != std::string::npos);
         data << desctmp << " -";
@@ -1175,7 +1196,9 @@ struct it_artifact_armor : public it_armor
              " " << int(cut_resist) << " " << int(env_resist) << " " <<
              int(warmth) << " " << int(storage) << " " << effects_worn.size();
         for (int i = 0; i < effects_worn.size(); i++)
+        {
             data << " " << int(effects_worn[i]);
+        }
 
         data << " " << name << " - ";
         std::string desctmp = description;
@@ -1184,7 +1207,9 @@ struct it_artifact_armor : public it_armor
         {
             endline = desctmp.find("\n");
             if (endline != std::string::npos)
+            {
                 desctmp.replace(endline, 1, " = ");
+            }
         }
         while (endline != std::string::npos);
 

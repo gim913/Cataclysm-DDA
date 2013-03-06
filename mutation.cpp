@@ -11,7 +11,9 @@ void player::mutate(game *g)
 {
     bool force_bad = one_in(3); // 33% chance!
     if (has_trait(PF_ROBUST) && force_bad && one_in(3))
-        force_bad = false; // 11% chance!
+    {
+        force_bad = false;    // 11% chance!
+    }
 
 // First, see if we should ugrade/extend an existing mutation
     std::vector<pl_flag> upgrades;
@@ -24,14 +26,18 @@ void player::mutate(game *g)
                 pl_flag tmp = g->mutation_data[i].replacements[j];
                 if (!has_trait(tmp) && !has_child_flag(g, tmp) &&
                         (!force_bad || traits[tmp].points <= 0))
+                {
                     upgrades.push_back(tmp);
+                }
             }
             for (int j = 0; j < g->mutation_data[i].additions.size(); j++)
             {
                 pl_flag tmp = g->mutation_data[i].additions[j];
                 if (!has_trait(tmp) && !has_child_flag(g, tmp) &&
                         (!force_bad || traits[tmp].points <= 0))
+                {
                     upgrades.push_back(tmp);
+                }
             }
         }
     }
@@ -57,7 +63,9 @@ void player::mutate(game *g)
     }
 
     if (rng(0, total) > highest)
-        cat = MUTCAT_NULL; // Not a strong enough pull, just mutate something random!
+    {
+        cat = MUTCAT_NULL;    // Not a strong enough pull, just mutate something random!
+    }
 
     std::vector<pl_flag> valid; // Valid mutations
     bool first_pass = (cat != MUTCAT_NULL);
@@ -67,18 +75,24 @@ void player::mutate(game *g)
 // If we tried once with a non-NULL category, and couldn't find anything valid
 // there, try again with MUTCAT_NULL
         if (cat != MUTCAT_NULL && !first_pass)
+        {
             cat = MUTCAT_NULL;
+        }
 
         if (cat == MUTCAT_NULL)   // Pull the full list
         {
             for (int i = 1; i < PF_MAX2; i++)
             {
                 if (g->mutation_data[i].valid)
+                {
                     valid.push_back( pl_flag(i) );
+                }
             }
         }
         else   // Pull the category's list
+        {
             valid = mutations_from_category(cat);
+        }
 
 // Remove anything we already have, or that we have a child of, or that's
 // positive and we're forcing bad
@@ -93,14 +107,18 @@ void player::mutate(game *g)
         }
 
         if (valid.empty())
-            first_pass = false; // So we won't repeat endlessly
+        {
+            first_pass = false;    // So we won't repeat endlessly
+        }
 
     }
     while (valid.empty() && cat != MUTCAT_NULL);
 
 
     if (valid.empty())
-        return; // Couldn't find anything at all!
+    {
+        return;    // Couldn't find anything at all!
+    }
 
     pl_flag selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
 
@@ -137,7 +155,9 @@ void player::mutate_towards(game *g, pl_flag mut)
     for (int i = 0; !has_prereqs && i < prereq.size(); i++)
     {
         if (has_trait(prereq[i]))
+        {
             has_prereqs = true;
+        }
     }
     if (!has_prereqs && !prereq.empty())
     {
@@ -158,7 +178,9 @@ void player::mutate_towards(game *g, pl_flag mut)
                     j < g->mutation_data[pre].replacements.size(); j++)
             {
                 if (g->mutation_data[pre].replacements[j] == mut)
+                {
                     replacing = pre;
+                }
             }
         }
     }
@@ -171,7 +193,9 @@ void player::mutate_towards(game *g, pl_flag mut)
         toggle_trait(replacing);
     }
     else
+    {
         g->add_msg("You gain %s!", traits[mut].name.c_str());
+    }
     mutation_effect(g, *this, mut);
 
 // Weight us towards any categories that include this mutation
@@ -182,13 +206,19 @@ void player::mutate_towards(game *g, pl_flag mut)
         for (int j = 0; !found && j < group.size(); j++)
         {
             if (group[j] == mut)
+            {
                 found = true;
+            }
         }
         if (found)
+        {
             mutation_category_level[i] += 8;
+        }
         else if (mutation_category_level[i] > 0 &&
                  !one_in(mutation_category_level[i]))
+        {
             mutation_category_level[i]--;
+        }
     }
 
 }
@@ -205,7 +235,9 @@ void player::remove_mutation(game *g, pl_flag mut)
                 j < g->mutation_data[pre].replacements.size(); j++)
         {
             if (g->mutation_data[pre].replacements[j] == mut)
+            {
                 replacing = pre;
+            }
         }
     }
 
@@ -232,7 +264,9 @@ bool player::has_child_flag(game *g, pl_flag flag)
     {
         pl_flag tmp = g->mutation_data[flag].replacements[i];
         if (has_trait(tmp) || has_child_flag(g, tmp))
+        {
             return true;
+        }
     }
     return false;
 }
@@ -366,12 +400,16 @@ void mutation_effect(game *g, player &p, pl_flag mut)
                 if (destroy)
                 {
                     if (is_u)
+                    {
                         g->add_msg("Your %s is destroyed!", p.worn[i].tname().c_str());
+                    }
                 }
                 else
                 {
                     if (is_u)
+                    {
                         g->add_msg("Your %s is pushed off.", p.worn[i].tname().c_str());
+                    }
                     g->m.add_item(p.posx, p.posy, p.worn[i]);
                 }
                 p.worn.erase(p.worn.begin() + i);

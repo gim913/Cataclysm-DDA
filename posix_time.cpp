@@ -53,7 +53,9 @@ nanosleep (const struct timespec *requested_delay,
                 LONGLONG wait_until = counter_before.QuadPart + wait_ticks;
                 /* Use Sleep for the longest part.  */
                 if (sleep_millis > 0)
+                {
                     Sleep (sleep_millis);
+                }
                 /* Busy-loop for the rest.  */
                 for (;;)
                 {
@@ -61,10 +63,14 @@ nanosleep (const struct timespec *requested_delay,
                     if (!QueryPerformanceCounter (&counter_after))
                         /* QueryPerformanceCounter failed, but succeeded earlier.
                            Should not happen.  */
+                    {
                         break;
+                    }
                     if (counter_after.QuadPart >= wait_until)
                         /* The requested time has elapsed.  */
+                    {
                         break;
+                    }
                 }
                 goto done;
             }

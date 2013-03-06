@@ -36,7 +36,9 @@ void settlement::set_population()
     pop = rng(4, 40);
     pop += rng(0, (fact.power - 20) / 6);
     if (pop < 4)
+    {
         pop = 4;
+    }
 }
 
 int settlement::num(oter_id ter)

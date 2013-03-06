@@ -153,19 +153,25 @@ inline void VertLineDIB(int x, int y, int y2,int thickness, unsigned char color)
 {
     int j;
     for (j=y; j<y2; j++)
+    {
         memset(&dcbits[x+j*WindowWidth],color,thickness);
+    }
 };
 inline void HorzLineDIB(int x, int y, int x2,int thickness, unsigned char color)
 {
     int j;
     for (j=y; j<y+thickness; j++)
+    {
         memset(&dcbits[x+j*WindowWidth],color,x2-x);
+    }
 };
 inline void FillRectDIB(int x, int y, int width, int height, unsigned char color)
 {
     int j;
     for (j=y; j<y+height; j++)
+    {
         memset(&dcbits[x+j*WindowWidth],color,width);
+    }
 };
 
 void DrawWindow(WINDOW *win)
@@ -420,7 +426,9 @@ inline void addedchar(WINDOW *win)
     win->cursorx++;
     win->line[win->cursory].touched=true;
     if (win->cursorx > win->width)
+    {
         newline(win);
+    }
 };
 
 
@@ -433,24 +441,40 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
     int oldy=win->cursory;//methods below move the cursor, save the value!
     if (ls>0)
         for (j=1; j<win->height-1; j++)
+        {
             mvwaddch(win, j, 0, 179);
+        }
     if (rs>0)
         for (j=1; j<win->height-1; j++)
+        {
             mvwaddch(win, j, win->width-1, 179);
+        }
     if (ts>0)
         for (i=1; i<win->width-1; i++)
+        {
             mvwaddch(win, 0, i, 196);
+        }
     if (bs>0)
         for (i=1; i<win->width-1; i++)
+        {
             mvwaddch(win, win->height-1, i, 196);
+        }
     if (tl>0)
+    {
         mvwaddch(win,0, 0, 218);
+    }
     if (tr>0)
+    {
         mvwaddch(win,0, win->width-1, 191);
+    }
     if (bl>0)
+    {
         mvwaddch(win,win->height-1, 0, 192);
+    }
     if (br>0)
+    {
         mvwaddch(win,win->height-1, win->width-1, 217);
+    }
     //_windows[w].cursorx=oldx;//methods above move the cursor, put it back
     //_windows[w].cursory=oldy;//methods above move the cursor, put it back
     wmove(win,oldy,oldx);
@@ -460,9 +484,14 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
 //Refreshes a window, causing it to redraw on top.
 int wrefresh(WINDOW *win)
 {
-    if (win==0) win=mainwin;
+    if (win==0)
+    {
+        win=mainwin;
+    }
     if (win->draw)
+    {
         DrawWindow(win);
+    }
     return 1;
 };
 
@@ -484,7 +513,10 @@ int getch(void)
         do
         {
             CheckMessages();
-            if (lastchar!=ERR) break;
+            if (lastchar!=ERR)
+            {
+                break;
+            }
             MsgWaitForMultipleObjects(0, NULL, FALSE, 50, QS_ALLEVENTS);//low cpu wait!
         }
         while (lastchar==ERR);
@@ -497,7 +529,10 @@ int getch(void)
         {
             CheckMessages();        //MsgWaitForMultipleObjects won't work very good here
             endtime=GetTickCount(); //it responds to mouse movement, and WM_PAINT, not good
-            if (lastchar!=ERR) break;
+            if (lastchar!=ERR)
+            {
+                break;
+            }
             Sleep(2);
         }
         while (endtime<(starttime+inputdelay));
@@ -528,7 +563,9 @@ inline int printstring(WINDOW *win, char *fmt)
                 addedchar(win);
             }
             else
-                return 0; //if we try and write anything outside the window, abort completely
+            {
+                return 0;    //if we try and write anything outside the window, abort completely
+            }
         }
         else   // if the character is a newline, make sure to move down a line
             if (newline(win)==0)
@@ -559,7 +596,10 @@ int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...)
     char printbuf[2048];
     vsnprintf(printbuf, 2047, fmt, args);
     va_end(args);
-    if (wmove(win,y,x)==0) return 0;
+    if (wmove(win,y,x)==0)
+    {
+        return 0;
+    }
     return printstring(win,printbuf);
 };
 
@@ -571,7 +611,10 @@ int mvprintw(int y, int x, const char *fmt, ...)
     char printbuf[2048];
     vsnprintf(printbuf, 2047, fmt, args);
     va_end(args);
-    if (move(y,x)==0) return 0;
+    if (move(y,x)==0)
+    {
+        return 0;
+    }
     return printstring(mainwin,printbuf);
 };
 
@@ -662,7 +705,10 @@ int endwin(void)
 //adds a character to the window
 int mvwaddch(WINDOW *win, int y, int x, const chtype ch)
 {
-    if (wmove(win,y,x)==0) return 0;
+    if (wmove(win,y,x)==0)
+    {
+        return 0;
+    }
     return waddch(win, ch);
 };
 
@@ -677,14 +723,20 @@ int wclear(WINDOW *win)
 //gets the max x of a window (the width)
 int getmaxx(WINDOW *win)
 {
-    if (win==0) return mainwin->width;     //StdScr
+    if (win==0)
+    {
+        return mainwin->width;    //StdScr
+    }
     return win->width;
 };
 
 //gets the max y of a window (the height)
 int getmaxy(WINDOW *win)
 {
-    if (win==0) return mainwin->height;     //StdScr
+    if (win==0)
+    {
+        return mainwin->height;    //StdScr
+    }
     return win->height;
 };
 
@@ -755,8 +807,14 @@ int wattron(WINDOW *win, int attrs)
     int pairNumber = (attrs & A_COLOR) >> 17;
     win->FG=colorpairs[pairNumber].FG;
     win->BG=colorpairs[pairNumber].BG;
-    if (isBold) win->FG += 8;
-    if (isBlink) win->BG += 8;
+    if (isBold)
+    {
+        win->FG += 8;
+    }
+    if (isBlink)
+    {
+        win->BG += 8;
+    }
     return 1;
 };
 int wattroff(WINDOW *win, int attrs)

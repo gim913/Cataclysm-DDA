@@ -256,7 +256,9 @@ void game::construction_menu()
     mvwputch(w_con,  0, 30, c_white, LINE_OXXX);
     mvwputch(w_con, 24, 30, c_white, LINE_XXOX);
     for (int i = 1; i < 24; i++)
+    {
         mvwputch(w_con, i, 30, c_white, LINE_XOXO);
+    }
 
     mvwprintz(w_con,  1, 31, c_white, "Difficulty:");
 
@@ -274,13 +276,17 @@ void game::construction_menu()
         for (int i = 1; i < 24; i++)
         {
             for (int j = 1; j < 29; j++)
+            {
                 mvwputch(w_con, i, j, c_black, 'x');
+            }
         }
 // Determine where in the master list to start printing
         //int offset = select - 11;
         int offset = 0;
         if (select >= 22)
+        {
             offset = select - 22;
+        }
 // Print the constructions between offset and max (or how many will fit)
         for (int i = 0; i <= 22 && (i + offset) < constructions.size(); i++)
         {
@@ -290,7 +296,9 @@ void game::construction_menu()
             // Map menu items to hotkey letters, skipping j, k, l, and q.
             char hotkey = current + ((current < 9) ? 97 : ((current < 13) ? 100 : 101));
             if (current == select)
+            {
                 col = hilite(col);
+            }
             mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey,
                       constructions[current]->name.c_str());
         }
@@ -308,7 +316,9 @@ void game::construction_menu()
             for (int i = 2; i < 24; i++)
             {
                 for (int j = 31; j < 79; j++)
+                {
                     mvwputch(w_con, i, j, c_black, 'x');
+                }
             }
 
 // Print stages and their requirements
@@ -371,7 +381,9 @@ void game::construction_menu()
                 {
                     posx = 33;
                     while (has_component[i])
+                    {
                         i++;
+                    }
                     for (int j = 0; j < stage.components[i].size() && i < 3; j++)
                     {
                         nc_color col = c_red;
@@ -395,11 +407,17 @@ void game::construction_menu()
                         posx += length + 3; // + 2 for " x", + 1 for an empty space
 // Add more space for the length of the count
                         if (comp.count < 10)
+                        {
                             posx++;
+                        }
                         else if (comp.count < 100)
+                        {
                             posx += 2;
+                        }
                         else
+                        {
                             posx += 3;
+                        }
 
                         if (j < stage.components[i].size() - 1)   // "OR" if there's more
                         {
@@ -424,16 +442,24 @@ void game::construction_menu()
         case 'j':
             update_info = true;
             if (select < constructions.size() - 1)
+            {
                 select++;
+            }
             else
+            {
                 select = 0;
+            }
             break;
         case 'k':
             update_info = true;
             if (select > 0)
+            {
                 select--;
+            }
             else
+            {
                 select = constructions.size() - 1;
+            }
             break;
         case '\n':
         case 'l':
@@ -446,7 +472,9 @@ void game::construction_menu()
             {
                 popup("You can't build that!");
                 for (int i = 1; i < 24; i++)
+                {
                     mvwputch(w_con, i, 30, c_white, LINE_XOXO);
+                }
                 update_info = true;
             }
             break;
@@ -455,7 +483,10 @@ void game::construction_menu()
         case KEY_ESCAPE:
             break;
         default:
-            if (ch < 97 || ch > constructions.size() + 101) break;
+            if (ch < 97 || ch > constructions.size() + 101)
+            {
+                break;
+            }
             // Map menu items to hotkey letters, skipping j, k, l, and q.
             char hotkey = ch - ((ch < 106) ? 97 : ((ch < 112) ? 100 : 101));
             if (player_can_build(u, total_inv, constructions[hotkey]))
@@ -467,7 +498,9 @@ void game::construction_menu()
             {
                 popup("You can't build that!");
                 for (int i = 1; i < 24; i++)
+                {
                     mvwputch(w_con, i, 30, c_white, LINE_XOXO);
+                }
                 update_info = true;
             }
             break;
@@ -485,14 +518,20 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
 // default behavior: return true if any of the stages up to L can be constr'd
 // if exact_level, require that this level be constructable
     if (p.skillLevel("carpentry") < con->difficulty)
+    {
         return false;
+    }
 
     if (level < 0)
+    {
         last_level = con->stages.size();
+    }
 
     int start = 0;
     if (cont)
+    {
         start = level;
+    }
 
     bool can_build_any = false;
     for (int i = start; i < con->stages.size() && i <= last_level; i++)
@@ -512,10 +551,14 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
                 for (int k = 0; k < stage.tools[j].size() && !has_tool; k++)
                 {
                     if (inv.has_amount(stage.tools[j][k], 1))
+                    {
                         has_tool = true;
+                    }
                 }
                 if (!has_tool)  // missing one of the tools for this stage
+                {
                     break;
+                }
             }
             if (stage.components[j].size() > 0)
             {
@@ -529,10 +572,14 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
                             (!itypes[stage.components[j][k].type]->is_ammo() &&
                              inv.has_amount (stage.components[j][k].type,
                                              stage.components[j][k].count)    ))
+                    {
                         has_component = true;
+                    }
                 }
                 if (!has_component)  // missing one of the comps for this stage
+                {
                     break;
+                }
             }
 
         }  // j in [0,2]
@@ -558,13 +605,17 @@ void game::place_construction(constructable *con)
         for (int y = u.posy - 1; y <= u.posy + 1; y++)
         {
             if (x == u.posx && y == u.posy)
+            {
                 y++;
+            }
             construct test;
             bool place_okay = (test.*(con->able))(this, point(x, y));
             for (int i = 0; i < con->stages.size() && !place_okay; i++)
             {
                 if (m.ter(x, y) == con->stages[i].terrain)
+                {
                     place_okay = true;
+                }
             }
 
             if (place_okay)
@@ -574,14 +625,20 @@ void game::place_construction(constructable *con)
                 for (int i = 0; i < con->stages.size(); i++)
                 {
                     if (m.ter(x, y) == con->stages[i].terrain)
+                    {
                         starting_stage = i + 1;
+                    }
                 }
                 for(int i = starting_stage; i < con->stages.size(); i++)
                 {
                     if (player_can_build(u, total_inv, con, i, true, true))
+                    {
                         max_stage = i;
+                    }
                     else
+                    {
                         break;
+                    }
                 }
                 if (max_stage >= starting_stage)
                 {
@@ -606,7 +663,9 @@ void game::place_construction(constructable *con)
     for (int i = 0; i < valid.size() && !point_is_okay; i++)
     {
         if (valid[i].x == dirx && valid[i].y == diry)
+        {
             point_is_okay = true;
+        }
     }
     if (!point_is_okay)
     {
@@ -619,9 +678,13 @@ void game::place_construction(constructable *con)
     for (int i = 0; i < con->stages.size(); i++)
     {
         if (m.ter(dirx, diry) == con->stages[i].terrain)
+        {
             starting_stage = i + 1;
+        }
         if (player_can_build(u, total_inv, con, i, true))
+        {
             max_stage = i;
+        }
     }
 
     u.assign_activity(ACT_BUILD, con->stages[starting_stage].time * 1000, con->id);
@@ -629,7 +692,9 @@ void game::place_construction(constructable *con)
     u.moves = 0;
     std::vector<int> stages;
     for (int i = starting_stage; i <= max_stage; i++)
+    {
         stages.push_back(i);
+    }
     u.activity.values = stages;
     u.activity.placement = point(dirx, diry);
 }
@@ -646,17 +711,23 @@ void game::complete_construction()
 
     u.practice("carpentry", built->difficulty * 10);
     if (built->difficulty == 0)
+    {
         u.practice("carpentry", 10);
+    }
     for (int i = 0; i < 3; i++)
     {
         if (!stage.components[i].empty())
+        {
             consume_items(stage.components[i]);
+        }
     }
 
 // Make the terrain change
     int terx = u.activity.placement.x, tery = u.activity.placement.y;
     if (stage.terrain != t_null)
+    {
         m.ter(terx, tery) = stage.terrain;
+    }
 
 // Strip off the first stage in our list...
     u.activity.values.erase(u.activity.values.begin());
@@ -667,7 +738,9 @@ void game::complete_construction()
         u.activity.moves_left = next.time * 1000;
     }
     else   // We're finished!
+    {
         u.activity.type = ACT_NULL;
+    }
 
 // This comes after clearing the activity, in case the function interrupts
 // activities
@@ -814,10 +887,14 @@ void construct::done_furniture(game *g, point p)
     while(true)
     {
         do
+        {
             get_direction(g, x, y, input());
+        }
         while (x == -2 || y == -2);
         if(x == 0 && y == 0)
+        {
             return;
+        }
         x += p.x;
         y += p.y;
         if(!g->m.ter(x, y) == t_floor || !g->is_empty(x, y))
@@ -834,7 +911,9 @@ void construct::done_furniture(game *g, point p)
 //Move all Items within a container
     std::vector <item> vItemMove = g->m.i_at(p.x, p.y);
     for (int i=0; i < vItemMove.size(); i++)
+    {
         g->m.add_item(x, y, vItemMove[i]);
+    }
 
     g->m.i_clear(p.x, p.y);
 }
@@ -844,7 +923,9 @@ void construct::done_tree(game *g, point p)
     mvprintz(0, 0, c_red, "Press a direction for the tree to fall in:");
     int x = 0, y = 0;
     do
+    {
         get_direction(g, x, y, input());
+    }
     while (x == -2 || y == -2);
     x = p.x + x * 3 + rng(-1, 1);
     y = p.y + y * 3 + rng(-1, 1);

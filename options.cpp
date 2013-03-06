@@ -33,9 +33,13 @@ void load_options()
         std::string id;
         fin >> id;
         if (id == "")
-            getline(fin, id); // Empty line, chomp it
+        {
+            getline(fin, id);    // Empty line, chomp it
+        }
         else if (id[0] == '#') // # indicates a comment
+        {
             getline(fin, id);
+        }
         else
         {
             option_key key = lookup_option_key(id);
@@ -49,9 +53,13 @@ void load_options()
                 std::string val;
                 fin >> val;
                 if (val == "T")
+                {
                     OPTIONS[key] = 1.;
+                }
                 else
+                {
                     OPTIONS[key] = 0.;
+                }
             }
             else
             {
@@ -60,15 +68,21 @@ void load_options()
                 fin >> check;
 
                 if (check == "T" || check == "F")
+                {
                     val = (check == "T") ? 1.: 0.;
+                }
                 else
+                {
                     val = atoi(check.c_str());
+                }
 
                 OPTIONS[key] = val;
             }
         }
         if (fin.peek() == '\n')
-            getline(fin, id); // Chomp
+        {
+            getline(fin, id);    // Chomp
+        }
     }
     fin.close();
 }
@@ -76,43 +90,81 @@ void load_options()
 option_key lookup_option_key(std::string id)
 {
     if (id == "use_celsius")
+    {
         return OPT_USE_CELSIUS;
+    }
     if (id == "use_metric_system")
+    {
         return OPT_USE_METRIC_SYS;
+    }
     if (id == "force_capital_yn")
+    {
         return OPT_FORCE_YN;
+    }
     if (id == "no_bright_backgrounds")
+    {
         return OPT_NO_CBLINK;
+    }
     if (id == "24_hour")
+    {
         return OPT_24_HOUR;
+    }
     if (id == "snap_to_target")
+    {
         return OPT_SNAP_TO_TARGET;
+    }
     if (id == "safemode")
+    {
         return OPT_SAFEMODE;
+    }
     if (id == "safemodeproximity")
+    {
         return OPT_SAFEMODEPROXIMITY;
+    }
     if (id == "autosafemode")
+    {
         return OPT_AUTOSAFEMODE;
+    }
     if (id == "autosafemodeturns")
+    {
         return OPT_AUTOSAFEMODETURNS;
+    }
     if (id == "autosave")
+    {
         return OPT_AUTOSAVE;
+    }
     if (id == "gradual_night_light")
+    {
         return OPT_GRADUAL_NIGHT_LIGHT;
+    }
     if (id == "query_disassemble")
+    {
         return OPT_QUERY_DISASSEMBLE;
+    }
     if (id == "drop_empty")
+    {
         return OPT_DROP_EMPTY;
+    }
     if (id == "skill_rust")
+    {
         return OPT_SKILL_RUST;
+    }
     if (id == "delete_world")
+    {
         return OPT_DELETE_WORLD;
+    }
     if (id == "initial_points")
+    {
         return OPT_INITIAL_POINTS;
+    }
     if (id == "viewport_x")
+    {
         return OPT_VIEWPORT_X;
+    }
     if (id == "viewport_y")
+    {
         return OPT_VIEWPORT_Y;
+    }
     return OPT_NULL;
 }
 
@@ -285,7 +337,9 @@ char option_max_options(option_key id)
 {
     char ret;
     if (option_is_bool(id))
+    {
         ret = 2;
+    }
     else
         switch (id)
         {
@@ -322,7 +376,9 @@ void create_default_options()
     std::ofstream fout;
     fout.open("data/options.txt");
     if (!fout.is_open())
+    {
         return;
+    }
 
     fout << options_header() << "\n\
 # If true, use C not F\n\
@@ -392,7 +448,9 @@ viewport_y 12\n\
     std::ofstream fout;
     fout.open("data/options.txt");
     if (!fout.is_open())
+    {
         return;
+    }
 
     fout << options_header() << std::endl;
     for (int i = 1; i < NUM_OPTION_KEYS; i++)
@@ -400,9 +458,13 @@ viewport_y 12\n\
         option_key key = option_key(i);
         fout << option_string(key) << " ";
         if (option_is_bool(key))
+        {
             fout << (OPTIONS[key] ? "T" : "F");
+        }
         else
+        {
             fout << OPTIONS[key];
+        }
         fout << "\n";
     }
 }

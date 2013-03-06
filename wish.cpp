@@ -34,7 +34,9 @@ void game::wish()
             else if (ch == KEY_BACKSPACE || ch == 127)
             {
                 if (pattern.length() > 0)
+                {
                     pattern.erase(pattern.end() - 1);
+                }
             }
             else if (ch == '>')
             {
@@ -43,7 +45,9 @@ void game::wish()
                 {
                     result_selected++;
                     if (result_selected > search_results.size())
+                    {
                         result_selected = 0;
+                    }
                     shift = search_results[result_selected];
                     a = 0;
                     if (shift + 23 > itypes.size())
@@ -60,7 +64,9 @@ void game::wish()
                 {
                     result_selected--;
                     if (result_selected < 0)
+                    {
                         result_selected = search_results.size() - 1;
+                    }
                     shift = search_results[result_selected];
                     a = 0;
                     if (shift + 23 > itypes.size())
@@ -104,8 +110,14 @@ void game::wish()
         }
         else  	// Not searching; scroll by keys
         {
-            if (ch == 'j') a++;
-            if (ch == 'k') a--;
+            if (ch == 'j')
+            {
+                a++;
+            }
+            if (ch == 'k')
+            {
+                a--;
+            }
             if (ch == '/')
             {
                 search = true;
@@ -117,7 +129,9 @@ void game::wish()
             {
                 result_selected++;
                 if (result_selected > search_results.size())
+                {
                     result_selected = 0;
+                }
                 shift = search_results[result_selected];
                 a = 0;
                 if (shift + 23 > itypes.size())
@@ -130,7 +144,9 @@ void game::wish()
             {
                 result_selected--;
                 if (result_selected < 0)
+                {
                     result_selected = search_results.size() - 1;
+                }
                 shift = search_results[result_selected];
                 a = 0;
                 if (shift + 23 > itypes.size())
@@ -141,50 +157,76 @@ void game::wish()
             }
         }
         if (!search_results.empty())
+        {
             mvwprintz(w_list, 0, 11, c_green, "%s               ", pattern.c_str());
+        }
         else if (pattern.length() > 0)
+        {
             mvwprintz(w_list, 0, 11, c_red, "%s not found!            ",pattern.c_str());
+        }
         if (a < 0)
         {
             a = 0;
             shift--;
-            if (shift < 0) shift = 0;
+            if (shift < 0)
+            {
+                shift = 0;
+            }
         }
         if (a > 22)
         {
             a = 22;
             shift++;
-            if (shift + 23 > itypes.size()) shift = itypes.size() - 23;
+            if (shift + 23 > itypes.size())
+            {
+                shift = itypes.size() - 23;
+            }
         }
         for (int i = 1; i < 24 && i-1+shift < itypes.size(); i++)
         {
             nc_color col = c_white;
             if (i == a + 1)
+            {
                 col = h_white;
+            }
             mvwprintz(w_list, i, 0, col, itypes[i-1+shift]->name.c_str());
             wprintz(w_list, itypes[i-1+shift]->color, "%c%", itypes[i-1+shift]->sym);
         }
         tmp.make(itypes[a + shift]);
         tmp.bday = turn;
         if (tmp.is_tool())
+        {
             tmp.charges = dynamic_cast<it_tool*>(tmp.type)->max_charges;
+        }
         else if (tmp.is_ammo())
+        {
             tmp.charges = 100;
+        }
         else if (tmp.is_gun())
+        {
             tmp.charges = 0;
+        }
         else if (tmp.is_gunmod() && (tmp.has_flag(IF_MODE_AUX) ||
                                      tmp.typeId() == itm_spare_mag))
+        {
             tmp.charges = 0;
+        }
         else
+        {
             tmp.charges = -1;
+        }
         info = tmp.info(true);
         mvwprintw(w_info, 1, 0, info.c_str());
         wrefresh(w_info);
         wrefresh(w_list);
         if (search)
+        {
             ch = getch();
+        }
         else
+        {
             ch = input();
+        }
     }
     while (ch != '\n');
     clear();
@@ -225,7 +267,9 @@ void game::monster_wish()
             else if (ch == KEY_BACKSPACE || ch == 127)
             {
                 if (pattern.length() > 0)
+                {
                     pattern.erase(pattern.end() - 1);
+                }
             }
             else if (ch == '>')
             {
@@ -234,7 +278,9 @@ void game::monster_wish()
                 {
                     result_selected++;
                     if (result_selected > search_results.size())
+                    {
                         result_selected = 0;
+                    }
                     shift = search_results[result_selected];
                     a = 0;
                     if (shift + 23 > mtypes.size())
@@ -251,7 +297,9 @@ void game::monster_wish()
                 {
                     result_selected--;
                     if (result_selected < 0)
+                    {
                         result_selected = search_results.size() - 1;
+                    }
                     shift = search_results[result_selected];
                     a = 0;
                     if (shift + 23 > mtypes.size())
@@ -290,9 +338,18 @@ void game::monster_wish()
         }
         else  	// Not searching; scroll by keys
         {
-            if (ch == 'j') a++;
-            if (ch == 'k') a--;
-            if (ch == 'f') friendly = !friendly;
+            if (ch == 'j')
+            {
+                a++;
+            }
+            if (ch == 'k')
+            {
+                a--;
+            }
+            if (ch == 'f')
+            {
+                friendly = !friendly;
+            }
             if (ch == '/')
             {
                 search = true;
@@ -304,7 +361,9 @@ void game::monster_wish()
             {
                 result_selected++;
                 if (result_selected > search_results.size())
+                {
                     result_selected = 0;
+                }
                 shift = search_results[result_selected];
                 a = 0;
                 if (shift + 23 > mtypes.size())
@@ -317,7 +376,9 @@ void game::monster_wish()
             {
                 result_selected--;
                 if (result_selected < 0)
+                {
                     result_selected = search_results.size() - 1;
+                }
                 shift = search_results[result_selected];
                 a = 0;
                 if (shift + 23 > mtypes.size())
@@ -328,39 +389,57 @@ void game::monster_wish()
             }
         }
         if (!search_results.empty())
+        {
             mvwprintz(w_list, 0, 11, c_green, "%s               ", pattern.c_str());
+        }
         else if (pattern.length() > 0)
+        {
             mvwprintz(w_list, 0, 11, c_red, "%s not found!            ",pattern.c_str());
+        }
         if (a < 0)
         {
             a = 0;
             shift--;
-            if (shift < 1) shift = 1;
+            if (shift < 1)
+            {
+                shift = 1;
+            }
         }
         if (a > 22)
         {
             a = 22;
             shift++;
-            if (shift + 23 > mtypes.size()) shift = mtypes.size() - 23;
+            if (shift + 23 > mtypes.size())
+            {
+                shift = mtypes.size() - 23;
+            }
         }
         for (int i = 1; i < 24; i++)
         {
             nc_color col = c_white;
             if (i == a + 1)
+            {
                 col = h_white;
+            }
             mvwprintz(w_list, i, 0, col, mtypes[i-1+shift]->name.c_str());
             wprintz(w_list, mtypes[i-1+shift]->color, " %c%", mtypes[i-1+shift]->sym);
         }
         tmp = monster(mtypes[a + shift]);
         if (friendly)
+        {
             tmp.friendly = -1;
+        }
         tmp.print_info(this, w_info);
         wrefresh(w_info);
         wrefresh(w_list);
         if (search)
+        {
             ch = getch();
+        }
         else
+        {
             ch = input();
+        }
     }
     while (ch != '\n');
     clear();
@@ -370,7 +449,9 @@ void game::monster_wish()
     wrefresh(w_terrain);
     point spawn = look_around();
     if (spawn.x == -1)
+    {
         return;
+    }
     tmp.spawn(spawn.x, spawn.y);
     z.push_back(tmp);
 }
@@ -402,7 +483,9 @@ void game::mutation_wish()
             else if (ch == KEY_BACKSPACE || ch == 127)
             {
                 if (pattern.length() > 0)
+                {
                     pattern.erase(pattern.end() - 1);
+                }
             }
             else if (ch == '>')
             {
@@ -411,7 +494,9 @@ void game::mutation_wish()
                 {
                     result_selected++;
                     if (result_selected > search_results.size())
+                    {
                         result_selected = 0;
+                    }
                     shift = search_results[result_selected];
                     a = 0;
                     if (shift + 23 > PF_MAX2)
@@ -428,7 +513,9 @@ void game::mutation_wish()
                 {
                     result_selected--;
                     if (result_selected < 0)
+                    {
                         result_selected = search_results.size() - 1;
+                    }
                     shift = search_results[result_selected];
                     a = 0;
                     if (shift + 23 > PF_MAX2)
@@ -472,8 +559,14 @@ void game::mutation_wish()
         }
         else  	// Not searching; scroll by keys
         {
-            if (ch == 'j') a++;
-            if (ch == 'k') a--;
+            if (ch == 'j')
+            {
+                a++;
+            }
+            if (ch == 'k')
+            {
+                a--;
+            }
             if (ch == '/')
             {
                 search = true;
@@ -485,7 +578,9 @@ void game::mutation_wish()
             {
                 result_selected++;
                 if (result_selected > search_results.size())
+                {
                     result_selected = 0;
+                }
                 shift = search_results[result_selected];
                 a = 0;
                 if (shift + 23 > PF_MAX2)
@@ -498,7 +593,9 @@ void game::mutation_wish()
             {
                 result_selected--;
                 if (result_selected < 0)
+                {
                     result_selected = search_results.size() - 1;
+                }
                 shift = search_results[result_selected];
                 a = 0;
                 if (shift + 23 > PF_MAX2)
@@ -509,26 +606,38 @@ void game::mutation_wish()
             }
         }
         if (!search_results.empty())
+        {
             mvwprintz(w_list, 0, 11, c_green, "%s               ", pattern.c_str());
+        }
         else if (pattern.length() > 0)
+        {
             mvwprintz(w_list, 0, 11, c_red, "%s not found!            ",pattern.c_str());
+        }
         if (a < 0)
         {
             a = 0;
             shift--;
-            if (shift < 0) shift = 0;
+            if (shift < 0)
+            {
+                shift = 0;
+            }
         }
         if (a > 22)
         {
             a = 22;
             shift++;
-            if (shift + 23 > PF_MAX2) shift = PF_MAX2 - 23;
+            if (shift + 23 > PF_MAX2)
+            {
+                shift = PF_MAX2 - 23;
+            }
         }
         for (int i = 1; i < 24; i++)
         {
             nc_color col = c_white;
             if (i == a + 1)
+            {
                 col = h_white;
+            }
             mvwprintz(w_list, i, 0, col, traits[i-1+shift].name.c_str());
         }
         mvwprintw(w_info, 1, 0, mutation_data[a+shift].valid ? "Valid" : "Nonvalid");
@@ -560,16 +669,24 @@ void game::mutation_wish()
         wrefresh(w_info);
         wrefresh(w_list);
         if (search)
+        {
             ch = getch();
+        }
         else
+        {
             ch = input();
+        }
     }
     while (ch != '\n');
     clear();
     if (a+shift == 0)
+    {
         u.mutate(this);
+    }
     else
+    {
         u.mutate_towards(this, pl_flag(a + shift));
+    }
     delwin(w_info);
     delwin(w_list);
 }

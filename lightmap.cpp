@@ -35,14 +35,18 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
             {
                 // In bright light indoor light exists to some degree
                 if (!is_outside(sx - x + LIGHTMAP_RANGE_X, sy - y + LIGHTMAP_RANGE_Y))
+                {
                     lm[sx - x + SEEX][sy - y + SEEY] = LIGHT_AMBIENT_LOW;
+                }
             }
         }
     }
 
 // Apply player light sources
     if (luminance > LIGHT_AMBIENT_LOW)
+    {
         apply_light_source(g->u.posx, g->u.posy, x, y, luminance);
+    }
 
     for(int sx = x - LIGHTMAP_RANGE_X; sx <= x + LIGHTMAP_RANGE_X; ++sx)
     {
@@ -63,10 +67,14 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
                                 is_outside(sx - x + LIGHTMAP_RANGE_X + dir_x[i], sy - y + LIGHTMAP_RANGE_Y + dir_y[i]))
                         {
                             if (INBOUNDS(sx - x, sy - y) && is_outside(LIGHTMAP_RANGE_X, LIGHTMAP_RANGE_Y))
+                            {
                                 lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
+                            }
 
                             if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].transparency > LIGHT_TRANSPARENCY_SOLID)
+                            {
                                 apply_light_arc(sx, sy, dir_d[i], x, y, natural_light);
+                            }
                         }
                     }
                 }
@@ -74,31 +82,47 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
 
             if (items.size() == 1 &&
                     items[0].type->id == itm_flashlight_on)
+            {
                 apply_light_source(sx, sy, x, y, 20);
+            }
 
             if(terrain == t_lava)
+            {
                 apply_light_source(sx, sy, x, y, 50);
+            }
 
             if(terrain == t_console)
+            {
                 apply_light_source(sx, sy, x, y, 3);
+            }
 
             if (items.size() == 1 &&
                     items[0].type->id == itm_candle_lit)
+            {
                 apply_light_source(sx, sy, x, y, 4);
+            }
 
             if(terrain == t_emergency_light)
+            {
                 apply_light_source(sx, sy, x, y, 3);
+            }
 
             // TODO: [lightmap] Attach light brightness to fields
             switch(current_field.type)
             {
             case fd_fire:
                 if (3 == current_field.density)
+                {
                     apply_light_source(sx, sy, x, y, 160);
+                }
                 else if (2 == current_field.density)
+                {
                     apply_light_source(sx, sy, x, y, 60);
+                }
                 else
+                {
                     apply_light_source(sx, sy, x, y, 16);
+                }
                 break;
             case fd_fire_vent:
             case fd_flame_burst:
@@ -106,11 +130,17 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
                 break;
             case fd_electricity:
                 if (3 == current_field.density)
+                {
                     apply_light_source(sx, sy, x, y, 8);
+                }
                 else if (2 == current_field.density)
+                {
                     apply_light_source(sx, sy, x, y, 1);
+                }
                 else
-                    apply_light_source(sx, sy, x, y, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
+                {
+                    apply_light_source(sx, sy, x, y, LIGHT_SOURCE_LOCAL);    // kinda a hack as the square will still get marked
+                }
                 break;
             }
 
@@ -129,7 +159,9 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
             if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].mon >= 0)
             {
                 if (g->z[c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].mon].has_effect(ME_ONFIRE))
+                {
                     apply_light_source(sx, sy, x, y, 3);
+                }
 
                 // TODO: [lightmap] Attach natural light brightness to creatures
                 // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
@@ -157,16 +189,24 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
 lit_level light_map::at(int dx, int dy)
 {
     if (!INBOUNDS(dx, dy))
-        return LL_DARK; // Out of bounds
+    {
+        return LL_DARK;    // Out of bounds
+    }
 
     if (sm[dx + SEEX][dy + SEEY] >= LIGHT_SOURCE_BRIGHT)
+    {
         return LL_BRIGHT;
+    }
 
     if (lm[dx + SEEX][dy + SEEY] >= LIGHT_AMBIENT_LIT)
+    {
         return LL_LIT;
+    }
 
     if (lm[dx + SEEX][dy + SEEY] >= LIGHT_AMBIENT_LOW)
+    {
         return LL_LOW;
+    }
 
     return LL_DARK;
 }
@@ -174,7 +214,9 @@ lit_level light_map::at(int dx, int dy)
 float light_map::ambient_at(int dx, int dy)
 {
     if (!INBOUNDS(dx, dy))
+    {
         return 0.0f;
+    }
 
     return lm[dx + SEEX][dy + SEEY];
 }
@@ -183,7 +225,9 @@ bool light_map::is_outside(int dx, int dy)
 {
 // We don't know and true seems a better default than false
     if (!INBOUNDS_LARGE(dx, dy))
+    {
         return true;
+    }
 
     return outside_cache[dx + LIGHTMAP_RANGE_X][dy + LIGHTMAP_RANGE_Y];
 }
@@ -191,10 +235,14 @@ bool light_map::is_outside(int dx, int dy)
 bool light_map::sees(int fx, int fy, int tx, int ty, int max_range)
 {
     if(!INBOUNDS_LARGE(fx, fy) || !INBOUNDS_LARGE(tx, ty))
+    {
         return false;
+    }
 
     if (max_range >= 0 && (abs(tx - fx) > max_range || abs(ty - fy) > max_range))
-        return false; // Out of range!
+    {
+        return false;    // Out of range!
+    }
 
     int ax = abs(tx - fx) << 1;
     int ay = abs(ty - fy) << 1;
@@ -219,7 +267,9 @@ bool light_map::sees(int fx, int fy, int tx, int ty, int max_range)
             t += ay;
 
             if(c[x + LIGHTMAP_RANGE_X][y + LIGHTMAP_RANGE_Y].transparency == LIGHT_TRANSPARENCY_SOLID)
+            {
                 break;
+            }
 
         }
         while(!(x == tx && y == ty));
@@ -239,7 +289,9 @@ bool light_map::sees(int fx, int fy, int tx, int ty, int max_range)
             t += ax;
 
             if(c[x + LIGHTMAP_RANGE_X][y + LIGHTMAP_RANGE_Y].transparency == LIGHT_TRANSPARENCY_SOLID)
+            {
                 break;
+            }
 
         }
         while(!(x == tx && y == ty));
@@ -286,7 +338,9 @@ void light_map::apply_light_source(int x, int y, int cx, int cy, float luminance
 void light_map::apply_light_arc(int x, int y, int angle, int cx, int cy, float luminance)
 {
     if (luminance <= LIGHT_SOURCE_LOCAL)
+    {
         return;
+    }
 
     bool lit[LIGHTMAP_X][LIGHTMAP_Y];
     memset(lit, 0, sizeof(lit));
@@ -305,7 +359,9 @@ void light_map::apply_light_arc(int x, int y, int angle, int cx, int cy, float l
 
         int ox = x - cx + range;
         for(int oy = sy; oy <= ey; ++oy)
+        {
             apply_light_ray(lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
+        }
     }
 
 // South side
@@ -316,7 +372,9 @@ void light_map::apply_light_arc(int x, int y, int angle, int cx, int cy, float l
 
         int oy = y - cy + range;
         for(int ox = sx; ox <= ex; ++ox)
+        {
             apply_light_ray(lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
+        }
     }
 
 // West side
@@ -327,7 +385,9 @@ void light_map::apply_light_arc(int x, int y, int angle, int cx, int cy, float l
 
         int ox = x - cx - range;
         for(int oy = sy; oy <= ey; ++oy)
+        {
             apply_light_ray(lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
+        }
     }
 
 // North side
@@ -338,7 +398,9 @@ void light_map::apply_light_arc(int x, int y, int angle, int cx, int cy, float l
 
         int oy = y - cy - range;
         for(int ox = sx; ox <= ex; ++ox)
+        {
             apply_light_ray(lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
+        }
     }
 }
 
@@ -380,10 +442,14 @@ void light_map::apply_light_ray(bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy
             }
 
             if (INBOUNDS_LARGE(x - cx, y - cy))
+            {
                 transparency *= c[x - cx + LIGHTMAP_RANGE_X][y - cy + LIGHTMAP_RANGE_Y].transparency;
+            }
 
             if (transparency <= LIGHT_TRANSPARENCY_SOLID)
+            {
                 break;
+            }
 
         }
         while(!(x == ex && y == ey));
@@ -413,10 +479,14 @@ void light_map::apply_light_ray(bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy
             }
 
             if (INBOUNDS_LARGE(x - cx, y - cy))
+            {
                 transparency *= c[x - cx + LIGHTMAP_RANGE_X][y - cy + LIGHTMAP_RANGE_Y].transparency;
+            }
 
             if (transparency <= LIGHT_TRANSPARENCY_SOLID)
+            {
                 break;
+            }
 
         }
         while(!(x == ex && y == ey));
@@ -472,7 +542,9 @@ void light_map::build_light_cache(game* g, int cx, int cy)
 // Check for critters and cache
     for (int i = 0; i < g->z.size(); ++i)
         if (INBOUNDS(g->z[i].posx - cx, g->z[i].posy - cy))
+        {
             c[g->z[i].posx - cx + LIGHTMAP_RANGE_X][g->z[i].posy - cy + LIGHTMAP_RANGE_Y].mon = i;
+        }
 
 // Check for vehicles and cache
     VehicleList vehs = g->m.get_vehicles(cx - LIGHTMAP_RANGE_X, cy - LIGHTMAP_RANGE_Y, cx + LIGHTMAP_RANGE_X, cy + LIGHTMAP_RANGE_Y);
@@ -489,7 +561,9 @@ void light_map::build_light_cache(game* g, int cx, int cy)
                 py += LIGHTMAP_RANGE_Y;
 
                 if (vehs[v].v->is_inside(p))
+                {
                     outside_cache[px][py] = true;
+                }
                 // External part appears to always be the first?
                 if (!c[px][py].veh)
                 {
@@ -500,7 +574,9 @@ void light_map::build_light_cache(game* g, int cx, int cy)
                 if (vehs[v].v->lights_on &&
                         vehs[v].v->part_flag(p, vpf_light) &&
                         vehs[v].v->parts[p].hp > 0)
+                {
                     c[px][py].veh_light = vehs[v].v->part_info(p).power;
+                }
             }
         }
     }
@@ -543,9 +619,13 @@ void light_map::build_light_cache(game* g, int cx, int cy)
                     case fd_toxic_gas:
                     case fd_tear_gas:
                         if(f.density == 3)
+                        {
                             c[x][y].transparency = LIGHT_TRANSPARENCY_SOLID;
+                        }
                         if(f.density == 2)
+                        {
                             c[x][y].transparency *= 0.5;
+                        }
                         break;
                     case fd_nuke_gas:
                         c[x][y].transparency *= 0.5;

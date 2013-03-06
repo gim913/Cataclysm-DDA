@@ -48,7 +48,9 @@ bool input_wait(char & ret_ch, int delay_ms)
             break;
         case ERR:
             if(errno == EINTR)
+            {
                 return input_wait(ret_ch, delay_ms);
+            }
             break;
         default:
             ret_ch = ch;
@@ -56,7 +58,9 @@ bool input_wait(char & ret_ch, int delay_ms)
         }
         timeout(-1);
         if( ret_ch != '\0' )
+        {
             return true;
+        }
         return false;
     }
 }
@@ -67,9 +71,13 @@ void get_direction(game *g, int &x, int &y, char ch)
     y = 0;
     action_id act;
     if (g->keymap.find(ch) == g->keymap.end())
+    {
         act = ACTION_NULL;
+    }
     else
+    {
         act = g->keymap[ch];
+    }
 
     switch (act)
     {

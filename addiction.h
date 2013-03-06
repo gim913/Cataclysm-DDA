@@ -22,9 +22,13 @@ void addict_effect(game *g, addiction &add)
             g->cancel_activity_query("You have a nicotine craving.");
             g->u.add_morale(MORALE_CRAVING_NICOTINE, -15, -50);
             if (one_in(800 - 50 * in))
+            {
                 g->u.fatigue++;
+            }
             if (one_in(400 - 20 * in))
+            {
                 g->u.stim--;
+            }
         }
         break;
 
@@ -36,7 +40,9 @@ void addict_effect(game *g, addiction &add)
             g->cancel_activity_query("You have a caffeine craving.");
             g->u.add_morale(MORALE_CRAVING_CAFFEINE, -5, -30);
             if (rng(0, 10) < in)
+            {
                 g->u.stim--;
+            }
             if (rng(8, 400) < in)
             {
                 g->add_msg("Your hands start shaking... you need it bad!");
@@ -49,7 +55,9 @@ void addict_effect(game *g, addiction &add)
         g->u.per_cur--;
         g->u.int_cur--;
         if (rng(40, 1200) <= in * 10)
+        {
             g->u.health--;
+        }
         if (one_in(20) && rng(0, 20) < in)
         {
             g->add_msg("You could use a drink.");
@@ -64,30 +72,42 @@ void addict_effect(game *g, addiction &add)
             g->u.add_disease(DI_SHAKES, 50, g);
         }
         else if (!g->u.has_disease(DI_HALLU) && rng(10, 1600) < in)
+        {
             g->u.add_disease(DI_HALLU, 3600, g);
+        }
         break;
 
     case ADD_SLEEP:
 // No effects here--just in player::can_sleep()
 // EXCEPT!  Prolong this addiction longer than usual.
         if (one_in(2) && add.sated < 0)
+        {
             add.sated++;
+        }
         break;
 
     case ADD_PKILLER:
         if ((in >= 25 || int(g->turn) % (100 - in * 4) == 0) && g->u.pkill > 0)
-            g->u.pkill--;	// Tolerance increases!
+        {
+            g->u.pkill--;    // Tolerance increases!
+        }
         if (g->u.pkill >= 35) // No further effects if we're doped up.
+        {
             add.sated = 0;
+        }
         else
         {
             g->u.str_cur -= 1 + int(in / 7);
             g->u.per_cur--;
             g->u.dex_cur--;
             if (g->u.pain < in * 3)
+            {
                 g->u.pain++;
+            }
             if (in >= 40 || one_in((1200 - 30 * in)))
+            {
                 g->u.health--;
+            }
             if (one_in(20) && dice(2, 20) < in)
             {
                 g->add_msg("Your hands start shaking... you need some painkillers.");
@@ -114,14 +134,20 @@ void addict_effect(game *g, addiction &add)
     {
         int move_pen = in * 5;
         if (move_pen > 30)
+        {
             move_pen = 30;
+        }
         g->u.moves -= move_pen;
         g->u.int_cur--;
         g->u.str_cur--;
         if (g->u.stim > -100 && (in >= 20 || int(g->turn) % (100 - in * 5) == 0))
+        {
             g->u.stim--;
+        }
         if (rng(0, 150) <= in)
+        {
             g->u.health--;
+        }
         if (dice(2, 100) < in)
         {
             g->add_msg("You feel depressed.  Speed would help.");
@@ -143,7 +169,9 @@ void addict_effect(game *g, addiction &add)
         }
         else if (!g->u.has_disease(DI_HALLU) && one_in(20) &&
                  8 + dice(2, 80) < in)
+        {
             g->u.add_disease(DI_HALLU, 3600, g);
+        }
     }
     break;
 

@@ -16,7 +16,9 @@ std::ostream & operator<<(std::ostream & out, const submap * sm)
     {
         out << "\n\t" << x << ": ";
         for(int y = 0; y < SEEY; ++y)
+        {
             out << sm->ter[x][y] << ", ";
+        }
     }
 
     out << "\n\titm:";

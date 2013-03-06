@@ -23,7 +23,9 @@ void mapbuffer::reset()
 {
     std::list<submap*>::iterator it;
     for (it = submap_list.begin(); it != submap_list.end(); it++)
+    {
         delete *it;
+    }
 
     submaps.clear();
     submap_list.clear();
@@ -53,10 +55,14 @@ bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
 
     tripoint p(x, y, z);
     if (submaps.count(p) != 0)
+    {
         return false;
+    }
 
     if (master_game)
+    {
         sm->turn_last_touched = int(master_game->turn);
+    }
     submap_list.push_back(sm);
     submaps[p] = sm;
 
@@ -70,7 +76,9 @@ submap* mapbuffer::lookup_submap(int x, int y, int z)
     tripoint p(x, y, z);
 
     if (submaps.count(p) == 0)
+    {
         return NULL;
+    }
 
     dbg(D_INFO) << "mapbuffer::lookup_submap success: "<< submaps[p];
 
@@ -80,7 +88,9 @@ submap* mapbuffer::lookup_submap(int x, int y, int z)
 void mapbuffer::save_if_dirty()
 {
     if(dirty)
+    {
         save();
+    }
 }
 
 void mapbuffer::save()
@@ -106,14 +116,18 @@ void mapbuffer::save()
         for (int j = 0; j < SEEY; j++)
         {
             for (int i = 0; i < SEEX; i++)
+            {
                 fout << int(sm->ter[i][j]) << " ";
+            }
             fout << std::endl;
         }
 // Dump the radiation
         for (int j = 0; j < SEEY; j++)
         {
             for (int i = 0; i < SEEX; i++)
+            {
                 fout << sm->rad[i][j] << " ";
+            }
         }
         fout << std::endl;
 
@@ -133,7 +147,9 @@ void mapbuffer::save()
                     fout << "I " << i << " " << j << std::endl;
                     fout << tmp.save_info() << std::endl;
                     for (int l = 0; l < tmp.contents.size(); l++)
+                    {
                         fout << "C " << std::endl << tmp.contents[l].save_info() << std::endl;
+                    }
                 }
             }
         }
@@ -178,7 +194,9 @@ void mapbuffer::save()
         }
 // Output the computer
         if (sm->comp.name != "")
+        {
             fout << "c " << sm->comp.save_data() << std::endl;
+        }
 
 // Output the graffiti
         for (int j = 0; j < SEEY; j++)
@@ -186,7 +204,9 @@ void mapbuffer::save()
             for (int i = 0; i < SEEX; i++)
             {
                 if (sm->graf[i][j].contents)
+                {
                     fout << "G " << i << " " << j << *sm->graf[i][j].contents << std::endl;
+                }
             }
         }
 
@@ -208,7 +228,9 @@ void mapbuffer::load()
     std::ifstream fin;
     fin.open("save/maps.txt");
     if (!fin.is_open())
+    {
         return;
+    }
 
     int itx, ity, t, d, a, num_submaps, num_loaded=0;
     bool fields_here = false;
@@ -227,7 +249,9 @@ void mapbuffer::load()
         sm->turn_last_touched = turn;
         int turndif = (master_game ? int(master_game->turn) - turn : 0);
         if (turndif < 0)
+        {
             turndif = 0;
+        }
 // Load terrain
         for (int j = 0; j < SEEY; j++)
         {
@@ -251,7 +275,9 @@ void mapbuffer::load()
                 fin >> radtmp;
                 radtmp -= int(turndif / 100);	// Radiation slowly decays
                 if (radtmp < 0)
+                {
                     radtmp = 0;
+                }
                 sm->rad[i][j] = radtmp;
             }
         }
@@ -269,7 +295,9 @@ void mapbuffer::load()
                 it_tmp.load_info(databuff, master_game);
                 sm->itm[itx][ity].push_back(it_tmp);
                 if (it_tmp.active)
+                {
                     sm->active_item_count++;
+                }
             }
             else if (string_identifier == "C")
             {
@@ -279,7 +307,9 @@ void mapbuffer::load()
                 it_tmp.load_info(databuff, master_game);
                 sm->itm[itx][ity][index].put_in(it_tmp);
                 if (it_tmp.active)
+                {
                     sm->active_item_count++;
+                }
             }
             else if (string_identifier == "T")
             {

@@ -73,9 +73,13 @@ std::ostream & operator<<(std::ostream & out, const std::vector<C,A> & elm)
             it != end; ++it )
     {
         if( first )
+        {
             first = false;
+        }
         else
+        {
             out << ",";
+        }
         out << *it;
     }
 

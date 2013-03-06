@@ -1169,7 +1169,9 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
                        current[line]->sk_secondary->name().c_str()));
             mvwprintz(w_data, 2, 30, col, "Difficulty: %d", current[line]->difficulty);
             if (current[line]->sk_primary == NULL)
+            {
                 mvwprintz(w_data, 3, 30, col, "Your skill level: N/A");
+            }
             else
                 mvwprintz(w_data, 3, 30, col, "Your skill level: %d",
                           u.skillLevel(current[line]->sk_primary).level());
@@ -1203,14 +1205,20 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
                         nc_color toolcol = c_red;
 
                         if (charges < 0 && crafting_inv.has_amount(type, 1))
+                        {
                             toolcol = c_green;
+                        }
                         else if (charges > 0 && crafting_inv.has_charges(type, charges))
+                        {
                             toolcol = c_green;
+                        }
 
                         std::stringstream toolinfo;
                         toolinfo << itypes[type]->name + " ";
                         if (charges > 0)
+                        {
                             toolinfo << "(" << charges << " charges) ";
+                        }
                         std::string toolname = toolinfo.str();
                         if (xpos + toolname.length() >= 80)
                         {
@@ -1251,10 +1259,14 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
                     if (itypes[type]->count_by_charges() && count > 0)
                     {
                         if (crafting_inv.has_charges(type, count))
+                        {
                             compcol = c_green;
+                        }
                     }
                     else if (crafting_inv.has_amount(type, abs(count)))
+                    {
                         compcol = c_green;
+                    }
                     std::stringstream dump;
                     dump << abs(count) << "x " << itypes[type]->name << " ";
                     std::string compname = dump.str();
@@ -1285,16 +1297,24 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
         {
         case DirectionUp:
             if (tab == CC_WEAPON)
+            {
                 tab = CC_MISC;
+            }
             else
+            {
                 tab = craft_cat(int(tab) - 1);
+            }
             redraw = true;
             break;
         case DirectionDown:
             if (tab == CC_MISC)
+            {
                 tab = CC_WEAPON;
+            }
             else
+            {
                 tab = craft_cat(int(tab) + 1);
+            }
             redraw = true;
             break;
         case DirectionS:
@@ -1305,7 +1325,9 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
             break;
         case Confirm:
             if (!available[line])
+            {
                 popup("You can't do that!");
+            }
             else
                 // is player making a liquid? Then need to check for valid container
                 if (itypes[current[line]->result]->m1 == LIQUID)
@@ -1334,9 +1356,13 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
             break;
         }
         if (line < 0)
+        {
             line = current.size() - 1;
+        }
         else if (line >= current.size())
+        {
             line = 0;
+        }
     }
     while (input != Cancel && !done);
 
@@ -1355,7 +1381,9 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
         mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
         if ((i >  4 && i < 14) || (i > 20 && i < 27) || (i > 33 && i < 47) ||
                 (i > 53 && i < 61) || (i > 67 && i < 74))
+        {
             mvwputch(w, 0, i, c_ltgray, LINE_OXOX);
+        }
     }
 
     mvwputch(w, 0,  4, c_ltgray, LINE_OXXO);
@@ -1397,7 +1425,9 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
     {
     case CC_WEAPON:
         for (int i = 5; i < 14; i++)
+        {
             mvwputch(w, 2, i, c_black, ' ');
+        }
         mvwprintz(w, 1, 6, h_ltgray, "WEAPONS");
         mvwputch(w, 2,  4, c_ltgray, LINE_XOOX);
         mvwputch(w, 2, 14, c_ltgray, LINE_XXOO);
@@ -1406,7 +1436,9 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
         break;
     case CC_AMMO:
         for (int i = 5; i < 14; i++)
+        {
             mvwputch(w, 2, i, c_black, ' ');
+        }
         mvwprintz(w, 1, 6, h_ltgray, "BULLETS");
         mvwputch(w, 2,  4, c_ltgray, LINE_XOOX);
         mvwputch(w, 2, 14, c_ltgray, LINE_XXOO);
@@ -1415,7 +1447,9 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
         break;
     case CC_FOOD:
         for (int i = 21; i < 27; i++)
+        {
             mvwputch(w, 2, i, c_black, ' ');
+        }
         mvwprintz(w, 1, 21, h_ltgray, " FOOD ");
         mvwputch(w, 2, 20, c_ltgray, LINE_XOOX);
         mvwputch(w, 2, 27, c_ltgray, LINE_XXOO);
@@ -1424,7 +1458,9 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
         break;
     case CC_DRINK:
         for (int i = 21; i < 27; i++)
+        {
             mvwputch(w, 2, i, c_black, ' ');
+        }
         mvwprintz(w, 1, 21, h_ltgray, "DRINKS");
         mvwputch(w, 2, 20, c_ltgray, LINE_XOOX);
         mvwputch(w, 2, 27, c_ltgray, LINE_XXOO);
@@ -1433,7 +1469,9 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
         break;
     case CC_CHEM:
         for (int i = 21; i < 27; i++)
+        {
             mvwputch(w, 2, i, c_black, ' ');
+        }
         mvwprintz(w, 1, 21, h_ltgray, " CHEMS");
         mvwputch(w, 2, 20, c_ltgray, LINE_XOOX);
         mvwputch(w, 2, 27, c_ltgray, LINE_XXOO);
@@ -1442,7 +1480,9 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
         break;
     case CC_ELECTRONIC:
         for (int i = 34; i < 47; i++)
+        {
             mvwputch(w, 2, i, c_black, ' ');
+        }
         mvwprintz(w, 1, 35, h_ltgray, "ELECTRONICS");
         mvwputch(w, 2, 33, c_ltgray, LINE_XOOX);
         mvwputch(w, 2, 47, c_ltgray, LINE_XXOO);
@@ -1451,7 +1491,9 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
         break;
     case CC_ARMOR:
         for (int i = 54; i < 61; i++)
+        {
             mvwputch(w, 2, i, c_black, ' ');
+        }
         mvwprintz(w, 1, 55, h_ltgray, "ARMOR");
         mvwputch(w, 2, 53, c_ltgray, LINE_XOOX);
         mvwputch(w, 2, 61, c_ltgray, LINE_XXOO);
@@ -1460,7 +1502,9 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
         break;
     case CC_MISC:
         for (int i = 68; i < 74; i++)
+        {
             mvwputch(w, 2, i, c_black, ' ');
+        }
         mvwprintz(w, 1, 69, h_ltgray, "MISC");
         mvwputch(w, 2, 67, c_ltgray, LINE_XOOX);
         mvwputch(w, 2, 74, c_ltgray, LINE_XXOO);
@@ -1505,7 +1549,9 @@ void game::pick_recipes(std::vector<recipe*> &current,
                  u.skillLevel(recipes[i]->sk_secondary) > 0))
         {
             if (recipes[i]->difficulty >= 0)
+            {
                 current.push_back(recipes[i]);
+            }
         }
         available.push_back(false);
     }
@@ -1517,7 +1563,9 @@ void game::pick_recipes(std::vector<recipe*> &current,
             have_tool[j] = false;
             have_comp[j] = false;
             if (current[i]->tools[j].size() == 0)
+            {
                 have_tool[j] = true;
+            }
             else
             {
                 for (int k = 0; k < current[i]->tools[j].size(); k++)
@@ -1533,7 +1581,9 @@ void game::pick_recipes(std::vector<recipe*> &current,
                 }
             }
             if (current[i]->components[j].size() == 0)
+            {
                 have_comp[j] = true;
+            }
             else
             {
                 for (int k = 0; k < current[i]->components[j].size() && !have_comp[j]; k++)
@@ -1559,7 +1609,9 @@ void game::pick_recipes(std::vector<recipe*> &current,
         if (have_tool[0] && have_tool[1] && have_tool[2] && have_tool[3] &&
                 have_tool[4] && have_comp[0] && have_comp[1] && have_comp[2] &&
                 have_comp[3] && have_comp[4])
+        {
             available[i] = true;
+        }
     }
 }
 
@@ -1576,9 +1628,13 @@ void game::complete_craft()
 // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
     int skill_dice = u.skillLevel(making->sk_primary).level() * 3;
     if (making->sk_secondary == NULL)
+    {
         skill_dice += u.skillLevel(making->sk_primary).level();
+    }
     else
+    {
         skill_dice += u.skillLevel(making->sk_secondary).level();
+    }
 // Sides on dice is 16 plus your current intelligence
     int skill_sides = 16 + u.int_cur;
 
@@ -1589,9 +1645,13 @@ void game::complete_craft()
     int diff_roll  = dice(diff_dice,  diff_sides);
 
     if (making->sk_primary)
+    {
         u.practice(making->sk_primary, making->difficulty * 5 + 20);
+    }
     if (making->sk_secondary)
+    {
         u.practice(making->sk_secondary, 5);
+    }
 
 // Messed up badly; waste some components.
     if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5)))
@@ -1604,11 +1664,15 @@ void game::complete_craft()
             {
                 std::vector<component> copy = making->components[i];
                 for (int j = 0; j < copy.size(); j++)
+                {
                     copy[j].count = rng(0, copy[j].count);
+                }
                 consume_items(copy);
             }
             if (making->tools[i].size() > 0)
+            {
                 consume_tools(making->tools[i]);
+            }
         }
         u.activity.type = ACT_NULL;
         return;
@@ -1626,9 +1690,13 @@ void game::complete_craft()
     for (int i = 0; i < 5; i++)
     {
         if (making->components[i].size() > 0)
+        {
             consume_items(making->components[i]);
+        }
         if (making->tools[i].size() > 0)
+        {
             consume_tools(making->tools[i]);
+        }
     }
 
     // Set up the new item, and pick an inventory letter
@@ -1642,7 +1710,9 @@ void game::complete_craft()
         newit.bday = int(turn) + 3600 - bday_tmp;
     }
     if (!newit.craft_has_charges())
+    {
         newit.charges = 0;
+    }
     do
     {
         newit.invlet = nextinv;
@@ -1652,7 +1722,9 @@ void game::complete_craft()
     while (u.has_item(newit.invlet) && iter < 52);
 //newit = newit.in_its_container(&itypes);
     if (newit.made_of(LIQUID))
+    {
         handle_liquid(newit, false, false);
+    }
     else
     {
 // We might not have space for the item
@@ -1709,7 +1781,9 @@ void game::consume_items(std::vector<component> components)
                 mp = true;
             }
             if (!pl && !mp && u.charges_of(type) + map_inv.charges_of(type) >= count)
+            {
                 mixed.push_back(components[i]);
+            }
         }
 
         else   // Counting by units, not charges
@@ -1726,7 +1800,9 @@ void game::consume_items(std::vector<component> components)
                 mp = true;
             }
             if (!pl && !mp && u.amount_of(type) + map_inv.amount_of(type) >= count)
+            {
                 mixed.push_back(components[i]);
+            }
 
         }
     }
@@ -1734,11 +1810,17 @@ void game::consume_items(std::vector<component> components)
     if (player_has.size() + map_has.size() + mixed.size() == 1)   // Only 1 choice
     {
         if (player_has.size() == 1)
+        {
             player_use.push_back(player_has[0]);
+        }
         else if (map_has.size() == 1)
+        {
             map_use.push_back(map_has[0]);
+        }
         else
+        {
             mixed_use.push_back(mixed[0]);
+        }
 
     }
     else     // Let the player pick which component they want to use
@@ -1751,7 +1833,9 @@ void game::consume_items(std::vector<component> components)
             options.push_back(tmpStr);
         }
         for (int i = 0; i < player_has.size(); i++)
+        {
             options.push_back(itypes[player_has[i].type]->name);
+        }
         for (int i = 0; i < mixed.size(); i++)
         {
             std::string tmpStr = itypes[mixed[i].type]->name +" (on person & nearby)";
@@ -1759,12 +1843,16 @@ void game::consume_items(std::vector<component> components)
         }
 
         if (options.size() == 0) // This SHOULD only happen if cooking with a fire,
-            return;                 // and the fire goes out.
+        {
+            return;    // and the fire goes out.
+        }
 
 // Get the selection via a menu popup
         int selection = menu_vec("Use which component?", options) - 1;
         if (selection < map_has.size())
+        {
             map_use.push_back(map_has[selection]);
+        }
         else if (selection < map_has.size() + player_has.size())
         {
             selection -= map_has.size();
@@ -1781,7 +1869,9 @@ void game::consume_items(std::vector<component> components)
     {
         if (itypes[player_use[i].type]->count_by_charges() &&
                 player_use[i].count > 0)
+        {
             u.use_charges(player_use[i].type, player_use[i].count);
+        }
         else
             u.use_amount(player_use[i].type, abs(player_use[i].count),
                          (player_use[i].count < 0));
@@ -1834,18 +1924,28 @@ void game::consume_tools(std::vector<component> tools)
         {
             int count = tools[i].count;
             if (u.has_charges(type, count))
+            {
                 player_has.push_back(tools[i]);
+            }
             if (map_inv.has_charges(type, count))
+            {
                 map_has.push_back(tools[i]);
+            }
         }
         else if (u.has_amount(type, 1) || map_inv.has_amount(type, 1))
+        {
             found_nocharge = true;
+        }
     }
     if (found_nocharge)
-        return; // Default to using a tool that doesn't require charges
+    {
+        return;    // Default to using a tool that doesn't require charges
+    }
 
     if (player_has.size() == 1 && map_has.size() == 0)
+    {
         u.use_charges(player_has[0].type, player_has[0].count);
+    }
     else if (map_has.size() == 1 && player_has.size() == 0)
         m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,
                       map_has[0].type, map_has[0].count);
@@ -1859,10 +1959,14 @@ void game::consume_tools(std::vector<component> tools)
             options.push_back(tmpStr);
         }
         for (int i = 0; i < player_has.size(); i++)
+        {
             options.push_back(itypes[player_has[i].type]->name);
+        }
 
         if (options.size() == 0) // This SHOULD only happen if cooking with a fire,
-            return;                 // and the fire goes out.
+        {
+            return;    // and the fire goes out.
+        }
 
 // Get selection via a popup menu
         int selection = menu_vec("Use which tool?", options) - 1;
@@ -1894,7 +1998,9 @@ void game::disassemble()
     item* dis_item = &u.i_at(ch);
 
     if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Really disassemble your %s?", dis_item->tname(this).c_str())))
+    {
         return;
+    }
 
     for (int i = 0; i < recipes.size(); i++)
     {
@@ -1910,7 +2016,9 @@ void game::disassemble()
             {
                 have_tool[j] = false;
                 if (recipes[i]->tools[j].size() == 0) // no tools required, may change this
+                {
                     have_tool[j] = true;
+                }
                 else
                 {
                     for (int k = 0; k < recipes[i]->tools[j].size(); k++)
@@ -1929,9 +2037,13 @@ void game::disassemble()
                         {
                             if (crafting_inv.has_amount(itm_hacksaw, 1) ||
                                     crafting_inv.has_amount(itm_toolset, 1))
+                            {
                                 have_tool[j] = true;
+                            }
                             else
+                            {
                                 have_tool[j] = false;
+                            }
                         }
                     }
 
@@ -1939,7 +2051,9 @@ void game::disassemble()
                     {
                         int req = recipes[i]->tools[j][0].count;
                         if (recipes[i]->tools[j][0].type == itm_welder)
+                        {
                             add_msg("You need a hack saw to disassemble this.");
+                        }
                         else
                         {
                             if (req <= 0)
@@ -1987,9 +2101,13 @@ void game::complete_disassemble()
         ammodrop = item(dis_item->curammo, turn);
         ammodrop.charges = dis_item->charges;
         if (ammodrop.made_of(LIQUID))
+        {
             handle_liquid(ammodrop, false, false);
+        }
         else
+        {
             m.add_item(u.posx, u.posy, ammodrop);
+        }
     }
     if (dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != AT_NULL)
     {
@@ -1997,9 +2115,13 @@ void game::complete_disassemble()
         ammodrop = item(itypes[default_ammo(dis_item->ammo_type())], turn);
         ammodrop.charges = dis_item->charges;
         if (ammodrop.made_of(LIQUID))
+        {
             handle_liquid(ammodrop, false, false);
+        }
         else
+        {
             m.add_item(u.posx, u.posy, ammodrop);
+        }
     }
     u.i_rem(u.activity.values[0]);  // remove the item
 
@@ -2007,7 +2129,9 @@ void game::complete_disassemble()
     for (int j = 0; j < 5; j++)
     {
         if (dis->tools[j].size() > 0)
+        {
             consume_tools(dis->tools[j]);
+        }
     }
 
     // add the components to the map
@@ -2017,9 +2141,13 @@ void game::complete_disassemble()
     // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
     int skill_dice = 2 + u.skillLevel(dis->sk_primary).level() * 3;
     if (dis->sk_secondary == NULL)
+    {
         skill_dice += u.skillLevel(dis->sk_primary).level();
+    }
     else
+    {
         skill_dice += u.skillLevel(dis->sk_secondary).level();
+    }
     // Sides on dice is 16 plus your current intelligence
     int skill_sides = 16 + u.int_cur;
 
@@ -2028,9 +2156,13 @@ void game::complete_disassemble()
 
     // disassembly only nets a bit of practice
     if (dis->sk_primary)
+    {
         u.practice(dis->sk_primary, (dis->difficulty) * 2);
+    }
     if (dis->sk_secondary)
+    {
         u.practice(dis->sk_secondary, 2);
+    }
 
     for (int j = 0; j < 5; j++)
     {
@@ -2043,23 +2175,33 @@ void game::complete_disassemble()
                 item newit(itypes[dis->components[j][0].type], turn);
                 // skip item addition if component is a consumable like superglue
                 if (dis->components[j][0].type == itm_superglue || dis->components[j][0].type == itm_duct_tape)
+                {
                     compcount--;
+                }
                 else
                 {
                     if (newit.count_by_charges())
                     {
                         if (dis->difficulty == 0 || comp_success)
+                        {
                             m.add_item(u.posx, u.posy, itypes[dis->components[j][0].type], 0, compcount);
+                        }
                         else
+                        {
                             add_msg("You fail to recover a component.");
+                        }
                         compcount = 0;
                     }
                     else
                     {
                         if (dis->difficulty == 0 || comp_success)
+                        {
                             m.add_item(u.posx, u.posy, newit);
+                        }
                         else
+                        {
                             add_msg("You fail to recover a component.");
+                        }
                         compcount--;
                     }
                 }

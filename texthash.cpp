@@ -6,7 +6,9 @@ bool text_hash::add(std::string key, std::string value)
     for (int i = 0; i < keys.size(); i++)
     {
         if (keys[i] == key)
-            return false;	// Fail if key exists
+        {
+            return false;    // Fail if key exists
+        }
     }
     keys.push_back(key);
     values.push_back(value);
@@ -18,7 +20,9 @@ std::string text_hash::value(std::string key)
     for (int i = 0; i < keys.size(); i++)
     {
         if (keys[i] == key)
+        {
             return values[i];
+        }
     }
     std::stringstream fail;
     fail << "Key '" << key << "' not found.";

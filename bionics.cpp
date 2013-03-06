@@ -21,7 +21,9 @@ void player::activate_bionic(int b, game *g)
     bionic bio = my_bionics[b];
     int power_cost = bionics[bio.id].power_cost;
     if (weapon.type->id == itm_bio_claws && bio.id == bio_claws)
+    {
         power_cost = 0;
+    }
     if (power_level < power_cost)
     {
         if (my_bionics[b].powered)
@@ -30,7 +32,9 @@ void player::activate_bionic(int b, game *g)
             my_bionics[b].powered = false;
         }
         else
+        {
             g->add_msg("You cannot power your %s", bionics[bio.id].name.c_str());
+        }
         return;
     }
 
@@ -66,7 +70,9 @@ void player::activate_bionic(int b, game *g)
         pkill += 6;
         pain -= 2;
         if (pkill > pain)
+        {
             pkill = pain;
+        }
         break;
 
     case bio_nanobots:
@@ -83,7 +89,9 @@ void player::activate_bionic(int b, game *g)
                 g->m.bash(i, j, 40, junk);	// Multibash effect, so that doors &c will fall
                 g->m.bash(i, j, 40, junk);
                 if (g->m.is_destructable(i, j) && rng(1, 10) >= 4)
+                {
                     g->m.ter(i, j) = t_rubble;
+                }
             }
         }
         break;
@@ -102,7 +110,9 @@ void player::activate_bionic(int b, game *g)
             hurt(g, bp_torso, 0, rng(5, 15));
         }
         if (one_in(5))
+        {
             add_disease(DI_TELEGLOW, rng(50, 400), g);
+        }
         break;
 
     case bio_teleport:
@@ -116,43 +126,77 @@ void player::activate_bionic(int b, game *g)
         wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
         if (has_disease(DI_FUNGUS))
+        {
             bad.push_back("Fungal Parasite");
+        }
         if (has_disease(DI_DERMATIK))
+        {
             bad.push_back("Insect Parasite");
+        }
         if (has_disease(DI_POISON))
+        {
             bad.push_back("Poison");
+        }
         if (radiation > 0)
+        {
             bad.push_back("Irradiated");
+        }
         if (has_disease(DI_PKILL1))
+        {
             good.push_back("Minor Painkiller");
+        }
         if (has_disease(DI_PKILL2))
+        {
             good.push_back("Moderate Painkiller");
+        }
         if (has_disease(DI_PKILL3))
+        {
             good.push_back("Heavy Painkiller");
+        }
         if (has_disease(DI_PKILL_L))
+        {
             good.push_back("Slow-Release Painkiller");
+        }
         if (has_disease(DI_DRUNK))
+        {
             good.push_back("Alcohol");
+        }
         if (has_disease(DI_CIG))
+        {
             good.push_back("Nicotine");
+        }
         if (has_disease(DI_HIGH))
+        {
             good.push_back("Intoxicant: Other");
+        }
         if (has_disease(DI_TOOK_PROZAC))
+        {
             good.push_back("Prozac");
+        }
         if (has_disease(DI_TOOK_FLUMED))
+        {
             good.push_back("Antihistamines");
+        }
         if (has_disease(DI_ADRENALINE))
+        {
             good.push_back("Adrenaline Spike");
+        }
         if (good.size() == 0 && bad.size() == 0)
+        {
             mvwprintz(w, 1, 1, c_white, "No effects.");
+        }
         else
         {
             for (int line = 1; line < 39 && line <= good.size() + bad.size(); line++)
             {
                 if (line <= bad.size())
+                {
                     mvwprintz(w, line, 1, c_red, bad[line - 1].c_str());
+                }
                 else
+                {
                     mvwprintz(w, line, 1, c_green, good[line - 1 - bad.size()].c_str());
+                }
             }
         }
         wrefresh(w);
@@ -241,7 +285,9 @@ void player::activate_bionic(int b, game *g)
         dirx += posx;
         diry += posy;
         if (!g->m.add_field(g, dirx, diry, fd_fire, 1))	// Unsuccessful.
+        {
             g->add_msg("You can't light a fire there.");
+        }
         break;
 
     case bio_claws:
@@ -341,7 +387,9 @@ void player::activate_bionic(int b, game *g)
                 }
             }
             if (i == g->m.i_at(posx, posy).size() - 1)	// We never chose a corpse
+            {
                 power_level += bionics[bio_water_extractor].power_cost;
+            }
         }
         break;
 
@@ -353,9 +401,13 @@ void player::activate_bionic(int b, game *g)
                 if (g->m.i_at(i, j).size() > 0)
                 {
                     if (g->m.sees(i, j, posx, posy, -1, t))
+                    {
                         traj = line_to(i, j, posx, posy, t);
+                    }
                     else
+                    {
                         traj = line_to(i, j, posx, posy, 0);
+                    }
                 }
                 traj.insert(traj.begin(), point(i, j));
                 for (int k = 0; k < g->m.i_at(i, j).size(); k++)
@@ -370,7 +422,9 @@ void player::activate_bionic(int b, game *g)
                             if (index != -1)
                             {
                                 if (g->z[index].hurt(tmp_item.weight() * 2))
+                                {
                                     g->kill_mon(index, true);
+                                }
                                 g->m.add_item(traj[l].x, traj[l].y, tmp_item);
                                 l = traj.size() + 1;
                             }
@@ -386,7 +440,9 @@ void player::activate_bionic(int b, game *g)
                             }
                         }
                         if (l == traj.size())
+                        {
                             g->m.add_item(posx, posy, tmp_item);
+                        }
                     }
                 }
             }
@@ -413,7 +469,9 @@ void player::activate_bionic(int b, game *g)
             g->m.ter(dirx, diry) = t_door_c;
         }
         else
+        {
             g->add_msg("You can't unlock that %s.", g->m.tername(dirx, diry).c_str());
+        }
         break;
 
     }
@@ -470,15 +528,25 @@ bool player::install_bionics(game *g, it_bionic* type)
 
     nc_color col_suc;
     if (chance_of_success >= 95)
+    {
         col_suc = c_green;
+    }
     else if (chance_of_success >= 80)
+    {
         col_suc = c_ltgreen;
+    }
     else if (chance_of_success >= 60)
+    {
         col_suc = c_yellow;
+    }
     else if (chance_of_success >= 35)
+    {
         col_suc = c_ltred;
+    }
     else
+    {
         col_suc = c_red;
+    }
 
     mvwprintz(w, 8, 59, col_suc, "%d%%%%", chance_of_success);
 
@@ -497,7 +565,9 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
         InputEvent input;
         wrefresh(w);
         do
+        {
             input = get_input();
+        }
         while (input != Confirm && input != Close);
         if (input == Confirm)
         {
@@ -511,7 +581,9 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
                 max_power_level += BATTERY_AMOUNT;
             }
             else
+            {
                 bionics_install_failure(g, this, success);
+            }
             werase(w);
             delwin(w);
             g->refresh_all();
@@ -550,18 +622,26 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
             mvwprintz(w, 2 + selection, 0, (has_bionic(id) ? c_ltred : c_ltblue),
                       bionics[id].name.c_str());
             if (selection == type->options.size() - 1)
+            {
                 selection = 0;
+            }
             else
+            {
                 selection++;
+            }
             break;
 
         case DirectionN:
             mvwprintz(w, 2 + selection, 0, (has_bionic(id) ? c_ltred : c_ltblue),
                       bionics[id].name.c_str());
             if (selection == 0)
+            {
                 selection = type->options.size() - 1;
+            }
             else
+            {
                 selection--;
+            }
             break;
 
         }
@@ -586,7 +666,9 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
             add_bionic(id);
         }
         else
+        {
             bionics_install_failure(g, this, success);
+        }
         werase(w);
         delwin(w);
         g->refresh_all();
@@ -637,7 +719,9 @@ void bionics_install_failure(game *g, player *u, int success)
     }
 
     if (fail_type == 3 && u->my_bionics.size() == 0)
-        fail_type = 2; // If we have no bionics, take damage instead of losing some
+    {
+        fail_type = 2;    // If we have no bionics, take damage instead of losing some
+    }
 
     switch (fail_type)
     {
@@ -682,7 +766,9 @@ void bionics_install_failure(game *g, player *u, int success)
         {
             bionic_id id = bionic_id(i);
             if (!u->has_bionic(id))
+            {
                 valid.push_back(id);
+            }
         }
         if (valid.size() == 0)  	// We've got all the bad bionics!
         {

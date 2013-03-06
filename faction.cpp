@@ -75,7 +75,9 @@ std::string faction::save_info()
          " " << size << " " << power << " ";
     dump << opinion_of.size() << " ";
     for (int i = 0; i < opinion_of.size(); i++)
+    {
         dump << opinion_of[i] << " ";
+    }
     dump << name;
     return dump.str();
 }
@@ -101,7 +103,9 @@ void faction::load_info(std::string data)
     }
     std::string subname;
     while (dump >> subname)
+    {
         name += " " + subname;
+    }
 }
 
 void faction::randomize()
@@ -115,7 +119,9 @@ void faction::randomize()
 // Pick an overall goal.
     goal = faction_goal(rng(1, NUM_FACGOALS - 1));
     if (one_in(4))
-        goal = FACGOAL_NONE;	// Slightly more likely to not have a real goal
+    {
+        goal = FACGOAL_NONE;    // Slightly more likely to not have a real goal
+    }
     good     = facgoal_data[goal].good;
     strength = facgoal_data[goal].strength;
     sneak    = facgoal_data[goal].sneak;
@@ -123,7 +129,9 @@ void faction::randomize()
     cult     = facgoal_data[goal].cult;
     job1 = faction_job(rng(1, NUM_FACJOBS - 1));
     do
+    {
         job2 = faction_job(rng(0, NUM_FACJOBS - 1));
+    }
     while (job2 == job1);
     good     += facjob_data[job1].good     + facjob_data[job2].good;
     strength += facjob_data[job1].strength + facjob_data[job2].strength;
@@ -149,7 +157,9 @@ void faction::randomize()
             cult     += facval_data[v].cult;
         }
         else
+        {
             tries++;
+        }
     }
     while((one_in(num_values) || one_in(num_values)) && tries < 15);
 
@@ -166,9 +176,13 @@ void faction::randomize()
         best = crime;
     }
     if (cult > best)
+    {
         sel = 4;
+    }
     if (strength <= 0 && sneak <= 0 && crime <= 0 && cult <= 0)
+    {
         sel = 0;
+    }
 
     switch (sel)
     {
@@ -201,13 +215,17 @@ void faction::randomize()
     if (one_in(4))
     {
         do
+        {
             name = "The " + noun + " of " + invent_name();
+        }
         while (name.length() > MAX_FAC_NAME_SIZE);
     }
     else if (one_in(2))
     {
         do
+        {
             name = "The " + invent_adj() + " " + noun;
+        }
         while (name.length() > MAX_FAC_NAME_SIZE);
     }
     else
@@ -216,14 +234,22 @@ void faction::randomize()
         {
             std::string adj;
             if (good >= 3)
+            {
                 adj = faction_adj_pos[rng(0, 14)];
+            }
             else if  (good <= -3)
+            {
                 adj = faction_adj_bad[rng(0, 14)];
+            }
             else
+            {
                 adj = faction_adj_neu[rng(0, 14)];
+            }
             name = "The " + adj + " " + noun;
             if (one_in(4))
+            {
                 name += " of " + invent_name();
+            }
         }
         while (name.length() > MAX_FAC_NAME_SIZE);
     }
@@ -242,21 +268,37 @@ void faction::make_army()
     job1 = FACJOB_MERCENARIES;
     job2 = FACJOB_NULL;
     if (one_in(4))
+    {
         values |= mfb(FACVAL_CHARITABLE);
+    }
     if (!one_in(4))
+    {
         values |= mfb(FACVAL_EXPLORATION);
+    }
     if (one_in(3))
+    {
         values |= mfb(FACVAL_BIONICS);
+    }
     if (one_in(3))
+    {
         values |= mfb(FACVAL_ROBOTS);
+    }
     if (one_in(4))
+    {
         values |= mfb(FACVAL_TREACHERY);
+    }
     if (one_in(4))
+    {
         values |= mfb(FACVAL_STRAIGHTEDGE);
+    }
     if (!one_in(3))
+    {
         values |= mfb(FACVAL_LAWFUL);
+    }
     if (one_in(8))
+    {
         values |= mfb(FACVAL_CRUELTY);
+    }
     id = 0;
 }
 
@@ -274,14 +316,20 @@ bool faction::matches_us(faction_value v)
 {
     int numvals = 2;
     if (job2 != FACJOB_NULL)
+    {
         numvals++;
+    }
     for (int i = 0; i < NUM_FACVALS; i++)
     {
         if (has_value(faction_value(i)))
+        {
             numvals++;
+        }
     }
     if (has_job(FACJOB_DRUGS) && v == FACVAL_STRAIGHTEDGE)	// Mutually exclusive
+    {
         return false;
+    }
     int avggood = (good / numvals + good) / 2;
     int avgstrength = (strength / numvals + strength) / 2;
     int avgsneak = (sneak / numvals + sneak / 2);
@@ -309,7 +357,9 @@ bool faction::matches_us(faction_value v)
             (abs(facval_data[v].cult     - avgcult)  <= 3 ||
              (avgcult >=  5 && facval_data[v].cult >=  1) ||
              (avgcult <= -5 && facval_data[v].cult <= -1)))
+    {
         return true;
+    }
     return false;
 }
 
@@ -319,16 +369,22 @@ std::string faction::describe()
                       facgoal_data[goal].name + ". Their primary concern is " +
                       facjob_data[job1].name;
     if (job2 == FACJOB_NULL)
+    {
         ret += ".";
+    }
     else
+    {
         ret += ", but they are also involved in " + facjob_data[job2].name + ".";
+    }
     if (values != 0)
     {
         ret += " They are known for ";
         for (int i = 0; i < NUM_FACVALS; i++)
         {
             if (has_value(faction_value(i)))
+            {
                 ret += facval_data[i].name + ", ";
+            }
         }
     }
     size_t pos = ret.find_last_of(",");
@@ -337,7 +393,9 @@ std::string faction::describe()
         ret.replace(pos, 2, ".");
         pos = ret.find_last_of(",");
         if (pos != std::string::npos)
+        {
             ret.replace(pos, 2, ", and ");
+        }
     }
     return ret;
 }
@@ -346,32 +404,54 @@ int faction::response_time(game *g)
 {
     int base = abs(mapx - g->levx);
     if (abs(mapy - g->levy) > base)
+    {
         base = abs(mapy - g->levy);
+    }
     if (base > size)	// Out of our sphere of influence
+    {
         base *= 2.5;
+    }
     base *= 24;	// 24 turns to move one overmap square
     int maxdiv = 10;
     if (goal == FACGOAL_DOMINANCE)
+    {
         maxdiv += 2;
+    }
     if (has_job(FACJOB_CARAVANS))
+    {
         maxdiv += 2;
+    }
     if (has_job(FACJOB_SCAVENGE))
+    {
         maxdiv++;
+    }
     if (has_job(FACJOB_MERCENARIES))
+    {
         maxdiv += 2;
+    }
     if (has_job(FACJOB_FARMERS))
+    {
         maxdiv -= 2;
+    }
     if (has_value(FACVAL_EXPLORATION))
+    {
         maxdiv += 2;
+    }
     if (has_value(FACVAL_LONERS))
+    {
         maxdiv -= 3;
+    }
     if (has_value(FACVAL_TREACHERY))
+    {
         maxdiv -= rng(0, 3);
+    }
     int mindiv = (maxdiv > 9 ? maxdiv - 9 : 1);
     base /= rng(mindiv, maxdiv);// We might be in the field
     base -= likes_u;	// We'll hurry, if we like you
     if (base < 100)
+    {
         base = 100;
+    }
     return base;
 }
 
@@ -705,33 +785,61 @@ std::string invent_adj()
 std::string fac_ranking_text(int val)
 {
     if (val <= -100)
+    {
         return "Archenemy";
+    }
     if (val <= -80)
+    {
         return "Wanted Dead";
+    }
     if (val <= -60)
+    {
         return "Enemy of the People";
+    }
     if (val <= -40)
+    {
         return "Wanted Criminal";
+    }
     if (val <= -20)
+    {
         return "Not Welcome";
+    }
     if (val <= -10)
+    {
         return "Pariah";
+    }
     if (val <=  -5)
+    {
         return "Disliked";
+    }
     if (val >= 100)
+    {
         return "Hero";
+    }
     if (val >= 80)
+    {
         return "Idol";
+    }
     if (val >= 60)
+    {
         return "Beloved";
+    }
     if (val >= 40)
+    {
         return "Highly Valued";
+    }
     if (val >= 20)
+    {
         return "Valued";
+    }
     if (val >= 10)
+    {
         return "Well-Liked";
+    }
     if (val >= 5)
+    {
         return "Liked";
+    }
 
     return "Neutral";
 }
@@ -741,31 +849,55 @@ std::string fac_respect_text(int val)
 {
 // Respected, feared, etc.
     if (val >= 100)
+    {
         return "Legendary";
+    }
     if (val >= 80)
+    {
         return "Unchallenged";
+    }
     if (val >= 60)
+    {
         return "Mighty";
+    }
     if (val >= 40)
+    {
         return "Famous";
+    }
     if (val >= 20)
+    {
         return "Well-Known";
+    }
     if (val >= 10)
+    {
         return "Spoken Of";
+    }
 
 // Disrepected, laughed at, etc.
     if (val <= -100)
+    {
         return "Worthless Scum";
+    }
     if (val <= -80)
+    {
         return "Vermin";
+    }
     if (val <= -60)
+    {
         return "Despicable";
+    }
     if (val <= -40)
+    {
         return "Parasite";
+    }
     if (val <= -20)
+    {
         return "Leech";
+    }
     if (val <= -10)
+    {
         return "Laughingstock";
+    }
 
     return "Neutral";
 }

@@ -280,7 +280,9 @@ struct mtype
         for (int i = 0; i < flags.size(); i++)
         {
             if (flags[i] == flag)
+            {
                 return true;
+            }
         }
         return false;
     }

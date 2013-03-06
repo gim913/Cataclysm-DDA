@@ -20,7 +20,9 @@ void game::init_mutations()
     int id = 0;
 // Set all post-PF_MAX to valid
     for (int i = PF_MAX + 1; i < PF_MAX2; i++)
+    {
         mutation_data[i].valid = true;
+    }
 
     mutation_data[PF_MARLOSS].valid = false; // Never valid!
 

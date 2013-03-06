@@ -41,7 +41,9 @@ int main(int argc, char *argv[])
             }
         }
         else // ignore unknown args.
+        {
             argc--;
+        }
         argv++;
     }
 
@@ -76,9 +78,13 @@ int main(int argc, char *argv[])
         g->setup();
         while (!g->do_turn()) ;
         if (g->uquit == QUIT_DELETE_WORLD)
+        {
             delete_world = true;
+        }
         if (g->game_quit())
+        {
             quit_game = true;
+        }
     }
     while (!quit_game);
 

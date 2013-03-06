@@ -151,9 +151,13 @@ It may have unknown powers; use 'a' to activate them.";
         art->def_charges = art->max_charges;
 // If we have charges, pick a recharge mechanism
         if (art->max_charges > 0)
+        {
             art->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
+        }
         if (one_in(8) && num_bad + num_good >= 4)
-            art->charge_type = ARTC_NULL; // 1 in 8 chance that it can't recharge!
+        {
+            art->charge_type = ARTC_NULL;    // 1 in 8 chance that it can't recharge!
+        }
 
         art->id = itypes.size();
         itypes.push_back(art);
@@ -199,37 +203,61 @@ It may have unknown powers; use 'a' to activate them.";
                 artifact_armor_mod mod = info->available_mods[index];
                 artifact_armor_form_datum *modinfo = &(artifact_armor_mod_data[mod]);
                 if (modinfo->volume >= 0 || art->volume > abs(modinfo->volume))
+                {
                     art->volume += modinfo->volume;
+                }
                 else
+                {
                     art->volume = 1;
+                }
 
                 if (modinfo->weight >= 0 || art->weight > abs(modinfo->weight))
+                {
                     art->weight += modinfo->weight;
+                }
                 else
+                {
                     art->weight = 1;
+                }
 
                 art->encumber += modinfo->encumb;
 
                 if (modinfo->dmg_resist > 0 || art->dmg_resist > abs(modinfo->dmg_resist))
+                {
                     art->dmg_resist += modinfo->dmg_resist;
+                }
                 else
+                {
                     art->dmg_resist = 0;
+                }
 
                 if (modinfo->cut_resist > 0 || art->cut_resist > abs(modinfo->cut_resist))
+                {
                     art->cut_resist += modinfo->cut_resist;
+                }
                 else
+                {
                     art->cut_resist = 0;
+                }
 
                 if (modinfo->env_resist > 0 || art->env_resist > abs(modinfo->env_resist))
+                {
                     art->env_resist += modinfo->env_resist;
+                }
                 else
+                {
                     art->env_resist = 0;
+                }
                 art->warmth += modinfo->warmth;
 
                 if (modinfo->storage > 0 || art->storage > abs(modinfo->storage))
+                {
                     art->storage += modinfo->storage;
+                }
                 else
+                {
                     art->storage = 0;
+                }
 
                 description << "\n" << (info->plural ? "They are " : "It is ") <<
                             modinfo->name;
@@ -307,7 +335,9 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
     {
         pos = art->description.find_last_of(' ', pos);
         if (pos == std::string::npos)
+        {
             pos = art->description.length();
+        }
         else
         {
             art->description[pos] = '\n';
@@ -346,25 +376,33 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
         {
             aep_good = property_data->passive_good[ rng(0, 3) ];
             if (aep_good == AEP_NULL || one_in(4))
+            {
                 aep_good = art_effect_passive(rng(AEP_NULL + 1, AEP_SPLIT - 1));
+            }
         }
         if (bad_passive)
         {
             aep_bad = property_data->passive_bad[ rng(0, 3) ];
             if (aep_bad == AEP_NULL || one_in(4))
+            {
                 aep_bad = art_effect_passive(rng(AEP_SPLIT + 1, NUM_AEAS - 1));
+            }
         }
         if (good_active)
         {
             aea_good = property_data->active_good[ rng(0, 3) ];
             if (aea_good == AEA_NULL || one_in(4))
+            {
                 aea_good = art_effect_active(rng(AEA_NULL + 1, AEA_SPLIT - 1));
+            }
         }
         if (bad_active)
         {
             aea_bad = property_data->active_bad[ rng(0, 3) ];
             if (aea_bad == AEA_NULL || one_in(4))
+            {
                 aea_bad = art_effect_active(rng(AEA_SPLIT + 1, NUM_AEAS - 1));
+            }
         }
 
         value = passive_effect_cost[aep_good] + passive_effect_cost[aep_bad] +
@@ -374,13 +412,21 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
     while (value > value_to_reach);
 
     if (aep_good != AEP_NULL)
+    {
         art->effects_carried.push_back(aep_good);
+    }
     if (aep_bad != AEP_NULL)
+    {
         art->effects_carried.push_back(aep_bad);
+    }
     if (aea_good != AEA_NULL)
+    {
         art->effects_activated.push_back(aea_good);
+    }
     if (aea_bad != AEA_NULL)
+    {
         art->effects_activated.push_back(aea_bad);
+    }
 
 // Natural artifacts ALWAYS can recharge
 // (When "implanting" them in a mundane item, this ability may be lost
@@ -400,7 +446,9 @@ std::vector<art_effect_passive> fill_good_passive()
 {
     std::vector<art_effect_passive> ret;
     for (int i = AEP_NULL + 1; i < AEP_SPLIT; i++)
+    {
         ret.push_back( art_effect_passive(i) );
+    }
     return ret;
 }
 
@@ -408,7 +456,9 @@ std::vector<art_effect_passive> fill_bad_passive()
 {
     std::vector<art_effect_passive> ret;
     for (int i = AEP_SPLIT + 1; i < NUM_AEPS; i++)
+    {
         ret.push_back( art_effect_passive(i) );
+    }
     return ret;
 }
 
@@ -416,7 +466,9 @@ std::vector<art_effect_active> fill_good_active()
 {
     std::vector<art_effect_active> ret;
     for (int i = AEA_NULL + 1; i < AEA_SPLIT; i++)
+    {
         ret.push_back( art_effect_active(i) );
+    }
     return ret;
 }
 
@@ -424,7 +476,9 @@ std::vector<art_effect_active> fill_bad_active()
 {
     std::vector<art_effect_active> ret;
     for (int i = AEA_SPLIT + 1; i < NUM_AEAS; i++)
+    {
         ret.push_back( art_effect_active(i) );
+    }
     return ret;
 }
 
@@ -458,7 +512,9 @@ void game::process_artifact(item *it, player *p, bool wielded)
         if (wielded)
         {
             for (int i = 0; i < tool->effects_wielded.size(); i++)
+            {
                 effects.push_back(tool->effects_wielded[i]);
+            }
         }
 // Recharge it if necessary
         if (it->charges < tool->max_charges)
@@ -467,12 +523,16 @@ void game::process_artifact(item *it, player *p, bool wielded)
             {
             case ARTC_TIME:
                 if (turn.second == 0 && turn.minute == 0) // Once per hour
+                {
                     it->charges++;
+                }
                 break;
             case ARTC_SOLAR:
                 if (turn.second == 0 && turn.minute % 10 == 0 &&
                         is_in_sunlight(p->posx, p->posy))
+                {
                     it->charges++;
+                }
                 break;
             case ARTC_PAIN:
                 if (turn.second == 0)
@@ -521,7 +581,9 @@ void game::process_artifact(item *it, player *p, bool wielded)
 
         case AEP_IODINE:
             if (p->radiation > 0)
+            {
                 p->radiation--;
+            }
             break;
 
         case AEP_SMOKE:
@@ -529,7 +591,9 @@ void game::process_artifact(item *it, player *p, bool wielded)
             {
                 int x = p->posx + rng(-1, 1), y = p->posy + rng(-1, 1);
                 if (m.add_field(this, x, y, fd_smoke, rng(1, 3)))
+                {
                     add_msg("The %s emits some smoke.", it->tname().c_str());
+                }
             }
             break;
 
@@ -544,9 +608,13 @@ void game::process_artifact(item *it, player *p, bool wielded)
                     if (m.field_at(x, y).type == fd_fire)
                     {
                         if (m.field_at(x, y).density == 0)
+                        {
                             m.remove_field(x, y);
+                        }
                         else
+                        {
                             m.field_at(x, y).density--;
+                        }
                     }
                 }
             }
@@ -554,12 +622,16 @@ void game::process_artifact(item *it, player *p, bool wielded)
 
         case AEP_HUNGER:
             if (one_in(100))
+            {
                 p->hunger++;
+            }
             break;
 
         case AEP_THIRST:
             if (one_in(120))
+            {
                 p->thirst++;
+            }
             break;
 
         case AEP_EVIL:
@@ -577,7 +649,9 @@ void game::process_artifact(item *it, player *p, bool wielded)
 
         case AEP_RADIOACTIVE:
             if (one_in(4))
+            {
                 p->radiation++;
+            }
             break;
 
         case AEP_STR_DOWN:
@@ -739,17 +813,29 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 
     std::stringstream stat_info;
     if (net_str != 0)
+    {
         stat_info << "Str " << (net_str > 0 ? "+" : "") << net_str << "! ";
+    }
     if (net_dex != 0)
+    {
         stat_info << "Dex " << (net_dex > 0 ? "+" : "") << net_dex << "! ";
+    }
     if (net_int != 0)
+    {
         stat_info << "Int " << (net_int > 0 ? "+" : "") << net_int << "! ";
+    }
     if (net_per != 0)
+    {
         stat_info << "Per " << (net_per > 0 ? "+" : "") << net_per << "! ";
+    }
 
     if (stat_info.str().length() > 0)
+    {
         add_msg(stat_info.str().c_str());
+    }
 
     if (net_speed != 0)
+    {
         add_msg("Speed %s%d", (net_speed > 0 ? "+" : ""), net_speed);
+    }
 }

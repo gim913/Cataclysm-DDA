@@ -28,9 +28,13 @@ map::map()
     nulter = t_null;
     nultrap = tr_null;
     if (is_tiny())
+    {
         my_MAPSIZE = 2;
+    }
     else
+    {
         my_MAPSIZE = MAPSIZE;
+    }
     dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
     veh_in_active_range = true;
 }
@@ -44,11 +48,17 @@ map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
     mapitems = miptr;
     traps = trptr;
     if (is_tiny())
+    {
         my_MAPSIZE = 2;
+    }
     else
+    {
         my_MAPSIZE = MAPSIZE;
+    }
     for (int n = 0; n < my_MAPSIZE * my_MAPSIZE; n++)
+    {
         grid[n] = NULL;
+    }
     dbg(D_INFO) << "map::map( itptr["<<itptr<<"], miptr["<<miptr<<"], trptr["<<trptr<<"] ): my_MAPSIZE: " << my_MAPSIZE;
     veh_in_active_range = true;
     memset(veh_exists_at, 0, sizeof(veh_exists_at));
@@ -77,7 +87,9 @@ VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const in
         {
             const int nonant = cx + cy * my_MAPSIZE;
             if (nonant < 0 || nonant >= my_MAPSIZE * my_MAPSIZE)
-                continue; // out of grid
+            {
+                continue;    // out of grid
+            }
 
             for(int i = 0; i < grid[nonant]->vehicles.size(); ++i)
             {
@@ -99,9 +111,13 @@ vehicle* map::veh_at(const int x, const int y, int &part_num)
 {
 // This function is called A LOT. Move as much out of here as possible.
     if (!veh_in_active_range || !inbounds(x, y))
+    {
         return NULL;    // Out-of-bounds - null vehicle
+    }
     if(!veh_exists_at[x][y])
+    {
         return NULL;    // cache cache indicates no vehicle. This should optimize a great deal.
+    }
     std::pair<int,int> point(x,y);
     std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator it;
     if ((it = veh_cached_parts.find(point)) != veh_cached_parts.end())
@@ -157,7 +173,9 @@ void map::update_vehicle_cache(vehicle * veh, const bool brand_new)
                 veh_cached_parts.erase( tmp );
             }
             else
+            {
                 ++it;
+            }
         }
     }
 // Get parts
@@ -249,7 +267,9 @@ void map::board_vehicle(game *g, int x, int y, player *p)
             (x < SEEX * int(my_MAPSIZE / 2) || y < SEEY * int(my_MAPSIZE / 2) ||
              x >= SEEX * (1 + int(my_MAPSIZE / 2)) ||
              y >= SEEY * (1 + int(my_MAPSIZE / 2))   ))
+    {
         g->update_map(x, y);
+    }
 }
 
 void map::unboard_vehicle(game *g, const int x, const int y)
@@ -326,7 +346,9 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
     dsty %= SEEY;
 
     if (test)
+    {
         return src_na != dst_na;
+    }
 
 // first, let's find our position in current vehicles vector
     int our_i = -1;
@@ -358,7 +380,9 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
     std::vector<int> psg_parts = veh->boarded_parts();
     std::vector<player *> psgs;
     for (int p = 0; p < psg_parts.size(); p++)
+    {
         psgs.push_back (veh->get_passenger (psg_parts[p]));
+    }
 
     const int rec = abs(veh->velocity) / 5 / 100;
 
@@ -378,7 +402,10 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
             continue;
         }
         int trec = rec -psgs[i]->skillLevel("driving").level();
-        if (trec < 0) trec = 0;
+        if (trec < 0)
+        {
+            trec = 0;
+        }
         // add recoil
         psg->driving_recoil = rec;
         // displace passenger taking in account vehicle movement (dx, dy)
@@ -423,13 +450,21 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
     {
 // map will shift, so adjust vehicle coords we've been passed
         if (upd_x < SEEX * int(my_MAPSIZE / 2))
+        {
             x += SEEX;
+        }
         else if (upd_x >= SEEX * (1+int(my_MAPSIZE / 2)))
+        {
             x -= SEEX;
+        }
         if (upd_y < SEEY * int(my_MAPSIZE / 2))
+        {
             y += SEEY;
+        }
         else if (upd_y >= SEEY * (1+int(my_MAPSIZE / 2)))
+        {
             y -= SEEY;
+        }
         g->update_map(upd_x, upd_y);
         was_update = true;
     }
@@ -454,7 +489,9 @@ void map::vehmove(game *g)
     {
         count++;// lots of movement stuff. maybe 10 is low for collisions.
         if (count > 10)
+        {
             break;
+        }
     }
 }
 
@@ -479,7 +516,9 @@ bool map::vehproceed(game* g)
         }
     }
     if(!veh)
+    {
         return false;
+    }
 
     if (!inbounds(x, y))
     {
@@ -496,14 +535,22 @@ bool map::vehproceed(game* g)
     float kslw = (0.1 + veh->k_dynamics()) / ((0.1) + veh->k_mass());
     slowdown = (int) ceil(kslw * slowdown);
     if (abs(slowdown) > abs(veh->velocity))
+    {
         veh->stop();
+    }
     else if (veh->velocity < 0)
+    {
         veh->velocity += slowdown;
+    }
     else
+    {
         veh->velocity -= slowdown;
+    }
 
     if (veh->velocity && abs(veh->velocity) < 20) //low enough for bicycles to go in reverse.
+    {
         veh->stop();
+    }
 
     if(veh->velocity == 0)
     {
@@ -523,7 +570,9 @@ bool map::vehproceed(game* g)
                 const int px = x + veh->parts[p].precalc_dx[0];
                 const int py = y + veh->parts[p].precalc_dy[0];
                 if(move_cost_ter_only(px, py) == 0) // deep water
+                {
                     submerged_wheels++;
+                }
             }
         }
         // submerged wheels threshold is 2/3.
@@ -531,7 +580,9 @@ bool map::vehproceed(game* g)
         {
             g->add_msg ("Your %s sank.", veh->name.c_str());
             if (pl_ctrl)
+            {
                 veh->unboard_all ();
+            }
             // destroy vehicle (sank to nowhere)
             destroy_vehicle(veh);
             return true;
@@ -564,7 +615,9 @@ bool map::vehproceed(game* g)
             const int py = y + veh->parts[p].precalc_dy[0];
             ter_id &pter = ter(px, py);
             if (pter == t_dirt || pter == t_grass)
+            {
                 pter = t_dirtmound;
+            }
         }
     }
 
@@ -578,14 +631,22 @@ bool map::vehproceed(game* g)
     }
     // eventually send it skidding if no control
     if (!veh->boarded_parts().size() && one_in (10))
+    {
         veh->skidding = true;
+    }
     tileray mdir; // the direction we're moving
     if (veh->skidding) // if skidding, it's the move vector
+    {
         mdir = veh->move;
+    }
     else if (veh->turn_dir != veh->face.dir())
-        mdir.init (veh->turn_dir); // driver turned vehicle, get turn_dir
+    {
+        mdir.init (veh->turn_dir);    // driver turned vehicle, get turn_dir
+    }
     else
-        mdir = veh->face;          // not turning, keep face.dir
+    {
+        mdir = veh->face;    // not turning, keep face.dir
+    }
     mdir.advance (veh->velocity < 0? -1 : 1);
     const int dx = mdir.dx();           // where do we go
     const int dy = mdir.dy();           // where do we go
@@ -598,7 +659,9 @@ bool map::vehproceed(game* g)
     std::vector<veh_collision> veh_veh_colls;
 
     if (veh->velocity == 0)
+    {
         can_move = false;
+    }
     // find collisions
     for (int ep = 0; ep < veh->external_parts.size() && can_move; ep++)
     {
@@ -609,13 +672,19 @@ bool map::vehproceed(game* g)
         const int dsy = y + dy + veh->parts[p].precalc_dy[1];
         veh_collision coll = veh->part_collision (x, y, p, dsx, dsy);
         if(coll.type == veh_coll_veh)
+        {
             veh_veh_colls.push_back(coll);
+        }
         else if (coll.type != veh_coll_nothing)   //run over someone?
         {
             if (can_move)
+            {
                 imp += coll.imp;
+            }
             if (veh->velocity == 0)
+            {
                 can_move = false;
+            }
         }
     }
 
@@ -667,7 +736,9 @@ bool map::vehproceed(game* g)
         //give veh2 the initiative to proceed next before veh1
         float avg_of_turn = (veh2->of_turn + veh->of_turn) / 2;
         if(avg_of_turn < .1)
+        {
             avg_of_turn = .1;
+        }
         veh->of_turn = avg_of_turn * .9;
         veh2->of_turn = avg_of_turn * 1.1;
         return true;
@@ -678,7 +749,9 @@ bool map::vehproceed(game* g)
     {
         // debugmsg ("collision imp=%d dam=%d-%d", imp, imp/10, imp/6);
         if (imp > 100)
-            veh->damage_all(imp / 20, imp / 10, 1);// shake veh because of collision
+        {
+            veh->damage_all(imp / 20, imp / 10, 1);    // shake veh because of collision
+        }
         std::vector<int> ppl = veh->boarded_parts();
         const int vel2 = imp * k_mvel * 100 / (veh->total_mass() / 8);
         for (int ps = 0; ps < ppl.size(); ps++)
@@ -727,10 +800,14 @@ bool map::vehproceed(game* g)
                                     (psg == &g->u ? "" : "s"), veh->name.c_str());
                     int turn_amount = (rng (1, 3) * sqrt (vel2) / 2) / 15;
                     if (turn_amount < 1)
+                    {
                         turn_amount = 1;
+                    }
                     turn_amount *= 15;
                     if (turn_amount > 120)
+                    {
                         turn_amount = 120;
+                    }
                     //veh->skidding = true;
                     //veh->turn (one_in (2)? turn_amount : -turn_amount);
                     coll_turn = one_in (2)? turn_amount : -turn_amount;
@@ -749,7 +826,9 @@ bool map::vehproceed(game* g)
             const int p = veh->external_parts[ep];
             if (veh->part_flag(p, vpf_wheel) && one_in(2))
                 if (displace_water (x + veh->parts[p].precalc_dx[0], y + veh->parts[p].precalc_dy[0]) && pl_ctrl)
+                {
                     g->add_msg ("You hear a splash!");
+                }
             veh->handle_trap(x + veh->parts[p].precalc_dx[0],
                              y + veh->parts[p].precalc_dy[0], p);
         }
@@ -760,13 +839,17 @@ bool map::vehproceed(game* g)
     {
         veh->last_turn += last_turn_dec;
         if (veh->last_turn > -last_turn_dec)
+        {
             veh->last_turn = 0;
+        }
     }
     else if (veh->last_turn > 0)
     {
         veh->last_turn -= last_turn_dec;
         if (veh->last_turn < last_turn_dec)
+        {
             veh->last_turn = 0;
+        }
     }
 
     if (pl_ctrl && veh->velocity)
@@ -775,7 +858,9 @@ bool map::vehproceed(game* g)
         // total delay is roughly one third of a second.
         int ns_per_frame = abs ( (BILLION/3) / ( (float)veh->velocity / 1000) );
         if (ns_per_frame > BILLION/15)
+        {
             ns_per_frame = BILLION/15;
+        }
         timespec ts;   // Timespec for the animation
         ts.tv_sec = 0;
         ts.tv_nsec = ns_per_frame;
@@ -786,9 +871,13 @@ bool map::vehproceed(game* g)
     {
         // accept new direction
         if (veh->skidding)
+        {
             veh->face.init (veh->turn_dir);
+        }
         else
+        {
             veh->face = mdir;
+        }
         veh->move = mdir;
         if (coll_turn)
         {
@@ -828,11 +917,15 @@ bool map::displace_water (const int x, const int y)
                 for (int ty = -1; ty <= 1; ty++)
                 {
                     if ((!tx && !ty) || move_cost_ter_only(x + tx, y + ty) == 0)
+                    {
                         continue;
+                    }
                     ter_id ter0 = ter (x + tx, y + ty);
                     if (ter0 == t_water_sh ||
                             ter0 == t_water_dp)
+                    {
                         continue;
+                    }
                     if (pass && dis_places == sel_place)
                     {
                         ter (x + tx, y + ty) = t_water_sh;
@@ -867,7 +960,9 @@ ter_id& map::ter(const int x, const int y)
 bool map::is_indoor(const int x, const int y)
 {
     if (!INBOUNDS(x, y))
+    {
         return false;
+    }
 
     int iNumFloor = 0;
     for (int iRow = -1; iRow <= 1; iRow++)
@@ -883,7 +978,9 @@ bool map::is_indoor(const int x, const int y)
     }
 
     if (iNumFloor > 0)
+    {
         return true;
+    }
 
     return false;
 }
@@ -899,13 +996,21 @@ std::string map::features(const int x, const int y)
 // to take up one line.  So, make sure it does that.
     std::string ret;
     if (has_flag(bashable, x, y))
-        ret += "Smashable. ";	// 11 chars (running total)
+    {
+        ret += "Smashable. ";    // 11 chars (running total)
+    }
     if (has_flag(diggable, x, y))
-        ret += "Diggable. ";	// 21 chars
+    {
+        ret += "Diggable. ";    // 21 chars
+    }
     if (has_flag(rough, x, y))
-        ret += "Rough. ";	// 28 chars
+    {
+        ret += "Rough. ";    // 28 chars
+    }
     if (has_flag(sharp, x, y))
-        ret += "Sharp. ";	// 35 chars
+    {
+        ret += "Sharp. ";    // 35 chars
+    }
     return ret;
 }
 
@@ -918,9 +1023,13 @@ int map::move_cost(const int x, const int y)
         const int dpart = veh->part_with_feature(vpart, vpf_obstacle);
         if (dpart >= 0 &&
                 (!veh->part_flag(dpart, vpf_openable) || !veh->parts[dpart].open))
+        {
             return 0;
+        }
         else
+        {
             return 8;
+        }
     }
     return terlist[ter(x, y)].movecost;
 }
@@ -933,7 +1042,9 @@ int map::move_cost_ter_only(const int x, const int y)
 bool map::trans(const int x, const int y, char * trans_buf)
 {
     if(trans_buf && trans_buf[x + (y * my_MAPSIZE * SEEX)] != -1)
+    {
         return trans_buf[x + (y + my_MAPSIZE * SEEX)];
+    }
 
 // Control statement is a problem. Normally returning false on an out-of-bounds
 // is how we stop rays from going on forever.  Instead we'll have to include
@@ -948,20 +1059,30 @@ bool map::trans(const int x, const int y, char * trans_buf)
         {
             const int dpart = veh->part_with_feature(vpart, vpf_openable);
             if (dpart >= 0 && veh->parts[dpart].open)
-                tertr = true; // open opaque door
+            {
+                tertr = true;    // open opaque door
+            }
         }
     }
     else
+    {
         tertr = terlist[ter(x, y)].flags & mfb(transparent);
+    }
     if( tertr )
     {
         // Fields may obscure the view, too
         // field & f(field_at(x, y));
         // if(f.type == 0 || fieldlist[f.type].transparent[f.density - 1]); // TODO: Clarify function
-        if(trans_buf) trans_buf[x + (y * my_MAPSIZE * SEEX)] = 1;
+        if(trans_buf)
+        {
+            trans_buf[x + (y * my_MAPSIZE * SEEX)] = 1;
+        }
         return true;
     }
-    if(trans_buf) trans_buf[x + (y * my_MAPSIZE * SEEX)] = 0;
+    if(trans_buf)
+    {
+        trans_buf[x + (y * my_MAPSIZE * SEEX)] = 0;
+    }
     return false;
 }
 
@@ -976,7 +1097,9 @@ bool map::has_flag(const t_flag flag, const int x, const int y)
         {
             const int p = veh->part_with_feature (vpart, vpf_openable);
             if (p < 0 || !veh->parts[p].open) // and not open door
+            {
                 return true;
+            }
         }
     }
     return terlist[ter(x, y)].flags & mfb(flag);
@@ -1014,7 +1137,9 @@ bool map::is_outside(const int x, const int y)
         int vpart;
         vehicle *veh = veh_at (x, y, vpart);
         if (veh && veh->is_inside(vpart))
+        {
             out = false;
+        }
     }
     return out;
 }
@@ -1028,7 +1153,9 @@ bool map::flammable_items_at(const int x, const int y)
                 it->made_of(POWDER) || it->made_of(VEGGY) || it->is_ammo() ||
                 it->type->id == itm_whiskey || it->type->id == itm_vodka ||
                 it->type->id == itm_rum || it->type->id == itm_tequila)
+        {
             return true;
+        }
     }
     return false;
 }
@@ -1039,7 +1166,9 @@ bool map::moppable_items_at(const int x, const int y)
     {
         item *it = &(i_at(x, y)[i]);
         if (it->made_of(LIQUID))
+        {
             return true;
+        }
     }
     return false;
 }
@@ -1052,11 +1181,15 @@ point map::random_outdoor_tile()
         for (int y = 0; y < SEEY * my_MAPSIZE; y++)
         {
             if (is_outside(x, y))
+            {
                 options.push_back(point(x, y));
+            }
         }
     }
     if (options.empty()) // Nowhere is outdoors!
+    {
         return point(-1, -1);
+    }
 
     return options[rng(0, options.size() - 1)];
 }
@@ -1107,11 +1240,17 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
         if (i_at(x, y)[i].made_of(GLASS) && !i_at(x, y)[i].active && one_in(2))
         {
             if (sound == "")
+            {
                 sound = "A " + i_at(x, y)[i].tname() + " shatters!  ";
+            }
             else
+            {
                 sound = "Some items shatter!  ";
+            }
             for (int j = 0; j < i_at(x, y)[i].contents.size(); j++)
+            {
                 i_at(x, y).push_back(i_at(x, y)[i].contents[j]);
+            }
             i_rem(x, y, i);
             i--;
         }
@@ -1134,7 +1273,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
     case t_chainfence_v:
     case t_chainfence_h:
         result = rng(0, 50);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result && str >= rng(0, 50))
         {
             sound += "clang!";
@@ -1151,13 +1293,18 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     case t_wall_wood:
         result = rng(0, 120);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result && str >= rng(0, 120))
         {
             sound += "crunch!";
             ter(x, y) = t_wall_wood_chipped;
             if(one_in(2))
+            {
                 add_item(x, y, (*itypes)[itm_2x4], 0);
+            }
             add_item(x, y, (*itypes)[itm_nail], 0, 2);
             add_item(x, y, (*itypes)[itm_splinter], 0);
             return true;
@@ -1171,7 +1318,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     case t_wall_wood_chipped:
         result = rng(0, 100);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result && str >= rng(0, 100))
         {
             sound += "crunch!";
@@ -1190,7 +1340,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     case t_wall_wood_broken:
         result = rng(0, 80);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result && str >= rng(0, 80))
         {
             sound += "crash!";
@@ -1210,13 +1363,18 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
     case t_palisade:
     case t_palisade_gate:
         result = rng(0, 120);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result && str >= rng(0, 120))
         {
             sound += "crunch!";
             ter(x, y) = t_pit;
             if(one_in(2))
+            {
                 add_item(x, y, (*itypes)[itm_splinter], 0, 20);
+            }
             return true;
         }
         else
@@ -1228,13 +1386,18 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     case t_wall_log:
         result = rng(0, 120);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result && str >= rng(0, 120))
         {
             sound += "crunch!";
             ter(x, y) = t_wall_log_chipped;
             if(one_in(2))
+            {
                 add_item(x, y, (*itypes)[itm_splinter], 0, 3);
+            }
             return true;
         }
         else
@@ -1246,7 +1409,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     case t_wall_log_chipped:
         result = rng(0, 100);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result && str >= rng(0, 100))
         {
             sound += "crunch!";
@@ -1263,7 +1429,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     case t_wall_log_broken:
         result = rng(0, 80);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result && str >= rng(0, 80))
         {
             sound += "crash!";
@@ -1281,7 +1450,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     case t_chaingate_c:
         result = rng(0, has_adjacent_furniture(x, y) ? 80 : 100);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result && str >= rng(0, 80))
         {
             sound += "clang!";
@@ -1299,7 +1471,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     case t_fencegate_c:
         result = rng(0, has_adjacent_furniture(x, y) ? 30 : 40);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "crash!";
@@ -1320,7 +1495,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
     case t_door_locked:
     case t_door_locked_alarm:
         result = rng(0, has_adjacent_furniture(x, y) ? 40 : 50);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "smash!";
@@ -1336,7 +1514,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     case t_door_b:
         result = rng(0, has_adjacent_furniture(x, y) ? 30 : 40);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "crash!";
@@ -1357,7 +1538,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
     case t_curtains:
     case t_window_domestic_taped:
         result = rng(0, 6);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "glass breaking!";
@@ -1378,7 +1562,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
     case t_window_alarm_taped:
     case t_window_taped:
         result = rng(0, 6);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "glass breaking!";
@@ -1394,7 +1581,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     case t_door_boarded:
         result = rng(0, has_adjacent_furniture(x, y) ? 50 : 60);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "crash!";
@@ -1413,14 +1603,19 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     case t_window_boarded:
         result = rng(0, 30);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "crash!";
             ter(x, y) = t_window_frame;
             const int num_boards = rng(0, 2) * rng(0, 1);
             for (int i = 0; i < num_boards; i++)
+            {
                 add_item(x, y, (*itypes)[itm_splinter], 0);
+            }
             return true;
         }
         else
@@ -1435,7 +1630,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
     case t_canvas_door_o:
     case t_groundsheet:
         result = rng(0, 6);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             // Special code to collapse the tent if destroyed
@@ -1451,13 +1649,17 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
                     }
             // Never found tent center, bail out
             if (tentx == -1 && tenty == -1)
+            {
                 break;
+            }
             // Take the tent down
             for (int i = -1; i <= 1; i++)
                 for (int j = -1; j <= 1; j++)
                 {
                     if (ter(tentx + i, tenty + j) == t_groundsheet)
+                    {
                         add_item(tentx + i, tenty + j, (*itypes)[itm_broketent], 0);
+                    }
                     ter(tentx + i, tenty + j) = t_dirt;
                 }
 
@@ -1473,7 +1675,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     case t_paper:
         result = dice(1, 6) - 2;
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "rrrrip!";
@@ -1492,7 +1697,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
     case t_fridge:
     case t_glass_fridge:
         result = rng(0, 30);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "metal screeching!";
@@ -1500,7 +1708,9 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
             add_item(x, y, (*itypes)[itm_scrap], 0, rng(2, 8));
             const int num_boards = rng(0, 3);
             for (int i = 0; i < num_boards; i++)
+            {
                 add_item(x, y, (*itypes)[itm_steel_chunk], 0);
+            }
             add_item(x, y, (*itypes)[itm_pipe], 0);
             return true;
         }
@@ -1515,7 +1725,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
     case t_bathtub:
     case t_toilet:
         result = dice(8, 4) - 8;
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "porcelain breaking!";
@@ -1535,7 +1748,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
     case t_counter:
     case t_table:
         result = rng(0, 45);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "smash!";
@@ -1554,7 +1770,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     case t_fence_post:
         result = rng(0, 10);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "crak";
@@ -1574,7 +1793,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
     case t_desk:
     case t_cupboard:
         result = rng(0, 30);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "smash!";
@@ -1597,7 +1819,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
     case t_wall_glass_v_alarm:
     case t_door_glass_c:
         result = rng(0, 20);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "glass breaking!";
@@ -1614,7 +1839,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
     case t_reinforced_glass_h:
     case t_reinforced_glass_v:
         result = rng(60, 100);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "glass breaking!";
@@ -1630,14 +1858,19 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     case t_tree_young:
         result = rng(0, 50);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "crunch!";
             ter(x, y) = t_underbrush;
             const int num_sticks = rng(0, 3);
             for (int i = 0; i < num_sticks; i++)
+            {
                 add_item(x, y, (*itypes)[itm_stick], 0);
+            }
             return true;
         }
         else
@@ -1649,7 +1882,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     case t_underbrush:
         result = rng(0, 30);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result && !one_in(4))
         {
             sound += "crunch.";
@@ -1679,7 +1915,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     case t_marloss:
         result = rng(0, 40);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "crunch!";
@@ -1695,7 +1934,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     case t_vat:
         result = dice(2, 20);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "ker-rash!";
@@ -1710,7 +1952,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
     case t_crate_c:
     case t_crate_o:
         result = dice(4, 20);
-        if (res) *res = result;
+        if (res)
+        {
+            *res = result;
+        }
         if (str >= result)
         {
             sound += "smash";
@@ -1725,7 +1970,10 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
             return true;
         }
     }
-    if (res) *res = result;
+    if (res)
+    {
+        *res = result;
+    }
     if (move_cost(x, y) == 0)
     {
         sound += "thump!";
@@ -1742,7 +1990,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
 
     case t_gas_pump:
         if (makesound && one_in(3))
+        {
             g->explosion(x, y, 40, 0, true);
+        }
         else
         {
             for (int i = x - 2; i <= x + 2; i++)
@@ -1750,9 +2000,13 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
                 for (int j = y - 2; j <= y + 2; j++)
                 {
                     if (move_cost(i, j) > 0 && one_in(3))
+                    {
                         add_item(i, j, g->itypes[itm_gasoline], 0);
+                    }
                     if (move_cost(i, j) > 0 && one_in(6))
+                    {
                         add_item(i, j, g->itypes[itm_steel_chunk], 0);
+                    }
                 }
             }
         }
@@ -1769,9 +2023,13 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
             for (int j = y - 2; j <= y + 2; j++)
             {
                 if (move_cost(i, j) > 0 && one_in(6))
+                {
                     add_item(i, j, g->itypes[itm_2x4], 0);
+                }
                 if (move_cost(i, j) > 0 && one_in(6))
+                {
                     add_item(i, j, g->itypes[itm_nail], 0, 3);
+                }
             }
         }
         break;
@@ -1784,7 +2042,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
             for (int j = y - 2; j <= y + 2; j++)
             {
                 if (move_cost(i, j) > 0 && one_in(5))
+                {
                     add_item(i, j, g->itypes[itm_rock], 0);
+                }
                 ter(x, y) = t_rubble;
             }
         }
@@ -1797,9 +2057,13 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
             for (int j = y - 2; j <= y + 2; j++)
             {
                 if (move_cost(i, j) > 0 && one_in(5))
+                {
                     add_item(i, j, g->itypes[itm_splinter], 0);
+                }
                 if (move_cost(i, j) > 0 && one_in(6))
+                {
                     add_item(i, j, g->itypes[itm_nail], 0, 3);
+                }
             }
         }
         ter(x, y) = t_rubble;
@@ -1807,20 +2071,30 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
             for (int j = y - 1; j <= y + 1; j++)
             {
                 if (i == x && j == y || !has_flag(collapses, i, j))
+                {
                     continue;
+                }
                 int num_supports = -1;
                 for (int k = i - 1; k <= i + 1; k++)
                     for (int l = j - 1; l <= j + 1; l++)
                     {
                         if (k == i && l == j)
+                        {
                             continue;
+                        }
                         if (has_flag(collapses, k, l))
+                        {
                             num_supports++;
+                        }
                         else if (has_flag(supports_roof, k, l))
+                        {
                             num_supports += 2;
+                        }
                     }
                 if (one_in(num_supports))
+                {
                     destroy (g, i, j, false);
+                }
             }
         break;
 
@@ -1834,13 +2108,21 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
             for (int j = y - 2; j <= y + 2; j++)
             {
                 if (move_cost(i, j) > 0 && one_in(5))
+                {
                     add_item(i, j, g->itypes[itm_rock], 0);
+                }
                 if (move_cost(i, j) > 0 && one_in(4))
+                {
                     add_item(i, j, g->itypes[itm_splinter], 0);
+                }
                 if (move_cost(i, j) > 0 && one_in(3))
+                {
                     add_item(i, j, g->itypes[itm_rebar], 0);
+                }
                 if (move_cost(i, j) > 0 && one_in(6))
+                {
                     add_item(i, j, g->itypes[itm_nail], 0, 3);
+                }
             }
         }
         ter(x, y) = t_rubble;
@@ -1848,44 +2130,62 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
             for (int j = y - 1; j <= y + 1; j++)
             {
                 if (i == x && j == y || !has_flag(supports_roof, i, j))
+                {
                     continue;
+                }
                 int num_supports = 0;
                 for (int k = i - 1; k <= i + 1; k++)
                     for (int l = j - 1; l <= j + 1; l++)
                     {
                         if (k == i && l == j)
+                        {
                             continue;
+                        }
                         if (has_flag(collapses, i, j))
                         {
                             if (has_flag(collapses, k, l))
+                            {
                                 num_supports++;
+                            }
                             else if (has_flag(supports_roof, k, l))
+                            {
                                 num_supports += 2;
+                            }
                         }
                         else if (has_flag(supports_roof, i, j))
                             if (has_flag(supports_roof, k, l) && !has_flag(collapses, k, l))
+                            {
                                 num_supports += 3;
+                            }
                     }
                 if (one_in(num_supports))
+                {
                     destroy (g, i, j, false);
+                }
             }
         break;
 
     default:
         if (makesound && has_flag(explodes, x, y) && one_in(2))
+        {
             g->explosion(x, y, 40, 0, true);
+        }
         ter(x, y) = t_rubble;
     }
 
     if (makesound)
+    {
         g->sound(x, y, 40, "SMASH!!");
+    }
 }
 
 void map::shoot(game *g, const int x, const int y, int &dam,
                 const bool hit_items, const unsigned effects)
 {
     if (dam < 0)
+    {
         return;
+    }
 
     if (has_flag(alarmed, x, y) && !g->event_queued(EVENT_WANTED))
     {
@@ -1911,10 +2211,14 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         {
             dam -= rng(20, 40);
             if (dam > 0)
+            {
                 ter(x, y) = t_dirt;
+            }
         }
         else
+        {
             dam -= rng(0, 1);
+        }
         break;
 
 
@@ -1923,13 +2227,17 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     case t_door_locked_alarm:
         dam -= rng(15, 30);
         if (dam > 0)
+        {
             ter(x, y) = t_door_b;
+        }
         break;
 
     case t_door_boarded:
         dam -= rng(15, 35);
         if (dam > 0)
+        {
             ter(x, y) = t_door_b;
+        }
         break;
 
     case t_window:
@@ -1942,7 +2250,9 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     case t_window_boarded:
         dam -= rng(10, 30);
         if (dam > 0)
+        {
             ter(x, y) = t_window_frame;
+        }
         break;
 
     case t_wall_glass_h:
@@ -1956,9 +2266,13 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     case t_paper:
         dam -= rng(4, 16);
         if (dam > 0)
+        {
             ter(x, y) = t_dirt;
+        }
         if (effects & mfb(AMMO_INCENDIARY))
+        {
             add_field(g, x, y, fd_fire, 1);
+        }
         break;
 
     case t_gas_pump:
@@ -1967,7 +2281,9 @@ void map::shoot(game *g, const int x, const int y, int &dam,
             if (dam > 15)
             {
                 if (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME))
+                {
                     g->explosion(x, y, 40, 0, true);
+                }
                 else
                 {
                     for (int i = x - 2; i <= x + 2; i++)
@@ -1975,7 +2291,9 @@ void map::shoot(game *g, const int x, const int y, int &dam,
                         for (int j = y - 2; j <= y + 2; j++)
                         {
                             if (move_cost(i, j) > 0 && one_in(3))
+                            {
                                 add_item(i, j, g->itypes[itm_gasoline], 0);
+                            }
                         }
                     }
                 }
@@ -1992,22 +2310,32 @@ void map::shoot(game *g, const int x, const int y, int &dam,
             ter(x, y) = t_floor;
         }
         else
+        {
             dam = 0;
+        }
         break;
 
     default:
         if (move_cost(x, y) == 0 && !trans(x, y))
-            dam = 0;	// TODO: Bullets can go through some walls?
+        {
+            dam = 0;    // TODO: Bullets can go through some walls?
+        }
         else
+        {
             dam -= (rng(0, 1) * rng(0, 1) * rng(0, 1));
+        }
     }
 
     if (effects & mfb(AMMO_TRAIL) && !one_in(4))
+    {
         add_field(g, x, y, fd_smoke, rng(1, 2));
+    }
 
 // Set damage to 0 if it's less
     if (dam < 0)
+    {
         dam = 0;
+    }
 
 // Check fields?
     field *fieldhit = &(field_at(x, y));
@@ -2015,7 +2343,9 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     {
     case fd_web:
         if (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME))
+        {
             add_field(g, x, y, fd_fire, fieldhit->density - 1);
+        }
         else if (dam > 5 + fieldhit->density * 5 && one_in(5 - fieldhit->density))
         {
             dam -= rng(1, 2 + fieldhit->density * 2);
@@ -2027,7 +2357,9 @@ void map::shoot(game *g, const int x, const int y, int &dam,
 // Now, destroy items on that tile.
 
     if ((move_cost(x, y) == 2 && !hit_items) || !INBOUNDS(x, y))
-        return;	// Items on floor-type spaces won't be shot up.
+    {
+        return;    // Items on floor-type spaces won't be shot up.
+    }
 
     for (int i = 0; i < i_at(x, y).size(); i++)
     {
@@ -2037,28 +2369,38 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         case GLASS:
         case PAPER:
             if (dam > rng(2, 8) && one_in(i_at(x, y)[i].volume()))
+            {
                 destroyed = true;
+            }
             break;
         case PLASTIC:
             if (dam > rng(2, 10) && one_in(i_at(x, y)[i].volume() * 3))
+            {
                 destroyed = true;
+            }
             break;
         case VEGGY:
         case FLESH:
             if (dam > rng(10, 40))
+            {
                 destroyed = true;
+            }
             break;
         case COTTON:
         case WOOL:
             i_at(x, y)[i].damage++;
             if (i_at(x, y)[i].damage >= 5)
+            {
                 destroyed = true;
+            }
             break;
         }
         if (destroyed)
         {
             for (int j = 0; j < i_at(x, y)[i].contents.size(); j++)
+            {
                 i_at(x, y).push_back(i_at(x, y)[i].contents[j]);
+            }
             i_rem(x, y, i);
             i--;
         }
@@ -2068,7 +2410,9 @@ void map::shoot(game *g, const int x, const int y, int &dam,
 bool map::hit_with_acid(game *g, const int x, const int y)
 {
     if (move_cost(x, y) != 0)
-        return false; // Didn't hit the tile!
+    {
+        return false;    // Didn't hit the tile!
+    }
 
     switch (ter(x, y))
     {
@@ -2084,14 +2428,20 @@ bool map::hit_with_acid(game *g, const int x, const int y)
     case t_door_locked:
     case t_door_locked_alarm:
         if (one_in(3))
+        {
             ter(x, y) = t_door_b;
+        }
         break;
 
     case t_door_b:
         if (one_in(4))
+        {
             ter(x, y) = t_door_frame;
+        }
         else
+        {
             return false;
+        }
         break;
 
     case t_window:
@@ -2214,7 +2564,9 @@ void map::translate(const ter_id from, const ter_id to)
         for (int y = 0; y < SEEY * my_MAPSIZE; y++)
         {
             if (ter(x, y) == from)
+            {
                 ter(x, y) = to;
+            }
         }
     }
 }
@@ -2308,13 +2660,21 @@ item map::water_from(const int x, const int y)
 {
     item ret((*itypes)[itm_water], 0);
     if (ter(x, y) == t_water_sh && one_in(3))
+    {
         ret.poison = rng(1, 4);
+    }
     else if (ter(x, y) == t_water_dp && one_in(4))
+    {
         ret.poison = rng(1, 4);
+    }
     else if (ter(x, y) == t_sewage)
+    {
         ret.poison = rng(1, 7);
+    }
     else if (ter(x, y) == t_toilet && !one_in(3))
+    {
         ret.poison = rng(1, 3);
+    }
 
     return ret;
 }
@@ -2322,7 +2682,9 @@ item map::water_from(const int x, const int y)
 void map::i_rem(const int x, const int y, const int index)
 {
     if (index > i_at(x, y).size() - 1)
+    {
         return;
+    }
     i_at(x, y).erase(i_at(x, y).begin() + index);
 }
 
@@ -2341,7 +2703,9 @@ point map::find_item(const item *it)
             for (int i = 0; i < i_at(ret.x, ret.y).size(); i++)
             {
                 if (it == &i_at(ret.x, ret.y)[i])
+                {
                     return ret;
+                }
             }
         }
     }
@@ -2353,29 +2717,43 @@ point map::find_item(const item *it)
 void map::add_item(const int x, const int y, itype* type, const int birthday, const int quantity)
 {
     if (type->is_style())
+    {
         return;
+    }
     item tmp(type, birthday);
     if (quantity)
         if(tmp.charges > 0)
+        {
             tmp.charges = quantity;
+        }
         else
             // If the item doesn't have charges, recurse and create the requested number of seperate items.
             for(int i = 0; i < quantity; i++)
+            {
                 add_item(x, y, type, birthday);
+            }
     tmp = tmp.in_its_container(itypes);
     if (tmp.made_of(LIQUID) && has_flag(swimmable, x, y))
+    {
         return;
+    }
     add_item(x, y, tmp);
 }
 
 void map::add_item(const int x, const int y, item new_item)
 {
     if (new_item.is_style())
+    {
         return;
+    }
     if (!INBOUNDS(x, y))
+    {
         return;
+    }
     if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
+    {
         return;
+    }
     if (has_flag(noitem, x, y) || i_at(x, y).size() >= 26)  // Too many items there
     {
         std::vector<point> okay;
@@ -2385,7 +2763,9 @@ void map::add_item(const int x, const int y, item new_item)
             {
                 if (INBOUNDS(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
                         i_at(i, j).size() < 26)
+                {
                     okay.push_back(point(i, j));
+                }
             }
         }
         if (okay.size() == 0)
@@ -2396,12 +2776,16 @@ void map::add_item(const int x, const int y, item new_item)
                 {
                     if (INBOUNDS(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
                             i_at(i, j).size() < 26)
+                    {
                         okay.push_back(point(i, j));
+                    }
                 }
             }
         }
         if (okay.size() == 0)// STILL?
+        {
             return;
+        }
         const point choice = okay[rng(0, okay.size() - 1)];
         add_item(choice.x, choice.y, new_item);
         return;
@@ -2416,7 +2800,9 @@ void map::add_item(const int x, const int y, item new_item)
     const int ly = y % SEEY;
     grid[nonant]->itm[lx][ly].push_back(new_item);
     if (new_item.active)
+    {
         grid[nonant]->active_item_count++;
+    }
 }
 
 void map::process_active_items(game *g)
@@ -2426,7 +2812,9 @@ void map::process_active_items(game *g)
         for (int gy = 0; gy < my_MAPSIZE; gy++)
         {
             if (grid[gx + gy * my_MAPSIZE]->active_item_count > 0)
+            {
                 process_active_items_in_submap(g, gx + gy * my_MAPSIZE);
+            }
         }
     }
 }
@@ -2454,7 +2842,9 @@ void map::process_active_items_in_submap(game *g, const int nonant)
                         tmp = dynamic_cast<it_tool*>((*items)[n].type);
                         (use.*tmp->use)(g, &(g->u), &((*items)[n]), true);
                         if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge ==0)
+                        {
                             (*items)[n].charges--;
+                        }
                         if ((*items)[n].charges <= 0)
                         {
                             (use.*tmp->use)(g, &(g->u), &((*items)[n]), false);
@@ -2465,7 +2855,9 @@ void map::process_active_items_in_submap(game *g, const int nonant)
                                 n--;
                             }
                             else
+                            {
                                 (*items)[n].type = g->itypes[tmp->revert_to];
+                            }
                         }
                     }
                 }
@@ -2546,7 +2938,9 @@ void map::use_charges(const point origin, const int range, const itype_id type, 
                                         m--;
                                     }
                                     else
+                                    {
                                         curit->contents[m].charges = 0;
+                                    }
                                 }
                                 else
                                 {
@@ -2567,7 +2961,9 @@ void map::use_charges(const point origin, const int range, const itype_id type, 
                                     n--;
                                 }
                                 else
+                                {
                                     curit->charges = 0;
+                                }
                             }
                             else
                             {
@@ -2616,7 +3012,9 @@ trap_id& map::tr_at(const int x, const int y)
 void map::add_trap(const int x, const int y, const trap_id t)
 {
     if (!INBOUNDS(x, y))
+    {
         return;
+    }
     const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
     const int lx = x % SEEX;
@@ -2639,7 +3037,9 @@ void map::disarm_trap(game *g, const int x, const int y)
     int roll = rng(tSkillLevel, 4 * tSkillLevel);
 
     while ((rng(5, 20) < g->u.per_cur || rng(1, 20) < g->u.dex_cur) && roll < 50)
+    {
         roll++;
+    }
     if (roll >= diff)
     {
         g->add_msg("You disarm the trap!");
@@ -2647,17 +3047,23 @@ void map::disarm_trap(game *g, const int x, const int y)
         for (int i = 0; i < comp.size(); i++)
         {
             if (comp[i] != itm_null)
+            {
                 add_item(x, y, g->itypes[comp[i]], 0);
+            }
         }
         tr_at(x, y) = tr_null;
         if(diff > 1.25 * skillLevel) // failure might have set off trap
+        {
             g->u.practice("traps", 1.5*(diff - skillLevel));
+        }
     }
     else if (roll >= diff * .8)
     {
         g->add_msg("You fail to disarm the trap.");
         if(diff > 1.25 * skillLevel)
+        {
             g->u.practice("traps", 1.5*(diff - skillLevel));
+        }
     }
     else
     {
@@ -2668,7 +3074,9 @@ void map::disarm_trap(game *g, const int x, const int y)
         if(diff - roll <= 6)
             // Give xp for failing, but not if we failed terribly (in which
             // case the trap may not be disarmable).
+        {
             g->u.practice("traps", 2*diff);
+        }
     }
 }
 
@@ -2696,21 +3104,33 @@ bool map::add_field(game *g, const int x, const int y,
     unsigned int density = new_density;
 
     if (!INBOUNDS(x, y))
+    {
         return false;
+    }
     if (field_at(x, y).type == fd_web && t == fd_fire)
+    {
         density++;
+    }
     else if (!field_at(x, y).is_null()) // Blood & bile are null too
+    {
         return false;
+    }
     if (density > 3)
+    {
         density = 3;
+    }
     if (density <= 0)
+    {
         return false;
+    }
     const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
     const int lx = x % SEEX;
     const int ly = y % SEEY;
     if (grid[nonant]->fld[lx][ly].type == fd_null)
+    {
         grid[nonant]->field_count++;
+    }
     grid[nonant]->fld[lx][ly] = field(t, density, 0);
     if (g != NULL && lx == g->u.posx && ly == g->u.posy &&
             grid[nonant]->fld[lx][ly].is_dangerous())
@@ -2724,20 +3144,26 @@ bool map::add_field(game *g, const int x, const int y,
 void map::remove_field(const int x, const int y)
 {
     if (!INBOUNDS(x, y))
+    {
         return;
+    }
     const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
     const int lx = x % SEEX;
     const int ly = y % SEEY;
     if (grid[nonant]->fld[lx][ly].type != fd_null)
+    {
         grid[nonant]->field_count--;
+    }
     grid[nonant]->fld[lx][ly] = field();
 }
 
 computer* map::computer_at(const int x, const int y)
 {
     if (!INBOUNDS(x, y))
+    {
         return NULL;
+    }
     /*
      int nonant;
      cast_to_nonant(x, y, nonant);
@@ -2747,7 +3173,9 @@ computer* map::computer_at(const int x, const int y)
     const int lx = x % SEEX;
     const int ly = y % SEEY;
     if (grid[nonant]->comp.name == "")
+    {
         return NULL;
+    }
     return &(grid[nonant]->comp);
 }
 
@@ -2836,7 +3264,10 @@ void map::draw(game *g, WINDOW* w, const point center)
                     if (dist > real_max_sight_range)
                     {
                         int intLit = (int)lit - (dist - real_max_sight_range)/2;
-                        if (intLit < 0) intLit = LL_DARK;
+                        if (intLit < 0)
+                        {
+                            intLit = LL_DARK;
+                        }
                         lit = (lit_level)intLit;
                     }
                 }
@@ -2856,16 +3287,24 @@ void map::draw(game *g, WINDOW* w, const point center)
                       (u_sight_impaired && lit != LL_BRIGHT))))
             {
                 if (u_is_boomered)
+                {
                     mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_magenta, '#');
+                }
                 else
+                {
                     mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_dkgray, '#');
+                }
             }
             else if (dist > light_sight_range && u_sight_impaired && lit == LL_BRIGHT)
             {
                 if (u_is_boomered)
+                {
                     mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_pink, '#');
+                }
                 else
+                {
                     mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_ltgray, '#');
+                }
             }
             else if (dist <= u_clairvoyance || can_see)
             {
@@ -2882,7 +3321,9 @@ void map::draw(game *g, WINDOW* w, const point center)
     }
     int atx = getmaxx(w)/2 + g->u.posx - center.x, aty = getmaxy(w)/2 + g->u.posy - center.y;
     if (atx >= 0 && atx < g->TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < g->TERRAIN_WINDOW_HEIGHT)
+    {
         mvwputch(w, aty, atx, g->u.color(), '@');
+    }
 }
 
 void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert_arg,
@@ -2894,11 +3335,17 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     int cx = cx_arg;
     int cy = cy_arg;
     if (!INBOUNDS(x, y))
-        return;	// Out of bounds
+    {
+        return;    // Out of bounds
+    }
     if (cx == -1)
+    {
         cx = u.posx;
+    }
     if (cy == -1)
+    {
         cy = u.posy;
+    }
     const int k = x + getmaxx(w)/2 - cx;
     const int j = y + getmaxy(w)/2 - cy;
     nc_color tercol;
@@ -2907,19 +3354,27 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     bool graf = false;
     bool normal_tercol = false, drew_field = false;
     if (u.has_disease(DI_BOOMERED))
+    {
         tercol = c_magenta;
+    }
     else if ((u.is_wearing(itm_goggles_nv) && u.has_active_item(itm_UPS_on)) ||
              u.has_active_bionic(bio_night_vision))
+    {
         tercol = (bright_light) ? c_white : c_ltgreen;
+    }
     else if (low_light)
+    {
         tercol = c_dkgray;
+    }
     else
     {
         normal_tercol = true;
         tercol = terlist[ter(x, y)].color;
     }
     if (move_cost(x, y) == 0 && has_flag(swimmable, x, y) && !u.underwater)
-        show_items = false;	// Can only see underwater items if WE are underwater
+    {
+        show_items = false;    // Can only see underwater items if WE are underwater
+    }
 // If there's a trap here, and we have sufficient perception, draw that instead
     if (tr_at(x, y) != tr_null &&
             u.per_cur - u.encumb(bp_eyes) >= (*traps)[tr_at(x, y)]->visibility)
@@ -2947,7 +3402,9 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
             }
         }
         else
+        {
             sym = (*traps)[tr_at(x, y)]->sym;
+        }
     }
 // If there's a field here, draw that instead (unless its symbol is %)
     if (field_at(x, y).type != fd_null &&
@@ -2987,12 +3444,16 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     if (show_items && !has_flag(container, x, y) && i_at(x, y).size() > 0 && !drew_field)
     {
         if ((terlist[ter(x, y)].sym != '.'))
+        {
             hi = true;
+        }
         else
         {
             tercol = i_at(x, y)[i_at(x, y).size() - 1].color();
             if (i_at(x, y).size() > 1)
+            {
                 invert = !invert;
+            }
             sym = i_at(x, y)[i_at(x, y).size() - 1].symbol();
         }
     }
@@ -3003,20 +3464,32 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     {
         sym = special_symbol (veh->face.dir_symbol(veh->part_sym(veh_part)));
         if (normal_tercol)
+        {
             tercol = veh->part_color(veh_part);
+        }
     }
 // If there's graffiti here, change background color
     if(graffiti_at(x,y).contents)
+    {
         graf = true;
+    }
 
     if (invert)
+    {
         mvwputch_inv(w, j, k, tercol, sym);
+    }
     else if (hi)
+    {
         mvwputch_hi (w, j, k, tercol, sym);
+    }
     else if (graf)
+    {
         mvwputch    (w, j, k, red_background(tercol), sym);
+    }
     else
+    {
         mvwputch    (w, j, k, tercol, sym);
+    }
 }
 
 /*
@@ -3038,7 +3511,9 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
     int st;
 
     if (range >= 0 && (abs(dx) > range || abs(dy) > range))
-        return false;	// Out of range!
+    {
+        return false;    // Out of range!
+    }
     if (ax > ay)   // Mostly-horizontal line
     {
         st = SGN(ay - (ax >> 1));
@@ -3114,7 +3589,9 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
     int st;
 
     if (range >= 0 && (abs(dx) > range || abs(dy) > range))
-        return false;	// Out of range!
+    {
+        return false;    // Out of range!
+    }
     if (ax > ay)   // Mostly-horizontal line
     {
         st = SGN(ay - (ax >> 1));
@@ -3188,7 +3665,9 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
     {
         int linet;
         if (sees(Fx, Fy, Tx, Ty, -1, linet))
+        {
             return line_to(Fx, Fy, Tx, Ty, linet);
+        }
         else
         {
             std::vector<point> empty;
@@ -3198,7 +3677,9 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
 // First, check for a simple straight line on flat ground
     int linet = 0;
     if (clear_path(Fx, Fy, Tx, Ty, -1, 2, 2, linet))
+    {
         return line_to(Fx, Fy, Tx, Ty, linet);
+    }
     /*
      if (move_cost(Tx, Ty) == 0)
       debugmsg("%d:%d wanted to move to %d:%d, a %s!", Fx, Fy, Tx, Ty,
@@ -3224,13 +3705,21 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
         endy = Fy + 4;
     }
     if (startx < 0)
+    {
         startx = 0;
+    }
     if (starty < 0)
+    {
         starty = 0;
+    }
     if (endx > SEEX * my_MAPSIZE - 1)
+    {
         endx = SEEX * my_MAPSIZE - 1;
+    }
     if (endy > SEEY * my_MAPSIZE - 1)
+    {
         endy = SEEY * my_MAPSIZE - 1;
+    }
 
     for (int x = startx; x <= endx; x++)
     {
@@ -3265,7 +3754,9 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
             for (int y = open[index].y - 1; y <= open[index].y + 1; y++)
             {
                 if (x == open[index].x && y == open[index].y)
-                    y++;	// Skip the current square
+                {
+                    y++;    // Skip the current square
+                }
                 if (x == Tx && y == Ty)
                 {
                     done = true;
@@ -3281,18 +3772,26 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
                         parent[x][y] = open[index];
                         gscore[x][y] = gscore[open[index].x][open[index].y] + move_cost(x, y);
                         if (ter(x, y) == t_door_c)
-                            gscore[x][y] += 4;	// A turn to open it and a turn to move there
+                        {
+                            gscore[x][y] += 4;    // A turn to open it and a turn to move there
+                        }
                         else if (move_cost(x, y) == 0 && (bash && has_flag(bashable, x, y)))
-                            gscore[x][y] += 18;	// Worst case scenario with damage penalty
+                        {
+                            gscore[x][y] += 18;    // Worst case scenario with damage penalty
+                        }
                         score[x][y] = gscore[x][y] + 2 * rl_dist(x, y, Tx, Ty);
                     }
                     else if (list[x][y] == ASL_OPEN)     // It's open, but make it our child
                     {
                         int newg = gscore[open[index].x][open[index].y] + move_cost(x, y);
                         if (ter(x, y) == t_door_c)
-                            newg += 4;	// A turn to open it and a turn to move there
+                        {
+                            newg += 4;    // A turn to open it and a turn to move there
+                        }
                         else if (move_cost(x, y) == 0 && (bash && has_flag(bashable, x, y)))
-                            newg += 18;	// Worst case scenario with damage penalty
+                        {
+                            newg += 18;    // Worst case scenario with damage penalty
+                        }
                         if (newg < gscore[x][y])
                         {
                             gscore[x][y] = newg;
@@ -3326,7 +3825,9 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
             cur = parent[cur.x][cur.y];
         }
         for (int i = tmp.size() - 1; i >= 0; i--)
+        {
             ret.push_back(tmp[i]);
+        }
     }
     return ret;
 }
@@ -3336,7 +3837,9 @@ void map::save(overmap *om, unsigned const int turn, const int x, const int y)
     for (int gridx = 0; gridx < my_MAPSIZE; gridx++)
     {
         for (int gridy = 0; gridy < my_MAPSIZE; gridy++)
+        {
             saven(om, turn, x, y, gridx, gridy);
+        }
     }
 }
 
@@ -3347,7 +3850,9 @@ void map::load(game *g, const int wx, const int wy, const bool update_vehicle)
         for (int gridy = 0; gridy < my_MAPSIZE; gridy++)
         {
             if (!loadn(g, wx, wy, gridx, gridy, update_vehicle))
+            {
                 loadn(g, wx, wy, gridx, gridy, update_vehicle);
+            }
         }
     }
 }
@@ -3363,7 +3868,9 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
             for (int gridy = 0; gridy < my_MAPSIZE; gridy++)
             {
                 if (!loadn(g, wx+sx, wy+sy, gridx, gridy))
+                {
                     loadn(g, wx+sx, wy+sy, gridx, gridy);
+                }
             }
         }
         return;
@@ -3402,7 +3909,9 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
                         update_vehicle_list(gridx + gridy * my_MAPSIZE);
                     }
                     else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
+                    {
                         loadn(g, wx + sx, wy + sy, gridx, gridy);
+                    }
                 }
             }
             else     // sy < 0; work through it backwards
@@ -3421,7 +3930,9 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
                         update_vehicle_list(gridx + gridy * my_MAPSIZE);
                     }
                     else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
+                    {
                         loadn(g, wx + sx, wy + sy, gridx, gridy);
+                    }
                 }
             }
         }
@@ -3446,7 +3957,9 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
                         update_vehicle_list(gridx + gridy * my_MAPSIZE);
                     }
                     else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
+                    {
                         loadn(g, wx + sx, wy + sy, gridx, gridy);
+                    }
                 }
             }
             else     // sy < 0; work through it backwards
@@ -3465,7 +3978,9 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
                         update_vehicle_list(gridx + gridy * my_MAPSIZE);
                     }
                     else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
+                    {
                         loadn(g, wx + sx, wy + sy, gridx, gridy);
+                    }
                 }
             }
         }
@@ -3569,9 +4084,13 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int gridx, co
         }
 
         if (worldx + gridx < 0)
+        {
             newmapx = worldx + gridx;
+        }
         if (worldy + gridy < 0)
+        {
             newmapy = worldy + gridy;
+        }
         tmp_map.generate(g, this_om, newmapx, newmapy, int(g->turn));
         return false;
     }
@@ -3608,9 +4127,13 @@ void map::spawn_monsters(game *g)
                     tmp.faction_id = grid[n]->spawns[i].faction_id;
                     tmp.mission_id = grid[n]->spawns[i].mission_id;
                     if (grid[n]->spawns[i].name != "NONE")
+                    {
                         tmp.unique_name = grid[n]->spawns[i].name;
+                    }
                     if (grid[n]->spawns[i].friendly)
+                    {
                         tmp.friendly = -1;
+                    }
                     int fx = mx + gx * SEEX, fy = my + gy * SEEY;
 
                     while ((!g->is_empty(fx, fy) || !tmp.can_move_to(g->m, fx, fy)) &&
@@ -3619,9 +4142,13 @@ void map::spawn_monsters(game *g)
                         mx = (grid[n]->spawns[i].posx + rng(-3, 3)) % SEEX;
                         my = (grid[n]->spawns[i].posy + rng(-3, 3)) % SEEY;
                         if (mx < 0)
+                        {
                             mx += SEEX;
+                        }
                         if (my < 0)
+                        {
                             my += SEEY;
+                        }
                         fx = mx + gx * SEEX;
                         fy = my + gy * SEEY;
                         tries++;
@@ -3643,7 +4170,9 @@ void map::spawn_monsters(game *g)
 void map::clear_spawns()
 {
     for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++)
+    {
         grid[i]->spawns.clear();
+    }
 }
 
 void map::clear_traps()
@@ -3653,7 +4182,9 @@ void map::clear_traps()
         for (int x = 0; x < SEEX; x++)
         {
             for (int y = 0; y < SEEY; y++)
+            {
                 grid[i]->trp[x][y] = tr_null;
+            }
         }
     }
 }
@@ -3678,7 +4209,9 @@ bool map::add_graffiti(game *g, int x, int y, std::string contents)
 graffiti map::graffiti_at(int x, int y)
 {
     if (!inbounds(x, y))
+    {
         return graffiti();
+    }
     /*
      int nonant;
      cast_to_nonant(x, y, nonant);
@@ -3708,7 +4241,9 @@ tinymap::tinymap(std::vector<itype*> *itptr,
     traps = trptr;
     my_MAPSIZE = 2;
     for (int n = 0; n < 4; n++)
+    {
         grid[n] = NULL;
+    }
 }
 
 tinymap::~tinymap()

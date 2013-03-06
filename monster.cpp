@@ -119,7 +119,9 @@ std::string monster::name()
         return std::string();
     }
     if (unique_name != "")
+    {
         return type->name + ": " + unique_name;
+    }
     return type->name;
 }
 
@@ -127,7 +129,9 @@ std::string monster::name_with_armor()
 {
     std::string ret = type->name;
     if (type->species == species_insect)
+    {
         ret += "'s carapace";
+    }
     else
     {
         switch (type->mat)
@@ -176,11 +180,17 @@ void monster::print_info(game *g, WINDOW* w)
         break;
     }
     if (has_effect(ME_DOWNED))
+    {
         wprintz(w, h_white, "On ground");
+    }
     else if (has_effect(ME_STUNNED))
+    {
         wprintz(w, h_white, "Stunned");
+    }
     else if (has_effect(ME_BEARTRAP))
+    {
         wprintz(w, h_white, "Trapped");
+    }
     std::string damage_info;
     nc_color col;
     if (hp == type->hp)
@@ -241,9 +251,13 @@ void monster::draw(WINDOW *w, int plx, int ply, bool inv)
     int y = getmaxy(w)/2 + posy - ply;
     nc_color color = type->color;
     if (friendly != 0 && !inv)
+    {
         mvwputch_hi(w, y, x, color, type->sym);
+    }
     else if (inv)
+    {
         mvwputch_inv(w, y, x, color, type->sym);
+    }
     else
     {
         color = color_with_effects();
@@ -255,9 +269,13 @@ nc_color monster::color_with_effects()
 {
     nc_color ret = type->color;
     if (has_effect(ME_BEARTRAP) || has_effect(ME_STUNNED) || has_effect(ME_DOWNED))
+    {
         ret = hilite(ret);
+    }
     if (has_effect(ME_ONFIRE))
+    {
         ret = red_background(ret);
+    }
     return ret;
 }
 
@@ -266,7 +284,9 @@ bool monster::has_flag(m_flag f)
     for (int i = 0; i < type->flags.size(); i++)
     {
         if (type->flags[i] == f)
+        {
             return true;
+        }
     }
     return false;
 }
@@ -284,7 +304,9 @@ bool monster::can_hear()
 bool monster::made_of(material m)
 {
     if (type->mat == m)
+    {
         return true;
+    }
     return false;
 }
 
@@ -330,7 +352,10 @@ void monster::debug(player &u)
         sprintf(buff, "%d", i);
         if (i < 10) mvaddch(plans[i].y - SEEY + u.posy, plans[i].x - SEEX + u.posx,
                                 buff[0]);
-        else mvaddch(plans[i].y - SEEY + u.posy, plans[i].x - SEEX + u.posx, buff[1]);
+        else
+        {
+            mvaddch(plans[i].y - SEEY + u.posy, plans[i].x - SEEX + u.posx, buff[1]);
+        }
     }
     getch();
 }
@@ -349,7 +374,9 @@ void monster::shift(int sx, int sy)
 bool monster::is_fleeing(player &u)
 {
     if (has_effect(ME_RUN))
+    {
         return true;
+    }
     monster_attitude att = attitude(&u);
     return (att == MATT_FLEE ||
             (att == MATT_FOLLOW && rl_dist(posx, posy, u.posx, u.posy) <= 4));
@@ -358,9 +385,13 @@ bool monster::is_fleeing(player &u)
 monster_attitude monster::attitude(player *u)
 {
     if (friendly != 0)
+    {
         return MATT_FRIEND;
+    }
     if (has_effect(ME_RUN))
+    {
         return MATT_FLEE;
+    }
 
     int effective_anger  = anger;
     int effective_morale = morale;
@@ -371,17 +402,25 @@ monster_attitude monster::attitude(player *u)
         if (((type->species == species_mammal && u->has_trait(PF_PHEROMONE_MAMMAL)) ||
                 (type->species == species_insect && u->has_trait(PF_PHEROMONE_INSECT)))&&
                 effective_anger >= 10)
+        {
             effective_anger -= 20;
+        }
 
         if (u->has_trait(PF_TERRIFYING))
+        {
             effective_morale -= 10;
+        }
 
         if (u->has_trait(PF_ANIMALEMPATH) && has_flag(MF_ANIMAL))
         {
             if (effective_anger >= 10)
+            {
                 effective_anger -= 10;
+            }
             if (effective_anger < 10)
+            {
                 effective_morale += 5;
+            }
         }
 
     }
@@ -389,15 +428,21 @@ monster_attitude monster::attitude(player *u)
     if (effective_morale < 0)
     {
         if (effective_morale + effective_anger > 0)
+        {
             return MATT_FOLLOW;
+        }
         return MATT_FLEE;
     }
 
     if (effective_anger < 0)
+    {
         return MATT_IGNORE;
+    }
 
     if (effective_anger < 10)
+    {
         return MATT_FOLLOW;
+    }
 
     return MATT_ATTACK;
 }
@@ -409,10 +454,14 @@ void monster::process_triggers(game *g)
     if (morale < 0)
     {
         if (morale < type->morale && one_in(20))
+        {
             morale++;
+        }
     }
     else
+    {
         morale -= trigger_sum(g, &(type->fear));
+    }
 }
 
 // This Adjustes anger/morale levels given a single trigger.
@@ -421,17 +470,23 @@ void monster::process_trigger(monster_trigger trig, int amount)
     for (int i = 0; i < type->anger.size(); i++)
     {
         if (type->anger[i] == trig)
+        {
             anger += amount;
+        }
     }
     for (int i = 0; i < type->placate.size(); i++)
     {
         if (type->placate[i] == trig)
+        {
             anger -= amount;
+        }
     }
     for (int i = 0; i < type->fear.size(); i++)
     {
         if (type->fear[i] == trig)
+        {
             morale -= amount;
+        }
     }
 }
 
@@ -447,7 +502,9 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
         {
         case MTRIG_TIME:
             if (one_in(20))
+            {
                 ret++;
+            }
             break;
 
         case MTRIG_MEAT:
@@ -457,11 +514,15 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
 
         case MTRIG_PLAYER_CLOSE:
             if (rl_dist(posx, posy, g->u.posx, g->u.posy) <= 5)
+            {
                 ret += 5;
+            }
             for (int i = 0; i < g->active_npc.size(); i++)
             {
                 if (rl_dist(posx, posy, g->active_npc[i].posx, g->active_npc[i].posy) <= 5)
+                {
                     ret += 5;
+                }
             }
             break;
 
@@ -472,7 +533,9 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
 
         case MTRIG_PLAYER_WEAK:
             if (g->u.hp_percentage() <= 70)
+            {
                 ret += 10 - int(g->u.hp_percentage() / 10);
+            }
             break;
 
         default:
@@ -504,14 +567,18 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
                 if (check_fire)
                 {
                     if (g->m.field_at(x, y).type == fd_fire)
+                    {
                         ret += 5 * g->m.field_at(x, y).density;
+                    }
                 }
             }
         }
         if (check_fire)
         {
             if (g->u.has_amount(itm_torch_lit, 1))
+            {
                 ret += 49;
+            }
         }
     }
 
@@ -524,7 +591,9 @@ int monster::hit(game *g, player &p, body_part &bp_hit)
     if (dice(numdice, 10) <= dice(p.dodge(g), 10) && !one_in(20))
     {
         if (p.skillLevel("dodge") < numdice)
+        {
             p.practice("dodge", 10);
+        }
         return 0;	// We missed!
     }
     p.practice("dodge", 5);
@@ -550,27 +619,47 @@ int monster::hit(game *g, player &p, body_part &bp_hit)
     }
 
     if (has_flag(MF_DIGS))
+    {
         highest_hit -= 8;
+    }
     if (has_flag(MF_FLIES))
+    {
         highest_hit += 20;
+    }
     if (highest_hit <= 1)
+    {
         highest_hit = 2;
+    }
     if (highest_hit > 20)
+    {
         highest_hit = 20;
+    }
 
     int bp_rand = rng(0, highest_hit - 1);
     if (bp_rand <=  2)
+    {
         bp_hit = bp_legs;
+    }
     else if (bp_rand <= 10)
+    {
         bp_hit = bp_torso;
+    }
     else if (bp_rand <= 14)
+    {
         bp_hit = bp_arms;
+    }
     else if (bp_rand <= 16)
+    {
         bp_hit = bp_mouth;
+    }
     else if (bp_rand == 17)
+    {
         bp_hit = bp_eyes;
+    }
     else
+    {
         bp_hit = bp_head;
+    }
     ret += dice(type->melee_dice, type->melee_sides);
     return ret;
 }
@@ -601,14 +690,20 @@ void monster::hit_monster(game *g, int i)
     if (dice(numdice, 10) <= dice(dodgedice, 10))
     {
         if (g->u_see(this, junk))
+        {
             g->add_msg("The %s misses the %s!", name().c_str(), target->name().c_str());
+        }
         return;
     }
     if (g->u_see(this, junk))
+    {
         g->add_msg("The %s hits the %s!", name().c_str(), target->name().c_str());
+    }
     int damage = dice(type->melee_dice, type->melee_sides);
     if (target->hurt(damage))
+    {
         g->kill_mon(i, (friendly != 0));
+    }
 }
 
 
@@ -616,9 +711,13 @@ bool monster::hurt(int dam)
 {
     hp -= dam;
     if (hp < 1)
+    {
         return true;
+    }
     if (dam > 0)
+    {
         process_trigger(MTRIG_HURT, 1 + int(dam / 3));
+    }
     return false;
 }
 
@@ -636,12 +735,18 @@ int monster::armor_bash()
 int monster::dodge()
 {
     if (has_effect(ME_DOWNED))
+    {
         return 0;
+    }
     int ret = type->sk_dodge;
     if (has_effect(ME_BEARTRAP))
+    {
         ret /= 2;
+    }
     if (moves <= 0 - 100 - type->speed)
+    {
         ret = rng(0, ret);
+    }
     return ret;
 }
 
@@ -672,7 +777,9 @@ int monster::dodge_roll()
 int monster::fall_damage()
 {
     if (has_flag(MF_FLIES))
+    {
         return 0;
+    }
     switch (type->size)
     {
     case MS_TINY:
@@ -698,7 +805,9 @@ int monster::fall_damage()
 void monster::die(game *g)
 {
     if (!dead)
+    {
         dead = true;
+    }
 // Drop goodies
     int total_chance = 0, total_it_chance, cur_chance, selected_location,
         selected_item;
@@ -711,7 +820,9 @@ void monster::die(game *g)
     else
     {
         for (int i = 0; i < it.size(); i++)
+        {
             total_chance += it[i].chance;
+        }
 
         while (rng(0, 99) < abs(type->item_chance) && !animal_done)
         {
@@ -725,7 +836,9 @@ void monster::die(game *g)
             total_it_chance = 0;
             mapit = g->mapitems[it[selected_location].loc];
             for (int i = 0; i < mapit.size(); i++)
+            {
                 total_it_chance += g->itypes[mapit[i]]->rarity;
+            }
             cur_chance = rng(1, total_it_chance);
             selected_item = -1;
             while (cur_chance > 0)
@@ -735,7 +848,9 @@ void monster::die(game *g)
             }
             g->m.add_item(posx, posy, g->itypes[mapit[selected_item]], 0);
             if (type->item_chance < 0)
-                animal_done = true;	// Only drop ONE item.
+            {
+                animal_done = true;    // Only drop ONE item.
+            }
         }
     } // Done dropping items
 
@@ -750,17 +865,25 @@ void monster::die(game *g)
             for (int j = 0; !match && j < g->moncats[moncat_type].size(); j++)
             {
                 if (g->moncats[moncat_type][j] == type->id)
+                {
                     match = true;
+                }
             }
             if (match)
+            {
                 groups[i]->dying = true;
+            }
         }
 // Do it for overmap above/below too
         overmap tmp;
         if (g->cur_om.posz == 0)
+        {
             tmp = overmap(g, g->cur_om.posx, g->cur_om.posy, -1);
+        }
         else
+        {
             tmp = overmap(g, g->cur_om.posx, g->cur_om.posy, 0);
+        }
 
         groups = tmp.monsters_at(g->levx, g->levy);
         for (int i = 0; i < groups.size(); i++)
@@ -770,10 +893,14 @@ void monster::die(game *g)
             for (int j = 0; !match && j < g->moncats[moncat_type].size(); j++)
             {
                 if (g->moncats[moncat_type][j] == type->id)
+                {
                     match = true;
+                }
             }
             if (match)
+            {
                 groups[i]->dying = true;
+            }
         }
     }
 // If we're a mission monster, update the mission
@@ -781,9 +908,13 @@ void monster::die(game *g)
     {
         mission_type *misstype = g->find_mission_type(mission_id);
         if (misstype->goal == MGOAL_FIND_MONSTER)
+        {
             g->fail_mission(mission_id);
+        }
         if (misstype->goal == MGOAL_KILL_MONSTER)
+        {
             g->mission_step_complete(mission_id, 1);
+        }
     }
 // Also, perform our death function
     mdeath md;
@@ -793,17 +924,23 @@ void monster::die(game *g)
     for (int i = 0; i < type->anger.size(); i++)
     {
         if (type->anger[i] == MTRIG_FRIEND_DIED)
+        {
             anger_adjust += 15;
+        }
     }
     for (int i = 0; i < type->placate.size(); i++)
     {
         if (type->placate[i] == MTRIG_FRIEND_DIED)
+        {
             anger_adjust -= 15;
+        }
     }
     for (int i = 0; i < type->fear.size(); i++)
     {
         if (type->fear[i] == MTRIG_FRIEND_DIED)
+        {
             morale_adjust -= 15;
+        }
     }
     if (anger_adjust != 0 && morale_adjust != 0)
     {
@@ -838,7 +975,9 @@ bool monster::has_effect(monster_effect_type effect)
     for (int i = 0; i < effects.size(); i++)
     {
         if (effects[i].type == effect)
+        {
             return true;
+        }
     }
     return false;
 }
@@ -868,12 +1007,18 @@ void monster::process_effects(game *g)
 
         case ME_ONFIRE:
             if (made_of(FLESH))
+            {
                 hurt(rng(3, 8));
+            }
             if (made_of(VEGGY))
+            {
                 hurt(rng(10, 20));
+            }
             if (made_of(PAPER) || made_of(POWDER) || made_of(WOOD) || made_of(COTTON) ||
                     made_of(WOOL))
+            {
                 hurt(rng(15, 40));
+            }
             break;
 
         }
@@ -881,12 +1026,16 @@ void monster::process_effects(game *g)
         {
             effects[i].duration--;
             if (g->debugmon)
+            {
                 debugmsg("Duration %d", effects[i].duration);
+            }
         }
         if (effects[i].duration == 0)
         {
             if (g->debugmon)
+            {
                 debugmsg("Deleting");
+            }
             effects.erase(effects.begin() + i);
             i--;
         }

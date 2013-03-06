@@ -7,7 +7,9 @@
 InputEvent get_input(int ch)
 {
     if (ch == '\0')
+    {
         ch = getch();
+    }
 
     switch(ch)
     {

@@ -7,12 +7,16 @@ bool tutorial_game::init(game *g)
 {
     g->turn = HOURS(12); // Start at noon
     for (int i = 0; i < NUM_LESSONS; i++)
+    {
         tutorials_seen[i] = false;
+    }
 // Set the scent map to 0
     for (int i = 0; i < SEEX * MAPSIZE; i++)
     {
         for (int j = 0; j < SEEX * MAPSIZE; j++)
+        {
             g->scent(i, j) = 0;
+        }
     }
     g->temperature = 65;
 // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
@@ -47,7 +51,9 @@ bool tutorial_game::init(game *g)
     for (int x = 0; x < OMAPX; x++)
     {
         for (int y = 0; y < OMAPY; y++)
+        {
             g->cur_om.seen(x, y) = true;
+        }
     }
     g->m.load(g, g->levx, g->levy);
     g->levz = 0;
@@ -65,21 +71,31 @@ void tutorial_game::per_turn(game *g)
         add_message(g, LESSON_INTRO);
     }
     else if (g->turn == HOURS(12) + 3)
+    {
         add_message(g, LESSON_INTRO);
+    }
 
     if (g->light_level() == 1)
     {
         if (g->u.has_amount(itm_flashlight, 1))
+        {
             add_message(g, LESSON_DARK);
+        }
         else
+        {
             add_message(g, LESSON_DARK_NO_FLASH);
+        }
     }
 
     if (g->u.pain > 0)
+    {
         add_message(g, LESSON_PAIN);
+    }
 
     if (g->u.recoil >= 5)
+    {
         add_message(g, LESSON_RECOIL);
+    }
 
     if (!tutorials_seen[LESSON_BUTCHER])
     {
@@ -132,7 +148,9 @@ void tutorial_game::per_turn(game *g)
     }
 
     if (!g->m.i_at(g->u.posx, g->u.posy).empty())
+    {
         add_message(g, LESSON_PICKUP);
+    }
 }
 
 void tutorial_game::pre_action(game *g, action_id &act)
@@ -166,24 +184,34 @@ void tutorial_game::post_action(game *g, action_id act)
 
     case ACTION_USE:
         if (g->u.has_amount(itm_grenade_act, 1))
+        {
             add_message(g, LESSON_ACT_GRENADE);
+        }
         for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++)
         {
             for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++)
             {
                 if (g->m.tr_at(x, y) == tr_bubblewrap)
+                {
                     add_message(g, LESSON_ACT_BUBBLEWRAP);
+                }
             }
         }
         break;
 
     case ACTION_EAT:
         if (g->u.last_item == itm_codeine)
+        {
             add_message(g, LESSON_TOOK_PAINKILLER);
+        }
         else if (g->u.last_item == itm_cig)
+        {
             add_message(g, LESSON_TOOK_CIG);
+        }
         else if (g->u.last_item == itm_water)
+        {
             add_message(g, LESSON_DRANK_WATER);
+        }
         break;
 
     case ACTION_WEAR:
@@ -193,18 +221,26 @@ void tutorial_game::post_action(game *g, action_id act)
         {
             it_armor *armor = dynamic_cast<it_armor*>(it);
             if (armor->dmg_resist >= 2 || armor->cut_resist >= 4)
+            {
                 add_message(g, LESSON_WORE_ARMOR);
+            }
             if (armor->storage >= 20)
+            {
                 add_message(g, LESSON_WORE_STORAGE);
+            }
             if (armor->env_resist >= 2)
+            {
                 add_message(g, LESSON_WORE_MASK);
+            }
         }
     }
     break;
 
     case ACTION_WIELD:
         if (g->u.weapon.is_gun())
+        {
             add_message(g, LESSON_GUN_LOAD);
+        }
         break;
 
     case ACTION_EXAMINE:
@@ -214,20 +250,34 @@ void tutorial_game::post_action(game *g, action_id act)
     {
         itype *it = g->itypes[ g->u.last_item ];
         if (it->is_armor())
+        {
             add_message(g, LESSON_GOT_ARMOR);
+        }
         else if (it->is_gun())
+        {
             add_message(g, LESSON_GOT_GUN);
+        }
         else if (it->is_ammo())
+        {
             add_message(g, LESSON_GOT_AMMO);
+        }
         else if (it->is_tool())
+        {
             add_message(g, LESSON_GOT_TOOL);
+        }
         else if (it->is_food())
+        {
             add_message(g, LESSON_GOT_FOOD);
+        }
         else if (it->melee_dam > 7 || it->melee_cut > 5)
+        {
             add_message(g, LESSON_GOT_WEAPON);
+        }
 
         if (g->u.volume_carried() > g->u.volume_capacity() - 2)
+        {
             add_message(g, LESSON_OVERLOADED);
+        }
     }
     break;
 
@@ -255,10 +305,14 @@ void tutorial_game::add_message(game *g, tut_lesson lesson)
             }
         }
         if (lesson == NUM_LESSONS)
+        {
             return;
+        }
     }
     if (tutorials_seen[lesson])
+    {
         return;
+    }
     tutorials_seen[lesson] = true;
     popup_top(tut_text[lesson].c_str());
     g->refresh_all();

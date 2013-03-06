@@ -311,16 +311,22 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
     va_start(ap, active_tab);
     char *tmp;
     while ((tmp = va_arg(ap, char *)))
+    {
         labels.push_back((std::string)(tmp));
+    }
     va_end(ap);
 
 // Draw the line under the tabs
     for (int x = 0; x < win_width; x++)
+    {
         mvwputch(w, 2, x, c_white, LINE_OXOX);
+    }
 
     int total_width = 0;
     for (int i = 0; i < labels.size(); i++)
-        total_width += labels[i].length() + 6; // "< |four| >"
+    {
+        total_width += labels[i].length() + 6;    // "< |four| >"
+    }
 
     if (total_width > win_width)
     {
@@ -369,7 +375,9 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
             mvwputch(w, 2, xpos + length + 1, c_white, LINE_XXOX);
             mvwprintz(w, 1, xpos + 1, c_white, labels[i].c_str());
             for (int x = xpos + 1; x <= xpos + length; x++)
+            {
                 mvwputch(w, 0, x, c_white, LINE_OXOX);
+            }
         }
         xpos += length + 1 + buffer;
     }
@@ -410,14 +418,18 @@ bool query_yn(const char *mes, ...)
     wrefresh(w);
     char ch;
     do
+    {
         ch = getch();
+    }
     while (ch != 'Y' && ch != 'N' && (force_uc || (ch != 'y' && ch != 'n')));
     werase(w);
     wrefresh(w);
     delwin(w);
     refresh();
     if (ch == 'Y' || ch == 'y')
+    {
         return true;
+    }
     return false;
 }
 
@@ -437,7 +449,9 @@ int query_int(const char *mes, ...)
 
     int temp;
     do
+    {
         temp = getch();
+    }
     while ((temp-48)<0 || (temp-48)>9);
     werase(w);
     wrefresh(w);
@@ -456,12 +470,16 @@ std::string string_input_popup(std::string title, int max_length, std::string in
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     for (int i = startx + 1; i < 79; i++)
+    {
         mvwputch(w, 1, i, c_ltgray, '_');
+    }
 
     mvwprintz(w, 1, 1, c_ltred, "%s", title.c_str());
 
     if (input != "")
+    {
         mvwprintz(w, 1, startx, c_magenta, "%s", input.c_str());
+    }
 
     int posx = startx + input.size();
     mvwputch(w, 1, posx, h_ltgray, '_');
@@ -519,15 +537,21 @@ char popup_getkey(const char *mes, ...)
     {
         height++;
         if (pos > width)
+        {
             width = pos;
+        }
         tmp = tmp.substr(pos + 1);
         pos = tmp.find_first_of('\n');
     }
     if (width == 0 || tmp.length() > width)
+    {
         width = tmp.length();
+    }
     width += 2;
     if (height > 25)
+    {
         height = 25;
+    }
     WINDOW* w = newwin(height + 1, width, int((25 - height) / 2),
                        int((80 - width) / 2));
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -567,7 +591,9 @@ int menu_vec(const char *mes, std::vector<std::string> options)
     for (int i = 0; i < options.size(); i++)
     {
         if (options[i].length() + 6 > width)
+        {
             width = options[i].length() + 6;
+        }
     }
     WINDOW* w = newwin(height, width, 12-height/2, 40-width/2);
     wattron(w, c_white);
@@ -585,15 +611,25 @@ int menu_vec(const char *mes, std::vector<std::string> options)
     {
         ch = getch();
         if (ch >= '1' && ch <= '9')
+        {
             res = ch - '1' + 1;
+        }
         else if (ch == '0')
+        {
             res = 10;
+        }
         else if (ch >= 'a' && ch <= 'z')
+        {
             res = ch - 'a' + 11;
+        }
         else
+        {
             res = -1;
+        }
         if (res > options.size())
+        {
             res = -1;
+        }
     }
     while (res == -1);
     werase(w);
@@ -618,7 +654,9 @@ int menu(const char *mes, ...)
             options.push_back(strtmp);
         }
         else
+        {
             done = true;
+        }
     }
     return (menu_vec(mes, options));
 }
@@ -638,12 +676,16 @@ void popup_top(const char *mes, ...)
     {
         height++;
         if (pos > width)
+        {
             width = pos;
+        }
         tmp = tmp.substr(pos + 1);
         pos = tmp.find_first_of('\n');
     }
     if (width == 0 || tmp.length() > width)
+    {
         width = tmp.length();
+    }
     width += 2;
     WINDOW* w = newwin(height + 1, width, 0, int((80 - width) / 2));
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -665,7 +707,9 @@ void popup_top(const char *mes, ...)
     wrefresh(w);
     char ch;
     do
+    {
         ch = getch();
+    }
     while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
     werase(w);
     wrefresh(w);
@@ -688,15 +732,21 @@ void popup(const char *mes, ...)
     {
         height++;
         if (pos > width)
+        {
             width = pos;
+        }
         tmp = tmp.substr(pos + 1);
         pos = tmp.find_first_of('\n');
     }
     if (width == 0 || tmp.length() > width)
+    {
         width = tmp.length();
+    }
     width += 2;
     if (height > 25)
+    {
         height = 25;
+    }
     WINDOW* w = newwin(height + 1, width, int((25 - height) / 2),
                        int((80 - width) / 2));
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -718,7 +768,9 @@ void popup(const char *mes, ...)
     wrefresh(w);
     char ch;
     do
+    {
         ch = getch();
+    }
     while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
     werase(w);
     wrefresh(w);
@@ -741,15 +793,21 @@ void popup_nowait(const char *mes, ...)
     {
         height++;
         if (pos > width)
+        {
             width = pos;
+        }
         tmp = tmp.substr(pos + 1);
         pos = tmp.find_first_of('\n');
     }
     if (width == 0 || tmp.length() > width)
+    {
         width = tmp.length();
+    }
     width += 2;
     if (height > 25)
+    {
         height = 25;
+    }
     WINDOW* w = newwin(height + 1, width, int((25 - height) / 2),
                        int((80 - width) / 2));
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -798,7 +856,9 @@ void full_screen_popup(const char* mes, ...)
     wrefresh(w);
     char ch;
     do
+    {
         ch = getch();
+    }
     while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
     werase(w);
     wrefresh(w);
@@ -875,9 +935,13 @@ char compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
                 sPlus = "+";
             }
             else if (sPre != "+")
+            {
                 wprintz(w, c_white, "%s", sPre.c_str());
+            }
             else if (sPre == "+")
+            {
                 sPlus = "+";
+            }
 
             if (vItemDisplay[i].iValue != -999)
             {
@@ -920,7 +984,9 @@ char compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
                 }
 
                 if (sPlus == "+" )
+                {
                     wprintz(w, thisColor, "%s", (sPlus).c_str());
+                }
                 wprintz(w, thisColor, "%d", vItemDisplay[i].iValue);
             }
             wprintz(w, c_white, (vItemDisplay[i].sPost).c_str());
