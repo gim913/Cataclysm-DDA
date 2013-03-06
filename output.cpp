@@ -212,7 +212,7 @@ void wputch(WINDOW* w, nc_color FG, long ch)
     wattroff(w, FG);
 }
 
-void mvwputch(WINDOW *w, int y, int x, nc_color FG, long ch)
+void mvwputch(WINDOW* w, int y, int x, nc_color FG, long ch)
 {
     wattron(w, FG);
     mvwaddch(w, y, x, ch);
@@ -251,7 +251,7 @@ void mvwputch_hi(WINDOW* w, int y, int x, nc_color FG, long ch)
     wattroff(w, HC);
 }
 
-void mvprintz(int y, int x, nc_color FG, const char *mes, ...)
+void mvprintz(int y, int x, nc_color FG, const char* mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
@@ -263,7 +263,7 @@ void mvprintz(int y, int x, nc_color FG, const char *mes, ...)
     attroff(FG);
 }
 
-void mvwprintz(WINDOW* w, int y, int x, nc_color FG, const char *mes, ...)
+void mvwprintz(WINDOW* w, int y, int x, nc_color FG, const char* mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
@@ -278,7 +278,7 @@ void mvwprintz(WINDOW* w, int y, int x, nc_color FG, const char *mes, ...)
     va_end(ap);
 }
 
-void printz(nc_color FG, const char *mes, ...)
+void printz(nc_color FG, const char* mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
@@ -290,7 +290,7 @@ void printz(nc_color FG, const char *mes, ...)
     attroff(FG);
 }
 
-void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
+void wprintz(WINDOW* w, nc_color FG, const char* mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
@@ -302,15 +302,15 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
     wattroff(w, FG);
 }
 
-void draw_tabs(WINDOW *w, int active_tab, ...)
+void draw_tabs(WINDOW* w, int active_tab, ...)
 {
     int win_width;
     win_width = getmaxx(w);
     std::vector<std::string> labels;
     va_list ap;
     va_start(ap, active_tab);
-    char *tmp;
-    while ((tmp = va_arg(ap, char *)))
+    char* tmp;
+    while ((tmp = va_arg(ap, char*)))
     {
         labels.push_back((std::string)(tmp));
     }
@@ -383,7 +383,7 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
     }
 }
 
-void realDebugmsg(const char* filename, const char* line, const char *mes, ...)
+void realDebugmsg(const char* filename, const char* line, const char* mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
@@ -401,7 +401,7 @@ void realDebugmsg(const char* filename, const char* line, const char *mes, ...)
     attroff(c_red);
 }
 
-bool query_yn(const char *mes, ...)
+bool query_yn(const char* mes, ...)
 {
     bool force_uc = OPTIONS[OPT_FORCE_YN];
     va_list ap;
@@ -433,7 +433,7 @@ bool query_yn(const char *mes, ...)
     return false;
 }
 
-int query_int(const char *mes, ...)
+int query_int(const char* mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
@@ -522,7 +522,7 @@ std::string string_input_popup(std::string title, int max_length, std::string in
     while (true);
 }
 
-char popup_getkey(const char *mes, ...)
+char popup_getkey(const char* mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
@@ -579,7 +579,7 @@ char popup_getkey(const char *mes, ...)
     return ch;
 }
 
-int menu_vec(const char *mes, std::vector<std::string> options)
+int menu_vec(const char* mes, std::vector<std::string> options)
 {
     if (options.size() == 0)
     {
@@ -638,7 +638,7 @@ int menu_vec(const char *mes, std::vector<std::string> options)
     return (res);
 }
 
-int menu(const char *mes, ...)
+int menu(const char* mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
@@ -661,7 +661,7 @@ int menu(const char *mes, ...)
     return (menu_vec(mes, options));
 }
 
-void popup_top(const char *mes, ...)
+void popup_top(const char* mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
@@ -717,7 +717,7 @@ void popup_top(const char *mes, ...)
     refresh();
 }
 
-void popup(const char *mes, ...)
+void popup(const char* mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
@@ -778,7 +778,7 @@ void popup(const char *mes, ...)
     refresh();
 }
 
-void popup_nowait(const char *mes, ...)
+void popup_nowait(const char* mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
@@ -1071,7 +1071,7 @@ long special_symbol(char sym)
 }
 
 // crawl through string, probing each word while treating spaces & newlines the same.
-std::string word_rewrap(const std::string &in, int width)
+std::string word_rewrap(const std::string& in, int width)
 {
     std::ostringstream o;
     int i_ok = 0; // pos in string of next char probe

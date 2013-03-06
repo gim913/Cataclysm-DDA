@@ -39,8 +39,8 @@ map::map()
     veh_in_active_range = true;
 }
 
-map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
-         std::vector<trap*> *trptr)
+map::map(std::vector<itype*>* itptr, std::vector<itype_id> (*miptr)[num_itloc],
+         std::vector<trap*>* trptr)
 {
     nulter = t_null;
     nultrap = tr_null;
@@ -107,7 +107,7 @@ VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const in
     return vehs;
 }
 
-vehicle* map::veh_at(const int x, const int y, int &part_num)
+vehicle* map::veh_at(const int x, const int y, int& part_num)
 {
     // This function is called A LOT. Move as much out of here as possible.
     if (!veh_in_active_range || !inbounds(x, y))
@@ -132,7 +132,7 @@ vehicle* map::veh_at(const int x, const int y, int &part_num)
 vehicle* map::veh_at(const int x, const int y)
 {
     int part = 0;
-    vehicle *veh = veh_at(x, y, part);
+    vehicle* veh = veh_at(x, y, part);
     return veh;
 }
 
@@ -148,7 +148,7 @@ void map::reset_vehicle_cache()
     }
 }
 
-void map::update_vehicle_cache(vehicle * veh, const bool brand_new)
+void map::update_vehicle_cache(vehicle* veh, const bool brand_new)
 {
     veh_in_active_range = true;
     if (!brand_new)
@@ -179,7 +179,7 @@ void map::update_vehicle_cache(vehicle * veh, const bool brand_new)
         }
     }
     // Get parts
-    std::vector<vehicle_part> & parts = veh->parts;
+    std::vector<vehicle_part>& parts = veh->parts;
     const int gx = veh->global_x();
     const int gy = veh->global_y();
     int partid = 0;
@@ -227,7 +227,7 @@ void map::update_vehicle_list(const int to)
     }
 }
 
-void map::board_vehicle(game *g, int x, int y, player *p)
+void map::board_vehicle(game* g, int x, int y, player* p)
 {
     if (!p)
     {
@@ -236,7 +236,7 @@ void map::board_vehicle(game *g, int x, int y, player *p)
     }
 
     int part = 0;
-    vehicle *veh = veh_at(x, y, part);
+    vehicle* veh = veh_at(x, y, part);
     if (!veh)
     {
         debugmsg("map::board_vehicle: vehicle not found");
@@ -252,7 +252,7 @@ void map::board_vehicle(game *g, int x, int y, player *p)
     }
     if (veh->parts[seat_part].has_flag(vehicle_part::passenger_flag))
     {
-        player *psg = veh->get_passenger(seat_part);
+        player* psg = veh->get_passenger(seat_part);
         debugmsg("map::board_vehicle: passenger (%s) is already there",
                  psg ? psg->name.c_str() : "<null>");
         return;
@@ -272,10 +272,10 @@ void map::board_vehicle(game *g, int x, int y, player *p)
     }
 }
 
-void map::unboard_vehicle(game *g, const int x, const int y)
+void map::unboard_vehicle(game* g, const int x, const int y)
 {
     int part = 0;
-    vehicle *veh = veh_at(x, y, part);
+    vehicle* veh = veh_at(x, y, part);
     if (!veh)
     {
         debugmsg("map::unboard_vehicle: vehicle not found");
@@ -288,7 +288,7 @@ void map::unboard_vehicle(game *g, const int x, const int y)
                  veh->part_info(part).name);
         return;
     }
-    player *psg = veh->get_passenger(seat_part);
+    player* psg = veh->get_passenger(seat_part);
     if (!psg)
     {
         debugmsg("map::unboard_vehicle: passenger not found");
@@ -300,7 +300,7 @@ void map::unboard_vehicle(game *g, const int x, const int y)
     veh->skidding = true;
 }
 
-void map::destroy_vehicle(vehicle *veh)
+void map::destroy_vehicle(vehicle* veh)
 {
     if (!veh)
     {
@@ -321,7 +321,7 @@ void map::destroy_vehicle(vehicle *veh)
     debugmsg("destroy_vehicle can't find it! sm=%d", sm);
 }
 
-bool map::displace_vehicle(game *g, int &x, int &y, const int dx, const int dy, bool test = false)
+bool map::displace_vehicle(game* g, int& x, int& y, const int dx, const int dy, bool test = false)
 {
     const int x2 = x + dx;
     const int y2 = y + dy;
@@ -367,7 +367,7 @@ bool map::displace_vehicle(game *g, int &x, int &y, const int dx, const int dy, 
         return false;
     }
     // move the vehicle
-    vehicle *veh = grid[src_na]->vehicles[our_i];
+    vehicle* veh = grid[src_na]->vehicles[our_i];
     // don't let it go off grid
     if (!inbounds(x2, y2))
     {
@@ -378,7 +378,7 @@ bool map::displace_vehicle(game *g, int &x, int &y, const int dx, const int dy, 
 
     // record every passenger inside
     std::vector<int> psg_parts = veh->boarded_parts();
-    std::vector<player *> psgs;
+    std::vector<player*> psgs;
     for (int p = 0; p < psg_parts.size(); p++)
     {
         psgs.push_back(veh->get_passenger(psg_parts[p]));
@@ -391,7 +391,7 @@ bool map::displace_vehicle(game *g, int &x, int &y, const int dx, const int dy, 
     // move passengers
     for (int i = 0; i < psg_parts.size(); i++)
     {
-        player *psg = psgs[i];
+        player* psg = psgs[i];
         const int p = psg_parts[i];
         if (!psg)
         {
@@ -430,7 +430,7 @@ bool map::displace_vehicle(game *g, int &x, int &y, const int dx, const int dy, 
     veh->posy = dsty;
     if (src_na != dst_na)
     {
-        vehicle * veh1 = veh;
+        vehicle* veh1 = veh;
         veh1->smx = int(x2 / SEEX);
         veh1->smy = int(y2 / SEEY);
         grid[dst_na]->vehicles.push_back(veh1);
@@ -472,7 +472,7 @@ bool map::displace_vehicle(game *g, int &x, int &y, const int dx, const int dy, 
     return (src_na != dst_na) || was_update;
 }
 
-void map::vehmove(game *g)
+void map::vehmove(game* g)
 {
     // give vehicles movement points
     {
@@ -613,7 +613,7 @@ bool map::vehproceed(game* g)
             const int p = veh->external_parts[ep];
             const int px = x + veh->parts[p].precalc_dx[0];
             const int py = y + veh->parts[p].precalc_dy[0];
-            ter_id &pter = ter(px, py);
+            ter_id& pter = ter(px, py);
             if (pter == t_dirt || pter == t_grass)
             {
                 pter = t_dirtmound;
@@ -756,7 +756,7 @@ bool map::vehproceed(game* g)
         const int vel2 = imp * k_mvel * 100 / (veh->total_mass() / 8);
         for (int ps = 0; ps < ppl.size(); ps++)
         {
-            player *psg = veh->get_passenger(ppl[ps]);
+            player* psg = veh->get_passenger(ppl[ps]);
             if (!psg)
             {
                 debugmsg("throw passenger: empty passenger at part %d", ppl[ps]);
@@ -1017,7 +1017,7 @@ std::string map::features(const int x, const int y)
 int map::move_cost(const int x, const int y)
 {
     int vpart = -1;
-    vehicle *veh = veh_at(x, y, vpart);
+    vehicle* veh = veh_at(x, y, vpart);
     if (veh)    // moving past vehicle cost
     {
         const int dpart = veh->part_with_feature(vpart, vpf_obstacle);
@@ -1039,7 +1039,7 @@ int map::move_cost_ter_only(const int x, const int y)
     return terlist[ter(x, y)].movecost;
 }
 
-bool map::trans(const int x, const int y, char * trans_buf)
+bool map::trans(const int x, const int y, char* trans_buf)
 {
     if (trans_buf && trans_buf[x + (y * my_MAPSIZE * SEEX)] != -1)
     {
@@ -1050,7 +1050,7 @@ bool map::trans(const int x, const int y, char * trans_buf)
     // is how we stop rays from going on forever.  Instead we'll have to include
     // this check in the ray loop.
     int vpart = -1;
-    vehicle *veh = veh_at(x, y, vpart);
+    vehicle* veh = veh_at(x, y, vpart);
     bool tertr;
     if (veh)
     {
@@ -1091,7 +1091,7 @@ bool map::has_flag(const t_flag flag, const int x, const int y)
     if (flag == bashable)
     {
         int vpart;
-        vehicle *veh = veh_at(x, y, vpart);
+        vehicle* veh = veh_at(x, y, vpart);
         if (veh && veh->parts[vpart].hp > 0 && // if there's a vehicle part here...
                 veh->part_with_feature(vpart, vpf_obstacle) >= 0)   // & it is obstacle...
         {
@@ -1135,7 +1135,7 @@ bool map::is_outside(const int x, const int y)
     if (out)
     {
         int vpart;
-        vehicle *veh = veh_at(x, y, vpart);
+        vehicle* veh = veh_at(x, y, vpart);
         if (veh && veh->is_inside(vpart))
         {
             out = false;
@@ -1148,7 +1148,7 @@ bool map::flammable_items_at(const int x, const int y)
 {
     for (int i = 0; i < i_at(x, y).size(); i++)
     {
-        item *it = &(i_at(x, y)[i]);
+        item* it = &(i_at(x, y)[i]);
         if (it->made_of(PAPER) || it->made_of(WOOD) || it->made_of(COTTON) ||
                 it->made_of(POWDER) || it->made_of(VEGGY) || it->is_ammo() ||
                 it->type->id == itm_whiskey || it->type->id == itm_vodka ||
@@ -1164,7 +1164,7 @@ bool map::moppable_items_at(const int x, const int y)
 {
     for (int i = 0; i < i_at(x, y).size(); i++)
     {
-        item *it = &(i_at(x, y)[i]);
+        item* it = &(i_at(x, y)[i]);
         if (it->made_of(LIQUID))
         {
             return true;
@@ -1215,7 +1215,7 @@ void map::mop_spills(const int x, const int y)
 {
     for (int i = 0; i < i_at(x, y).size(); i++)
     {
-        item *it = &(i_at(x, y)[i]);
+        item* it = &(i_at(x, y)[i]);
         if (it->made_of(LIQUID))
         {
             i_rem(x, y, i);
@@ -1224,7 +1224,7 @@ void map::mop_spills(const int x, const int y)
     }
 }
 
-bool map::bash(const int x, const int y, const int str, std::string &sound, int *res)
+bool map::bash(const int x, const int y, const int str, std::string& sound, int* res)
 {
     sound = "";
     bool smashed_web = false;
@@ -1258,7 +1258,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
     int result = -1;
     int vpart;
-    vehicle *veh = veh_at(x, y, vpart);
+    vehicle* veh = veh_at(x, y, vpart);
     if (veh)
     {
         veh->damage(vpart, str, 1);
@@ -1983,7 +1983,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 }
 
 // map::destroy is only called (?) if the terrain is NOT bashable.
-void map::destroy(game *g, const int x, const int y, const bool makesound)
+void map::destroy(game* g, const int x, const int y, const bool makesound)
 {
     switch (ter(x, y))
     {
@@ -2179,7 +2179,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
     }
 }
 
-void map::shoot(game *g, const int x, const int y, int &dam,
+void map::shoot(game* g, const int x, const int y, int& dam,
                 const bool hit_items, const unsigned effects)
 {
     if (dam < 0)
@@ -2194,7 +2194,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     }
 
     int vpart;
-    vehicle *veh = veh_at(x, y, vpart);
+    vehicle* veh = veh_at(x, y, vpart);
     if (veh)
     {
         const bool inc = (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME));
@@ -2338,7 +2338,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     }
 
     // Check fields?
-    field *fieldhit = &(field_at(x, y));
+    field* fieldhit = &(field_at(x, y));
     switch (fieldhit->type)
     {
     case fd_web:
@@ -2407,7 +2407,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     }
 }
 
-bool map::hit_with_acid(game *g, const int x, const int y)
+bool map::hit_with_acid(game* g, const int x, const int y)
 {
     if (move_cost(x, y) != 0)
     {
@@ -2693,7 +2693,7 @@ void map::i_clear(const int x, const int y)
     i_at(x, y).clear();
 }
 
-point map::find_item(const item *it)
+point map::find_item(const item* it)
 {
     point ret;
     for (ret.x = 0; ret.x < SEEX * my_MAPSIZE; ret.x++)
@@ -2805,7 +2805,7 @@ void map::add_item(const int x, const int y, item new_item)
     }
 }
 
-void map::process_active_items(game *g)
+void map::process_active_items(game* g)
 {
     for (int gx = 0; gx < my_MAPSIZE; gx++)
     {
@@ -2819,7 +2819,7 @@ void map::process_active_items(game *g)
     }
 }
 
-void map::process_active_items_in_submap(game *g, const int nonant)
+void map::process_active_items_in_submap(game* g, const int nonant)
 {
     it_tool* tmp;
     iuse use;
@@ -2827,7 +2827,7 @@ void map::process_active_items_in_submap(game *g, const int nonant)
     {
         for (int j = 0; j < SEEY; j++)
         {
-            std::vector<item> *items = &(grid[nonant]->itm[i][j]);
+            std::vector<item>* items = &(grid[nonant]->itm[i][j]);
             for (int n = 0; n < items->size(); n++)
             {
                 if ((*items)[n].active)
@@ -3022,7 +3022,7 @@ void map::add_trap(const int x, const int y, const trap_id t)
     grid[nonant]->trp[lx][ly] = t;
 }
 
-void map::disarm_trap(game *g, const int x, const int y)
+void map::disarm_trap(game* g, const int x, const int y)
 {
     int skillLevel = g->u.skillLevel("traps").level();
 
@@ -3098,7 +3098,7 @@ field& map::field_at(const int x, const int y)
     return grid[nonant]->fld[lx][ly];
 }
 
-bool map::add_field(game *g, const int x, const int y,
+bool map::add_field(game* g, const int x, const int y,
                     const field_id t, const unsigned char new_density)
 {
     unsigned int density = new_density;
@@ -3198,7 +3198,7 @@ void map::debug()
     getch();
 }
 
-void map::draw(game *g, WINDOW* w, const point center)
+void map::draw(game* g, WINDOW* w, const point center)
 {
     g->reset_light_level();
     const int natural_sight_range = g->u.sight_range(1);
@@ -3326,7 +3326,7 @@ void map::draw(game *g, WINDOW* w, const point center)
     }
 }
 
-void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert_arg,
+void map::drawsq(WINDOW* w, player& u, const int x, const int y, const bool invert_arg,
                  const bool show_items_arg, const int cx_arg, const int cy_arg,
                  const bool low_light, const bool bright_light)
 {
@@ -3459,7 +3459,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
 
     int veh_part = 0;
-    vehicle *veh = veh_at(x, y, veh_part);
+    vehicle* veh = veh_at(x, y, veh_part);
     if (veh)
     {
         sym = special_symbol(veh->face.dir_symbol(veh->part_sym(veh_part)));
@@ -3497,7 +3497,7 @@ map::sees based off code by Steve Register [arns@arns.freeservers.com]
 http://roguebasin.roguelikedevelopment.org/index.php?title=Simple_Line_of_Sight
 */
 bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
-               const int range, int &tc, char * trans_buf)
+               const int range, int& tc, char* trans_buf)
 {
     const int dx = Tx - Fx;
     const int dy = Ty - Fy;
@@ -3575,7 +3575,7 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
 }
 
 bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
-                     const int range, const int cost_min, const int cost_max, int &tc)
+                     const int range, const int cost_min, const int cost_max, int& tc)
 {
     const int dx = Tx - Fx;
     const int dy = Ty - Fy;
@@ -3832,7 +3832,7 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
     return ret;
 }
 
-void map::save(overmap *om, unsigned const int turn, const int x, const int y)
+void map::save(overmap* om, unsigned const int turn, const int x, const int y)
 {
     for (int gridx = 0; gridx < my_MAPSIZE; gridx++)
     {
@@ -3843,7 +3843,7 @@ void map::save(overmap *om, unsigned const int turn, const int x, const int y)
     }
 }
 
-void map::load(game *g, const int wx, const int wy, const bool update_vehicle)
+void map::load(game* g, const int wx, const int wy, const bool update_vehicle)
 {
     for (int gridx = 0; gridx < my_MAPSIZE; gridx++)
     {
@@ -3857,7 +3857,7 @@ void map::load(game *g, const int wx, const int wy, const bool update_vehicle)
     }
 }
 
-void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
+void map::shift(game* g, const int wx, const int wy, const int sx, const int sy)
 {
     // Special case of 0-shift; refresh the map
     if (sx == 0 && sy == 0)
@@ -3994,7 +3994,7 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
 // 0,0 1,0 2,0
 // 0,1 1,1 2,1
 // 0,2 1,2 2,2
-void map::saven(overmap *om, unsigned const int turn, const int worldx, const int worldy,
+void map::saven(overmap* om, unsigned const int turn, const int worldx, const int worldy,
                 const int gridx, const int gridy)
 {
     dbg(D_INFO) << "map::saven(om[" << (void*)om << "], turn[" << turn << "], worldx[" << worldx << "], worldy[" << worldy << "], gridx[" << gridx << "], gridy[" << gridy << "])";
@@ -4021,7 +4021,7 @@ void map::saven(overmap *om, unsigned const int turn, const int worldx, const in
 // 0,0  1,0  2,0
 // 0,1  1,1  2,1
 // 0,2  1,2  2,2 etc
-bool map::loadn(game *g, const int worldx, const int worldy, const int gridx, const int gridy,
+bool map::loadn(game* g, const int worldx, const int worldy, const int gridx, const int gridy,
                 const bool update_vehicles)
 {
     dbg(D_INFO) << "map::loadn(game[" << g << "], worldx[" << worldx << "], worldy[" << worldy << "], gridx[" << gridx << "], gridy[" << gridy << "])";
@@ -4033,7 +4033,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int gridx, co
     dbg(D_INFO) << "map::loadn absx: " << absx << "  absy: " << absy
                 << "  gridn: " << gridn;
 
-    submap *tmpsub = MAPBUFFER.lookup_submap(absx, absy, g->cur_om.posz);
+    submap* tmpsub = MAPBUFFER.lookup_submap(absx, absy, g->cur_om.posz);
     if (tmpsub)
     {
         grid[gridn] = tmpsub;
@@ -4108,7 +4108,7 @@ void map::copy_grid(const int to, const int from)
     }
 }
 
-void map::spawn_monsters(game *g)
+void map::spawn_monsters(game* g)
 {
     for (int gx = 0; gx < my_MAPSIZE; gx++)
     {
@@ -4195,7 +4195,7 @@ bool map::inbounds(const int x, const int y)
     return (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE);
 }
 
-bool map::add_graffiti(game *g, int x, int y, std::string contents)
+bool map::add_graffiti(game* g, int x, int y, std::string contents)
 {
     int nx = x;
     int ny = y;
@@ -4230,9 +4230,9 @@ tinymap::tinymap()
     nultrap = tr_null;
 }
 
-tinymap::tinymap(std::vector<itype*> *itptr,
+tinymap::tinymap(std::vector<itype*>* itptr,
                  std::vector<itype_id> (*miptr)[num_itloc],
-                 std::vector<trap*> *trptr)
+                 std::vector<trap*>* trptr)
 {
     nulter = t_null;
     nultrap = tr_null;

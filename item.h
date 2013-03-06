@@ -40,38 +40,38 @@ public:
     item(itype* it, unsigned int turn);
     item(itype* it, unsigned int turn, char let);
     void make_corpse(itype* it, mtype* mt, unsigned int turn);  // Corpse
-    item(std::string itemdata, game *g);
+    item(std::string itemdata, game* g);
     ~item();
     void make(itype* it);
 
     // returns the default container of this item, with this item in it
-    item in_its_container(std::vector<itype*> *itypes);
+    item in_its_container(std::vector<itype*>* itypes);
 
-    nc_color color(player *u);
-    nc_color color_in_inventory(player *u);
-    std::string tname(game *g = NULL); // g needed for rotten-test
-    void use(player &u);
+    nc_color color(player* u);
+    nc_color color_in_inventory(player* u);
+    std::string tname(game* g = NULL); // g needed for rotten-test
+    void use(player& u);
     bool burn(int amount = 1); // Returns true if destroyed
 
     // Firearm specifics
-    int reload_time(player &u);
+    int reload_time(player& u);
     int clip_size();
     int accuracy();
     int gun_damage(bool with_ammo = true);
     int noise();
     int burst_size();
     int recoil(bool with_ammo = true);
-    int range(player *p = NULL);
+    int range(player* p = NULL);
     ammotype ammo_type();
-    int pick_reload_ammo(player &u, bool interactive);
-    bool reload(player &u, int index);
+    int pick_reload_ammo(player& u, bool interactive);
+    bool reload(player& u, int index);
     void next_mode();
 
     std::string save_info();    // Formatted for save files
-    void load_info(std::string data, game *g);
+    void load_info(std::string data, game* g);
     //std::string info(bool showtext = false);  // Formatted for human viewing
     std::string info(bool showtext = false);
-    std::string info(bool showtext, std::vector<iteminfo> *dump);
+    std::string info(bool showtext, std::vector<iteminfo>* dump);
     char symbol();
     nc_color color();
     int price();
@@ -87,7 +87,7 @@ public:
     int damage_bash();
     int damage_cut();
     bool has_flag(item_flag f);
-    bool has_technique(technique_id t, player *p = NULL);
+    bool has_technique(technique_id t, player* p = NULL);
     int has_gunmod(int type);
     item* active_gunmod();
     std::vector<technique_id> techniques();
@@ -95,7 +95,7 @@ public:
     bool count_by_charges();
     bool craft_has_charges();
     int num_charges();
-    bool rotten(game *g);
+    bool rotten(game* g);
 
     // Our value as a weapon, given particular skills
     int  weapon_value(int skills[num_skill_types]);
@@ -103,14 +103,14 @@ public:
     int  melee_value(int skills[num_skill_types]);
     // Returns the data associated with tech, if we are an it_style
     style_move style_data(technique_id tech);
-    bool is_two_handed(player *u);
+    bool is_two_handed(player* u);
     bool made_of(material mat);
     bool conductive(); // Electricity
     bool destroyed_at_zero_charges();
     // Most of the is_whatever() functions call the same function in our itype
     bool is_null(); // True if type is NULL, or points to the null item (id == 0)
-    bool is_food(player *u);// Some non-food items are food to certain players
-    bool is_food_container(player *u);  // Ditto
+    bool is_food(player* u);// Some non-food items are food to certain players
+    bool is_food_container(player* u);  // Ditto
     bool is_food();                // Ignoring the ability to eat batteries, etc.
     bool is_food_container();      // Ignoring the ability to eat batteries, etc.
     bool is_ammo_container();
@@ -159,13 +159,13 @@ public:
     int mission_id;// Refers to a mission in game's master list
     int player_id;  // Only give a mission to the right player!
 
-    static itype * nullitem();
+    static itype* nullitem();
 
 private:
-    static itype * nullitem_m;
+    static itype* nullitem_m;
 };
 
-std::ostream & operator<<(std::ostream &, const item &);
-std::ostream & operator<<(std::ostream &, const item *);
+std::ostream& operator<<(std::ostream&, const item&);
+std::ostream& operator<<(std::ostream&, const item*);
 
 #endif

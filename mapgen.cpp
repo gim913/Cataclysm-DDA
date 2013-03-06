@@ -71,23 +71,23 @@ enum room_type
 };
 
 bool connects_to(oter_id there, int dir_from_here);
-void house_room(map *m, room_type type, int x1, int y1, int x2, int y2);
-void science_room(map *m, int x1, int y1, int x2, int y2, int rotate);
-void set_science_room(map *m, int x1, int y1, bool faces_right, int turn);
-void silo_rooms(map *m);
-void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2);
+void house_room(map* m, room_type type, int x1, int y1, int x2, int y2);
+void science_room(map* m, int x1, int y1, int x2, int y2, int rotate);
+void set_science_room(map* m, int x1, int y1, bool faces_right, int turn);
+void silo_rooms(map* m);
+void build_mine_room(map* m, room_type type, int x1, int y1, int x2, int y2);
 map_extra random_map_extra(map_extras);
 
 room_type pick_mansion_room(int x1, int y1, int x2, int y2);
-void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2);
-void mansion_room(map *m, int x1, int y1, int x2, int y2); // pick & build
+void build_mansion_room(map* m, room_type type, int x1, int y1, int x2, int y2);
+void mansion_room(map* m, int x1, int y1, int x2, int y2); // pick & build
 
-void line(map *m, ter_id type, int x1, int y1, int x2, int y2);
-void square(map *m, ter_id type, int x1, int y1, int x2, int y2);
-void rough_circle(map *m, ter_id type, int x, int y, int rad);
-void add_corpse(game *g, map *m, int x, int y);
+void line(map* m, ter_id type, int x1, int y1, int x2, int y2);
+void square(map* m, ter_id type, int x1, int y1, int x2, int y2);
+void rough_circle(map* m, ter_id type, int x, int y, int rad);
+void add_corpse(game* g, map* m, int x, int y);
 
-void map::generate(game *g, overmap *om, int x, int y, int turn)
+void map::generate(game* g, overmap* om, int x, int y, int turn)
 {
     dbg(D_INFO) << "map::generate( g[" << g << "], om[" << (void*)om << "], x[" << x << "], "
                 << "y[" << y << "], turn[" << turn << "] )";
@@ -277,7 +277,7 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
 
 void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                    oter_id t_south, oter_id t_west, oter_id t_above, int turn,
-                   game *g)
+                   game* g)
 {
     // Big old switch statement with a case for each overmap terrain type.
     // Many of these can be copied from another type, then rotated; for instance,
@@ -294,7 +294,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 
     int rn, lw, rw, mw, tw, bw, cw, x, y;
     int n_fac = 0, e_fac = 0, s_fac = 0, w_fac = 0;
-    computer *tmpcomp = NULL;
+    computer* tmpcomp = NULL;
     int SEEX_oth = SEEX;
     int SEEY_oth = SEEY - 5;
 
@@ -10010,7 +10010,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 
 }
 
-void map::post_process(game *g, unsigned zones)
+void map::post_process(game* g, unsigned zones)
 {
     std::string junk;
     if (zones & mfb(OMZONE_CITY))
@@ -10060,7 +10060,7 @@ void map::post_process(game *g, unsigned zones)
 
 }
 
-void map::place_spawns(game *g, moncat_id monster_type, int chance, int x1, int y1,
+void map::place_spawns(game* g, moncat_id monster_type, int chance, int x1, int y1,
                        int x2, int y2, int min, int max)
 {
     if (one_in(chance))
@@ -10220,7 +10220,7 @@ void map::add_spawn(mon_id type, int count, int x, int y, bool friendly,
     grid[nonant]->spawns.push_back(tmp);
 }
 
-void map::add_spawn(monster *mon)
+void map::add_spawn(monster* mon)
 {
     int spawnx, spawny;
     std::string spawnname = (mon->unique_name == "" ? "NONE" : mon->unique_name);
@@ -10248,7 +10248,7 @@ void map::add_spawn(monster *mon)
               mon->faction_id, mon->mission_id, spawnname);
 }
 
-vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir)
+vehicle* map::add_vehicle(game* g, vhtype_id type, int x, int y, int dir)
 {
     if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE)
     {
@@ -10263,7 +10263,7 @@ vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir)
     x %= SEEX;
     y %= SEEY;
     // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
-    vehicle * veh = new vehicle(g, type);
+    vehicle* veh = new vehicle(g, type);
     veh->posx = x;
     veh->posy = y;
     veh->smx = smx;
@@ -10583,7 +10583,7 @@ bool connects_to(oter_id there, int dir)
     }
 }
 
-void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
+void house_room(map* m, room_type type, int x1, int y1, int x2, int y2)
 {
     int pos_x1 = 0;
     int pos_x2 = 0;
@@ -10860,7 +10860,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
     m->place_items(placed, chance, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
 }
 
-void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
+void science_room(map* m, int x1, int y1, int x2, int y2, int rotate)
 {
     int height = y2 - y1;
     int width  = x2 - x1;
@@ -11219,7 +11219,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     }
 }
 
-void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
+void set_science_room(map* m, int x1, int y1, bool faces_right, int turn)
 {
     // TODO: More types!
     int type = rng(0, 4);
@@ -11349,7 +11349,7 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
     }
 }
 
-void silo_rooms(map *m)
+void silo_rooms(map* m)
 {
     std::vector<point> rooms;
     std::vector<point> room_sizes;
@@ -11511,7 +11511,7 @@ void silo_rooms(map *m)
     }
 }
 
-void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2)
+void build_mine_room(map* m, room_type type, int x1, int y1, int x2, int y2)
 {
     direction door_side;
     std::vector<direction> possibilities;
@@ -11769,7 +11769,7 @@ room_type pick_mansion_room(int x1, int y1, int x2, int y2)
     return valid[ rng(0, valid.size() - 1) ];
 }
 
-void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2)
+void build_mansion_room(map* m, room_type type, int x1, int y1, int x2, int y2)
 {
     int dx = abs(x1 - x2), dy = abs(y1 - y2);
     int cx_low = (x1 + x2) / 2, cx_hi = (x1 + x2 + 1) / 2,
@@ -12105,13 +12105,13 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2)
     }
 }
 
-void mansion_room(map *m, int x1, int y1, int x2, int y2)
+void mansion_room(map* m, int x1, int y1, int x2, int y2)
 {
     room_type type = pick_mansion_room(x1, y1, x2, y2);
     build_mansion_room(m, type, x1, y1, x2, y2);
 }
 
-void map::add_extra(map_extra type, game *g)
+void map::add_extra(map_extra type, game* g)
 {
     item body;
     body.make_corpse(g->itypes[itm_corpse], g->mtypes[mon_null], g->turn);
@@ -12736,7 +12736,7 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
     }
 }
 
-void line(map *m, ter_id type, int x1, int y1, int x2, int y2)
+void line(map* m, ter_id type, int x1, int y1, int x2, int y2)
 {
     std::vector<point> line = line_to(x1, y1, x2, y2, 0);
     for (int i = 0; i < line.size(); i++)
@@ -12746,7 +12746,7 @@ void line(map *m, ter_id type, int x1, int y1, int x2, int y2)
     m->ter(x1, y1) = type;
 }
 
-void square(map *m, ter_id type, int x1, int y1, int x2, int y2)
+void square(map* m, ter_id type, int x1, int y1, int x2, int y2)
 {
     for (int x = x1; x <= x2; x++)
     {
@@ -12757,7 +12757,7 @@ void square(map *m, ter_id type, int x1, int y1, int x2, int y2)
     }
 }
 
-void rough_circle(map *m, ter_id type, int x, int y, int rad)
+void rough_circle(map* m, ter_id type, int x, int y, int rad)
 {
     for (int i = x - rad; i <= x + rad; i++)
     {
@@ -12771,7 +12771,7 @@ void rough_circle(map *m, ter_id type, int x, int y, int rad)
     }
 }
 
-void add_corpse(game *g, map *m, int x, int y)
+void add_corpse(game* g, map* m, int x, int y)
 {
     item body;
     body.make_corpse(g->itypes[itm_corpse], g->mtypes[mon_null], 0);

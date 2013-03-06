@@ -13,7 +13,7 @@ calendar::calendar()
     year = 0;
 }
 
-calendar::calendar(const calendar &copy)
+calendar::calendar(const calendar& copy)
 {
     second = copy.second;
     minute = copy.minute;
@@ -69,7 +69,7 @@ calendar::operator int() const
     return ret;
 }
 
-calendar& calendar::operator =(calendar &rhs)
+calendar& calendar::operator =(calendar& rhs)
 {
     if (this == &rhs)
     {
@@ -101,7 +101,7 @@ calendar& calendar::operator =(int rhs)
     return *this;
 }
 
-calendar& calendar::operator -=(calendar &rhs)
+calendar& calendar::operator -=(calendar& rhs)
 {
     calendar tmp(rhs);
     tmp.standardize();
@@ -128,7 +128,7 @@ calendar& calendar::operator -=(int rhs)
     return *this;
 }
 
-calendar& calendar::operator +=(calendar &rhs)
+calendar& calendar::operator +=(calendar& rhs)
 {
     second += rhs.second;
     minute += rhs.minute;
@@ -157,7 +157,7 @@ bool calendar::operator ==(int rhs)
 {
     return int(*this) == rhs;
 }
-bool calendar::operator ==(calendar &rhs)
+bool calendar::operator ==(calendar& rhs)
 {
     return (second == rhs.second &&
             minute == rhs.minute &&
@@ -175,7 +175,7 @@ calendar& calendar::operator ++()
 }
 */
 
-calendar calendar::operator -(calendar &rhs)
+calendar calendar::operator -(calendar& rhs)
 {
     return calendar(*this) -= rhs;
 }
@@ -185,7 +185,7 @@ calendar calendar::operator -(int rhs)
     return calendar(*this) -= rhs;
 }
 
-calendar calendar::operator +(calendar &rhs)
+calendar calendar::operator +(calendar& rhs)
 {
     return calendar(*this) += rhs;
 }

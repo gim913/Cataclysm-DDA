@@ -7,7 +7,7 @@
 
 bool vector_has(std::vector <item> vec, itype_id type);
 
-bool map::process_fields(game *g)
+bool map::process_fields(game* g)
 {
     bool found_field = false;
     for (int x = 0; x < my_MAPSIZE; x++)
@@ -23,10 +23,10 @@ bool map::process_fields(game *g)
     return found_field;
 }
 
-bool map::process_fields_in_submap(game *g, int gridn)
+bool map::process_fields_in_submap(game* g, int gridn)
 {
     bool found_field = false;
-    field *cur;
+    field* cur;
     field_id curtype;
     for (int locx = 0; locx < SEEX; locx++)
     {
@@ -52,7 +52,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
             }
 
             int part;
-            vehicle *veh;
+            vehicle* veh;
             switch (curtype)
             {
 
@@ -74,7 +74,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                 }
                 for (int i = 0; i < i_at(x, y).size(); i++)
                 {
-                    item *melting = &(i_at(x, y)[i]);
+                    item* melting = &(i_at(x, y)[i]);
                     if (melting->made_of(LIQUID) || melting->made_of(VEGGY)   ||
                             melting->made_of(FLESH)  || melting->made_of(POWDER)  ||
                             melting->made_of(COTTON) || melting->made_of(WOOL)    ||
@@ -110,7 +110,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                 {
                     destroyed = false;
                     vol = i_at(x, y)[i].volume();
-                    item *it = &(i_at(x, y)[i]);
+                    item* it = &(i_at(x, y)[i]);
 
                     if (it->is_ammo() && it->ammo_type() != AT_BATT &&
                             it->ammo_type() != AT_NAIL && it->ammo_type() != AT_BB &&
@@ -741,7 +741,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 
             case fd_push_items:
             {
-                std::vector<item> *it = &(i_at(x, y));
+                std::vector<item>* it = &(i_at(x, y));
                 for (int i = 0; i < it->size(); i++)
                 {
                     if ((*it)[i].type->id != itm_rock || (*it)[i].bday >= int(g->turn) - 1)
@@ -780,7 +780,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                             if (npcdex != -1)
                             {
                                 int junk;
-                                npc *p = &(g->active_npc[npcdex]);
+                                npc* p = &(g->active_npc[npcdex]);
                                 p->hit(g, random_body_part(), rng(0, 1), 6, 0);
                                 if (g->u_see(newp.x, newp.y, junk))
                                 {
@@ -791,7 +791,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                             if (mondex != -1)
                             {
                                 int junk;
-                                monster *mon = &(g->z[mondex]);
+                                monster* mon = &(g->z[mondex]);
                                 mon->hurt(6 - mon->armor_bash());
                                 if (g->u_see(newp.x, newp.y, junk))
                                     g->add_msg("A %s hits the %s!", tmp.tname().c_str(),
@@ -912,11 +912,11 @@ bool map::process_fields_in_submap(game *g, int gridn)
     return found_field;
 }
 
-void map::step_in_field(int x, int y, game *g)
+void map::step_in_field(int x, int y, game* g)
 {
-    field *cur = &field_at(x, y);
+    field* cur = &field_at(x, y);
     int veh_part;
-    vehicle *veh = NULL;
+    vehicle* veh = NULL;
     bool inside = false;
     int adjusted_intensity;
 
@@ -1111,13 +1111,13 @@ void map::step_in_field(int x, int y, game *g)
     }
 }
 
-void map::mon_in_field(int x, int y, game *g, monster *z)
+void map::mon_in_field(int x, int y, game* g, monster* z)
 {
     if (z->has_flag(MF_DIGS))
     {
         return;    // Digging monsters are immune to fields
     }
-    field *cur = &field_at(x, y);
+    field* cur = &field_at(x, y);
     int dam = 0;
     switch (cur->type)
     {

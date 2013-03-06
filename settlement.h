@@ -10,9 +10,9 @@ struct settlement
 {
     settlement();
     settlement(int mapx, int mapy);
-    void pick_faction(game *g, int omx, int omy);
+    void pick_faction(game* g, int omx, int omy);
     void set_population();
-    void populate(game *g) { };
+    void populate(game* g) { };
 
     int num(oter_id ter);
     void add_building(oter_id ter);
@@ -26,6 +26,6 @@ struct settlement
     //int buildings[ot_wall - ot_set_house + 1];
 };
 
-std::ostream & operator<<(std::ostream &, const settlement &);
+std::ostream& operator<<(std::ostream&, const settlement&);
 
 #endif

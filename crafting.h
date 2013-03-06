@@ -41,8 +41,8 @@ struct recipe
     int id;
     itype_id result;
     craft_cat category;
-    Skill *sk_primary;
-    Skill *sk_secondary;
+    Skill* sk_primary;
+    Skill* sk_secondary;
     int difficulty;
     int time;
     bool reversible; // can the item be disassembled?
@@ -62,7 +62,7 @@ struct recipe
         reversible = false;
     }
 
-    recipe(int pid, itype_id pres, craft_cat cat, const char *p1, const char *p2,
+    recipe(int pid, itype_id pres, craft_cat cat, const char* p1, const char* p2,
            int pdiff, int ptime, bool preversible) :
         id(pid), result(pres), category(cat),  difficulty(pdiff), time(ptime), reversible(preversible)
     {

@@ -32,7 +32,7 @@ void mapbuffer::reset()
 }
 
 // game g's existance does not imply that it has been identified, started, or loaded.
-void mapbuffer::set_game(game *g)
+void mapbuffer::set_game(game* g)
 {
     master_game = g;
 }
@@ -49,7 +49,7 @@ void mapbuffer::make_volatile()
     dirty = false;
 }
 
-bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
+bool mapbuffer::add_submap(int x, int y, int z, submap* sm)
 {
     dbg(D_INFO) << "mapbuffer::add_submap( x[" << x << "], y[" << y << "], z[" << z << "], submap[" << sm << "])";
 
@@ -110,7 +110,7 @@ void mapbuffer::save()
                          num_saved_submaps, num_total_submaps);
 
         fout << it->first.x << " " << it->first.y << " " << it->first.z << std::endl;
-        submap *sm = it->second;
+        submap* sm = it->second;
         fout << sm->turn_last_touched << std::endl;
         // Dump the terrain.
         for (int j = 0; j < SEEY; j++)
@@ -335,7 +335,7 @@ void mapbuffer::load()
             }
             else if (string_identifier == "V")
             {
-                vehicle * veh = new vehicle(master_game);
+                vehicle* veh = new vehicle(master_game);
                 veh->load(fin);
                 //veh.smx = gridx;
                 //veh.smy = gridy;

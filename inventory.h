@@ -20,14 +20,14 @@ public:
     int size() const;
     int num_items() const;
 
-    inventory& operator= (inventory &rhs);
-    inventory& operator= (const inventory &rhs);
-    inventory& operator+= (const inventory &rhs);
-    inventory& operator+= (const item &rhs);
-    inventory& operator+= (const std::vector<item> &rhs);
-    inventory  operator+ (const inventory &rhs);
-    inventory  operator+ (const item &rhs);
-    inventory  operator+ (const std::vector<item> &rhs);
+    inventory& operator= (inventory& rhs);
+    inventory& operator= (const inventory& rhs);
+    inventory& operator+= (const inventory& rhs);
+    inventory& operator+= (const item& rhs);
+    inventory& operator+= (const std::vector<item>& rhs);
+    inventory  operator+ (const inventory& rhs);
+    inventory  operator+ (const item& rhs);
+    inventory  operator+ (const std::vector<item>& rhs);
 
     void clear();
     void add_stack(std::vector<item> newits);
@@ -40,9 +40,9 @@ public:
      * game pointer is not necessary, but if supplied, will ensure no overlap with
      * the player's worn items / weapon
      */
-    void restack(player *p = NULL);
+    void restack(player* p = NULL);
 
-    void form_from_map(game *g, point origin, int distance);
+    void form_from_map(game* g, point origin, int distance);
 
     std::vector<item> remove_stack(int index);
     item  remove_item(int index);
@@ -62,7 +62,7 @@ public:
 
     bool has_amount(itype_id it, int quantity);
     bool has_charges(itype_id it, int quantity);
-    bool has_item(item *it); // Looks for a specific item
+    bool has_item(item* it); // Looks for a specific item
 
     /* TODO: This stuff, I guess?
       std::string save();
@@ -72,7 +72,7 @@ public:
     item nullitem;
     std::vector<item> nullstack;
 private:
-    void assign_empty_invlet(item &it, player *p = NULL);
+    void assign_empty_invlet(item& it, player* p = NULL);
     std::vector< std::vector<item> > items;
 };
 

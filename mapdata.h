@@ -1231,7 +1231,7 @@ struct submap
     computer comp;
 };
 
-std::ostream & operator<<(std::ostream &, const submap *);
-std::ostream & operator<<(std::ostream &, const submap &);
+std::ostream& operator<<(std::ostream&, const submap*);
+std::ostream& operator<<(std::ostream&, const submap&);
 
 #endif

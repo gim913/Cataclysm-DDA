@@ -8,8 +8,8 @@
 //Globals                           *
 //***********************************
 
-WINDOW *mainwin;
-const WCHAR *szWindowClass = (L"CataCurseWindow");    //Class name :D
+WINDOW* mainwin;
+const WCHAR* szWindowClass = (L"CataCurseWindow");    //Class name :D
 HINSTANCE WindowINST;   //the instance of the window
 HWND WindowHandle;      //the handle of the window
 HDC WindowDC;           //Device Context of the window, used for backbuffer
@@ -28,9 +28,9 @@ int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
 HFONT font;             //Handle to the font created by CreateFont
-RGBQUAD *windowsPalette;  //The coor palette, 16 colors emulates a terminal
-pairs *colorpairs;   //storage for pair'ed colored, should be dynamic, meh
-unsigned char *dcbits;  //the bits of the screen image, for direct access
+RGBQUAD* windowsPalette;  //The coor palette, 16 colors emulates a terminal
+pairs* colorpairs;   //storage for pair'ed colored, should be dynamic, meh
+unsigned char* dcbits;  //the bits of the screen image, for direct access
 char szDirectory[MAX_PATH] = "";
 
 //***********************************
@@ -46,7 +46,7 @@ bool WinCreate()
     int WinBorderWidth;
     int WinTitleSize;
     unsigned int WindowStyle;
-    const WCHAR *szTitle = (L"Cataclysm");
+    const WCHAR* szTitle = (L"Cataclysm");
     WinTitleSize = GetSystemMetrics(SM_CYCAPTION);      //These lines ensure
     WinBorderWidth = GetSystemMetrics(SM_CXDLGFRAME) * 2;  //that our window will
     WinBorderHeight = GetSystemMetrics(SM_CYDLGFRAME) * 2; // be a perfect size
@@ -174,7 +174,7 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
     }
 };
 
-void DrawWindow(WINDOW *win)
+void DrawWindow(WINDOW* win)
 {
     int i, j, drawx, drawy;
     char tmp;
@@ -277,14 +277,14 @@ void CheckMessages()
 //***********************************
 
 //Basic Init, create the font, backbuffer, etc
-WINDOW *initscr(void)
+WINDOW* initscr(void)
 {
     // _windows = new WINDOW[20];         //initialize all of our variables
     BITMAPINFO bmi;
     lastchar = -1;
     inputdelay = -1;
     std::string typeface;
-    char * typeface_c;
+    char* typeface_c;
     std::ifstream fin;
     fin.open("data\\FONTDATA");
     if (!fin.is_open())
@@ -358,10 +358,10 @@ WINDOW *initscr(void)
     return mainwin;   //create the 'stdscr' window and return its ref
 };
 
-WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
+WINDOW* newwin(int nlines, int ncols, int begin_y, int begin_x)
 {
     int i, j;
-    WINDOW *newwindow = new WINDOW;
+    WINDOW* newwindow = new WINDOW;
     //newwindow=&_windows[WindowCount];
     newwindow->x = begin_x;
     newwindow->y = begin_y;
@@ -394,7 +394,7 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
 
 
 //Deletes the window and marks it as free. Clears it just in case.
-int delwin(WINDOW *win)
+int delwin(WINDOW* win)
 {
     int j;
     win->inuse = false;
@@ -410,7 +410,7 @@ int delwin(WINDOW *win)
     return 1;
 };
 
-inline int newline(WINDOW *win)
+inline int newline(WINDOW* win)
 {
     if (win->cursory < win->height - 1)
     {
@@ -421,7 +421,7 @@ inline int newline(WINDOW *win)
     return 0;
 };
 
-inline void addedchar(WINDOW *win)
+inline void addedchar(WINDOW* win)
 {
     win->cursorx++;
     win->line[win->cursory].touched = true;
@@ -433,7 +433,7 @@ inline void addedchar(WINDOW *win)
 
 
 //Borders the window with fancy lines!
-int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br)
+int wborder(WINDOW* win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br)
 {
 
     int i, j;
@@ -482,7 +482,7 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
 };
 
 //Refreshes a window, causing it to redraw on top.
-int wrefresh(WINDOW *win)
+int wrefresh(WINDOW* win)
 {
     if (win == 0)
     {
@@ -546,7 +546,7 @@ int getch(void)
 };
 
 //The core printing function, prints characters to the array, and sets colors
-inline int printstring(WINDOW *win, char *fmt)
+inline int printstring(WINDOW* win, char* fmt)
 {
     int size = strlen(fmt);
     int j;
@@ -578,7 +578,7 @@ inline int printstring(WINDOW *win, char *fmt)
 }
 
 //Prints a formatted string to a window at the current cursor, base function
-int wprintw(WINDOW *win, const char *fmt, ...)
+int wprintw(WINDOW* win, const char* fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
@@ -589,7 +589,7 @@ int wprintw(WINDOW *win, const char *fmt, ...)
 };
 
 //Prints a formatted string to a window, moves the cursor
-int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...)
+int mvwprintw(WINDOW* win, int y, int x, const char* fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
@@ -604,7 +604,7 @@ int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...)
 };
 
 //Prints a formatted string to window 0 (stdscr), moves the cursor
-int mvprintw(int y, int x, const char *fmt, ...)
+int mvprintw(int y, int x, const char* fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
@@ -619,7 +619,7 @@ int mvprintw(int y, int x, const char *fmt, ...)
 };
 
 //Prints a formatted string to window 0 (stdscr) at the current cursor
-int printw(const char *fmt, ...)
+int printw(const char* fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
@@ -630,7 +630,7 @@ int printw(const char *fmt, ...)
 };
 
 //erases a window of all text and attributes
-int werase(WINDOW *win)
+int werase(WINDOW* win)
 {
     int j, i;
     for (j = 0; j < win->height; j++)
@@ -664,7 +664,7 @@ int init_pair(short pair, short f, short b)
 };
 
 //moves the cursor in a window
-int wmove(WINDOW *win, int y, int x)
+int wmove(WINDOW* win, int y, int x)
 {
     if (x >= win->width)
     {
@@ -703,7 +703,7 @@ int endwin(void)
 };
 
 //adds a character to the window
-int mvwaddch(WINDOW *win, int y, int x, const chtype ch)
+int mvwaddch(WINDOW* win, int y, int x, const chtype ch)
 {
     if (wmove(win, y, x) == 0)
     {
@@ -713,7 +713,7 @@ int mvwaddch(WINDOW *win, int y, int x, const chtype ch)
 };
 
 //clears a window
-int wclear(WINDOW *win)
+int wclear(WINDOW* win)
 {
     werase(win);
     wrefresh(win);
@@ -721,7 +721,7 @@ int wclear(WINDOW *win)
 };
 
 //gets the max x of a window (the width)
-int getmaxx(WINDOW *win)
+int getmaxx(WINDOW* win)
 {
     if (win == 0)
     {
@@ -731,7 +731,7 @@ int getmaxx(WINDOW *win)
 };
 
 //gets the max y of a window (the height)
-int getmaxy(WINDOW *win)
+int getmaxy(WINDOW* win)
 {
     if (win == 0)
     {
@@ -773,7 +773,7 @@ int start_color(void)
     return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
 };
 
-int keypad(WINDOW *faux, bool bf)
+int keypad(WINDOW* faux, bool bf)
 {
     return 1;
 };
@@ -800,7 +800,7 @@ int mvaddch(int y, int x, const chtype ch)
     return mvwaddch(mainwin, y, x, ch);
 };
 
-int wattron(WINDOW *win, int attrs)
+int wattron(WINDOW* win, int attrs)
 {
     bool isBold = !!(attrs & A_BOLD);
     bool isBlink = !!(attrs & A_BLINK);
@@ -817,7 +817,7 @@ int wattron(WINDOW *win, int attrs)
     }
     return 1;
 };
-int wattroff(WINDOW *win, int attrs)
+int wattroff(WINDOW* win, int attrs)
 {
     win->FG = 8;                                //reset to white
     win->BG = 0;                                //reset to black
@@ -831,7 +831,7 @@ int attroff(int attrs)
 {
     return wattroff(mainwin, attrs);
 };
-int waddch(WINDOW *win, const chtype ch)
+int waddch(WINDOW* win, const chtype ch)
 {
     char charcode;
     charcode = ch;

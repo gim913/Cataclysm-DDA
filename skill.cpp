@@ -52,7 +52,7 @@ std::vector<Skill*> Skill::loadSkills()
             name = aField++->get<std::string>();
             description = aField++->get<std::string>();
 
-            Skill *newSkill = new Skill(allSkills.size(), ident, name, description);
+            Skill* newSkill = new Skill(allSkills.size(), ident, name, description);
             allSkills.push_back(newSkill);
         }
     }
@@ -151,7 +151,7 @@ int SkillLevel::comprehension(int intellect, bool fastLearner)
     }
 }
 
-int SkillLevel::train(int &level)
+int SkillLevel::train(int& level)
 {
     ++_exercise;
 
@@ -166,7 +166,7 @@ int SkillLevel::train(int &level)
     return _exercise;
 }
 
-int SkillLevel::rust(int &level)
+int SkillLevel::rust(int& level)
 {
     --_exercise;
 

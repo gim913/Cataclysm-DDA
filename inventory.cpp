@@ -67,7 +67,7 @@ int inventory::num_items() const
     return ret;
 }
 
-inventory& inventory::operator= (inventory &rhs)
+inventory& inventory::operator= (inventory& rhs)
 {
     if (this == &rhs)
     {
@@ -82,7 +82,7 @@ inventory& inventory::operator= (inventory &rhs)
     return *this;
 }
 
-inventory& inventory::operator= (const inventory &rhs)
+inventory& inventory::operator= (const inventory& rhs)
 {
     if (this == &rhs)
     {
@@ -97,7 +97,7 @@ inventory& inventory::operator= (const inventory &rhs)
     return *this;
 }
 
-inventory& inventory::operator+= (const inventory &rhs)
+inventory& inventory::operator+= (const inventory& rhs)
 {
     for (int i = 0; i < rhs.size(); i++)
     {
@@ -106,7 +106,7 @@ inventory& inventory::operator+= (const inventory &rhs)
     return *this;
 }
 
-inventory& inventory::operator+= (const std::vector<item> &rhs)
+inventory& inventory::operator+= (const std::vector<item>& rhs)
 {
     for (int i = 0; i < rhs.size(); i++)
     {
@@ -115,23 +115,23 @@ inventory& inventory::operator+= (const std::vector<item> &rhs)
     return *this;
 }
 
-inventory& inventory::operator+= (const item &rhs)
+inventory& inventory::operator+= (const item& rhs)
 {
     add_item(rhs);
     return *this;
 }
 
-inventory inventory::operator+ (const inventory &rhs)
+inventory inventory::operator+ (const inventory& rhs)
 {
     return inventory(*this) += rhs;
 }
 
-inventory inventory::operator+ (const std::vector<item> &rhs)
+inventory inventory::operator+ (const std::vector<item>& rhs)
 {
     return inventory(*this) += rhs;
 }
 
-inventory inventory::operator+ (const item &rhs)
+inventory inventory::operator+ (const item& rhs)
 {
     return inventory(*this) += rhs;
 }
@@ -198,7 +198,7 @@ void inventory::push_back(item newit)
     add_item(newit);
 }
 
-void inventory::restack(player *p)
+void inventory::restack(player* p)
 {
     inventory tmp;
     for (int i = 0; i < size(); i++)
@@ -230,7 +230,7 @@ void inventory::restack(player *p)
     }
 }
 
-void inventory::form_from_map(game *g, point origin, int range)
+void inventory::form_from_map(game* g, point origin, int range)
 {
     items.clear();
     for (int x = origin.x - range; x <= origin.x + range; x++)
@@ -569,7 +569,7 @@ bool inventory::has_charges(itype_id it, int quantity)
     return (charges_of(it) >= quantity);
 }
 
-bool inventory::has_item(item *it)
+bool inventory::has_item(item* it)
 {
     for (int i = 0; i < items.size(); i++)
     {
@@ -591,7 +591,7 @@ bool inventory::has_item(item *it)
     return false;
 }
 
-void inventory::assign_empty_invlet(item &it, player *p)
+void inventory::assign_empty_invlet(item& it, player* p)
 {
     for (int ch = 'a'; ch <= 'z'; ch++)
     {

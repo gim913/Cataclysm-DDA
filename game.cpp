@@ -202,8 +202,8 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
     refresh();
     std::vector<std::string> savegames, templates;
     std::string tmp;
-    dirent *dp;
-    DIR *dir = opendir("save");
+    dirent* dp;
+    DIR* dir = opendir("save");
     if (!dir)
     {
 #if (defined _WIN32 || defined __WIN32__)
@@ -1021,7 +1021,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
         else
         {
             int vpart = -1;
-            vehicle *veh = m.veh_at(u.posx, u.posy, vpart);
+            vehicle* veh = m.veh_at(u.posx, u.posy, vpart);
             if (m.ter(u.posx, u.posy) == t_bed)
             {
                 temp_conv += 1000;
@@ -1309,7 +1309,7 @@ void game::process_activity()
         }
         else if (u.activity.type == ACT_REFILL_VEHICLE)
         {
-            vehicle *veh = m.veh_at(u.activity.placement.x, u.activity.placement.y);
+            vehicle* veh = m.veh_at(u.activity.placement.x, u.activity.placement.y);
             if (!veh)    // Vehicle must've moved or something!
             {
                 u.activity.moves_left = 0;
@@ -1482,7 +1482,7 @@ void game::process_activity()
                 }
                 else
                 {
-                    vehicle *veh = m.veh_at(u.activity.values[0], u.activity.values[1]);
+                    vehicle* veh = m.veh_at(u.activity.values[0], u.activity.values[1]);
                     if (veh)
                     {
                         exam_vehicle(*veh, u.activity.values[0], u.activity.values[1],
@@ -1680,7 +1680,7 @@ void game::give_mission(mission_id type)
     u.active_missions.push_back(tmp.uid);
     u.active_mission = u.active_missions.size() - 1;
     mission_start m_s;
-    mission *miss = find_mission(tmp.uid);
+    mission* miss = find_mission(tmp.uid);
     (m_s.*miss->type->start)(this, miss);
 }
 
@@ -1689,7 +1689,7 @@ void game::assign_mission(int id)
     u.active_missions.push_back(id);
     u.active_mission = u.active_missions.size() - 1;
     mission_start m_s;
-    mission *miss = find_mission(id);
+    mission* miss = find_mission(id);
     (m_s.*miss->type->start)(this, miss);
 }
 
@@ -1836,13 +1836,13 @@ bool game::mission_complete(int id, int npc_id)
 
 bool game::mission_failed(int id)
 {
-    mission *miss = find_mission(id);
+    mission* miss = find_mission(id);
     return (miss->failed);
 }
 
 void game::wrap_up_mission(int id)
 {
-    mission *miss = find_mission(id);
+    mission* miss = find_mission(id);
     u.completed_missions.push_back(id);
     for (int i = 0; i < u.active_missions.size(); i++)
     {
@@ -1867,7 +1867,7 @@ void game::wrap_up_mission(int id)
 
 void game::fail_mission(int id)
 {
-    mission *miss = find_mission(id);
+    mission* miss = find_mission(id);
     miss->failed = true;
     u.failed_missions.push_back(id);
     for (int i = 0; i < u.active_missions.size(); i++)
@@ -1884,7 +1884,7 @@ void game::fail_mission(int id)
 
 void game::mission_step_complete(int id, int step)
 {
-    mission *miss = find_mission(id);
+    mission* miss = find_mission(id);
     miss->step = step;
     switch (miss->type->goal)
     {
@@ -1940,7 +1940,7 @@ bool game::handle_action()
     gamemode->pre_action(this, act);
 
     int veh_part;
-    vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
+    vehicle* veh = m.veh_at(u.posx, u.posy, veh_part);
     bool veh_ctrl = veh && veh->player_in_control(&u);
 
     switch (act)
@@ -2961,8 +2961,8 @@ void game::delete_save()
     }
     SetCurrentDirectory(Buffer);
 #else
-    DIR *save_dir = opendir("save");
-    struct dirent *save_dirent = NULL;
+    DIR* save_dir = opendir("save");
+    struct dirent* save_dirent = NULL;
     if (save_dir != NULL && 0 == chdir("save"))
     {
         while ((save_dirent = readdir(save_dir)) != NULL)
@@ -3039,7 +3039,7 @@ void game::add_msg(const char* msg, ...)
     va_end(ap);
 }
 
-void game::add_msg_if_player(player *p, const char* msg, ...)
+void game::add_msg_if_player(player* p, const char* msg, ...)
 {
     if (p && !p->is_npc())
     {
@@ -3224,7 +3224,7 @@ NPCs are %s spawn.\n\
         else
         {
             std::stringstream data;
-            npc *p = &(active_npc[npcdex]);
+            npc* p = &(active_npc[npcdex]);
             data << p->name << " " << (p->male ? "Male" : "Female") << std::endl;
             data << npc_class_name(p->myclass) << "; " <<
                  npc_attitude_name(p->attitude) << std::endl;
@@ -3311,7 +3311,7 @@ void game::draw_overmap()
 void game::disp_kills()
 {
     WINDOW* w = newwin(25, 80, 0, 0);
-    std::vector<mtype *> types;
+    std::vector<mtype*> types;
     std::vector<int> count;
     for (int i = 0; i < num_monsters; i++)
     {
@@ -3542,7 +3542,7 @@ faction* game::list_factions(std::string title)
 
 void game::list_missions()
 {
-    WINDOW *w_missions = newwin(25, 80, 0, 0);
+    WINDOW* w_missions = newwin(25, 80, 0, 0);
     int tab = 0, selection = 0;
     InputEvent input;
     do
@@ -3569,7 +3569,7 @@ void game::list_missions()
         }
         for (int i = 0; i < umissions.size(); i++)
         {
-            mission *miss = find_mission(umissions[i]);
+            mission* miss = find_mission(umissions[i]);
             nc_color col = c_white;
             if (i == u.active_mission && tab == 0)
             {
@@ -3587,7 +3587,7 @@ void game::list_missions()
 
         if (selection >= 0 && selection < umissions.size())
         {
-            mission *miss = find_mission(umissions[selection]);
+            mission* miss = find_mission(umissions[selection]);
             mvwprintz(w_missions, 4, 31, c_white,
                       miss->description.c_str());
             if (miss->deadline != 0)
@@ -4299,7 +4299,7 @@ faction* game::random_evil_faction()
     return &(factions[factions.size() - 1]);
 }
 
-bool game::sees_u(int x, int y, int &t)
+bool game::sees_u(int x, int y, int& t)
 {
     // TODO: [lightmap] Apply default monster vison levels here
     //                  the light map should deal lighting from player or fires
@@ -4316,7 +4316,7 @@ bool game::sees_u(int x, int y, int &t)
             m.sees(x, y, u.posx, u.posy, range, t));
 }
 
-bool game::u_see(int x, int y, int &t)
+bool game::u_see(int x, int y, int& t)
 {
     int wanted_range = rl_dist(u.posx, u.posy, x, y);
 
@@ -4335,7 +4335,7 @@ bool game::u_see(int x, int y, int &t)
     return can_see;
 }
 
-bool game::u_see(monster *mon, int &t)
+bool game::u_see(monster* mon, int& t)
 {
     int dist = rl_dist(u.posx, u.posy, mon->posx, mon->posy);
     if (u.has_trait(PF_ANTENNAE) && dist <= 3)
@@ -4351,7 +4351,7 @@ bool game::u_see(monster *mon, int &t)
     return u_see(mon->posx, mon->posy, t);
 }
 
-bool game::pl_sees(player *p, monster *mon, int &t)
+bool game::pl_sees(player* p, monster* mon, int& t)
 {
     // TODO: [lightmap] Allow npcs to use the lightmap
     if (mon->has_flag(MF_DIGS) && !p->has_active_bionic(bio_ground_sonar) &&
@@ -4363,7 +4363,7 @@ bool game::pl_sees(player *p, monster *mon, int &t)
     return m.sees(p->posx, p->posy, mon->posx, mon->posy, range, t);
 }
 
-point game::find_item(item *it)
+point game::find_item(item* it)
 {
     if (u.has_item(it))
     {
@@ -4387,7 +4387,7 @@ point game::find_item(item *it)
     return point(-999, -999);
 }
 
-void game::remove_item(item *it)
+void game::remove_item(item* it)
 {
     point ret;
     if (it == &u.weapon)
@@ -5157,7 +5157,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
                 }
 
                 int vpart;
-                vehicle *veh = m.veh_at(i, j, vpart);
+                vehicle* veh = m.veh_at(i, j, vpart);
                 if (veh)
                 {
                     veh->damage(vpart, dam, false);
@@ -5773,7 +5773,7 @@ void game::open()
     if (openx != -2 && openy != -2)
     {
         int vpart;
-        vehicle *veh = m.veh_at(u.posx + openx, u.posy + openy, vpart);
+        vehicle* veh = m.veh_at(u.posx + openx, u.posy + openy, vpart);
         if (veh && veh->part_flag(vpart, vpf_openable))
         {
             if (veh->parts[vpart].open)
@@ -5836,7 +5836,7 @@ void game::close()
         closex += u.posx;
         closey += u.posy;
         int vpart;
-        vehicle *veh = m.veh_at(closex, closey, vpart);
+        vehicle* veh = m.veh_at(closex, closey, vpart);
         if (mon_at(closex, closey) != -1)
         {
             add_msg("There's a %s in the way!", z[mon_at(closex, closey)].name().c_str());
@@ -5968,7 +5968,7 @@ void game::use_wielded_item()
     u.use_wielded(this);
 }
 
-bool game::pl_choose_vehicle(int &x, int &y)
+bool game::pl_choose_vehicle(int& x, int& y)
 {
     refresh_all();
     mvprintz(0, 0, c_red, "Choose a vehicle at direction:");
@@ -6001,14 +6001,14 @@ bool game::vehicle_near()
     return false;
 }
 
-bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
+bool game::pl_refill_vehicle(vehicle& veh, int part, bool test)
 {
     if (!veh.part_flag(part, vpf_fuel_tank))
     {
         return false;
     }
     int i_itm = -1;
-    item *p_itm = 0;
+    item* p_itm = 0;
     int min_charges = -1;
     bool i_cont = false;
 
@@ -6030,7 +6030,7 @@ bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
     else
         for (int i = 0; i < u.inv.size(); i++)
         {
-            item *itm = &u.inv[i];
+            item* itm = &u.inv[i];
             bool cont = false;
             if (itm->is_container() && itm->contents.size() > 0)
             {
@@ -6119,7 +6119,7 @@ bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
 
 void game::handbrake()
 {
-    vehicle *veh = m.veh_at(u.posx, u.posy);
+    vehicle* veh = m.veh_at(u.posx, u.posy);
     if (!veh)
     {
         return;
@@ -6147,7 +6147,7 @@ void game::handbrake()
     u.moves = 0;
 }
 
-void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
+void game::exam_vehicle(vehicle& veh, int examx, int examy, int cx, int cy)
 {
     veh_interact vehint;
     vehint.cx = cx;
@@ -6185,16 +6185,16 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
 //
 // The terrain type of the handle is passed in, and that is used to determine the type of
 // the wall and gate.
-static void open_gate(game *g, const int examx, const int examy, const enum ter_id handle_type)
+static void open_gate(game* g, const int examx, const int examy, const enum ter_id handle_type)
 {
 
     enum ter_id v_wall_type;
     enum ter_id h_wall_type;
     enum ter_id door_type;
     enum ter_id floor_type;
-    const char *pull_message;
-    const char *open_message;
-    const char *close_message;
+    const char* pull_message;
+    const char* open_message;
+    const char* close_message;
 
     switch (handle_type)
     {
@@ -6433,7 +6433,7 @@ void game::examine()
     if (u.in_vehicle)
     {
         int vpart;
-        vehicle *veh = m.veh_at(u.posx, u.posy, vpart);
+        vehicle* veh = m.veh_at(u.posx, u.posy, vpart);
         bool qexv = (veh && (veh->velocity != 0 ?
                              query_yn("Really exit moving vehicle?") :
                              query_yn("Exit vehicle?")));
@@ -6470,7 +6470,7 @@ void game::examine()
     add_msg("That is a %s.", m.tername(examx, examy).c_str());
 
     int veh_part = 0;
-    vehicle *veh = m.veh_at(examx, examy, veh_part);
+    vehicle* veh = m.veh_at(examx, examy, veh_part);
     if (veh)
     {
         int vpcargo = veh->part_with_feature(veh_part, vpf_cargo, false);
@@ -7207,7 +7207,7 @@ shape, but with long, twisted, distended limbs.");
             int num_metal = 0;
             for (int i = 0; i < m.i_at(examx, examy).size(); i++)
             {
-                item *it = &(m.i_at(examx, examy)[i]);
+                item* it = &(m.i_at(examx, examy)[i]);
                 if (it->made_of(STEEL))
                 {
                     num_metal++;
@@ -7311,7 +7311,7 @@ point game::look_around()
         //mvwprintw(w_look, 6, 1, "Items: %d", m.i_at(lx, ly).size() );
 
         int veh_part = 0;
-        vehicle *veh = m.veh_at(lx, ly, veh_part);
+        vehicle* veh = m.veh_at(lx, ly, veh_part);
         if (u_see(lx, ly, junk))
         {
             if (m.move_cost(lx, ly) == 0)
@@ -7734,7 +7734,7 @@ void game::pickup(int posx, int posy, int min)
     bool volume_is_okay = (u.volume_carried() <= u.volume_capacity() -  2);
     bool from_veh = false;
     int veh_part = 0;
-    vehicle *veh = m.veh_at(posx, posy, veh_part);
+    vehicle* veh = m.veh_at(posx, posy, veh_part);
     if (veh)
     {
         veh_part = veh->part_with_feature(veh_part, vpf_cargo, false);
@@ -8203,7 +8203,7 @@ void game::pickup(int posx, int posy, int min)
 }
 
 // Handle_liquid returns false if we didn't handle all the liquid.
-bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
+bool game::handle_liquid(item& liquid, bool from_ground, bool infinite)
 {
     if (!liquid.made_of(LIQUID))
     {
@@ -8217,7 +8217,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
         int vx = u.posx, vy = u.posy;
         if (pl_choose_vehicle(vx, vy))
         {
-            vehicle *veh = m.veh_at(vx, vy);
+            vehicle* veh = m.veh_at(vx, vy);
             if (veh)
             {
                 int ftype = AT_GAS;
@@ -8272,7 +8272,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
             return false;
         }
 
-        item *cont = &(u.i_at(ch));
+        item* cont = &(u.i_at(ch));
         if (cont == NULL || cont->is_null())
         {
             add_msg("Never mind.");
@@ -8517,7 +8517,7 @@ void game::drop(char chInput)
 
     int veh_part = 0;
     bool to_veh = false;
-    vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
+    vehicle* veh = m.veh_at(u.posx, u.posy, veh_part);
     if (veh)
     {
         veh_part = veh->part_with_feature(veh_part, vpf_cargo);
@@ -8583,7 +8583,7 @@ void game::drop_in_direction()
     diry += u.posy;
     int veh_part = 0;
     bool to_veh = false;
-    vehicle *veh = m.veh_at(dirx, diry, veh_part);
+    vehicle* veh = m.veh_at(dirx, diry, veh_part);
     if (veh)
     {
         veh_part = veh->part_with_feature(veh_part, vpf_cargo);
@@ -8801,7 +8801,7 @@ void game::plfire(bool burst)
     {
         return;
     }
-    vehicle *veh = m.veh_at(u.posx, u.posy);
+    vehicle* veh = m.veh_at(u.posx, u.posy);
     if (veh && veh->player_in_control(&u) && u.weapon.is_two_handed(&u))
     {
         add_msg("You need a free arm to drive!");
@@ -8997,7 +8997,7 @@ void game::butcher()
     // vector of indices.
     for (int i = corpses.size() - 1; i >= 0; i--)
     {
-        mtype *corpse = m.i_at(u.posx, u.posy)[corpses[i]].corpse;
+        mtype* corpse = m.i_at(u.posx, u.posy)[corpses[i]].corpse;
         if (query_yn("Butcher the %s corpse?", corpse->name.c_str()))
         {
             int time_to_cut;
@@ -9661,7 +9661,7 @@ void game::chat()
     }
     else
     {
-        WINDOW *w = newwin(available.size() + 3, 40, 10, 20);
+        WINDOW* w = newwin(available.size() + 3, 40, 10, 20);
         wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
         for (int i = 0; i < available.size(); i++)
@@ -9697,7 +9697,7 @@ void game::pldrive(int x, int y)
         return;
     }
     int part = -1;
-    vehicle *veh = m.veh_at(u.posx, u.posy, part);
+    vehicle* veh = m.veh_at(u.posx, u.posy, part);
     if (!veh)
     {
         dbg(D_ERROR) << "game:pldrive: can't find vehicle! Drive mode is now off.";
@@ -9867,7 +9867,7 @@ void game::plmove(int x, int y)
     }
 
     int vpart = -1, dpart = -1;
-    vehicle *veh = m.veh_at(x, y, vpart);
+    vehicle* veh = m.veh_at(x, y, vpart);
     bool veh_closed_door = false;
     if (veh)
     {
@@ -10214,7 +10214,7 @@ void game::plswim(int x, int y)
     }
 }
 
-void game::fling_player_or_monster(player *p, monster *zz, int dir, int flvel)
+void game::fling_player_or_monster(player* p, monster* zz, int dir, int flvel)
 {
     int steps = 0;
     bool is_u = p && (p == &u);
@@ -10293,7 +10293,7 @@ void game::fling_player_or_monster(player *p, monster *zz, int dir, int flvel)
         {
             slam = true;
             int vpart;
-            vehicle *veh = m.veh_at(x, y, vpart);
+            vehicle* veh = m.veh_at(x, y, vpart);
             dname = veh ? veh->part_info(vpart).name : m.tername(x, y).c_str();
             if (m.has_flag(bashable, x, y))
             {
@@ -10643,7 +10643,7 @@ void game::vertical_move(int movez, bool force)
 }
 
 
-void game::update_map(int &x, int &y)
+void game::update_map(int& x, int& y)
 {
     int shiftx = 0, shifty = 0;
     int group = 0;
@@ -10769,7 +10769,7 @@ void game::update_map(int &x, int &y)
                 debugmsg("Spawning static NPC, %d:%d (%d:%d)", levx, levy,
                          cur_om.npcs[i].mapx, cur_om.npcs[i].mapy);
 
-            npc & temp = cur_om.npcs[i];
+            npc& temp = cur_om.npcs[i];
 
             if (temp.posx == -1 || temp.posy == -1)
             {
@@ -11416,7 +11416,7 @@ void game::write_msg()
 
 void game::msg_buffer()
 {
-    WINDOW *w = newwin(25, 80, 0, 0);
+    WINDOW* w = newwin(25, 80, 0, 0);
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     mvwprintz(w, 24, 32, c_red, "Press q to return");
@@ -11435,7 +11435,7 @@ void game::msg_buffer()
         int i;
         for (i = 1; i <= 20 && line <= 23 && offset + i <= messages.size(); i++)
         {
-            game_message *mtmp = &(messages[ messages.size() - (offset + i) ]);
+            game_message* mtmp = &(messages[ messages.size() - (offset + i) ]);
             calendar timepassed = turn - mtmp->turn;
 
             int tp = int(timepassed);
@@ -11511,7 +11511,7 @@ void game::msg_buffer()
     refresh_all();
 }
 
-void game::teleport(player *p)
+void game::teleport(player* p)
 {
     if (p == NULL)
     {
@@ -11590,9 +11590,9 @@ void game::nuke(int x, int y)
     cur_om = tmp_om;
 }
 
-std::vector<faction *> game::factions_at(int x, int y)
+std::vector<faction*> game::factions_at(int x, int y)
 {
-    std::vector<faction *> ret;
+    std::vector<faction*> ret;
     for (int i = 0; i < factions.size(); i++)
     {
         if (factions[i].omx == cur_om.posx && factions[i].omy == cur_om.posy &&

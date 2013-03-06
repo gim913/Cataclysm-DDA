@@ -18,7 +18,7 @@ veh_interact::veh_interact()
     sel_cmd = ' ';
 }
 
-void veh_interact::exec(game *gm, vehicle *v, int x, int y)
+void veh_interact::exec(game* gm, vehicle* v, int x, int y)
 {
     g = gm;
     veh = v;
@@ -73,7 +73,7 @@ void veh_interact::exec(game *gm, vehicle *v, int x, int y)
 
     crafting_inv = gm->crafting_inventory();
 
-    int charges = ((it_tool *) g->itypes[itm_welder])->charges_per_use;
+    int charges = ((it_tool*) g->itypes[itm_welder])->charges_per_use;
     has_wrench = crafting_inv.has_amount(itm_wrench, 1) ||
                  crafting_inv.has_amount(itm_toolset, 1);
     has_hacksaw = crafting_inv.has_amount(itm_hacksaw, 1) ||
@@ -474,7 +474,7 @@ void veh_interact::move_cursor(int dx, int dy)
     int vehx = veh->global_x() + vx;
     int vehy = veh->global_y() + vy;
     bool obstruct = g->m.move_cost_ter_only(vehx, vehy) == 0;
-    vehicle *oveh = g->m.veh_at(vehx, vehy);
+    vehicle* oveh = g->m.veh_at(vehx, vehy);
     if (oveh && oveh != veh)
     {
         obstruct = true;
@@ -725,7 +725,7 @@ struct candidate_vpart
 // not using consume_items in crafting.cpp
 // because it got into weird cases, & it doesn't consider
 // characteristics like item hp & bigness.
-item consume_vpart_item(game *g, vpart_id vpid)
+item consume_vpart_item(game* g, vpart_id vpid)
 {
     std::vector<candidate_vpart> candidates;
     const itype_id itid = vpart_list[vpid].item;
@@ -815,14 +815,14 @@ item consume_vpart_item(game *g, vpart_id vpid)
     //return ret;
 }
 
-void complete_vehicle(game *g)
+void complete_vehicle(game* g)
 {
     if (g->u.activity.values.size() < 7)
     {
         debugmsg("Invalid activity ACT_VEHICLE values:%d", g->u.activity.values.size());
         return;
     }
-    vehicle *veh = g->m.veh_at(g->u.activity.values[0], g->u.activity.values[1]);
+    vehicle* veh = g->m.veh_at(g->u.activity.values[0], g->u.activity.values[1]);
     if (!veh)
     {
         debugmsg("Activity ACT_VEHICLE: vehicle not found");
@@ -833,7 +833,7 @@ void complete_vehicle(game *g)
     int dy = g->u.activity.values[5];
     int part = g->u.activity.values[6];
     std::vector<component> tools;
-    int welder_charges = ((it_tool *) g->itypes[itm_welder])->charges_per_use;
+    int welder_charges = ((it_tool*) g->itypes[itm_welder])->charges_per_use;
     itype_id itm;
     int partnum;
     item used_item;

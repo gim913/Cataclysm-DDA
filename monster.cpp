@@ -37,7 +37,7 @@ monster::monster()
     unique_name = "";
 }
 
-monster::monster(mtype *t)
+monster::monster(mtype* t)
 {
     posx = 20;
     posy = 10;
@@ -63,7 +63,7 @@ monster::monster(mtype *t)
     unique_name = "";
 }
 
-monster::monster(mtype *t, int x, int y)
+monster::monster(mtype* t, int x, int y)
 {
     posx = x;
     posy = y;
@@ -93,7 +93,7 @@ monster::~monster()
 {
 }
 
-void monster::poly(mtype *t)
+void monster::poly(mtype* t)
 {
     double hp_percentage = double(hp) / double(type->hp);
     type = t;
@@ -151,7 +151,7 @@ std::string monster::name_with_armor()
     return ret;
 }
 
-void monster::print_info(game *g, WINDOW* w)
+void monster::print_info(game* g, WINDOW* w)
 {
     // First line of w is the border; the next two are terrain info, and after that
     // is a blank line. w is 13 characters tall, and we can't use the last one
@@ -245,7 +245,7 @@ char monster::symbol()
     return type->sym;
 }
 
-void monster::draw(WINDOW *w, int plx, int ply, bool inv)
+void monster::draw(WINDOW* w, int plx, int ply, bool inv)
 {
     int x = getmaxx(w) / 2 + posx - plx;
     int y = getmaxy(w) / 2 + posy - ply;
@@ -310,7 +310,7 @@ bool monster::made_of(material m)
     return false;
 }
 
-void monster::load_info(std::string data, std::vector <mtype*> *mtypes)
+void monster::load_info(std::string data, std::vector <mtype*>* mtypes)
 {
     std::stringstream dump;
     int idtmp, plansize;
@@ -342,7 +342,7 @@ std::string monster::save_info()
     return pack.str();
 }
 
-void monster::debug(player &u)
+void monster::debug(player& u)
 {
     char buff[2];
     debugmsg("%s has %d steps planned.", name().c_str(), plans.size());
@@ -371,7 +371,7 @@ void monster::shift(int sx, int sy)
     }
 }
 
-bool monster::is_fleeing(player &u)
+bool monster::is_fleeing(player& u)
 {
     if (has_effect(ME_RUN))
     {
@@ -382,7 +382,7 @@ bool monster::is_fleeing(player &u)
             (att == MATT_FOLLOW && rl_dist(posx, posy, u.posx, u.posy) <= 4));
 }
 
-monster_attitude monster::attitude(player *u)
+monster_attitude monster::attitude(player* u)
 {
     if (friendly != 0)
     {
@@ -447,7 +447,7 @@ monster_attitude monster::attitude(player *u)
     return MATT_ATTACK;
 }
 
-void monster::process_triggers(game *g)
+void monster::process_triggers(game* g)
 {
     anger += trigger_sum(g, &(type->anger));
     anger -= trigger_sum(g, &(type->placate));
@@ -491,7 +491,7 @@ void monster::process_trigger(monster_trigger trig, int amount)
 }
 
 
-int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
+int monster::trigger_sum(game* g, std::vector<monster_trigger>* triggers)
 {
     int ret = 0;
     bool check_terrain = false, check_meat = false, check_fire = false;
@@ -551,7 +551,7 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
             {
                 if (check_meat)
                 {
-                    std::vector<item> *items = &(g->m.i_at(x, y));
+                    std::vector<item>* items = &(g->m.i_at(x, y));
                     for (int n = 0; n < items->size(); n++)
                     {
                         if ((*items)[n].type->id == itm_corpse ||
@@ -585,7 +585,7 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
     return ret;
 }
 
-int monster::hit(game *g, player &p, body_part &bp_hit)
+int monster::hit(game* g, player& p, body_part& bp_hit)
 {
     int numdice = type->melee_skill;
     if (dice(numdice, 10) <= dice(p.dodge(g), 10) && !one_in(20))
@@ -664,7 +664,7 @@ int monster::hit(game *g, player &p, body_part &bp_hit)
     return ret;
 }
 
-void monster::hit_monster(game *g, int i)
+void monster::hit_monster(game* g, int i)
 {
     int junk;
     monster* target = &(g->z[i]);
@@ -802,7 +802,7 @@ int monster::fall_damage()
     return 0;
 }
 
-void monster::die(game *g)
+void monster::die(game* g)
 {
     if (!dead)
     {
@@ -906,7 +906,7 @@ void monster::die(game *g)
     // If we're a mission monster, update the mission
     if (mission_id != -1)
     {
-        mission_type *misstype = g->find_mission_type(mission_id);
+        mission_type* misstype = g->find_mission_type(mission_id);
         if (misstype->goal == MGOAL_FIND_MONSTER)
         {
             g->fail_mission(mission_id);
@@ -994,7 +994,7 @@ void monster::rem_effect(monster_effect_type effect)
     }
 }
 
-void monster::process_effects(game *g)
+void monster::process_effects(game* g)
 {
     for (int i = 0; i < effects.size(); i++)
     {
@@ -1042,7 +1042,7 @@ void monster::process_effects(game *g)
     }
 }
 
-bool monster::make_fungus(game *g)
+bool monster::make_fungus(game* g)
 {
     switch (mon_id(type->id))
     {

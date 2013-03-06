@@ -8,7 +8,7 @@
 
 #define BATTERY_AMOUNT 4 // How much batteries increase your power
 
-void bionics_install_failure(game *g, player *u, int success);
+void bionics_install_failure(game* g, player* u, int success);
 
 
 // Why put this in a Big Switch?  Why not let bionics have pointers to
@@ -16,7 +16,7 @@ void bionics_install_failure(game *g, player *u, int success);
 //
 // Well, because like diseases, which are also in a Big Switch, bionics don't
 // share functions....
-void player::activate_bionic(int b, game *g)
+void player::activate_bionic(int b, game* g)
 {
     bionic bio = my_bionics[b];
     int power_cost = bionics[bio.id].power_cost;
@@ -251,7 +251,7 @@ void player::activate_bionic(int b, game *g)
             }
             else
             {
-                it_container *cont = dynamic_cast<it_container*>(i_at(t).type);
+                it_container* cont = dynamic_cast<it_container*>(i_at(t).type);
                 if (i_at(t).volume_contained() + 1 > cont->contains)
                 {
                     g->add_msg("There's no space left in your %s.", i_at(t).tname().c_str());
@@ -373,7 +373,7 @@ void player::activate_bionic(int b, game *g)
                 }
                 else
                 {
-                    it_container *cont = dynamic_cast<it_container*>(i_at(t).type);
+                    it_container* cont = dynamic_cast<it_container*>(i_at(t).type);
                     if (i_at(t).volume_contained() + 1 > cont->contains)
                     {
                         g->add_msg("There's no space left in your %s.", i_at(t).tname().c_str());
@@ -477,7 +477,7 @@ void player::activate_bionic(int b, game *g)
     }
 }
 
-bool player::install_bionics(game *g, it_bionic* type)
+bool player::install_bionics(game* g, it_bionic* type)
 {
     if (type == NULL)
     {
@@ -680,7 +680,7 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
     return false;
 }
 
-void bionics_install_failure(game *g, player *u, int success)
+void bionics_install_failure(game* g, player* u, int success)
 {
     success = abs(success) - rng(1, 10);
     int failure_level = 0;

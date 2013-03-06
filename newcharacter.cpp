@@ -36,18 +36,18 @@
 
 void draw_tabs(WINDOW* w);
 
-int set_stats(WINDOW* w, player *u, int &points);
-int set_traits(WINDOW* w, player *u, int &points);
-int set_skills(WINDOW* w, player *u, int &points);
-int set_description(WINDOW* w, player *u, int &points);
+int set_stats(WINDOW* w, player* u, int& points);
+int set_traits(WINDOW* w, player* u, int& points);
+int set_skills(WINDOW* w, player* u, int& points);
+int set_description(WINDOW* w, player* u, int& points);
 
 int random_skill();
 
 int calc_HP(int strength, bool tough);
 
-void save_template(player *u);
+void save_template(player* u);
 
-bool player::create(game *g, character_type type, std::string tempname)
+bool player::create(game* g, character_type type, std::string tempname)
 {
     weapon = item(g->itypes[0], 0);
     WINDOW* w = newwin(25, 80, 0, 0);
@@ -191,7 +191,7 @@ bool player::create(game *g, character_type type, std::string tempname)
                 case 9:
                     rn = random_skill();
 
-                    Skill *aSkill = Skill::skill(rn);
+                    Skill* aSkill = Skill::skill(rn);
                     int level = skillLevel(aSkill).level();
 
                     if (level < points)
@@ -413,7 +413,7 @@ void draw_tabs(WINDOW* w)
     mvwputch(w, 1, 73, c_ltgray, LINE_XOXO);
 }
 
-int set_stats(WINDOW* w, player *u, int &points)
+int set_stats(WINDOW* w, player* u, int& points)
 {
     unsigned char sel = 1;
     char ch;
@@ -662,7 +662,7 @@ int set_stats(WINDOW* w, player *u, int &points)
     while (true);
 }
 
-int set_traits(WINDOW* w, player *u, int &points)
+int set_traits(WINDOW* w, player* u, int& points)
 {
     // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
     int num_good = 0, num_bad = 0;
@@ -967,7 +967,7 @@ int set_traits(WINDOW* w, player *u, int &points)
     while (true);
 }
 
-int set_skills(WINDOW* w, player *u, int &points)
+int set_skills(WINDOW* w, player* u, int& points)
 {
     // Draw horizontal lines, with a gap for the active tab
     for (int i = 0; i < 80; i++)
@@ -993,7 +993,7 @@ int set_skills(WINDOW* w, player *u, int &points)
     mvwprintz(w, 1, 40, h_ltgray, "  SKILLS  ");
 
     int cur_sk = 1;
-    Skill *currentSkill = Skill::skill(cur_sk);
+    Skill* currentSkill = Skill::skill(cur_sk);
 
     do
     {
@@ -1017,7 +1017,7 @@ int set_skills(WINDOW* w, player *u, int &points)
         {
             for (int i = 1; i < 17; i++)
             {
-                Skill *thisSkill = Skill::skill(i);
+                Skill* thisSkill = Skill::skill(i);
 
                 mvwprintz(w, 4 + i, 0, c_ltgray, "\
                                              ");	// Clear the line
@@ -1042,7 +1042,7 @@ int set_skills(WINDOW* w, player *u, int &points)
         {
             for (int i = num_skill_types - 16; i < num_skill_types; i++)
             {
-                Skill *thisSkill = Skill::skill(i);
+                Skill* thisSkill = Skill::skill(i);
                 mvwprintz(w, 21 + i - num_skill_types, 0, c_ltgray, "\
                                              ");	// Clear the line
                 if (u->skillLevel(thisSkill) == 0)
@@ -1066,7 +1066,7 @@ int set_skills(WINDOW* w, player *u, int &points)
         {
             for (int i = cur_sk - 7; i < cur_sk + 9; i++)
             {
-                Skill *thisSkill = Skill::skill(i);
+                Skill* thisSkill = Skill::skill(i);
                 mvwprintz(w, 12 + i - cur_sk, 0, c_ltgray, "\
                                              ");	// Clear the line
                 if (u->skillLevel(thisSkill) == 0)
@@ -1127,7 +1127,7 @@ int set_skills(WINDOW* w, player *u, int &points)
     while (true);
 }
 
-int set_description(WINDOW* w, player *u, int &points)
+int set_description(WINDOW* w, player* u, int& points)
 {
     // Draw horizontal lines, with a gap for the active tab
     for (int i = 0; i < 80; i++)
@@ -1317,7 +1317,7 @@ int calc_HP(int strength, bool tough)
     return (60 + 3 * strength) * (tough ? 1.2 : 1);
 }
 
-void save_template(player *u)
+void save_template(player* u)
 {
     std::string name = string_input_popup("Name of template:");
     if (name.length() == 0)

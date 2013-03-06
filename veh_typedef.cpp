@@ -28,7 +28,7 @@
 
 void game::init_vehicles()
 {
-    vehicle *veh;
+    vehicle* veh;
     int index = 0;
     int pi;
     vtypes.push_back(new vehicle(this, (vhtype_id)index++)); // veh_null

@@ -109,7 +109,7 @@ struct DebugFile
     DebugFile();
     ~DebugFile();
 
-    std::ofstream & currentTime();
+    std::ofstream& currentTime();
     std::ofstream file;
 };
 
@@ -139,7 +139,7 @@ DebugFile::~DebugFile()
 // OStream Operators                                                {{{2
 // ---------------------------------------------------------------------
 
-std::ostream & operator<<(std::ostream & out, DebugLevel lev)
+std::ostream& operator<<(std::ostream& out, DebugLevel lev)
 {
     if (lev != DL_ALL)
     {
@@ -163,7 +163,7 @@ std::ostream & operator<<(std::ostream & out, DebugLevel lev)
     return out;
 }
 
-std::ostream & operator<<(std::ostream & out, DebugClass cl)
+std::ostream& operator<<(std::ostream& out, DebugClass cl)
 {
     if (cl != DC_ALL)
     {
@@ -179,9 +179,9 @@ std::ostream & operator<<(std::ostream & out, DebugClass cl)
     return out;
 }
 
-std::ofstream & DebugFile::currentTime()
+std::ofstream& DebugFile::currentTime()
 {
-    struct tm *current;
+    struct tm* current;
     time_t now;
 
     time(&now);
@@ -192,7 +192,7 @@ std::ofstream & DebugFile::currentTime()
     return file;
 }
 
-std::ostream & dout(DebugLevel lev, DebugClass cl)
+std::ostream& dout(DebugLevel lev, DebugClass cl)
 {
     if ((lev & debugLevel) && (cl & debugClass))
     {

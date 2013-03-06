@@ -116,8 +116,8 @@ public:
 
     int comprehension(int intellect, bool fastLearner = false);
 
-    int train(int &level);
-    int rust(int &level);
+    int train(int& level);
+    int rust(int& level);
 
     int readBook(int minimumGain, int maximumGain, int maximumLevel = 0xFFFFFFFF);
 

@@ -2,8 +2,8 @@
 
 #if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
 int
-nanosleep(const struct timespec *requested_delay,
-          struct timespec *remaining_delay)
+nanosleep(const struct timespec* requested_delay,
+          struct timespec* remaining_delay)
 {
     static bool initialized;
     /* Number of performance counter increments per nanosecond,

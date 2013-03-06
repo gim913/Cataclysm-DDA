@@ -6,7 +6,7 @@
 #define THUNDER_CHANCE 50
 #define LIGHTNING_CHANCE 600
 
-void weather_effect::glare(game *g)
+void weather_effect::glare(game* g)
 {
     if (g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing(itm_sunglasses))
     {
@@ -14,7 +14,7 @@ void weather_effect::glare(game *g)
     }
 }
 
-void weather_effect::wet(game *g)
+void weather_effect::wet(game* g)
 {
     if (!g->u.is_wearing(itm_coat_rain) && !g->u.has_trait(PF_FEATHERS) &&
             !g->u.warmth(bp_torso) >= 35 && PLAYER_OUTSIDE && one_in(2))
@@ -28,7 +28,7 @@ void weather_effect::wet(game *g)
         {
             if (g->m.is_outside(x, y))
             {
-                field *fd = &(g->m.field_at(x, y));
+                field* fd = &(g->m.field_at(x, y));
                 if (fd->type == fd_fire)
                 {
                     fd->age += 15;
@@ -42,7 +42,7 @@ void weather_effect::wet(game *g)
     }
 }
 
-void weather_effect::very_wet(game *g)
+void weather_effect::very_wet(game* g)
 {
     if (!g->u.is_wearing(itm_coat_rain) && !g->u.has_trait(PF_FEATHERS) &&
             PLAYER_OUTSIDE)
@@ -56,7 +56,7 @@ void weather_effect::very_wet(game *g)
         {
             if (g->m.is_outside(x, y))
             {
-                field *fd = &(g->m.field_at(x, y));
+                field* fd = &(g->m.field_at(x, y));
                 if (fd->type == fd_fire)
                 {
                     fd->age += 45;
@@ -70,7 +70,7 @@ void weather_effect::very_wet(game *g)
     }
 }
 
-void weather_effect::thunder(game *g)
+void weather_effect::thunder(game* g)
 {
     very_wet(g);
     if (one_in(THUNDER_CHANCE))
@@ -86,7 +86,7 @@ void weather_effect::thunder(game *g)
     }
 }
 
-void weather_effect::lightning(game *g)
+void weather_effect::lightning(game* g)
 {
     /* thunder(g);
      if (one_in(LIGHTNING_CHANCE)) {
@@ -106,7 +106,7 @@ void weather_effect::lightning(game *g)
      }
     */
 }
-void weather_effect::light_acid(game *g)
+void weather_effect::light_acid(game* g)
 {
     wet(g);
     if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE)
@@ -115,7 +115,7 @@ void weather_effect::light_acid(game *g)
     }
 }
 
-void weather_effect::acid(game *g)
+void weather_effect::acid(game* g)
 {
     if (PLAYER_OUTSIDE)
     {

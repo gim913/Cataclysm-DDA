@@ -43,9 +43,9 @@ typedef struct
 typedef struct
 {
     bool touched;
-    char *chars;
-    char *FG;
-    char *BG;
+    char* chars;
+    char* FG;
+    char* BG;
     //cursechar chars [80];
 } curseline;
 //The curses window struct
@@ -61,7 +61,7 @@ typedef struct
     bool draw;//Tracks if the window text has been changed
     int cursorx;//x location of the cursor
     int cursory;//y location of the cursor
-    curseline *line;
+    curseline* line;
 
 } WINDOW;
 
@@ -110,39 +110,39 @@ typedef struct
 //Curses Functions
 #define ERR (-1)            /* Error return. */
 #define OK  (0)         /* Success return. */
-WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
-int delwin(WINDOW *win);
-int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br);
-int wrefresh(WINDOW *win);
+WINDOW* newwin(int nlines, int ncols, int begin_y, int begin_x);
+int delwin(WINDOW* win);
+int wborder(WINDOW* win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br);
+int wrefresh(WINDOW* win);
 int refresh(void);
 int getch(void);
-int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...);
-int mvprintw(int y, int x, const char *fmt, ...);
-int werase(WINDOW *win);
+int mvwprintw(WINDOW* win, int y, int x, const char* fmt, ...);
+int mvprintw(int y, int x, const char* fmt, ...);
+int werase(WINDOW* win);
 int start_color(void);
 int init_pair(short pair, short f, short b);
-int wmove(WINDOW *win, int y, int x);
+int wmove(WINDOW* win, int y, int x);
 
 int clear(void);
 int erase(void);
 int endwin(void);
-int mvwaddch(WINDOW *win, int y, int x, const chtype ch);
-int wclear(WINDOW *win);
-int wprintw(WINDOW *win, const char *fmt, ...);
-WINDOW *initscr(void);
+int mvwaddch(WINDOW* win, int y, int x, const chtype ch);
+int wclear(WINDOW* win);
+int wprintw(WINDOW* win, const char* fmt, ...);
+WINDOW* initscr(void);
 int noecho(void);//PORTABILITY, DUMMY FUNCTION
 int cbreak(void);//PORTABILITY, DUMMY FUNCTION
-int keypad(WINDOW *faux, bool bf);//PORTABILITY, DUMMY FUNCTION
+int keypad(WINDOW* faux, bool bf);//PORTABILITY, DUMMY FUNCTION
 int curs_set(int visibility);//PORTABILITY, DUMMY FUNCTION
 int mvaddch(int y, int x, const chtype ch);
-int wattron(WINDOW *win, int attrs);
-int wattroff(WINDOW *win, int attrs);
+int wattron(WINDOW* win, int attrs);
+int wattroff(WINDOW* win, int attrs);
 int attron(int attrs);
 int attroff(int attrs);
-int waddch(WINDOW *win, const chtype ch);
-int printw(const char *fmt, ...);
-int getmaxx(WINDOW *win);
-int getmaxy(WINDOW *win);
+int waddch(WINDOW* win, const chtype ch);
+int printw(const char* fmt, ...);
+int getmaxx(WINDOW* win);
+int getmaxy(WINDOW* win);
 int move(int y, int x);
 void timeout(int delay);//PORTABILITY, DUMMY FUNCTION
 void set_escdelay(int delay);//PORTABILITY, DUMMY FUNCTION
@@ -151,6 +151,6 @@ void set_escdelay(int delay);//PORTABILITY, DUMMY FUNCTION
 void WinDestroy();
 bool WinCreate(bool initgl);
 void CheckMessages();
-int FindWin(WINDOW *wnd);
+int FindWin(WINDOW* wnd);
 LRESULT CALLBACK ProcessMessages(HWND__ *hWnd, u_int32_t Msg, WPARAM wParam, LPARAM lParam);
 #endif

@@ -48,23 +48,23 @@ public:
     // End data
 
     calendar();
-    calendar(const calendar &copy);
+    calendar(const calendar& copy);
     calendar(int Minute, int Hour, int Day, season_type Season, int Year);
     calendar(int turn);
     int get_turn();
     operator int() const; // Returns get_turn() for backwards compatibility
-    calendar& operator = (calendar &rhs);
+    calendar& operator = (calendar& rhs);
     calendar& operator = (int rhs);
-    calendar& operator -=(calendar &rhs);
+    calendar& operator -=(calendar& rhs);
     calendar& operator -=(int rhs);
-    calendar& operator +=(calendar &rhs);
+    calendar& operator +=(calendar& rhs);
     calendar& operator +=(int rhs);
-    calendar  operator - (calendar &rhs);
+    calendar  operator - (calendar& rhs);
     calendar  operator - (int rhs);
-    calendar  operator + (calendar &rhs);
+    calendar  operator + (calendar& rhs);
     calendar  operator + (int rhs);
     bool      operator ==(int rhs);
-    bool      operator ==(calendar &rhs);
+    bool      operator ==(calendar& rhs);
 
     void increment();   // Add one turn / 6 seconds
 

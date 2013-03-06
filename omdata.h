@@ -383,19 +383,19 @@ enum omspec_flag
 struct omspec_place
 {
     // Able functions - true if p is valid
-    bool never(overmap *om, point p)
+    bool never(overmap* om, point p)
     {
         return false;
     }
-    bool always(overmap *om, point p)
+    bool always(overmap* om, point p)
     {
         return true;
     }
-    bool water(overmap *om, point p);       // Only on rivers
-    bool land(overmap *om, point p);        // Only on land (no rivers)
-    bool forest(overmap *om, point p);      // Forest
-    bool wilderness(overmap *om, point p);  // Forest or fields
-    bool by_highway(overmap *om, point p);  // Next to existing highways
+    bool water(overmap* om, point p);       // Only on rivers
+    bool land(overmap* om, point p);        // Only on land (no rivers)
+    bool forest(overmap* om, point p);      // Forest
+    bool wilderness(overmap* om, point p);  // Forest or fields
+    bool by_highway(overmap* om, point p);  // Next to existing highways
 };
 
 struct overmap_special
@@ -412,7 +412,7 @@ struct overmap_special
     int monster_rad_min;   // Minimum monster radius
     int monster_rad_max;   // Maximum monster radius
 
-    bool (omspec_place::*able)(overmap *om, point p);  // See above
+    bool (omspec_place::*able)(overmap* om, point p);  // See above
 unsigned flags :
     NUM_OMS_FLAGS; // See above
 };

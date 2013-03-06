@@ -64,7 +64,7 @@ void settlement::add_building(oter_id ter)
     */
 }
 
-std::ostream & operator<<(std::ostream & out, const settlement & s)
+std::ostream& operator<<(std::ostream& out, const settlement& s)
 {
     out << "settlement(";
     out << "faction?, posx: " << s.posx << ", ";

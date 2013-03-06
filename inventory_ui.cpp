@@ -12,7 +12,7 @@ std::string CATEGORIES[9] =
     "TOOLS:", "BOOKS:", "WEAPONS:", "OTHER:"
 };
 
-void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
+void print_inv_statics(game* g, WINDOW* w_inv, std::string title,
                        std::vector<char> dropped_items)
 {
     // Print our header
@@ -109,7 +109,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
     mvwprintw(w_inv, 1, 62, "Items:  %d/52 ", n_items);
 }
 
-std::vector<int> find_firsts(inventory &inv)
+std::vector<int> find_firsts(inventory& inv)
 {
     std::vector<int> firsts;
     for (int i = 0; i < 8; i++)

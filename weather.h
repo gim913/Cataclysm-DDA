@@ -49,17 +49,17 @@ enum weather_type
 
 struct weather_effect
 {
-    void none(game *) {};
-    void glare(game *);
-    void wet(game *);
-    void very_wet(game *);
-    void thunder(game *);
-    void lightning(game *);
-    void light_acid(game *);
-    void acid(game *);
-    void flurry(game *) {};
-    void snow(game *) {};
-    void snowstorm(game *) {};
+    void none(game*) {};
+    void glare(game*);
+    void wet(game*);
+    void very_wet(game*);
+    void thunder(game*);
+    void lightning(game*);
+    void light_acid(game*);
+    void acid(game*);
+    void flurry(game*) {};
+    void snow(game*) {};
+    void snowstorm(game*) {};
 };
 
 struct weather_datum
@@ -72,7 +72,7 @@ struct weather_datum
     int light_modifier; // Modification to ambient light
     int mintime, maxtime; // min/max time it lasts, in minutes
     bool dangerous; // If true, our activity gets interrupted
-    void (weather_effect::*effect)(game *);
+    void (weather_effect::*effect)(game*);
 };
 
 #endif // _WEATHER_H_

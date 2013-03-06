@@ -493,7 +493,7 @@ void light_map::apply_light_ray(bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy
     }
 }
 
-void light_map::build_outside_cache(map *m, const int x, const int y, const int sx, const int sy)
+void light_map::build_outside_cache(map* m, const int x, const int y, const int sx, const int sy)
 {
     const ter_id terrain = m->ter(sx, sy);
 

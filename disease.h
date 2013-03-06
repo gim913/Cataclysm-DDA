@@ -10,9 +10,9 @@
 
 struct game;
 
-void dis_msg(game *g, dis_type type);
+void dis_msg(game* g, dis_type type);
 
-void dis_effect(game *g, player &p, disease &dis);
+void dis_effect(game* g, player& p, disease& dis);
 
 int disease_speed_boost(disease dis);
 

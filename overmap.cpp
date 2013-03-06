@@ -32,7 +32,7 @@
 #define SWAMPCHANCE 850 // Chance that a swamp will spawn instead of forest
 
 
-void settlement_building(settlement &set, int x, int y);
+void settlement_building(settlement& set, int x, int y);
 
 double dist(int x1, int y1, int x2, int y2)
 {
@@ -201,7 +201,7 @@ overmap::overmap()
     }
 }
 
-overmap::overmap(const overmap & om)
+overmap::overmap(const overmap& om)
 {
 #define CP(x) x = om.x
     CP(cities);
@@ -221,7 +221,7 @@ overmap::overmap(const overmap & om)
     memcpy(s, om.s, sizeof(s));
 }
 
-overmap::overmap(game *g, int x, int y, int z)
+overmap::overmap(game* g, int x, int y, int z)
 {
     if (num_ter_types > 256)
     {
@@ -445,7 +445,7 @@ point overmap::display_notes()
     return point(-1, -1);
 }
 
-void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
+void overmap::generate(game* g, overmap* north, overmap* east, overmap* south,
                        overmap* west)
 {
     erase();
@@ -1044,7 +1044,7 @@ bool overmap::ter_in_type_range(int x, int y, oter_id type, int type_range)
 }
 
 point overmap::find_closest(point origin, oter_id type, int type_range,
-                            int &dist, bool must_be_seen)
+                            int& dist, bool must_be_seen)
 {
     //does origin qualify?
     if (ter_in_type_range(origin.x, origin.y, type, type_range))
@@ -1103,7 +1103,7 @@ point overmap::find_closest(point origin, oter_id type, int type_range,
 }
 
 std::vector<point> overmap::find_all(point origin, oter_id type, int type_range,
-                                     int &dist, bool must_be_seen)
+                                     int& dist, bool must_be_seen)
 {
     std::vector<point> res;
     int max = (dist == 0 ? OMAPX / 2 : dist);
@@ -1202,8 +1202,8 @@ int overmap::dist_from_city(point p)
     return distance;
 }
 
-void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
-                   int &origx, int &origy, char &ch, bool blink)
+void overmap::draw(WINDOW* w, game* g, int& cursx, int& cursy,
+                   int& origx, int& origy, char& ch, bool blink)
 {
     bool legend = true, note_here = false, npc_here = false;
     std::string note_text, npc_name;
@@ -1535,7 +1535,7 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
     wrefresh(w);
 }
 
-point overmap::choose_point(game *g)
+point overmap::choose_point(game* g)
 {
     WINDOW* w_map = newwin(g->TERRAIN_WINDOW_HEIGHT, g->TERRAIN_WINDOW_WIDTH + 55, 0, 0);
     WINDOW* w_search = newwin(13, 27, 3, g->TERRAIN_WINDOW_WIDTH + 1);
@@ -1698,7 +1698,7 @@ point overmap::choose_point(game *g)
     return ret;
 }
 
-void overmap::first_house(int &x, int &y)
+void overmap::first_house(int& x, int& y)
 {
     std::vector<point> valid;
     for (int i = 0; i < OMAPX; i++)
@@ -3541,7 +3541,7 @@ void overmap::save(std::string name, int x, int y, int z)
     fout.close();
 }
 
-void overmap::open(game *g, int x, int y, int z)
+void overmap::open(game* g, int x, int y, int z)
 {
     std::stringstream plrfilename, terfilename;
     std::ifstream fin;
@@ -3763,32 +3763,32 @@ void overmap::open(game *g, int x, int y, int z)
 
 // Overmap special placement functions
 
-bool omspec_place::water(overmap *om, point p)
+bool omspec_place::water(overmap* om, point p)
 {
     oter_id ter = om->ter(p.x, p.y);
     return (ter >= ot_river_center && ter <= ot_river_nw);
 }
 
-bool omspec_place::land(overmap *om, point p)
+bool omspec_place::land(overmap* om, point p)
 {
     oter_id ter = om->ter(p.x, p.y);
     return (ter < ot_river_center || ter > ot_river_nw);
 }
 
-bool omspec_place::forest(overmap *om, point p)
+bool omspec_place::forest(overmap* om, point p)
 {
     oter_id ter = om->ter(p.x, p.y);
     return (ter == ot_forest || ter == ot_forest_thick || ter == ot_forest_water);
 }
 
-bool omspec_place::wilderness(overmap *om, point p)
+bool omspec_place::wilderness(overmap* om, point p)
 {
     oter_id ter = om->ter(p.x, p.y);
     return (ter == ot_forest || ter == ot_forest_thick || ter == ot_forest_water ||
             ter == ot_field);
 }
 
-bool omspec_place::by_highway(overmap *om, point p)
+bool omspec_place::by_highway(overmap* om, point p)
 {
     oter_id north = om->ter(p.x, p.y - 1), east = om->ter(p.x + 1, p.y),
             south = om->ter(p.x, p.y + 1), west = om->ter(p.x - 1, p.y);
@@ -3799,7 +3799,7 @@ bool omspec_place::by_highway(overmap *om, point p)
             (west  == ot_hiway_ns || west  == ot_road_ns));
 }
 
-std::ostream & operator<<(std::ostream & out, const overmap * om)
+std::ostream& operator<<(std::ostream& out, const overmap* om)
 {
     out << "overmap(";
     if (!om)
@@ -3850,13 +3850,13 @@ std::ostream & operator<<(std::ostream & out, const overmap * om)
     return out;
 }
 
-std::ostream & operator<<(std::ostream & out, const overmap & om)
+std::ostream& operator<<(std::ostream& out, const overmap& om)
 {
     out << (&om);
     return out;
 }
 
-std::ostream & operator<<(std::ostream & out, const city & c)
+std::ostream& operator<<(std::ostream& out, const city& c)
 {
     out << "city(" << c.x << "," << c.y << "," << c.s << ")";
     return out;

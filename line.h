@@ -44,21 +44,21 @@ struct rl_vec2d
 
     // vec2d(){}
     rl_vec2d(float X = 0, float Y = 0) : x(X), y(Y) {}
-    rl_vec2d(const rl_vec2d &v) : x(v.x), y(v.y) {}
+    rl_vec2d(const rl_vec2d& v) : x(v.x), y(v.y) {}
     ~rl_vec2d() {}
 
     float norm();
     rl_vec2d normalized();
-    float dot_product(rl_vec2d &v);
+    float dot_product(rl_vec2d& v);
     bool is_null();
     // scale.
     rl_vec2d operator* (const float rhs);
     rl_vec2d operator/ (const float rhs);
     // subtract
-    rl_vec2d operator- (const rl_vec2d &rhs);
+    rl_vec2d operator- (const rl_vec2d& rhs);
     // unary negation
     rl_vec2d operator- ();
-    rl_vec2d operator+ (const rl_vec2d &rhs);
+    rl_vec2d operator+ (const rl_vec2d& rhs);
 };
 
 #endif

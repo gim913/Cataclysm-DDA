@@ -44,7 +44,7 @@ void limitDebugClass(int);
 // ---------------------------------------------------------------------
 
 #ifdef ENABLE_LOGGING
-std::ostream & dout(DebugLevel = DL_ALL, DebugClass = DC_ALL);
+std::ostream& dout(DebugLevel = DL_ALL, DebugClass = DC_ALL);
 #else // if NOT defined ENABLE_LOGGING
 
 // Non debug only                                                   {{{1
@@ -52,7 +52,7 @@ std::ostream & dout(DebugLevel = DL_ALL, DebugClass = DC_ALL);
 
 struct DebugVoid {};
 template<class T>
-DebugVoid operator<< (const DebugVoid & dv, const T &)
+DebugVoid operator<< (const DebugVoid& dv, const T&)
 {
     return dv;
 }
@@ -64,7 +64,7 @@ DebugVoid dout(DebugLevel = DL_ALL, DebugClass = DC_ALL);
 // ---------------------------------------------------------------------
 
 template<typename C, typename A>
-std::ostream & operator<<(std::ostream & out, const std::vector<C, A> & elm)
+std::ostream& operator<<(std::ostream& out, const std::vector<C, A>& elm)
 {
     bool first = true;
     for (typename std::vector<C>::const_iterator

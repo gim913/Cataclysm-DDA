@@ -1,7 +1,7 @@
 #include "mission.h"
 #include "game.h"
 
-void mission_end::heal_infection(game *g, mission *miss)
+void mission_end::heal_infection(game* g, mission* miss)
 {
     bool found_npc = false;
     for (int i = 0; i < g->active_npc.size() && !found_npc; i++)

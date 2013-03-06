@@ -2,7 +2,7 @@
 
 #include <ostream>
 
-std::ostream & operator<<(std::ostream & out, const submap * sm)
+std::ostream& operator<<(std::ostream& out, const submap* sm)
 {
     out << "submap(";
     if (!sm)
@@ -42,7 +42,7 @@ std::ostream & operator<<(std::ostream & out, const submap * sm)
     return out;
 }
 
-std::ostream & operator<<(std::ostream & out, const submap & sm)
+std::ostream& operator<<(std::ostream& out, const submap& sm)
 {
     out << (&sm);
     return out;

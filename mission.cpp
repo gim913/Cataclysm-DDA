@@ -1,7 +1,7 @@
 #include "mission.h"
 #include "game.h"
 
-mission mission_type::create(game *g, int npc_id)
+mission mission_type::create(game* g, int npc_id)
 {
     mission ret;
     ret.uid = g->assign_mission_id();
@@ -53,7 +53,7 @@ std::string mission::save_info()
     return ret.str();
 }
 
-void mission::load_info(game *g, std::ifstream &data)
+void mission::load_info(game* g, std::ifstream& data)
 {
     int type_id, rewtype, reward_id, rew_item, rew_skill, itemid, tmpfollow;
     data >> type_id;

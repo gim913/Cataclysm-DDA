@@ -31,7 +31,7 @@ computer::~computer()
     }
 }
 
-computer& computer::operator=(const computer &rhs)
+computer& computer::operator=(const computer& rhs)
 {
     security = rhs.security;
     name = rhs.name;
@@ -73,7 +73,7 @@ void computer::shutdown_terminal()
     w_terminal = NULL;
 }
 
-void computer::use(game *g)
+void computer::use(game* g)
 {
     if (w_terminal == NULL)
     {
@@ -190,7 +190,7 @@ void computer::use(game *g)
     shutdown_terminal(); // This should have been done by now, but just in case.
 }
 
-bool computer::hack_attempt(player *p, int Security)
+bool computer::hack_attempt(player* p, int Security)
 {
     if (Security == -1)
     {
@@ -285,7 +285,7 @@ void computer::load_data(std::string data)
     }
 }
 
-void computer::activate_function(game *g, computer_action action)
+void computer::activate_function(game* g, computer_action action)
 {
     switch (action)
     {
@@ -314,7 +314,7 @@ void computer::activate_function(game *g, computer_action action)
                                 bool found_item = false;
                                 for (int i = 0; i < g->m.i_at(x1, y1).size(); i++)
                                 {
-                                    item *it = &(g->m.i_at(x1, y1)[i]);
+                                    item* it = &(g->m.i_at(x1, y1)[i]);
                                     if (it->is_container() && it->contents.empty())
                                     {
                                         it->put_in(item(g->itypes[itm_sewage], g->turn));
@@ -766,7 +766,7 @@ of pureed bone & LSD.");
         }
         else
         {
-            mission *miss = g->find_mission(mission_id);
+            mission* miss = g->find_mission(mission_id);
             if (miss == NULL)
             {
                 debugmsg("Computer couldn't find its mission!");
@@ -810,7 +810,7 @@ of pureed bone & LSD.");
                     }
                     else   // Success!
                     {
-                        item *blood = &(g->m.i_at(x, y)[0].contents[0]);
+                        item* blood = &(g->m.i_at(x, y)[0].contents[0]);
                         if (blood->corpse == NULL || blood->corpse->id == mon_null)
                         {
                             print_line("Result:  Human blood, no pathogens found.");
@@ -850,14 +850,14 @@ of pureed bone & LSD.");
     } // switch (action)
 }
 
-void computer::activate_random_failure(game *g)
+void computer::activate_random_failure(game* g)
 {
     computer_failure fail = (failures.empty() ? COMPFAIL_SHUTDOWN :
                              failures[rng(0, failures.size() - 1)]);
     activate_failure(g, fail);
 }
 
-void computer::activate_failure(game *g, computer_failure fail)
+void computer::activate_failure(game* g, computer_failure fail)
 {
     switch (fail)
     {
@@ -1050,7 +1050,7 @@ void computer::activate_failure(game *g, computer_failure fail)
     }// switch (fail)
 }
 
-bool computer::query_bool(const char *mes, ...)
+bool computer::query_bool(const char* mes, ...)
 {
     // Translate the printf flags
     va_list ap;
@@ -1073,7 +1073,7 @@ bool computer::query_bool(const char *mes, ...)
     return (ret == 'y' || ret == 'Y');
 }
 
-char computer::query_ynq(const char *mes, ...)
+char computer::query_ynq(const char* mes, ...)
 {
     // Translate the printf flags
     va_list ap;
@@ -1096,7 +1096,7 @@ char computer::query_ynq(const char *mes, ...)
     return ret;
 }
 
-void computer::print_line(const char *mes, ...)
+void computer::print_line(const char* mes, ...)
 {
     // Translate the printf flags
     va_list ap;
@@ -1124,7 +1124,7 @@ void computer::print_line(const char *mes, ...)
     wrefresh(w_terminal);
 }
 
-void computer::print_error(const char *mes, ...)
+void computer::print_error(const char* mes, ...)
 {
     // Translate the printf flags
     va_list ap;

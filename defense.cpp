@@ -20,13 +20,13 @@
 std::string caravan_category_name(caravan_category cat);
 std::vector<itype_id> caravan_items(caravan_category cat);
 
-int caravan_price(player &u, int price);
+int caravan_price(player& u, int price);
 
-void draw_caravan_borders(WINDOW *w, int current_window);
-void draw_caravan_categories(WINDOW *w, int category_selected, int total_price,
+void draw_caravan_borders(WINDOW* w, int current_window);
+void draw_caravan_categories(WINDOW* w, int category_selected, int total_price,
                              int cash);
-void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
-                        std::vector<int> *counts, int offset,
+void draw_caravan_items(WINDOW* w, game* g, std::vector<itype_id>* items,
+                        std::vector<int>* counts, int offset,
                         int item_selected);
 
 std::string defense_style_name(defense_style style);
@@ -50,7 +50,7 @@ defense_game::defense_game()
     init_to_style(DEFENSE_EASY);
 }
 
-bool defense_game::init(game *g)
+bool defense_game::init(game* g)
 {
     g->turn = HOURS(12); // Start at noon
     g->temperature = 65;
@@ -86,7 +86,7 @@ bool defense_game::init(game *g)
     return true;
 }
 
-void defense_game::per_turn(game *g)
+void defense_game::per_turn(game* g)
 {
     if (!thirst)
     {
@@ -112,7 +112,7 @@ void defense_game::per_turn(game *g)
     }
 }
 
-void defense_game::pre_action(game *g, action_id &act)
+void defense_game::pre_action(game* g, action_id& act)
 {
     if (act == ACTION_SLEEP && !sleep)
     {
@@ -157,16 +157,16 @@ void defense_game::pre_action(game *g, action_id &act)
     }
 }
 
-void defense_game::post_action(game *g, action_id act)
+void defense_game::post_action(game* g, action_id act)
 {
 }
 
-void defense_game::game_over(game *g)
+void defense_game::game_over(game* g)
 {
     popup("You managed to survive through wave %d!", current_wave);
 }
 
-void defense_game::init_itypes(game *g)
+void defense_game::init_itypes(game* g)
 {
     g->itypes[itm_2x4]->volume = 0;
     g->itypes[itm_2x4]->weight = 0;
@@ -174,7 +174,7 @@ void defense_game::init_itypes(game *g)
     g->itypes[itm_bot_turret]->price = 6000;
 }
 
-void defense_game::init_mtypes(game *g)
+void defense_game::init_mtypes(game* g)
 {
     for (int i = 0; i < num_monsters; i++)
     {
@@ -187,7 +187,7 @@ void defense_game::init_mtypes(game *g)
     }
 }
 
-void defense_game::init_constructions(game *g)
+void defense_game::init_constructions(game* g)
 {
     for (int i = 0; i < g->constructions.size(); i++)
     {
@@ -198,7 +198,7 @@ void defense_game::init_constructions(game *g)
     }
 }
 
-void defense_game::init_recipes(game *g)
+void defense_game::init_recipes(game* g)
 {
     for (int i = 0; i < g->recipes.size(); i++)
     {
@@ -206,7 +206,7 @@ void defense_game::init_recipes(game *g)
     }
 }
 
-void defense_game::init_map(game *g)
+void defense_game::init_map(game* g)
 {
     for (int x = 0; x < OMAPX; x++)
     {
@@ -926,7 +926,7 @@ std::string defense_location_description(defense_location location)
     }
 }
 
-void defense_game::caravan(game *g)
+void defense_game::caravan(game* g)
 {
     std::vector<itype_id> items[NUM_CARAVAN_CATEGORIES];
     std::vector<int> item_count[NUM_CARAVAN_CATEGORIES];
@@ -951,7 +951,7 @@ void defense_game::caravan(game *g)
 
     int total_price = 0;
 
-    WINDOW *w = newwin(25, 80, 0, 0);
+    WINDOW* w = newwin(25, 80, 0, 0);
 
     int offset = 0, item_selected = 0, category_selected = 0;
 
@@ -1313,7 +1313,7 @@ std::vector<itype_id> caravan_items(caravan_category cat)
     return ret;
 }
 
-void draw_caravan_borders(WINDOW *w, int current_window)
+void draw_caravan_borders(WINDOW* w, int current_window)
 {
     // First, do the borders for the category window
     nc_color col = c_ltgray;
@@ -1374,7 +1374,7 @@ void draw_caravan_borders(WINDOW *w, int current_window)
     wrefresh(w);
 }
 
-void draw_caravan_categories(WINDOW *w, int category_selected, int total_price,
+void draw_caravan_categories(WINDOW* w, int category_selected, int total_price,
                              int cash)
 {
     // Clear the window
@@ -1394,8 +1394,8 @@ void draw_caravan_categories(WINDOW *w, int category_selected, int total_price,
     wrefresh(w);
 }
 
-void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
-                        std::vector<int> *counts, int offset,
+void draw_caravan_items(WINDOW* w, game* g, std::vector<itype_id>* items,
+                        std::vector<int>* counts, int offset,
                         int item_selected)
 {
     // Print the item info first.  This is important, because it contains \n which
@@ -1435,7 +1435,7 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
     wrefresh(w);
 }
 
-int caravan_price(player &u, int price)
+int caravan_price(player& u, int price)
 {
     if (u.skillLevel("barter") > 10)
     {
@@ -1444,7 +1444,7 @@ int caravan_price(player &u, int price)
     return int(double(price) * (1.0 - double(u.skillLevel("barter").level()) * .05));
 }
 
-void defense_game::spawn_wave(game *g)
+void defense_game::spawn_wave(game* g)
 {
     g->add_msg("********");
     int diff = initial_difficulty + current_wave * wave_difficulty;
@@ -1470,7 +1470,7 @@ void defense_game::spawn_wave(game *g)
             return;
         }
         int rn = rng(0, valid.size() - 1);
-        mtype *type = g->mtypes[valid[rn]];
+        mtype* type = g->mtypes[valid[rn]];
         if (themed_wave)
         {
             int num = diff / type->difficulty;
@@ -1497,7 +1497,7 @@ void defense_game::spawn_wave(game *g)
     g->add_msg("********");
 }
 
-std::vector<mon_id> defense_game::pick_monster_wave(game *g)
+std::vector<mon_id> defense_game::pick_monster_wave(game* g)
 {
     std::vector<moncat_id> valid;
     std::vector<mon_id> ret;
@@ -1542,7 +1542,7 @@ std::vector<mon_id> defense_game::pick_monster_wave(game *g)
     return ret;
 }
 
-void defense_game::spawn_wave_monster(game *g, mtype *type)
+void defense_game::spawn_wave_monster(game* g, mtype* type)
 {
     monster tmp(type);
     if (location == DEFLOC_HOSPITAL || location == DEFLOC_MALL)

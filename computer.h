@@ -71,15 +71,15 @@ public:
     computer(std::string Name, int Security);
     ~computer();
 
-    computer & operator=(const computer &rhs);
+    computer& operator=(const computer& rhs);
     // Initialization
     void set_security(int Security);
     void add_option(std::string opt_name, computer_action action, int Security);
     void add_failure(computer_failure failure);
     // Basic usage
     void shutdown_terminal(); // Shutdown (free w_terminal, etc)
-    void use(game *g);
-    bool hack_attempt(player *p, int Security = -1);// -1 defaults to main security
+    void use(game* g);
+    bool hack_attempt(player* p, int Security = -1);// -1 defaults to main security
     // Save/load
     std::string save_data();
     void load_data(std::string data);
@@ -91,28 +91,28 @@ private:
     int security; // Difficulty of simply logging in
     std::vector<computer_option> options;   // Things we can do
     std::vector<computer_failure> failures; // Things that happen if we fail a hack
-    WINDOW *w_terminal; // Output window
+    WINDOW* w_terminal; // Output window
 
     // Called by use()
-    void activate_function(game *g, computer_action action);
+    void activate_function(game* g, computer_action action);
     // Generally called when we fail a hack attempt
-    void activate_random_failure(game *g);
+    void activate_random_failure(game* g);
     // ...but we can also choose a specific failure.
-    void activate_failure(game *g, computer_failure fail);
+    void activate_failure(game* g, computer_failure fail);
 
     // OUTPUT/INPUT
     // Reset to a blank terminal (e.g. at start of usage loop)
     void reset_terminal();
     // Prints a line to the terminal (with printf flags)
-    void print_line(const char *text, ...);
+    void print_line(const char* text, ...);
     // For now, the same as print_line but in red (TODO: change this?)
-    void print_error(const char *text, ...);
+    void print_error(const char* text, ...);
     // Prints code-looking gibberish
     void print_gibberish_line();
     // Prints a line and waits for Y/N/Q
-    char query_ynq(const char *text, ...);
+    char query_ynq(const char* text, ...);
     // Same as query_ynq, but returns true for y or Y
-    bool query_bool(const char *text, ...);
+    bool query_bool(const char* text, ...);
 };
 
 #endif

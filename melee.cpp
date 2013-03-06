@@ -7,13 +7,13 @@
 
 #include "cursesdef.h"
 
-void hit_message(game *g, std::string subject, std::string verb,
+void hit_message(game* g, std::string subject, std::string verb,
                  std::string target, int dam, bool crit);
-void melee_practice(player &u, bool hit, bool unarmed, bool bashing,
+void melee_practice(player& u, bool hit, bool unarmed, bool bashing,
                     bool cutting, bool stabbing);
-int  attack_speed(player &u, bool missed);
-int  stumble(player &u);
-std::string melee_verb(technique_id tech, std::string your, player &p,
+int  attack_speed(player& u, bool missed);
+int  stumble(player& u);
+std::string melee_verb(technique_id tech, std::string your, player& p,
                        int bash_dam, int cut_dam, int stab_dam);
 
 /* Melee Functions!
@@ -141,7 +141,7 @@ int player::hit_roll()
     return dice(numdice, sides);
 }
 
-int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
+int player::hit_mon(game* g, monster* z, bool allow_grab) // defaults to true
 {
     bool is_u = (this == &(g->u));  // Affects how we'll display messages
     if (is_u)
@@ -265,7 +265,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
     return dam;
 }
 
-void player::hit_player(game *g, player &p, bool allow_grab)
+void player::hit_player(game* g, player& p, bool allow_grab)
 {
     bool is_u = (this == &(g->u));  // Affects how we'll display messages
 
@@ -446,7 +446,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
     }
 }
 
-int stumble(player &u)
+int stumble(player& u)
 {
     int stumble_pen = 2 * u.weapon.volume() + u.weapon.weight();
     if (u.has_trait(PF_DEFT))
@@ -595,7 +595,7 @@ bool player::scored_crit(int target_dodge)
     return false;
 }
 
-int player::dodge(game *g)
+int player::dodge(game* g)
 {
     if (has_disease(DI_SLEEP) || has_disease(DI_LYING_DOWN))
     {
@@ -654,7 +654,7 @@ int player::dodge(game *g)
     return ret;
 }
 
-int player::dodge_roll(game *g)
+int player::dodge_roll(game* g)
 {
     return dice(dodge(g), 6);
 }
@@ -680,7 +680,7 @@ int player::base_damage(bool real_life, int stat)
     return dam;
 }
 
-int player::roll_bash_damage(monster *z, bool crit)
+int player::roll_bash_damage(monster* z, bool crit)
 {
     int ret = 0;
     int stat = str_cur; // Which stat determines damage?
@@ -778,7 +778,7 @@ int player::roll_bash_damage(monster *z, bool crit)
     return (ret < 0 ? 0 : ret);
 }
 
-int player::roll_cut_damage(monster *z, bool crit)
+int player::roll_cut_damage(monster* z, bool crit)
 {
     if (weapon.has_flag(IF_SPEAR))
     {
@@ -836,7 +836,7 @@ int player::roll_cut_damage(monster *z, bool crit)
     return ret;
 }
 
-int player::roll_stab_damage(monster *z, bool crit)
+int player::roll_stab_damage(monster* z, bool crit)
 {
     int ret = 0;
     int z_armor = (z == NULL ? 0 : z->armor_cut() - 3 * skillLevel("stabbing").level());
@@ -907,7 +907,7 @@ int player::roll_stab_damage(monster *z, bool crit)
     return ret;
 }
 
-int player::roll_stuck_penalty(monster *z, bool stabbing)
+int player::roll_stuck_penalty(monster* z, bool stabbing)
 {
     int ret = 0;
     int basharm = (z == NULL ? 6 : z->armor_bash()),
@@ -926,7 +926,7 @@ int player::roll_stuck_penalty(monster *z, bool stabbing)
     return (ret < 0 ? 0 : ret);
 }
 
-technique_id player::pick_technique(game *g, monster *z, player *p,
+technique_id player::pick_technique(game* g, monster* z, player* p,
                                     bool crit, bool allowgrab)
 {
     if (z == NULL && p == NULL)
@@ -1055,9 +1055,9 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
     return possible[ rng(0, possible.size() - 1) ];
 }
 
-void player::perform_technique(technique_id technique, game *g, monster *z,
-                               player *p, int &bash_dam, int &cut_dam,
-                               int &stab_dam, int &pain)
+void player::perform_technique(technique_id technique, game* g, monster* z,
+                               player* p, int& bash_dam, int& cut_dam,
+                               int& stab_dam, int& pain)
 {
     bool mon = (z != NULL);
     std::string You = (is_npc() ? name : "You");
@@ -1192,7 +1192,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
     } // switch (tech)
 }
 
-technique_id player::pick_defensive_technique(game *g, monster *z, player *p)
+technique_id player::pick_defensive_technique(game* g, monster* z, player* p)
 {
     if (blocks_left == 0)
     {
@@ -1299,8 +1299,8 @@ technique_id player::pick_defensive_technique(game *g, monster *z, player *p)
 }
 
 void player::perform_defensive_technique(
-    technique_id technique, game *g, monster *z, player *p,
-    body_part &bp_hit, int &side, int &bash_dam, int &cut_dam, int &stab_dam)
+    technique_id technique, game* g, monster* z, player* p,
+    body_part& bp_hit, int& side, int& bash_dam, int& cut_dam, int& stab_dam)
 
 {
     int junk;
@@ -1413,8 +1413,8 @@ void player::perform_defensive_technique(
     } // switch (technique)
 }
 
-void player::perform_special_attacks(game *g, monster *z, player *p,
-                                     int &bash_dam, int &cut_dam, int &stab_dam)
+void player::perform_special_attacks(game* g, monster* z, player* p,
+                                     int& bash_dam, int& cut_dam, int& stab_dam)
 {
     bool can_poison = false;
     int bash_armor = (z == NULL ? 0 : z->armor_bash());
@@ -1474,8 +1474,8 @@ void player::perform_special_attacks(game *g, monster *z, player *p,
     }
 }
 
-void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
-                                   int &bash_dam, int &cut_dam, int &stab_dam)
+void player::melee_special_effects(game* g, monster* z, player* p, bool crit,
+                                   int& bash_dam, int& cut_dam, int& stab_dam)
 {
     if (z == NULL && p == NULL)
     {
@@ -1818,7 +1818,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
     }
 }
 
-std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
+std::vector<special_attack> player::mutation_attacks(monster* z, player* p)
 {
     std::vector<special_attack> ret;
 
@@ -1976,7 +1976,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
     return ret;
 }
 
-std::string melee_verb(technique_id tech, std::string your, player &p,
+std::string melee_verb(technique_id tech, std::string your, player& p,
                        int bash_dam, int cut_dam, int stab_dam)
 {
     std::string s = (p.is_npc() ? "s" : "");
@@ -2069,7 +2069,7 @@ std::string melee_verb(technique_id tech, std::string your, player &p,
     return ret.str();
 }
 
-void hit_message(game *g, std::string subject, std::string verb,
+void hit_message(game* g, std::string subject, std::string verb,
                  std::string target, int dam, bool crit)
 {
     if (dam <= 0)
@@ -2080,7 +2080,7 @@ void hit_message(game *g, std::string subject, std::string verb,
                    subject.c_str(), verb.c_str(), target.c_str(), dam);
 }
 
-void melee_practice(player &u, bool hit, bool unarmed, bool bashing,
+void melee_practice(player& u, bool hit, bool unarmed, bool bashing,
                     bool cutting, bool stabbing)
 {
     if (!hit)
@@ -2125,7 +2125,7 @@ void melee_practice(player &u, bool hit, bool unarmed, bool bashing,
     }
 }
 
-int attack_speed(player &u, bool missed)
+int attack_speed(player& u, bool missed)
 {
     int move_cost = u.weapon.attack_time() + 20 * u.encumb(bp_torso);
     if (u.has_trait(PF_LIGHT_BONES))

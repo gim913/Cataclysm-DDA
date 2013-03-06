@@ -158,23 +158,23 @@ struct vehicle_part
 class vehicle
 {
 private:
-    game *g;
+    game* g;
 
 public:
-    vehicle(game *ag = 0, vhtype_id type_id = veh_null);
+    vehicle(game* ag = 0, vhtype_id type_id = veh_null);
     ~vehicle();
 
     // check if given player controls this vehicle
-    bool player_in_control(player *p);
+    bool player_in_control(player* p);
 
     // init parts state for randomly generated vehicle
     void init_state(game* g);
 
     // load and init vehicle data from stream. This implies valid save data!
-    void load(std::ifstream &stin);
+    void load(std::ifstream& stin);
 
     // Save vehicle data to stream
-    void save(std::ofstream &stout);
+    void save(std::ofstream& stout);
 
     // Operate vehicle
     std::string use_controls();
@@ -214,10 +214,10 @@ public:
     bool part_flag(int p, unsigned int f);
 
     // Translate seat-relative mount coords into tile coords
-    void coord_translate(int reldx, int reldy, int &dx, int &dy);
+    void coord_translate(int reldx, int reldy, int& dx, int& dy);
 
     // Translate seat-relative mount coords into tile coords using given face direction
-    void coord_translate(int dir, int reldx, int reldy, int &dx, int &dy);
+    void coord_translate(int dir, int reldx, int reldy, int& dx, int& dy);
 
     // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
     int part_at(int dx, int dy);
@@ -230,10 +230,10 @@ public:
     nc_color part_color(int p);
 
     // Vehicle parts description
-    void print_part_desc(void *w, int y1, int width, int p, int hl = -1);
+    void print_part_desc(void* w, int y1, int width, int p, int hl = -1);
 
     // Vehicle fuel indicator
-    void print_fuel_indicator(void *w, int y, int x);
+    void print_fuel_indicator(void* w, int y, int x);
 
     // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
     void precalc_mounts(int idir, int dir);
@@ -242,7 +242,7 @@ public:
     std::vector<int> boarded_parts();
 
     // get passenger at part p
-    player *get_passenger(int p);
+    player* get_passenger(int p);
 
     // get global coords for vehicle
     int global_x();
@@ -290,7 +290,7 @@ public:
     int noise(bool fueled = true, bool gas_only = false);
 
     // Calculate area covered by wheels and, optionally count number of wheels
-    float wheels_area(int *cnt = 0);
+    float wheels_area(int* cnt = 0);
 
     // Combined coefficient of aerodynamic and wheel friction resistance of vehicle, 0-1.0.
     // 1.0 means it's ideal form and have no resistance at all. 0 -- it won't move
@@ -366,7 +366,7 @@ public:
     void fire_turret(int p, bool burst = true);
 
     // internal procedure of turret firing
-    bool fire_turret_internal(int p, it_gun &gun, it_ammo &ammo, int charges);
+    bool fire_turret_internal(int p, it_gun& gun, it_ammo& ammo, int charges);
 
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact();

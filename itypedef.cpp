@@ -4477,7 +4477,7 @@ attacks with no penalty.",
 
         if (arttype == 'T')
         {
-            it_artifact_tool *art = new it_artifact_tool();
+            it_artifact_tool* art = new it_artifact_tool();
 
             int num_effects, chargetmp, m1tmp, m2tmp, voltmp, wgttmp, bashtmp,
                 cuttmp, hittmp, flagstmp, colortmp, pricetmp, maxtmp;
@@ -4568,7 +4568,7 @@ attacks with no penalty.",
         }
         else if (arttype == 'A')
         {
-            it_artifact_armor *art = new it_artifact_armor();
+            it_artifact_armor* art = new it_artifact_armor();
 
             int num_effects, m1tmp, m2tmp, voltmp, wgttmp, bashtmp, cuttmp,
                 hittmp, covertmp, enctmp, dmgrestmp, cutrestmp, envrestmp, warmtmp,

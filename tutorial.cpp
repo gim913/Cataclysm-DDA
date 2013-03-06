@@ -3,7 +3,7 @@
 #include "action.h"
 #include "tutorial.h"
 
-bool tutorial_game::init(game *g)
+bool tutorial_game::init(game* g)
 {
     g->turn = HOURS(12); // Start at noon
     for (int i = 0; i < NUM_LESSONS; i++)
@@ -63,7 +63,7 @@ bool tutorial_game::init(game *g)
     return true;
 }
 
-void tutorial_game::per_turn(game *g)
+void tutorial_game::per_turn(game* g)
 {
     if (g->turn == HOURS(12))
     {
@@ -153,11 +153,11 @@ void tutorial_game::per_turn(game *g)
     }
 }
 
-void tutorial_game::pre_action(game *g, action_id &act)
+void tutorial_game::pre_action(game* g, action_id& act)
 {
 }
 
-void tutorial_game::post_action(game *g, action_id act)
+void tutorial_game::post_action(game* g, action_id act)
 {
     switch (act)
     {
@@ -216,10 +216,10 @@ void tutorial_game::post_action(game *g, action_id act)
 
     case ACTION_WEAR:
     {
-        itype *it = g->itypes[ g->u.last_item];
+        itype* it = g->itypes[ g->u.last_item];
         if (it->is_armor())
         {
-            it_armor *armor = dynamic_cast<it_armor*>(it);
+            it_armor* armor = dynamic_cast<it_armor*>(it);
             if (armor->dmg_resist >= 2 || armor->cut_resist >= 4)
             {
                 add_message(g, LESSON_WORE_ARMOR);
@@ -248,7 +248,7 @@ void tutorial_game::post_action(game *g, action_id act)
         // Fall through to...
     case ACTION_PICKUP:
     {
-        itype *it = g->itypes[ g->u.last_item ];
+        itype* it = g->itypes[ g->u.last_item ];
         if (it->is_armor())
         {
             add_message(g, LESSON_GOT_ARMOR);
@@ -284,7 +284,7 @@ void tutorial_game::post_action(game *g, action_id act)
     }
 }
 
-void tutorial_game::add_message(game *g, tut_lesson lesson)
+void tutorial_game::add_message(game* g, tut_lesson lesson)
 {
     // Cycle through intro lessons
     if (lesson == LESSON_INTRO)

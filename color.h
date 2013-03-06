@@ -89,7 +89,7 @@ enum nc_color
 int color_to_int(nc_color col);
 nc_color int_to_color(int key);
 
-void setattr(nc_color &col, col_attribute attr);
+void setattr(nc_color& col, col_attribute attr);
 
 #endif
 

@@ -29,7 +29,7 @@ bool monster::wander()
     return (plans.empty());
 }
 
-bool monster::can_move_to(map &m, int x, int y)
+bool monster::can_move_to(map& m, int x, int y)
 {
     if (m.move_cost(x, y) == 0 &&
             (!has_flag(MF_DESTROYS) || !m.is_destructable(x, y)) &&
@@ -53,7 +53,7 @@ bool monster::can_move_to(map &m, int x, int y)
 // to the destination (x,y). t is used to choose which eligable line to use.
 // Currently, this assumes we can see (x,y), so shouldn't be used in any other
 // circumstance (or else the monster will "phase" through solid terrain!)
-void monster::set_dest(int x, int y, int &t)
+void monster::set_dest(int x, int y, int& t)
 {
     plans.clear();
     // TODO: This causes a segfault, once in a blue moon!  Whyyyyy.
@@ -73,7 +73,7 @@ void monster::wander_to(int x, int y, int f)
     }
 }
 
-void monster::plan(game *g)
+void monster::plan(game* g)
 {
     int sightrange = g->light_level();
     int closest = -1;
@@ -84,7 +84,7 @@ void monster::plan(game *g)
     {
         for (int i = 0; i < g->z.size(); i++)
         {
-            monster *tmp = &(g->z[i]);
+            monster* tmp = &(g->z[i]);
             if (tmp->friendly == 0 && rl_dist(posx, posy, tmp->posx, tmp->posy) < dist &&
                     g->m.sees(posx, posy, tmp->posx, tmp->posy, sightrange, tc))
             {
@@ -135,7 +135,7 @@ void monster::plan(game *g)
     }
     for (int i = 0; i < g->active_npc.size(); i++)
     {
-        npc *me = &(g->active_npc[i]);
+        npc* me = &(g->active_npc[i]);
         int medist = rl_dist(posx, posy, me->posx, me->posy);
         if ((medist < dist || (!fleeing && is_fleeing(*me))) &&
                 (can_see() &&
@@ -163,7 +163,7 @@ void monster::plan(game *g)
         fleeing = attitude() == MATT_FLEE;
         for (int i = 0; i < g->z.size(); i++)
         {
-            monster *mon = &(g->z[i]);
+            monster* mon = &(g->z[i]);
             int mondist = rl_dist(posx, posy, mon->posx, mon->posy);
             if (mon->friendly != 0 && mondist < dist && can_see() &&
                     g->m.sees(posx, posy, mon->posx, mon->posy, sightrange, tc))
@@ -206,7 +206,7 @@ void monster::plan(game *g)
 // 2) Sight-based tracking
 // 3) Scent-based tracking
 // 4) Sound-based tracking
-void monster::move(game *g)
+void monster::move(game* g)
 {
     // We decrement wandf no matter what.  We'll save our wander_to plans until
     // after we finish out set_dest plans, UNLESS they time out first.
@@ -379,7 +379,7 @@ void monster::move(game *g)
 
 // footsteps will determine how loud a monster's normal movement is
 // and create a sound in the monsters location when they move
-void monster::footsteps(game *g, int x, int y)
+void monster::footsteps(game* g, int x, int y)
 {
     if (made_footstep)
     {
@@ -418,7 +418,7 @@ void monster::footsteps(game *g, int x, int y)
     return;
 }
 
-void monster::friendly_move(game *g)
+void monster::friendly_move(game* g)
 {
     point next;
     bool moved = false;
@@ -467,7 +467,7 @@ void monster::friendly_move(game *g)
     }
 }
 
-point monster::scent_move(game *g)
+point monster::scent_move(game* g)
 {
     plans.clear();
     std::vector<point> smoves;
@@ -519,7 +519,7 @@ point monster::scent_move(game *g)
     return next;
 }
 
-point monster::sound_move(game *g)
+point monster::sound_move(game* g)
 {
     plans.clear();
     point next;
@@ -623,7 +623,7 @@ point monster::sound_move(game *g)
     return next;
 }
 
-void monster::hit_player(game *g, player &p, bool can_grab)
+void monster::hit_player(game* g, player& p, bool can_grab)
 {
     if (type->melee_dice == 0) // We don't attack, so just return
     {
@@ -795,7 +795,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     }
 }
 
-void monster::move_to(game *g, int x, int y)
+void monster::move_to(game* g, int x, int y)
 {
     int mondex = g->mon_at(x, y);
     if (mondex == -1)   //...assuming there's no monster there
@@ -863,7 +863,7 @@ void monster::move_to(game *g, int x, int y)
  * Most of the time (out in the open) this effect is insignificant compared to
  * the negative effects, but in a hallway it's perfectly even
  */
-void monster::stumble(game *g, bool moved)
+void monster::stumble(game* g, bool moved)
 {
     // don't stumble every turn. every 3rd turn, or 8th when walking.
     if (moved)
@@ -923,7 +923,7 @@ void monster::stumble(game *g, bool moved)
     }
 }
 
-void monster::knock_back_from(game *g, int x, int y)
+void monster::knock_back_from(game* g, int x, int y)
 {
     if (x == posx && y == posy)
     {
@@ -954,7 +954,7 @@ void monster::knock_back_from(game *g, int x, int y)
     int mondex = g->mon_at(to.x, to.y);
     if (mondex != -1)
     {
-        monster *z = &(g->z[mondex]);
+        monster* z = &(g->z[mondex]);
         hurt(z->type->size);
         add_effect(ME_STUNNED, 1);
         if (type->size > 1 + z->type->size)
@@ -980,7 +980,7 @@ void monster::knock_back_from(game *g, int x, int y)
     int npcdex = g->npc_at(to.x, to.y);
     if (npcdex != -1)
     {
-        npc *p = &(g->active_npc[npcdex]);
+        npc* p = &(g->active_npc[npcdex]);
         hurt(3);
         add_effect(ME_STUNNED, 1);
         p->hit(g, bp_torso, 0, type->size, 0);
@@ -1041,7 +1041,7 @@ void monster::knock_back_from(game *g, int x, int y)
          Make sure that non-smashing monsters won't "teleport" through windows
          Injure monsters if they're gonna be walking through pits or whatevs
  */
-bool monster::will_reach(game *g, int x, int y)
+bool monster::will_reach(game* g, int x, int y)
 {
     monster_attitude att = attitude(&(g->u));
     if (att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND)
@@ -1080,7 +1080,7 @@ bool monster::will_reach(game *g, int x, int y)
     return false;
 }
 
-int monster::turns_to_reach(game *g, int x, int y)
+int monster::turns_to_reach(game* g, int x, int y)
 {
     std::vector<point> path = g->m.route(posx, posy, x, y, has_flag(MF_BASHES));
     if (path.size() == 0)

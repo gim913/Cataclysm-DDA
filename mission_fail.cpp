@@ -1,7 +1,7 @@
 #include "mission.h"
 #include "game.h"
 
-void mission_fail::kill_npc(game *g, mission *miss)
+void mission_fail::kill_npc(game* g, mission* miss)
 {
     for (int i = 0; i < g->active_npc.size(); i++)
     {

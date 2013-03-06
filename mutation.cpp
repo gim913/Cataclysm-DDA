@@ -3,11 +3,11 @@
 #include "game.h"
 
 // mutation_effect handles things like destruction of armor, etc.
-void mutation_effect(game *g, player &p, pl_flag mut);
+void mutation_effect(game* g, player& p, pl_flag mut);
 // mutation_loss_effect handles what happens when you lose a mutation
-void mutation_loss_effect(game *g, player &p, pl_flag mut);
+void mutation_loss_effect(game* g, player& p, pl_flag mut);
 
-void player::mutate(game *g)
+void player::mutate(game* g)
 {
     bool force_bad = one_in(3); // 33% chance!
     if (has_trait(PF_ROBUST) && force_bad && one_in(3))
@@ -125,7 +125,7 @@ void player::mutate(game *g)
     mutate_towards(g, selection);
 }
 
-void player::mutate_towards(game *g, pl_flag mut)
+void player::mutate_towards(game* g, pl_flag mut)
 {
     if (has_child_flag(g, mut))
     {
@@ -223,7 +223,7 @@ void player::mutate_towards(game *g, pl_flag mut)
 
 }
 
-void player::remove_mutation(game *g, pl_flag mut)
+void player::remove_mutation(game* g, pl_flag mut)
 {
     // Check if there's a prereq we should shrink back into
     pl_flag replacing = PF_NULL;
@@ -258,7 +258,7 @@ void player::remove_mutation(game *g, pl_flag mut)
 
 }
 
-bool player::has_child_flag(game *g, pl_flag flag)
+bool player::has_child_flag(game* g, pl_flag flag)
 {
     for (int i = 0; i < g->mutation_data[flag].replacements.size(); i++)
     {
@@ -271,7 +271,7 @@ bool player::has_child_flag(game *g, pl_flag flag)
     return false;
 }
 
-void player::remove_child_flag(game *g, pl_flag flag)
+void player::remove_child_flag(game* g, pl_flag flag)
 {
     for (int i = 0; i < g->mutation_data[flag].replacements.size(); i++)
     {
@@ -289,7 +289,7 @@ void player::remove_child_flag(game *g, pl_flag flag)
     }
 }
 
-void mutation_effect(game *g, player &p, pl_flag mut)
+void mutation_effect(game* g, player& p, pl_flag mut)
 {
     bool is_u = (&p == &(g->u));
     bool destroy = false, skip_cloth = false;
@@ -419,7 +419,7 @@ void mutation_effect(game *g, player &p, pl_flag mut)
     }
 }
 
-void mutation_loss_effect(game *g, player &p, pl_flag mut)
+void mutation_loss_effect(game* g, player& p, pl_flag mut)
 {
     switch (mut)
     {

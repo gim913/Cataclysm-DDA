@@ -15,7 +15,7 @@ enum vehicle_controls
     control_cancel
 };
 
-vehicle::vehicle(game *ag, vhtype_id type_id): g(ag), type(type_id)
+vehicle::vehicle(game* ag, vhtype_id type_id): g(ag), type(type_id)
 {
     posx = 0;
     posy = 0;
@@ -49,14 +49,14 @@ vehicle::~vehicle()
 {
 }
 
-bool vehicle::player_in_control(player *p)
+bool vehicle::player_in_control(player* p)
 {
     if (type == veh_null)
     {
         return false;
     }
     int veh_part;
-    vehicle *veh = g->m.veh_at(p->posx, p->posy, veh_part);
+    vehicle* veh = g->m.veh_at(p->posx, p->posy, veh_part);
     if (veh && veh != this)
     {
         return false;
@@ -64,7 +64,7 @@ bool vehicle::player_in_control(player *p)
     return part_with_feature(veh_part, vpf_controls, false) >= 0 && p->in_vehicle;
 }
 
-void vehicle::load(std::ifstream &stin)
+void vehicle::load(std::ifstream& stin)
 {
     int t;
     int fdir, mdir, skd, prts, cr_on;
@@ -130,7 +130,7 @@ void vehicle::load(std::ifstream &stin)
     precalc_mounts(0, face.dir());
 }
 
-void vehicle::save(std::ofstream &stout)
+void vehicle::save(std::ofstream& stout)
 {
     stout <<
           int(type) << " " <<
@@ -659,9 +659,9 @@ nc_color vehicle::part_color(int p)
     return part_info(pd).color;
 }
 
-void vehicle::print_part_desc(void *w, int y1, int width, int p, int hl)
+void vehicle::print_part_desc(void* w, int y1, int width, int p, int hl)
 {
-    WINDOW *win = (WINDOW *) w;
+    WINDOW* win = (WINDOW*) w;
     if (p < 0 || p >= parts.size())
     {
         return;
@@ -726,9 +726,9 @@ void vehicle::print_part_desc(void *w, int y1, int width, int p, int hl)
     }
 }
 
-void vehicle::print_fuel_indicator(void *w, int y, int x)
+void vehicle::print_fuel_indicator(void* w, int y, int x)
 {
-    WINDOW *win = (WINDOW *) w;
+    WINDOW* win = (WINDOW*) w;
     const nc_color fcs[num_fuel_types] = { c_ltred, c_yellow, c_ltgreen, c_ltblue };
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_ltgray;
@@ -745,7 +745,7 @@ void vehicle::print_fuel_indicator(void *w, int y, int x)
     }
 }
 
-void vehicle::coord_translate(int reldx, int reldy, int &dx, int &dy)
+void vehicle::coord_translate(int reldx, int reldy, int& dx, int& dy)
 {
     tileray tdir(face.dir());
     tdir.advance(reldx);
@@ -753,7 +753,7 @@ void vehicle::coord_translate(int reldx, int reldy, int &dx, int &dy)
     dy = tdir.dy() + tdir.ortho_dy(reldy);
 }
 
-void vehicle::coord_translate(int dir, int reldx, int reldy, int &dx, int &dy)
+void vehicle::coord_translate(int dir, int reldx, int reldy, int& dx, int& dy)
 {
     tileray tdir(dir);
     tdir.advance(reldx);
@@ -788,7 +788,7 @@ std::vector<int> vehicle::boarded_parts()
     return res;
 }
 
-player *vehicle::get_passenger(int p)
+player* vehicle::get_passenger(int p)
 {
     p = part_with_feature(p, vpf_seat, false);
     if (p >= 0 && parts[p].has_flag(vehicle_part::passenger_flag))
@@ -1048,7 +1048,7 @@ int vehicle::noise(bool fueled, bool gas_only)
     return pwrs;
 }
 
-float vehicle::wheels_area(int *cnt)
+float vehicle::wheels_area(int* cnt)
 {
     int count = 0;
     int total_area = 0;
@@ -1434,10 +1434,10 @@ veh_collision vehicle::part_collision(int vx, int vy, int part, int x, int y)
     int mondex = g->mon_at(x, y);
     int npcind = g->npc_at(x, y);
     bool u_here = x == g->u.posx && y == g->u.posy && !g->u.in_vehicle;
-    monster *z = mondex >= 0 ? &g->z[mondex] : 0;
-    player *ph = (npcind >= 0 ? &g->active_npc[npcind] : (u_here ? &g->u : 0));
+    monster* z = mondex >= 0 ? &g->z[mondex] : 0;
+    player* ph = (npcind >= 0 ? &g->active_npc[npcind] : (u_here ? &g->u : 0));
     int target_part = -1;
-    vehicle *oveh = g->m.veh_at(x, y, target_part);
+    vehicle* oveh = g->m.veh_at(x, y, target_part);
     bool is_veh_collision = oveh && (oveh->posx != posx || oveh->posy != posy);
     bool is_body_collision = (g->u.posx == x && g->u.posy == y && !g->u.in_vehicle) ||
                              mondex >= 0 || npcind >= 0;
@@ -1863,7 +1863,7 @@ bool vehicle::add_item(int part, item itm)
     {
         return false;
     }
-    it_ammo *ammo = dynamic_cast<it_ammo*>(itm.type);
+    it_ammo* ammo = dynamic_cast<it_ammo*>(itm.type);
     if (part_flag(part, vpf_turret))
         if (!ammo || (ammo->type != part_info(part).fuel_type ||
                       ammo->type == AT_GAS ||
@@ -2233,7 +2233,7 @@ void vehicle::fire_turret(int p, bool burst)
     {
         return;
     }
-    it_gun *gun = dynamic_cast<it_gun*>(g->itypes[part_info(p).item]);
+    it_gun* gun = dynamic_cast<it_gun*>(g->itypes[part_info(p).item]);
     if (!gun)
     {
         return;
@@ -2255,7 +2255,7 @@ void vehicle::fire_turret(int p, bool burst)
         {
             return;
         }
-        it_ammo *ammo = dynamic_cast<it_ammo*>(g->itypes[amt == AT_GAS ? itm_gasoline : itm_plasma]);
+        it_ammo* ammo = dynamic_cast<it_ammo*>(g->itypes[amt == AT_GAS ? itm_gasoline : itm_plasma]);
         if (!ammo)
         {
             return;
@@ -2286,7 +2286,7 @@ void vehicle::fire_turret(int p, bool burst)
     {
         if (parts[p].items.size() > 0)
         {
-            it_ammo *ammo = dynamic_cast<it_ammo*>(parts[p].items[0].type);
+            it_ammo* ammo = dynamic_cast<it_ammo*>(parts[p].items[0].type);
             if (!ammo || ammo->type != amt ||
                     parts[p].items[0].charges < 1)
             {
@@ -2312,13 +2312,13 @@ void vehicle::fire_turret(int p, bool burst)
     }
 }
 
-bool vehicle::fire_turret_internal(int p, it_gun &gun, it_ammo &ammo, int charges)
+bool vehicle::fire_turret_internal(int p, it_gun& gun, it_ammo& ammo, int charges)
 {
     int x = global_x() + parts[p].precalc_dx[0];
     int y = global_y() + parts[p].precalc_dy[0];
     // code copied form mattack::smg, mattack::flamethrower
     int t, fire_t;
-    monster *target = 0;
+    monster* target = 0;
     int range = ammo.type == AT_GAS ? 5 : 12;
     int closest = range + 1;
     for (int i = 0; i < g->z.size(); i++)

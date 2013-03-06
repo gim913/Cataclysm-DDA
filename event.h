@@ -48,8 +48,8 @@ struct event
         map_point.y = y;
     }
 
-    void actualize(game *g); // When the time runs out
-    void per_turn(game *g);  // Every turn
+    void actualize(game* g); // When the time runs out
+    void per_turn(game* g);  // Every turn
 };
 
 #endif

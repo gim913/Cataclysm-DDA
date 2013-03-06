@@ -481,7 +481,7 @@ public:
     }
 };
 
-template<typename Iter> inline int _parse_quadhex(input<Iter> &in)
+template<typename Iter> inline int _parse_quadhex(input<Iter>& in)
 {
     int uni_ch = 0, hex;
     for (int i = 0; i < 4; i++)
@@ -1097,7 +1097,7 @@ int main(void)
 
     {
         picojson::value v;
-        const char *s = "[1,true,\"hello\"]";
+        const char* s = "[1,true,\"hello\"]";
         string err = picojson::parse(v, s, s + strlen(s));
         ok(err.empty(), "array no error");
         ok(v.is<picojson::array>(), "array check type");
@@ -1116,7 +1116,7 @@ int main(void)
 
     {
         picojson::value v;
-        const char *s = "{ \"a\": true }";
+        const char* s = "{ \"a\": true }";
         string err = picojson::parse(v, s, s + strlen(s));
         ok(err.empty(), "object no error");
         ok(v.is<picojson::object>(), "object check type");
@@ -1142,7 +1142,7 @@ int main(void)
 
     {
         picojson::value v1, v2;
-        const char *s;
+        const char* s;
         string err;
         s = "{ \"b\": true, \"a\": [1,2,\"three\"], \"d\": 2 }";
         err = picojson::parse(v1, s, s + strlen(s));
@@ -1153,7 +1153,7 @@ int main(void)
 
     {
         picojson::value v1, v2;
-        const char *s;
+        const char* s;
         string err;
         s = "{ \"b\": true, \"a\": [1,2,\"three\"], \"d\": 2 }";
         err = picojson::parse(v1, s, s + strlen(s));
@@ -1164,7 +1164,7 @@ int main(void)
 
     {
         picojson::value v1, v2;
-        const char *s;
+        const char* s;
         string err;
         s = "{ \"b\": true, \"a\": [1,2,\"three\"], \"d\": 2 }";
         err = picojson::parse(v1, s, s + strlen(s));
@@ -1175,7 +1175,7 @@ int main(void)
 
     {
         picojson::value v1, v2;
-        const char *s;
+        const char* s;
         string err;
         s = "{ \"b\": true, \"a\": [1,2,\"three\"], \"d\": 2 }";
         err = picojson::parse(v1, s, s + strlen(s));

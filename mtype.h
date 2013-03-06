@@ -198,8 +198,8 @@ struct mtype
     // Negative # means one item gen'd, tops
     int hp;
     unsigned char sp_freq;          // How long sp_attack takes to charge
-    void (mdeath::*dies)(game *, monster *); // What happens when this monster dies
-    void (mattack::*sp_attack)(game *, monster *); // This monster's special attack
+    void (mdeath::*dies)(game*, monster*);   // What happens when this monster dies
+    void (mattack::*sp_attack)(game*, monster*);   // This monster's special attack
 
 
     // Default constructor
@@ -241,8 +241,8 @@ struct mtype
           unsigned char pdodge, unsigned char parmor_bash,
           unsigned char parmor_cut, signed char pitem_chance, int php,
           unsigned char psp_freq,
-          void (mdeath::*pdies)(game *, monster *),
-          void (mattack::*psp_attack)(game *, monster *),
+          void (mdeath::*pdies)(game*, monster*),
+          void (mattack::*psp_attack)(game*, monster*),
           std::string pdescription)
     {
         id = pid;

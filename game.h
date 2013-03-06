@@ -107,7 +107,7 @@ public:
     void decrease_nextinv();    // Decrement the next inventory letter
     void vadd_msg(const char* msg, va_list ap);
     void add_msg(const char* msg, ...);
-    void add_msg_if_player(player *p, const char* msg, ...);
+    void add_msg_if_player(player* p, const char* msg, ...);
     void add_event(event_type type, int on_turn, int faction_id = -1,
                    int x = -1, int y = -1);
     bool event_queued(event_type type);
@@ -125,7 +125,7 @@ public:
     // Move the player vertically, if (force) then they fell
     void vertical_move(int z, bool force);
     void use_computer(int x, int y);
-    bool pl_refill_vehicle(vehicle &veh, int part, bool test = false);
+    bool pl_refill_vehicle(vehicle& veh, int part, bool test = false);
     void resonance_cascade(int x, int y);
     void scrambler_blast(int x, int y);
     void emp_blast(int x, int y);
@@ -140,13 +140,13 @@ public:
     void kill_mon(int index, bool player_did_it = false);
     void explode_mon(int index);    // Explode a monster; like kill_mon but messier
     // hit_monster_with_flags processes ammo flags (e.g. incendiary, etc)
-    void hit_monster_with_flags(monster &z, unsigned int flags);
+    void hit_monster_with_flags(monster& z, unsigned int flags);
     void plfire(bool burst);    // Player fires a gun (target selection)...
     // ... a gun is fired, maybe by an NPC (actual damage, etc.).
-    void fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
+    void fire(player& p, int tarx, int tary, std::vector<point>& trajectory,
               bool burst);
-    void throw_item(player &p, int tarx, int tary, item &thrown,
-                    std::vector<point> &trajectory);
+    void throw_item(player& p, int tarx, int tary, item& thrown,
+                    std::vector<point>& trajectory);
     void cancel_activity();
     void cancel_activity_query(const char* message, ...);
     int assign_mission_id(); // Just returns the next available one
@@ -168,13 +168,13 @@ public:
     void mission_step_complete(int id, int step); // Parial completion
     void process_missions(); // Process missions, see if time's run out
 
-    void teleport(player *p = NULL);
+    void teleport(player* p = NULL);
     void plswim(int x, int y); // Called by plmove.  Handles swimming
     // when player is thrown (by impact or something)
-    void fling_player_or_monster(player *p, monster *zz, int dir, int flvel);
+    void fling_player_or_monster(player* p, monster* zz, int dir, int flvel);
 
     void nuke(int x, int y);
-    std::vector<faction *> factions_at(int x, int y);
+    std::vector<faction*> factions_at(int x, int y);
     int& scent(int x, int y);
     float natural_light_level();
     unsigned char light_level();
@@ -182,12 +182,12 @@ public:
     int assign_npc_id();
     int assign_faction_id();
     faction* faction_by_id(int it);
-    bool sees_u(int x, int y, int &t);
-    bool u_see(int x, int y, int &t);
-    bool u_see(monster *mon, int &t);
-    bool pl_sees(player *p, monster *mon, int &t);
+    bool sees_u(int x, int y, int& t);
+    bool u_see(int x, int y, int& t);
+    bool u_see(monster* mon, int& t);
+    bool pl_sees(player* p, monster* mon, int& t);
     void refresh_all();
-    void update_map(int &x, int &y);  // Called by plmove when the map updates
+    void update_map(int& x, int& y);  // Called by plmove when the map updates
     void update_overmap_seen(); // Update which overmap tiles we can see
     point om_location(); // levx and levy converted to overmap coordinates
 
@@ -196,7 +196,7 @@ public:
 
     itype* new_artifact();
     itype* new_natural_artifact(artifact_natural_property prop = ARTPROP_NULL);
-    void process_artifact(item *it, player *p, bool wielded = false);
+    void process_artifact(item* it, player* p, bool wielded = false);
     void add_artifact_messages(std::vector<art_effect_passive> effects);
 
     void peek();
@@ -208,8 +208,8 @@ public:
     char inv_type(std::string title = "Inventory:", int inv_item_type = 0);
     std::vector<item> multidrop();
     faction* list_factions(std::string title = "FACTIONS:");
-    point find_item(item *it);
-    void remove_item(item *it);
+    point find_item(item* it);
+    void remove_item(item* it);
 
     inventory crafting_inventory();  // inv_from_map, inv, & 'weapon'
     void consume_items(std::vector<component> components);
@@ -256,14 +256,14 @@ public:
     int TERRAIN_WINDOW_WIDTH;
     int TERRAIN_WINDOW_HEIGHT;
 
-    WINDOW *w_terrain;
-    WINDOW *w_minimap;
-    WINDOW *w_HP;
-    WINDOW *w_moninfo;
-    WINDOW *w_messages;
-    WINDOW *w_location;
-    WINDOW *w_status;
-    overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
+    WINDOW* w_terrain;
+    WINDOW* w_minimap;
+    WINDOW* w_HP;
+    WINDOW* w_moninfo;
+    WINDOW* w_messages;
+    WINDOW* w_location;
+    WINDOW* w_status;
+    overmap* om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
 private:
     // Game-start procedures
@@ -307,28 +307,28 @@ private:
     void close();   // Close a door         'c'
     void smash();   // Smash terrain
     void craft();                    // See crafting.cpp
-    void make_craft(recipe *making); // See crafting.cpp
+    void make_craft(recipe* making); // See crafting.cpp
     void complete_craft();           // See crafting.cpp
-    void pick_recipes(std::vector<recipe*> &current,
-                      std::vector<bool> &available, craft_cat tab);// crafting.cpp
+    void pick_recipes(std::vector<recipe*>& current,
+                      std::vector<bool>& available, craft_cat tab);// crafting.cpp
     void disassemble();              // See crafting.cpp
-    void disassemble_item(recipe *dis);              // See crafting.cpp
+    void disassemble_item(recipe* dis);              // See crafting.cpp
     void complete_disassemble();              // See crafting.cpp
     void construction_menu();                   // See construction.cpp
-    bool player_can_build(player &p, inventory inv, constructable* con,
+    bool player_can_build(player& p, inventory inv, constructable* con,
                           const int level = -1, bool cont = false,
                           bool exact_level = false);
-    void place_construction(constructable *con); // See construction.cpp
+    void place_construction(constructable* con); // See construction.cpp
     void complete_construction();               // See construction.cpp
-    bool pl_choose_vehicle(int &x, int &y);
+    bool pl_choose_vehicle(int& x, int& y);
     bool vehicle_near();
     void handbrake();
     void examine();// Examine nearby terrain    'e'
     // open vehicle interaction screen
-    void exam_vehicle(vehicle &veh, int examx, int examy, int cx = 0, int cy = 0);
+    void exam_vehicle(vehicle& veh, int examx, int examy, int cx = 0, int cy = 0);
     void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
     // Pick where to put liquid; false if it's left where it was
-    bool handle_liquid(item &liquid, bool from_ground, bool infinite);
+    bool handle_liquid(item& liquid, bool from_ground, bool infinite);
     void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items  'I'
     void drop(char chInput = '.');    // Drop an item       'd'
     void drop_in_direction(); // Drop w/ direction 'D'
@@ -355,9 +355,9 @@ private:
     // square.  It display information on any monster/NPC on that square, and also
     // returns a Bresenham line to that square.  It is called by plfire() and
     // throw().
-    std::vector<point> target(int &x, int &y, int lowx, int lowy, int hix,
-                              int hiy, std::vector <monster> t, int &target,
-                              item *relevent);
+    std::vector<point> target(int& x, int& y, int lowx, int lowy, int hix,
+                              int hiy, std::vector <monster> t, int& target,
+                              item* relevent);
 
     // Map updating and monster spawning
     void replace_stair_monsters();
@@ -423,7 +423,7 @@ private:
     int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
     std::vector <game_message> messages;   // Messages to be printed
     int curmes;   // The last-seen message.
-    int grscent[SEEX * MAPSIZE][SEEY * MAPSIZE];    // The scent map
+    int grscent[SEEX* MAPSIZE][SEEY* MAPSIZE];      // The scent map
     //int monmap[SEEX * MAPSIZE][SEEY * MAPSIZE]; // Temp monster map, for mon_at()
     int nulscent;               // Returned for OOB scent checks
     std::vector<event> events;          // Game events to be processed
@@ -435,7 +435,7 @@ private:
     unsigned char latest_lightlevel;
     calendar latest_lightlevel_turn;
 
-    special_game *gamemode;
+    special_game* gamemode;
 };
 
 #endif

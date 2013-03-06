@@ -20,13 +20,13 @@ public:
 private:
     int cpart;
     int page_size;
-    WINDOW *w_grid;
-    WINDOW *w_mode;
-    WINDOW *w_msg;
-    WINDOW *w_disp;
-    WINDOW *w_parts;
-    WINDOW *w_stats;
-    WINDOW *w_list;
+    WINDOW* w_grid;
+    WINDOW* w_mode;
+    WINDOW* w_msg;
+    WINDOW* w_disp;
+    WINDOW* w_parts;
+    WINDOW* w_stats;
+    WINDOW* w_list;
 
     int winw1;
     int winw2;
@@ -41,8 +41,8 @@ private:
     int winy1;
     int winy2;
 
-    vehicle *veh;
-    game *g;
+    vehicle* veh;
+    game* g;
     int ex, ey;
     bool has_wrench;
     bool has_welder;
@@ -73,9 +73,9 @@ private:
     bool has_fuel;
 public:
     veh_interact();
-    void exec(game *gm, vehicle *v, int x, int y);
+    void exec(game* gm, vehicle* v, int x, int y);
 };
 
-void complete_vehicle(game *g);
+void complete_vehicle(game* g);
 
 #endif

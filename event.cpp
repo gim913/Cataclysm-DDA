@@ -3,7 +3,7 @@
 #include "game.h"
 #include "rng.h"
 
-void event::actualize(game *g)
+void event::actualize(game* g)
 {
     switch (type)
     {
@@ -46,7 +46,7 @@ void event::actualize(game *g)
     {
         if (rl_dist(g->levx, g->levy, map_point.x, map_point.y) <= 4)
         {
-            mtype *robot_type = g->mtypes[mon_tripod];
+            mtype* robot_type = g->mtypes[mon_tripod];
             if (faction_id == 0) // The cops!
             {
                 robot_type = g->mtypes[mon_copbot];
@@ -323,7 +323,7 @@ void event::actualize(game *g)
     }
 }
 
-void event::per_turn(game *g)
+void event::per_turn(game* g)
 {
     switch (type)
     {

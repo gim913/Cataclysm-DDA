@@ -17,7 +17,7 @@
 
 void exit_handler(int s);
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
 #ifdef ENABLE_LOGGING
     setupDebug();
@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
 
     bool quit_game = false;
     bool delete_world = false;
-    game *g = new game;
+    game* g = new game;
     MAPBUFFER.set_game(g);
     MAPBUFFER.load();
 

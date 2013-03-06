@@ -275,7 +275,7 @@ rl_vec2d rl_vec2d::normalized()
     ret.y = y / n;
     return ret;
 }
-float rl_vec2d::dot_product(rl_vec2d &v)
+float rl_vec2d::dot_product(rl_vec2d& v)
 {
     return x * v.x + y * v.y;
 }
@@ -292,7 +292,7 @@ rl_vec2d rl_vec2d::operator* (const float rhs)
     return ret;
 }
 // subtract
-rl_vec2d rl_vec2d::operator- (const rl_vec2d &rhs)
+rl_vec2d rl_vec2d::operator- (const rl_vec2d& rhs)
 {
     rl_vec2d ret;
     ret.x = x - rhs.x;
@@ -307,7 +307,7 @@ rl_vec2d rl_vec2d::operator- ()
     ret.y = -y;
     return ret;
 }
-rl_vec2d rl_vec2d::operator+ (const rl_vec2d &rhs)
+rl_vec2d rl_vec2d::operator+ (const rl_vec2d& rhs)
 {
     rl_vec2d ret;
     ret.x = x + rhs.x;

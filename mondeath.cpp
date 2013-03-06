@@ -5,7 +5,7 @@
 #include "line.h"
 #include <sstream>
 
-void mdeath::normal(game *g, monster *z)
+void mdeath::normal(game* g, monster* z)
 {
     int junk;
     if (g->u_see(z, junk))
@@ -35,7 +35,7 @@ void mdeath::normal(game *g, monster *z)
     }
 }
 
-void mdeath::acid(game *g, monster *z)
+void mdeath::acid(game* g, monster* z)
 {
     int tmp;
     if (g->u_see(z, tmp))
@@ -45,7 +45,7 @@ void mdeath::acid(game *g, monster *z)
     g->m.add_field(g, z->posx, z->posy, fd_acid, 3);
 }
 
-void mdeath::boomer(game *g, monster *z)
+void mdeath::boomer(game* g, monster* z)
 {
     std::string tmp;
     g->sound(z->posx, z->posy, 24, "a boomer explode!");
@@ -77,7 +77,7 @@ void mdeath::boomer(game *g, monster *z)
     }
 }
 
-void mdeath::kill_vines(game *g, monster *z)
+void mdeath::kill_vines(game* g, monster* z)
 {
     std::vector<int> vines;
     std::vector<int> hubs;
@@ -96,7 +96,7 @@ void mdeath::kill_vines(game *g, monster *z)
 
     for (int i = 0; i < vines.size(); i++)
     {
-        monster *vine = &(g->z[ vines[i] ]);
+        monster* vine = &(g->z[ vines[i] ]);
         int dist = rl_dist(vine->posx, vine->posy, z->posx, z->posy);
         bool closer_hub = false;
         for (int j = 0; j < hubs.size() && !closer_hub; j++)
@@ -114,7 +114,7 @@ void mdeath::kill_vines(game *g, monster *z)
     }
 }
 
-void mdeath::vine_cut(game *g, monster *z)
+void mdeath::vine_cut(game* g, monster* z)
 {
     std::vector<int> vines;
     for (int x = z->posx - 1; x <= z->posx + 1; x++)
@@ -136,7 +136,7 @@ void mdeath::vine_cut(game *g, monster *z)
     for (int i = 0; i < vines.size(); i++)
     {
         bool found_neighbor = false;
-        monster *vine = &(g->z[ vines[i] ]);
+        monster* vine = &(g->z[ vines[i] ]);
         for (int x = vine->posx - 1; x <= vine->posx + 1 && !found_neighbor; x++)
         {
             for (int y = vine->posy - 1; y <= vine->posy + 1 && !found_neighbor; y++)
@@ -159,13 +159,13 @@ void mdeath::vine_cut(game *g, monster *z)
     }
 }
 
-void mdeath::triffid_heart(game *g, monster *z)
+void mdeath::triffid_heart(game* g, monster* z)
 {
     g->add_msg("The root walls begin to crumble around you.");
     g->add_event(EVENT_ROOTS_DIE, int(g->turn) + 100);
 }
 
-void mdeath::fungus(game *g, monster *z)
+void mdeath::fungus(game* g, monster* z)
 {
     monster spore(g->mtypes[mon_spore]);
     int sporex, sporey;
@@ -202,14 +202,14 @@ void mdeath::fungus(game *g, monster *z)
     }
 }
 
-void mdeath::fungusawake(game *g, monster *z)
+void mdeath::fungusawake(game* g, monster* z)
 {
     monster newfung(g->mtypes[mon_fungaloid]);
     newfung.spawn(z->posx, z->posy);
     g->z.push_back(newfung);
 }
 
-void mdeath::disintegrate(game *g, monster *z)
+void mdeath::disintegrate(game* g, monster* z)
 {
     int junk;
     if (g->u_see(z, junk))
@@ -218,7 +218,7 @@ void mdeath::disintegrate(game *g, monster *z)
     }
 }
 
-void mdeath::worm(game *g, monster *z)
+void mdeath::worm(game* g, monster* z)
 {
     int j;
     if (g->u_see(z, j))
@@ -252,12 +252,12 @@ void mdeath::worm(game *g, monster *z)
     }
 }
 
-void mdeath::disappear(game *g, monster *z)
+void mdeath::disappear(game* g, monster* z)
 {
     g->add_msg("The %s disappears!  Was it in your head?", z->name().c_str());
 }
 
-void mdeath::guilt(game *g, monster *z)
+void mdeath::guilt(game* g, monster* z)
 {
     if (g->u.has_trait(PF_HEARTLESS))
     {
@@ -285,7 +285,7 @@ void mdeath::guilt(game *g, monster *z)
         return;
     }
 }
-void mdeath::blobsplit(game *g, monster *z)
+void mdeath::blobsplit(game* g, monster* z)
 {
     int j;
     int speed = z->speed - rng(30, 50);
@@ -330,7 +330,7 @@ void mdeath::blobsplit(game *g, monster *z)
     }
 }
 
-void mdeath::melt(game *g, monster *z)
+void mdeath::melt(game* g, monster* z)
 {
     int j;
     if (g->u_see(z, j))
@@ -339,7 +339,7 @@ void mdeath::melt(game *g, monster *z)
     }
 }
 
-void mdeath::amigara(game *g, monster *z)
+void mdeath::amigara(game* g, monster* z)
 {
     if (g->u.has_disease(DI_AMIGARA))
     {
@@ -362,14 +362,14 @@ void mdeath::amigara(game *g, monster *z)
     normal(g, z);
 }
 
-void mdeath::thing(game *g, monster *z)
+void mdeath::thing(game* g, monster* z)
 {
     monster thing(g->mtypes[mon_thing]);
     thing.spawn(z->posx, z->posy);
     g->z.push_back(thing);
 }
 
-void mdeath::explode(game *g, monster *z)
+void mdeath::explode(game* g, monster* z)
 {
     int size;
     switch (z->type->size)
@@ -393,18 +393,18 @@ void mdeath::explode(game *g, monster *z)
     g->explosion(z->posx, z->posy, size, 0, false);
 }
 
-void mdeath::ratking(game *g, monster *z)
+void mdeath::ratking(game* g, monster* z)
 {
     g->u.rem_disease(DI_RAT);
 }
 
-void mdeath::gameover(game *g, monster *z)
+void mdeath::gameover(game* g, monster* z)
 {
     g->add_msg("Your %s is destroyed!  GAME OVER!", z->name().c_str());
     g->u.hp_cur[hp_torso] = 0;
 }
 
-void mdeath::kill_breathers(game *g, monster *z)
+void mdeath::kill_breathers(game* g, monster* z)
 {
     for (int i = 0; i < g->z.size(); i++)
     {

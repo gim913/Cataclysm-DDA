@@ -1,6 +1,6 @@
 #include "setvector.h"
 
-void setvector(std::vector<itype_id> &vec, ...)
+void setvector(std::vector<itype_id>& vec, ...)
 {
     va_list ap;
     va_start(ap, vec);
@@ -12,7 +12,7 @@ void setvector(std::vector<itype_id> &vec, ...)
     va_end(ap);
 }
 
-void setvector(std::vector<component> &vec, ...)
+void setvector(std::vector<component>& vec, ...)
 {
     va_list ap;
     va_start(ap, vec);
@@ -27,7 +27,7 @@ void setvector(std::vector<component> &vec, ...)
     va_end(ap);
 }
 
-void setvector(std::vector<mon_id> &vec, ...)
+void setvector(std::vector<mon_id>& vec, ...)
 {
     va_list ap;
     va_start(ap, vec);
@@ -39,7 +39,7 @@ void setvector(std::vector<mon_id> &vec, ...)
     va_end(ap);
 }
 
-void setvector(std::vector<items_location_and_chance> &vec, ...)
+void setvector(std::vector<items_location_and_chance>& vec, ...)
 {
     va_list ap;
     va_start(ap, vec);
@@ -53,7 +53,7 @@ void setvector(std::vector<items_location_and_chance> &vec, ...)
     va_end(ap);
 }
 
-void setvector(std::vector<mission_origin> &vec, ...)
+void setvector(std::vector<mission_origin>& vec, ...)
 {
     va_list ap;
     va_start(ap, vec);
@@ -65,12 +65,12 @@ void setvector(std::vector<mission_origin> &vec, ...)
     va_end(ap);
 }
 
-void setvector(std::vector<std::string> &vec, ...)
+void setvector(std::vector<std::string>& vec, ...)
 {
     va_list ap;
     va_start(ap, vec);
-    char *tmp;
-    while ((tmp = va_arg(ap, char *)))
+    char* tmp;
+    while ((tmp = va_arg(ap, char*)))
     {
         vec.push_back((std::string)(tmp));
     }
@@ -78,7 +78,7 @@ void setvector(std::vector<std::string> &vec, ...)
 }
 
 
-template <class T> void setvec(std::vector<T> &vec, ...)
+template <class T> void setvec(std::vector<T>& vec, ...)
 {
     va_list ap;
     va_start(ap, vec);
@@ -90,7 +90,7 @@ template <class T> void setvec(std::vector<T> &vec, ...)
     va_end(ap);
 }
 
-void setvector(std::vector<pl_flag> &vec, ...)
+void setvector(std::vector<pl_flag>& vec, ...)
 {
     va_list ap;
     va_start(ap, vec);
@@ -102,7 +102,7 @@ void setvector(std::vector<pl_flag> &vec, ...)
     va_end(ap);
 }
 
-void setvector(std::vector<m_flag> &vec, ...)
+void setvector(std::vector<m_flag>& vec, ...)
 {
     va_list ap;
     va_start(ap, vec);
@@ -114,7 +114,7 @@ void setvector(std::vector<m_flag> &vec, ...)
     va_end(ap);
 }
 
-void setvector(std::vector<monster_trigger> &vec, ...)
+void setvector(std::vector<monster_trigger>& vec, ...)
 {
     va_list ap;
     va_start(ap, vec);
@@ -126,7 +126,7 @@ void setvector(std::vector<monster_trigger> &vec, ...)
     va_end(ap);
 }
 
-void setvector(std::vector<moncat_id> &vec, ...)
+void setvector(std::vector<moncat_id>& vec, ...)
 {
     va_list ap;
     va_start(ap, vec);
@@ -138,15 +138,15 @@ void setvector(std::vector<moncat_id> &vec, ...)
     va_end(ap);
 }
 
-void setvector(std::vector<style_move> &vec, ...)
+void setvector(std::vector<style_move>& vec, ...)
 {
     va_list ap;
     va_start(ap, vec);
-    char *tmpname;
+    char* tmpname;
     technique_id tmptech;
     int tmplevel;
 
-    while ((tmpname = va_arg(ap, char *)))
+    while ((tmpname = va_arg(ap, char*)))
     {
         tmptech = (technique_id)va_arg(ap, int);
         tmplevel = (int)va_arg(ap, int);

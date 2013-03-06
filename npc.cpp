@@ -10,8 +10,8 @@
 #include "output.h"
 #include "line.h"
 
-std::vector<item> starting_clothes(npc_class type, bool male, game *g);
-std::vector<item> starting_inv(npc *me, npc_class type, game *g);
+std::vector<item> starting_clothes(npc_class type, bool male, game* g);
+std::vector<item> starting_inv(npc* me, npc_class type, game* g);
 
 npc::npc()
 {
@@ -54,14 +54,14 @@ npc::npc()
     }
 }
 
-npc::npc(const npc &rhs)
+npc::npc(const npc& rhs)
 {
     *this = rhs;
 }
 
 npc::~npc() { }
 
-npc& npc::operator= (const npc & rhs)
+npc& npc::operator= (const npc& rhs)
 {
     player::operator=(rhs);
 
@@ -244,7 +244,7 @@ std::string npc::save_info()
     return dump.str();
 }
 
-void npc::load_info(game *g, std::string data)
+void npc::load_info(game* g, std::string data)
 {
     std::stringstream dump;
     std::string tmpname;
@@ -355,7 +355,7 @@ void npc::load_info(game *g, std::string data)
     combat_rules.load_info(dump);
 }
 
-void npc::randomize(game *g, npc_class type)
+void npc::randomize(game* g, npc_class type)
 {
     id = g->assign_npc_id();
     str_max = dice(4, 3);
@@ -576,7 +576,7 @@ void npc::randomize(game *g, npc_class type)
     update_worst_item_value();
 }
 
-void npc::randomize_from_faction(game *g, faction *fac)
+void npc::randomize_from_faction(game* g, faction* fac)
 {
     // Personality = aggression, bravery, altruism, collector
     my_fac = fac;
@@ -858,7 +858,7 @@ void npc::randomize_from_faction(game *g, faction *fac)
     }
 }
 
-std::vector<item> starting_clothes(npc_class type, bool male, game *g)
+std::vector<item> starting_clothes(npc_class type, bool male, game* g)
 {
     std::vector<item> ret;
     itype_id pants = itm_null, shoes = itm_null, shirt = itm_null,
@@ -1193,7 +1193,7 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
     return ret;
 }
 
-std::vector<item> starting_inv(npc *me, npc_class type, game *g)
+std::vector<item> starting_inv(npc* me, npc_class type, game* g)
 {
     int total_space = me->volume_capacity() - 2;
     std::vector<item> ret;
@@ -1203,7 +1203,7 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
     // First, if we're wielding a gun, get some ammo for it
     if (me->weapon.is_gun())
     {
-        it_gun *gun = dynamic_cast<it_gun*>(me->weapon.type);
+        it_gun* gun = dynamic_cast<it_gun*>(me->weapon.type);
         tmp = default_ammo(gun->ammo);
         if (total_space >= g->itypes[tmp]->volume)
         {
@@ -1300,7 +1300,7 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
     return ret;
 }
 
-void npc::spawn_at(overmap *o, int x, int y)
+void npc::spawn_at(overmap* o, int x, int y)
 {
     // First, specify that we are in this overmap!
     omx = o->posx;
@@ -1344,7 +1344,7 @@ skill npc::best_skill()
     return skill(best_skills[index]);
 }
 
-void npc::starting_weapon(game *g)
+void npc::starting_weapon(game* g)
 {
     if (!styles.empty())
     {
@@ -1479,7 +1479,7 @@ bool npc::wear_if_wanted(item it)
     return false;
 }
 
-bool npc::wield(game *g, int index)
+bool npc::wield(game* g, int index)
 {
     if (index < 0)   // Wielding a style
     {
@@ -1533,7 +1533,7 @@ bool npc::wield(game *g, int index)
     return true;
 }
 
-void npc::perform_mission(game *g)
+void npc::perform_mission(game* g)
 {
     switch (mission)
     {
@@ -1570,7 +1570,7 @@ void npc::perform_mission(game *g)
     }
 }
 
-void npc::form_opinion(player *u)
+void npc::form_opinion(player* u)
 {
     // FEAR
     if (u->weapon.is_gun())
@@ -1719,7 +1719,7 @@ void npc::form_opinion(player *u)
     }
 }
 
-talk_topic npc::pick_talk_topic(player *u)
+talk_topic npc::pick_talk_topic(player* u)
 {
     //form_opinion(u);
     if (personality.aggression > 0)
@@ -1750,7 +1750,7 @@ talk_topic npc::pick_talk_topic(player *u)
     return TALK_STRANGER_NEUTRAL;
 }
 
-int npc::player_danger(player *u)
+int npc::player_danger(player* u)
 {
     int ret = 0;
     if (u->weapon.is_gun())
@@ -1850,12 +1850,12 @@ void npc::make_angry()
     }
 }
 
-bool npc::wants_to_travel_with(player *p)
+bool npc::wants_to_travel_with(player* p)
 {
     return true;
 }
 
-int npc::assigned_missions_value(game *g)
+int npc::assigned_missions_value(game* g)
 {
     int ret = 0;
     for (int i = 0; i < chatbin.missions_assigned.size(); i++)
@@ -1865,7 +1865,7 @@ int npc::assigned_missions_value(game *g)
     return ret;
 }
 
-std::vector<skill> npc::skills_offered_to(player *p)
+std::vector<skill> npc::skills_offered_to(player* p)
 {
     std::vector<skill> ret;
     if (p == NULL)
@@ -1882,7 +1882,7 @@ std::vector<skill> npc::skills_offered_to(player *p)
     return ret;
 }
 
-std::vector<itype_id> npc::styles_offered_to(player *p)
+std::vector<itype_id> npc::styles_offered_to(player* p)
 {
     std::vector<itype_id> ret;
     if (p == NULL)
@@ -1908,7 +1908,7 @@ std::vector<itype_id> npc::styles_offered_to(player *p)
 }
 
 
-int npc::minutes_to_u(game *g)
+int npc::minutes_to_u(game* g)
 {
     int ret = abs(mapx - g->levx);
     if (abs(mapy - g->levy) < ret)
@@ -2020,7 +2020,7 @@ void npc::decide_needs()
     }
 }
 
-void npc::say(game *g, std::string line, ...)
+void npc::say(game* g, std::string line, ...)
 {
     va_list ap;
     va_start(ap, line);
@@ -2042,7 +2042,7 @@ void npc::say(game *g, std::string line, ...)
     }
 }
 
-void npc::init_selling(std::vector<int> &indices, std::vector<int> &prices)
+void npc::init_selling(std::vector<int>& indices, std::vector<int>& prices)
 {
     int val, price;
     bool found_lighter = false;
@@ -2065,8 +2065,8 @@ void npc::init_selling(std::vector<int> &indices, std::vector<int> &prices)
     }
 }
 
-void npc::init_buying(inventory you, std::vector<int> &indices,
-                      std::vector<int> &prices)
+void npc::init_buying(inventory you, std::vector<int>& indices,
+                      std::vector<int>& prices)
 {
     int val, price;
     for (int i = 0; i < you.size(); i++)
@@ -2106,7 +2106,7 @@ void npc::update_worst_item_value()
     }
 }
 
-int npc::value(item &it)
+int npc::value(item& it)
 {
     int ret = it.price() / 50;
     skill best = best_skill();
@@ -2281,7 +2281,7 @@ bool npc::is_defending()
     return (attitude == NPCATT_DEFEND);
 }
 
-int npc::danger_assessment(game *g)
+int npc::danger_assessment(game* g)
 {
     int ret = 0;
     int sightdist = g->light_level(), junk;
@@ -2379,7 +2379,7 @@ bool npc::emergency(int danger)
     return (danger > (personality.bravery * 3 * hp_percentage()) / 100);
 }
 
-void npc::told_to_help(game *g)
+void npc::told_to_help(game* g)
 {
     if (!is_following() && personality.altruism < 0)
     {
@@ -2404,7 +2404,7 @@ void npc::told_to_help(game *g)
     }
 }
 
-void npc::told_to_wait(game *g)
+void npc::told_to_wait(game* g)
 {
     if (!is_following())
     {
@@ -2431,7 +2431,7 @@ void npc::told_to_wait(game *g)
     }
 }
 
-void npc::told_to_leave(game *g)
+void npc::told_to_leave(game* g)
 {
     if (!is_following())
     {
@@ -2697,7 +2697,7 @@ void npc::shift(int sx, int sy)
     path.clear();
 }
 
-void npc::die(game *g, bool your_fault)
+void npc::die(game* g, bool your_fault)
 {
     if (dead)
     {

@@ -12,7 +12,7 @@ public:
     graffiti(std::string contents);
     ~graffiti();
     graffiti operator=(graffiti rhs);
-    std::string *contents;
+    std::string* contents;
 };
 
 #endif

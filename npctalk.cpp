@@ -41,17 +41,17 @@
 
 #define SUCCESS_MISSION(type) ret.back().miss = type
 
-std::string dynamic_line(talk_topic topic, game *g, npc *p);
-std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p);
+std::string dynamic_line(talk_topic topic, game* g, npc* p);
+std::vector<talk_response> gen_responses(talk_topic topic, game* g, npc* p);
 int topic_category(talk_topic topic);
 
 talk_topic special_talk(char ch);
 
-int trial_chance(talk_response response, player *u, npc *p);
+int trial_chance(talk_response response, player* u, npc* p);
 
-bool trade(game *g, npc *p, int cost, std::string deal);
+bool trade(game* g, npc* p, int cost, std::string deal);
 
-void npc::talk_to_u(game *g)
+void npc::talk_to_u(game* g)
 {
     // This is necessary so that we don't bug the player over and over
     if (attitude == NPCATT_TALK)
@@ -86,7 +86,7 @@ void npc::talk_to_u(game *g)
     int most_difficult_mission = 0;
     for (int i = 0; i < chatbin.missions.size(); i++)
     {
-        mission_type *type = g->find_mission_type(chatbin.missions[i]);
+        mission_type* type = g->find_mission_type(chatbin.missions[i]);
         if (type->urgent && type->difficulty > most_difficult_mission)
         {
             d.topic_stack.push_back(TALK_MISSION_DESCRIBE);
@@ -98,7 +98,7 @@ void npc::talk_to_u(game *g)
     bool chosen_urgent = false;
     for (int i = 0; i < chatbin.missions_assigned.size(); i++)
     {
-        mission_type *type = g->find_mission_type(chatbin.missions_assigned[i]);
+        mission_type* type = g->find_mission_type(chatbin.missions_assigned[i]);
         if ((type->urgent && !chosen_urgent) ||
                 (type->difficulty > most_difficult_mission &&
                  (type->urgent || !chosen_urgent)))
@@ -157,7 +157,7 @@ void npc::talk_to_u(game *g)
     g->refresh_all();
 }
 
-std::string dynamic_line(talk_topic topic, game *g, npc *p)
+std::string dynamic_line(talk_topic topic, game* g, npc* p)
 {
     // First, a sanity test for mission stuff
     if (topic >= TALK_MISSION_START && topic <= TALK_MISSION_END)
@@ -197,8 +197,8 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
         }
 
         // Mission stuff is a special case, so we'll handle it up here
-        mission *miss = g->find_mission(id);
-        mission_type *type = miss->type;
+        mission* miss = g->find_mission(id);
+        mission_type* type = miss->type;
         std::string ret = mission_dialogue(mission_id(type->id), topic);
         if (topic == TALK_MISSION_SUCCESS && miss->follow_up != MISSION_NULL)
         {
@@ -574,11 +574,11 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
     return "I don't know what to say. (BUG)";
 }
 
-std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
+std::vector<talk_response> gen_responses(talk_topic topic, game* g, npc* p)
 {
     std::vector<talk_response> ret;
     int selected = p->chatbin.mission_selected;
-    mission *miss = NULL;
+    mission* miss = NULL;
     if (selected != -1 && selected < p->chatbin.missions_assigned.size())
     {
         miss = g->find_mission(p->chatbin.missions_assigned[selected]);
@@ -693,7 +693,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
         }
         else if (!g->mission_complete(id, p->id))
         {
-            mission_type *type = g->find_mission_type(id);
+            mission_type* type = g->find_mission_type(id);
             RESPONSE("Not yet.");
             SUCCESS(TALK_NONE);
             if (type->goal == MGOAL_KILL_MONSTER)
@@ -712,7 +712,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
         else
         {
             // TODO: Lie about mission
-            mission_type *type = g->find_mission_type(id);
+            mission_type* type = g->find_mission_type(id);
             switch (type->goal)
             {
             case MGOAL_FIND_ITEM:
@@ -1343,7 +1343,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
     return ret;
 }
 
-int trial_chance(talk_response response, player *u, npc *p)
+int trial_chance(talk_response response, player* u, npc* p)
 {
     talk_trial trial = response.trial;
     int chance = response.difficulty;
@@ -1455,7 +1455,7 @@ int topic_category(talk_topic topic)
     return -1;
 }
 
-void talk_function::assign_mission(game *g, npc *p)
+void talk_function::assign_mission(game* g, npc* p)
 {
     int selected = p->chatbin.mission_selected;
     if (selected == -1 || selected >= p->chatbin.missions.size())
@@ -1464,7 +1464,7 @@ void talk_function::assign_mission(game *g, npc *p)
                  selected, p->chatbin.missions.size());
         return;
     }
-    mission *miss = g->find_mission(p->chatbin.missions[selected]);
+    mission* miss = g->find_mission(p->chatbin.missions[selected]);
     g->assign_mission(p->chatbin.missions[selected]);
     miss->npc_id = p->id;
     g->u.active_mission = g->u.active_missions.size() - 1;
@@ -1472,7 +1472,7 @@ void talk_function::assign_mission(game *g, npc *p)
     p->chatbin.missions.erase(p->chatbin.missions.begin() + selected);
 }
 
-void talk_function::mission_success(game *g, npc *p)
+void talk_function::mission_success(game* g, npc* p)
 {
     int selected = p->chatbin.mission_selected;
     if (selected == -1 || selected >= p->chatbin.missions_assigned.size())
@@ -1482,13 +1482,13 @@ void talk_function::mission_success(game *g, npc *p)
         return;
     }
     int index = p->chatbin.missions_assigned[selected];
-    mission *miss = g->find_mission(index);
+    mission* miss = g->find_mission(index);
     npc_opinion tmp(0, 0, 1 + (miss->value / 1000), -1, miss->value);
     p->op_of_u += tmp;
     g->wrap_up_mission(index);
 }
 
-void talk_function::mission_failure(game *g, npc *p)
+void talk_function::mission_failure(game* g, npc* p)
 {
     int selected = p->chatbin.mission_selected;
     if (selected == -1 || selected >= p->chatbin.missions_assigned.size())
@@ -1502,7 +1502,7 @@ void talk_function::mission_failure(game *g, npc *p)
     g->mission_failed(p->chatbin.missions_assigned[selected]);
 }
 
-void talk_function::clear_mission(game *g, npc *p)
+void talk_function::clear_mission(game* g, npc* p)
 {
     int selected = p->chatbin.mission_selected;
     p->chatbin.mission_selected = -1;
@@ -1512,7 +1512,7 @@ void talk_function::clear_mission(game *g, npc *p)
                  selected, p->chatbin.missions_assigned.size());
         return;
     }
-    mission *miss = g->find_mission(p->chatbin.missions_assigned[selected]);
+    mission* miss = g->find_mission(p->chatbin.missions_assigned[selected]);
     p->chatbin.missions_assigned.erase(p->chatbin.missions_assigned.begin() +
                                        selected);
     if (miss->follow_up != MISSION_NULL)
@@ -1521,21 +1521,21 @@ void talk_function::clear_mission(game *g, npc *p)
     }
 }
 
-void talk_function::mission_reward(game *g, npc *p)
+void talk_function::mission_reward(game* g, npc* p)
 {
     int trade_amount = p->op_of_u.owed;
     p->op_of_u.owed = 0;
     trade(g, p, trade_amount, "Reward");
 }
 
-void talk_function::start_trade(game *g, npc *p)
+void talk_function::start_trade(game* g, npc* p)
 {
     int trade_amount = p->op_of_u.owed;
     p->op_of_u.owed = 0;
     trade(g, p, trade_amount, "Trade");
 }
 
-void talk_function::give_equipment(game *g, npc *p)
+void talk_function::give_equipment(game* g, npc* p)
 {
     std::vector<int> giving;
     std::vector<int> prices;
@@ -1576,73 +1576,73 @@ void talk_function::give_equipment(game *g, npc *p)
     p->add_disease(DI_ASKED_FOR_ITEM, 1800, g);
 }
 
-void talk_function::follow(game *g, npc *p)
+void talk_function::follow(game* g, npc* p)
 {
     p->attitude = NPCATT_FOLLOW;
 }
 
-void talk_function::deny_follow(game *g, npc *p)
+void talk_function::deny_follow(game* g, npc* p)
 {
     p->add_disease(DI_ASKED_TO_FOLLOW, 3600, g);
 }
 
-void talk_function::deny_lead(game *g, npc *p)
+void talk_function::deny_lead(game* g, npc* p)
 {
     p->add_disease(DI_ASKED_TO_LEAD, 3600, g);
 }
 
-void talk_function::deny_equipment(game *g, npc *p)
+void talk_function::deny_equipment(game* g, npc* p)
 {
     p->add_disease(DI_ASKED_FOR_ITEM, 600, g);
 }
 
-void talk_function::hostile(game *g, npc *p)
+void talk_function::hostile(game* g, npc* p)
 {
     g->add_msg("%s turns hostile!", p->name.c_str());
     p->attitude = NPCATT_KILL;
 }
 
-void talk_function::flee(game *g, npc *p)
+void talk_function::flee(game* g, npc* p)
 {
     g->add_msg("%s turns to flee!", p->name.c_str());
     p->attitude = NPCATT_FLEE;
 }
 
-void talk_function::leave(game *g, npc *p)
+void talk_function::leave(game* g, npc* p)
 {
     g->add_msg("%s leaves.", p->name.c_str());
     p->attitude = NPCATT_NULL;
 }
 
-void talk_function::start_mugging(game *g, npc *p)
+void talk_function::start_mugging(game* g, npc* p)
 {
     p->attitude = NPCATT_MUG;
     g->add_msg("Pause to stay still.  Any movement may cause %s to attack.",
                p->name.c_str());
 }
 
-void talk_function::player_leaving(game *g, npc *p)
+void talk_function::player_leaving(game* g, npc* p)
 {
     p->attitude = NPCATT_WAIT_FOR_LEAVE;
     p->patience = 15 - p->personality.aggression;
 }
 
-void talk_function::drop_weapon(game *g, npc *p)
+void talk_function::drop_weapon(game* g, npc* p)
 {
     g->m.add_item(p->posx, p->posy, p->remove_weapon());
 }
 
-void talk_function::player_weapon_away(game *g, npc *p)
+void talk_function::player_weapon_away(game* g, npc* p)
 {
     g->u.i_add(g->u.remove_weapon());
 }
 
-void talk_function::player_weapon_drop(game *g, npc *p)
+void talk_function::player_weapon_drop(game* g, npc* p)
 {
     g->m.add_item(g->u.posx, g->u.posy, g->u.remove_weapon());
 }
 
-void talk_function::lead_to_safety(game *g, npc *p)
+void talk_function::lead_to_safety(game* g, npc* p)
 {
     g->give_mission(MISSION_REACH_SAFETY);
     int missid = g->u.active_missions[g->u.active_mission];
@@ -1652,42 +1652,42 @@ void talk_function::lead_to_safety(game *g, npc *p)
     p->attitude = NPCATT_LEAD;
 }
 
-void talk_function::toggle_use_guns(game *g, npc *p)
+void talk_function::toggle_use_guns(game* g, npc* p)
 {
     p->combat_rules.use_guns = !p->combat_rules.use_guns;
 }
 
-void talk_function::toggle_use_grenades(game *g, npc *p)
+void talk_function::toggle_use_grenades(game* g, npc* p)
 {
     p->combat_rules.use_grenades = !p->combat_rules.use_grenades;
 }
 
-void talk_function::set_engagement_none(game *g, npc *p)
+void talk_function::set_engagement_none(game* g, npc* p)
 {
     p->combat_rules.engagement = ENGAGE_NONE;
 }
 
-void talk_function::set_engagement_close(game *g, npc *p)
+void talk_function::set_engagement_close(game* g, npc* p)
 {
     p->combat_rules.engagement = ENGAGE_CLOSE;
 }
 
-void talk_function::set_engagement_weak(game *g, npc *p)
+void talk_function::set_engagement_weak(game* g, npc* p)
 {
     p->combat_rules.engagement = ENGAGE_WEAK;
 }
 
-void talk_function::set_engagement_hit(game *g, npc *p)
+void talk_function::set_engagement_hit(game* g, npc* p)
 {
     p->combat_rules.engagement = ENGAGE_HIT;
 }
 
-void talk_function::set_engagement_all(game *g, npc *p)
+void talk_function::set_engagement_all(game* g, npc* p)
 {
     p->combat_rules.engagement = ENGAGE_ALL;
 }
 
-void talk_function::start_training(game *g, npc *p)
+void talk_function::start_training(game* g, npc* p)
 {
     int cost = 0, time = 0;
     skill sk_used = sk_null;
@@ -1718,7 +1718,7 @@ void talk_function::start_training(game *g, npc *p)
     g->u.assign_activity(ACT_TRAIN, time, p->chatbin.tempvalue);
 }
 
-void parse_tags(std::string &phrase, player *u, npc *me)
+void parse_tags(std::string& phrase, player* u, npc* me)
 {
     if (u == NULL || me == NULL)
     {
@@ -1804,7 +1804,7 @@ void parse_tags(std::string &phrase, player *u, npc *me)
 }
 
 
-talk_topic dialogue::opt(talk_topic topic, game *g)
+talk_topic dialogue::opt(talk_topic topic, game* g)
 {
     std::string challenge = dynamic_line(topic, g, beta);
     std::vector<talk_response> responses = gen_responses(topic, g, beta);
@@ -2033,7 +2033,7 @@ talk_topic special_talk(char ch)
     return TALK_NONE;
 }
 
-bool trade(game *g, npc *p, int cost, std::string deal)
+bool trade(game* g, npc* p, int cost, std::string deal)
 {
     WINDOW* w_head = newwin(4, 80,  0,  0);
     WINDOW* w_them = newwin(21, 40,  4,  0);

@@ -51,15 +51,15 @@ enum mission_goal
 
 struct mission_place    // Return true if [posx,posy] is valid in overmap
 {
-    bool never(game *g, int posx, int posy)
+    bool never(game* g, int posx, int posy)
     {
         return false;
     }
-    bool always(game *g, int posx, int posy)
+    bool always(game* g, int posx, int posy)
     {
         return true;
     }
-    bool near_town(game *g, int posx, int posy);
+    bool near_town(game* g, int posx, int posy);
 };
 
 /* mission_start functions are first run when a mission is accepted; this
@@ -70,26 +70,26 @@ struct mission_place    // Return true if [posx,posy] is valid in overmap
  */
 struct mission_start
 {
-    void standard(game *, mission *);        // Standard for its goal type
-    void infect_npc(game *, mission *);  // DI_INFECTION, remove antibiotics
-    void place_dog(game *, mission *);       // Put a dog in a house!
-    void place_zombie_mom(game *, mission *);    // Put a zombie mom in a house!
-    void place_npc_software(game *, mission *); // Put NPC-type-dependent software
-    void reveal_hospital(game *, mission *);     // Reveal the nearest hospital
-    void find_safety(game *, mission *);     // Goal is set to non-spawn area
-    void place_book(game *, mission *);  // Place a book to retrieve
+    void standard(game*, mission*);          // Standard for its goal type
+    void infect_npc(game*, mission*);    // DI_INFECTION, remove antibiotics
+    void place_dog(game*, mission*);         // Put a dog in a house!
+    void place_zombie_mom(game*, mission*);      // Put a zombie mom in a house!
+    void place_npc_software(game*, mission*);   // Put NPC-type-dependent software
+    void reveal_hospital(game*, mission*);       // Reveal the nearest hospital
+    void find_safety(game*, mission*);       // Goal is set to non-spawn area
+    void place_book(game*, mission*);    // Place a book to retrieve
 };
 
 struct mission_end      // These functions are run when a mission ends
 {
-    void standard(game *, mission *) {};        // Nothing special happens
-    void heal_infection(game *, mission *);
+    void standard(game*, mission*) {};          // Nothing special happens
+    void heal_infection(game*, mission*);
 };
 
 struct mission_fail
 {
-    void standard(game *, mission *) {};        // Nothing special happens
-    void kill_npc(game *, mission *);        // Kill the NPC who assigned it!
+    void standard(game*, mission*) {};          // Nothing special happens
+    void kill_npc(game*, mission*);          // Kill the NPC who assigned it!
 };
 
 struct mission_type
@@ -107,17 +107,17 @@ struct mission_type
     itype_id item_id;
     mission_id follow_up;
 
-    bool (mission_place::*place)(game *g, int x, int y);
-    void (mission_start::*start)(game *g, mission *);
-    void (mission_end  ::*end)(game *g, mission *);
-    void (mission_fail ::*fail)(game *g, mission *);
+    bool (mission_place::*place)(game* g, int x, int y);
+    void (mission_start::*start)(game* g, mission*);
+    void (mission_end  ::*end)(game* g, mission*);
+    void (mission_fail ::*fail)(game* g, mission*);
 
     mission_type(int ID, std::string NAME, mission_goal GOAL, int DIF, int VAL,
                  bool URGENT,
-                 bool (mission_place::*PLACE)(game *, int x, int y),
-                 void (mission_start::*START)(game *, mission *),
-                 void (mission_end  ::*END)(game *, mission *),
-                 void (mission_fail ::*FAIL)(game *, mission *)) :
+                 bool (mission_place::*PLACE)(game*, int x, int y),
+                 void (mission_start::*START)(game*, mission*),
+                 void (mission_end  ::*END)(game*, mission*),
+                 void (mission_fail ::*FAIL)(game*, mission*)) :
         id(ID), name(NAME), goal(GOAL), difficulty(DIF), value(VAL),
         urgent(URGENT), place(PLACE), start(START), end(END), fail(FAIL)
     {
@@ -127,12 +127,12 @@ struct mission_type
         follow_up = MISSION_NULL;
     };
 
-    mission create(game *g, int npc_id = -1); // Create a mission
+    mission create(game* g, int npc_id = -1); // Create a mission
 };
 
 struct mission
 {
-    mission_type *type;
+    mission_type* type;
     std::string description; // Basic descriptive text
     bool failed;        // True if we've failed it!
     int value;      // Cash/Favor value of completing this
@@ -150,7 +150,7 @@ struct mission
 
     std::string name();
     std::string save_info();
-    void load_info(game *g, std::ifstream &info);
+    void load_info(game* g, std::ifstream& info);
 
     mission()
     {

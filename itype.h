@@ -597,7 +597,7 @@ struct it_comest : public itype
     }
 
 
-    void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
+    void (iuse::*use)(game*, player*, item*, bool);   // Special effects of use
     add_type add;               // Effects of addiction
 
     it_comest(int pid, unsigned char prarity, unsigned int pprice,
@@ -610,7 +610,7 @@ struct it_comest : public itype
               signed char pquench, unsigned char pnutr, signed char pspoils,
               signed char pstim, signed char phealthy, unsigned char paddict,
               unsigned char pcharges, signed char pfun, itype_id pcontainer,
-              itype_id ptool, void (iuse::*puse)(game *, player *, item *, bool),
+              itype_id ptool, void (iuse::*puse)(game*, player*, item*, bool),
               add_type padd)
         : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL,
                 pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
@@ -727,7 +727,7 @@ unsigned ammo_effects :
 struct it_gun : public itype
 {
     ammotype ammo;
-    Skill *skill_used;
+    Skill* skill_used;
     signed char dmg_bonus;
     signed char accuracy;
     signed char recoil;
@@ -748,7 +748,7 @@ struct it_gun : public itype
            signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
            unsigned pitem_flags,
 
-           const char *pskill_used, ammotype pammo, signed char pdmg_bonus,
+           const char* pskill_used, ammotype pammo, signed char pdmg_bonus,
            signed char paccuracy, signed char precoil, unsigned char pdurability,
            unsigned char pburst, int pclip, int preload_time)
         : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
@@ -872,7 +872,7 @@ struct it_armor : public itype
 
 struct it_book : public itype
 {
-    Skill *type;        // Which skill it upgrades
+    Skill* type;        // Which skill it upgrades
     unsigned char level;    // The value it takes the skill to
     unsigned char req;  // The skill level required to understand it
     signed char fun;    // How fun reading this is
@@ -890,7 +890,7 @@ struct it_book : public itype
             signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
             unsigned pitem_flags,
 
-            const char *ptype, unsigned char plevel, unsigned char preq,
+            const char* ptype, unsigned char plevel, unsigned char preq,
             signed char pfun, unsigned char pintel, unsigned char ptime)
         : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
                 pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
@@ -945,7 +945,7 @@ struct it_tool : public itype
     unsigned char charges_per_use;
     unsigned char turns_per_charge;
     itype_id revert_to;
-    void (iuse::*use)(game *, player *, item *, bool);
+    void (iuse::*use)(game*, player*, item*, bool);
 
     virtual bool is_tool()
     {
@@ -981,7 +981,7 @@ struct it_tool : public itype
             unsigned int pmax_charges, unsigned int pdef_charges,
             unsigned char pcharges_per_use, unsigned char pturns_per_charge,
             ammotype pammo, itype_id prevert_to,
-            void (iuse::*puse)(game *, player *, item *, bool))
+            void (iuse::*puse)(game*, player*, item*, bool))
         : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
                 pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
     {
@@ -1031,7 +1031,7 @@ struct it_bionic : public itype
 struct it_macguffin : public itype
 {
     bool readable; // If true, activated with 'R'
-    void (iuse::*use)(game *, player *, item *, bool);
+    void (iuse::*use)(game*, player*, item*, bool);
 
     virtual bool is_macguffin()
     {
@@ -1046,7 +1046,7 @@ struct it_macguffin : public itype
                  signed char pm_to_hit, unsigned pitem_flags,
 
                  bool preadable,
-                 void (iuse::*puse)(game *, player *, item *, bool))
+                 void (iuse::*puse)(game*, player*, item*, bool))
         : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
                 pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
     {

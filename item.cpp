@@ -104,7 +104,7 @@ item::item(itype* it, unsigned int turn)
     }
 }
 
-item::item(itype *it, unsigned int turn, char let)
+item::item(itype* it, unsigned int turn, char let)
 {
     if (!it)
     {
@@ -198,13 +198,13 @@ void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
     bday = turn;
 }
 
-itype * item::nullitem_m = new itype();
-itype * item::nullitem()
+itype* item::nullitem_m = new itype();
+itype* item::nullitem()
 {
     return nullitem_m;
 }
 
-item::item(std::string itemdata, game *g)
+item::item(std::string itemdata, game* g)
 {
     load_info(itemdata, g);
 }
@@ -231,7 +231,7 @@ bool item::is_null()
     return (type == NULL || type->id == 0);
 }
 
-item item::in_its_container(std::vector<itype*> *itypes)
+item item::in_its_container(std::vector<itype*>* itypes)
 {
 
     if (is_software())
@@ -247,7 +247,7 @@ item item::in_its_container(std::vector<itype*> *itypes)
         return *this;
     }
 
-    it_comest *food = dynamic_cast<it_comest*>(type);
+    it_comest* food = dynamic_cast<it_comest*>(type);
     item ret((*itypes)[food->container], bday);
 
     if (dynamic_cast<it_comest*>(type)->container == itm_can_food)
@@ -365,7 +365,7 @@ std::string item::save_info()
     return dump.str();
 }
 
-void item::load_info(std::string data, game *g)
+void item::load_info(std::string data, game* g)
 {
     std::stringstream dump;
     dump << data;
@@ -421,7 +421,7 @@ std::string item::info(bool showtext)
     return info(showtext, &dummy);
 }
 
-std::string item::info(bool showtext, std::vector<iteminfo> *dump)
+std::string item::info(bool showtext, std::vector<iteminfo>* dump)
 {
     std::stringstream temp1, temp2;
 
@@ -854,7 +854,7 @@ char item::symbol()
     return type->sym;
 }
 
-nc_color item::color(player *u)
+nc_color item::color(player* u)
 {
     nc_color ret = c_ltgray;
 
@@ -903,7 +903,7 @@ nc_color item::color(player *u)
     return ret;
 }
 
-nc_color item::color_in_inventory(player *u)
+nc_color item::color_in_inventory(player* u)
 {
     // Items in our inventory get colorized specially
     nc_color ret = c_white;
@@ -915,7 +915,7 @@ nc_color item::color_in_inventory(player *u)
     return ret;
 }
 
-std::string item::tname(game *g)
+std::string item::tname(game* g)
 {
     std::stringstream ret;
 
@@ -1393,11 +1393,11 @@ bool item::has_flag(item_flag f)
     return (type->item_flags & mfb(f));
 }
 
-bool item::has_technique(technique_id tech, player *p)
+bool item::has_technique(technique_id tech, player* p)
 {
     if (is_style())
     {
-        it_style *style = dynamic_cast<it_style*>(type);
+        it_style* style = dynamic_cast<it_style*>(type);
         for (int i = 0; i < style->moves.size(); i++)
         {
             if (style->moves[i].tech == tech &&
@@ -1441,7 +1441,7 @@ std::vector<technique_id> item::techniques()
     return ret;
 }
 
-bool item::rotten(game *g)
+bool item::rotten(game* g)
 {
     if (!is_food() || g == NULL)
     {
@@ -1597,7 +1597,7 @@ style_move item::style_data(technique_id tech)
     return ret;
 }
 
-bool item::is_two_handed(player *u)
+bool item::is_two_handed(player* u)
 {
     if (is_gun() && (dynamic_cast<it_gun*>(type))->skill_used != Skill::skill("pistol"))
     {
@@ -1697,7 +1697,7 @@ bool item::is_ammo()
     return type->is_ammo();
 }
 
-bool item::is_food(player *u)
+bool item::is_food(player* u)
 {
     if (!u)
     {
@@ -1727,7 +1727,7 @@ bool item::is_food(player *u)
     return false;
 }
 
-bool item::is_food_container(player *u)
+bool item::is_food_container(player* u)
 {
     return (contents.size() >= 1 && contents[0].is_food(u));
 }
@@ -1899,7 +1899,7 @@ bool item::is_artifact()
     return type->is_artifact();
 }
 
-int item::reload_time(player &u)
+int item::reload_time(player& u)
 {
     int ret = 0;
 
@@ -2191,7 +2191,7 @@ int item::recoil(bool with_ammo)
     return ret;
 }
 
-int item::range(player *p)
+int item::range(player* p)
 {
     if (!is_gun())
     {
@@ -2277,7 +2277,7 @@ ammotype item::ammo_type()
     return AT_NULL;
 }
 
-int item::pick_reload_ammo(player &u, bool interactive)
+int item::pick_reload_ammo(player& u, bool interactive)
 {
     if (is_null())
     {
@@ -2385,12 +2385,12 @@ Choose ammo type:         Damage     Armor Pierce     Range     Accuracy");
     return index;
 }
 
-bool item::reload(player &u, int index)
+bool item::reload(player& u, int index)
 {
     bool single_load = false;
     int max_load = 1;
-    item *reload_target = NULL;
-    item *ammo_to_use = index != -2 ? &u.inv[index] : NULL;
+    item* reload_target = NULL;
+    item* ammo_to_use = index != -2 ? &u.inv[index] : NULL;
 
     // Handle ammo in containers, currently only gasoline
     if (ammo_to_use && ammo_to_use->is_container())
@@ -2535,7 +2535,7 @@ bool item::reload(player &u, int index)
     }
 }
 
-void item::use(player &u)
+void item::use(player& u)
 {
     if (charges > 0)
     {
@@ -2600,7 +2600,7 @@ std::string default_technique_name(technique_id tech)
     return "A BUG!";
 }
 
-std::ostream & operator<<(std::ostream & out, const item * it)
+std::ostream& operator<<(std::ostream& out, const item* it)
 {
     out << "item(";
     if (!it)
@@ -2612,7 +2612,7 @@ std::ostream & operator<<(std::ostream & out, const item * it)
     return out;
 }
 
-std::ostream & operator<<(std::ostream & out, const item & it)
+std::ostream& operator<<(std::ostream& out, const item& it)
 {
     out << (&it);
     return out;

@@ -8,7 +8,7 @@
 #include "setvector.h"
 #include "inventory.h"
 
-void draw_recipe_tabs(WINDOW *w, craft_cat tab);
+void draw_recipe_tabs(WINDOW* w, craft_cat tab);
 
 // This function just defines the recipes used throughout the game.
 void game::init_recipes()
@@ -1068,8 +1068,8 @@ void game::craft()
         add_msg("Your morale is too low to craft...");
         return;
     }
-    WINDOW *w_head = newwin(3, 80, 0, 0);
-    WINDOW *w_data = newwin(22, 80, 3, 0);
+    WINDOW* w_head = newwin(3, 80, 0, 0);
+    WINDOW* w_data = newwin(22, 80, 3, 0);
     craft_cat tab = CC_WEAPON;
     std::vector<recipe*> current;
     std::vector<bool> available;
@@ -1373,7 +1373,7 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
     refresh_all();
 }
 
-void draw_recipe_tabs(WINDOW *w, craft_cat tab)
+void draw_recipe_tabs(WINDOW* w, craft_cat tab)
 {
     werase(w);
     for (int i = 0; i < 80; i++)
@@ -1530,8 +1530,8 @@ inventory game::crafting_inventory()
     return crafting_inv;
 }
 
-void game::pick_recipes(std::vector<recipe*> &current,
-                        std::vector<bool> &available, craft_cat tab)
+void game::pick_recipes(std::vector<recipe*>& current,
+                        std::vector<bool>& available, craft_cat tab)
 {
     inventory crafting_inv = crafting_inventory();
 
@@ -1615,7 +1615,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
     }
 }
 
-void game::make_craft(recipe *making)
+void game::make_craft(recipe* making)
 {
     u.assign_activity(ACT_CRAFT, making->time, making->id);
     u.moves = 0;

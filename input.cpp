@@ -69,7 +69,7 @@ InputEvent get_input(int ch)
 
 }
 
-void get_direction(int &x, int &y, InputEvent &input)
+void get_direction(int& x, int& y, InputEvent& input)
 {
     x = 0;
     y = 0;

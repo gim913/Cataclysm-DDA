@@ -7,7 +7,7 @@ class game;
 
 struct pointcomp
 {
-    bool operator()(const tripoint &lhs, const tripoint &rhs) const
+    bool operator()(const tripoint& lhs, const tripoint& rhs) const
     {
         if (lhs.x < rhs.x)
         {
@@ -43,7 +43,7 @@ public:
     mapbuffer();
     ~mapbuffer();
 
-    void set_game(game *g);
+    void set_game(game* g);
 
     //help save_if_dirty() know to save as many times as it's supposed to.
     void set_dirty();
@@ -54,7 +54,7 @@ public:
     void save_if_dirty();
     void reset();
 
-    bool add_submap(int x, int y, int z, submap *sm);
+    bool add_submap(int x, int y, int z, submap* sm);
     submap* lookup_submap(int x, int y, int z);
 
     int size();
@@ -62,7 +62,7 @@ public:
 private:
     std::map<tripoint, submap*, pointcomp> submaps;
     std::list<submap*> submap_list;
-    game *master_game;
+    game* master_game;
     bool dirty;
 };
 

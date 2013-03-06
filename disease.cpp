@@ -5,7 +5,7 @@
 #include "weather.h"
 #include <sstream>
 
-void dis_msg(game *g, dis_type type)
+void dis_msg(game* g, dis_type type)
 {
     switch (type)
     {
@@ -86,7 +86,7 @@ void dis_msg(game *g, dis_type type)
     }
 }
 
-void dis_effect(game *g, player &p, disease &dis)
+void dis_effect(game* g, player& p, disease& dis)
 {
     int bonus;
     int junk;
@@ -1417,7 +1417,7 @@ void dis_effect(game *g, player &p, disease &dis)
         bool lesser = false; // Worn or wielded; diminished effects
         if (p.weapon.is_artifact() && p.weapon.is_tool())
         {
-            it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(p.weapon.type);
+            it_artifact_tool* tool = dynamic_cast<it_artifact_tool*>(p.weapon.type);
             for (int i = 0; i < tool->effects_carried.size(); i++)
             {
                 if (tool->effects_carried[i] == AEP_EVIL)
@@ -1437,7 +1437,7 @@ void dis_effect(game *g, player &p, disease &dis)
         {
             if (p.worn[i].is_artifact())
             {
-                it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(p.worn[i].type);
+                it_artifact_armor* armor = dynamic_cast<it_artifact_armor*>(p.worn[i].type);
                 for (int i = 0; i < armor->effects_worn.size(); i++)
                 {
                     if (armor->effects_worn[i] == AEP_EVIL)

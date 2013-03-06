@@ -8,13 +8,13 @@
  * updating *miss with the target and any other important information.
  */
 
-void mission_start::standard(game *g, mission *miss)
+void mission_start::standard(game* g, mission* miss)
 {
 }
 
-void mission_start::infect_npc(game *g, mission *miss)
+void mission_start::infect_npc(game* g, mission* miss)
 {
-    npc *p = g->find_npc(miss->npc_id);
+    npc* p = g->find_npc(miss->npc_id);
     if (p == NULL)
     {
         debugmsg("mission_start::infect_npc() couldn't find an NPC!");
@@ -31,7 +31,7 @@ void mission_start::infect_npc(game *g, mission *miss)
     }
 }
 
-void mission_start::place_dog(game *g, mission *miss)
+void mission_start::place_dog(game* g, mission* miss)
 {
     int city_id = g->cur_om.closest_city(g->om_location());
     point house = g->cur_om.random_house_in_city(city_id);
@@ -60,7 +60,7 @@ void mission_start::place_dog(game *g, mission *miss)
     doghouse.save(&(g->cur_om), int(g->turn), house.x * 2, house.y * 2);
 }
 
-void mission_start::place_zombie_mom(game *g, mission *miss)
+void mission_start::place_zombie_mom(game* g, mission* miss)
 {
     int city_id = g->cur_om.closest_city(g->om_location());
     point house = g->cur_om.random_house_in_city(city_id);
@@ -81,7 +81,7 @@ void mission_start::place_zombie_mom(game *g, mission *miss)
     zomhouse.save(&(g->cur_om), int(g->turn), house.x * 2, house.y * 2);
 }
 
-void mission_start::place_npc_software(game *g, mission *miss)
+void mission_start::place_npc_software(game* g, mission* miss)
 {
     npc* dev = g->find_npc(miss->npc_id);
     if (dev == NULL)
@@ -243,7 +243,7 @@ void mission_start::place_npc_software(game *g, mission *miss)
     std::stringstream compname;
     compname << dev->name << "'s Terminal";
     compmap.ter(comppoint.x, comppoint.y) = t_console;
-    computer *tmpcomp = compmap.add_computer(comppoint.x, comppoint.y,
+    computer* tmpcomp = compmap.add_computer(comppoint.x, comppoint.y,
                         compname.str(), 0);
     tmpcomp->mission_id = miss->uid;
     tmpcomp->add_option("Download Software", COMPACT_DOWNLOAD_SOFTWARE, 0);
@@ -251,7 +251,7 @@ void mission_start::place_npc_software(game *g, mission *miss)
     compmap.save(&(g->cur_om), int(g->turn), place.x * 2, place.y * 2);
 }
 
-void mission_start::reveal_hospital(game *g, mission *miss)
+void mission_start::reveal_hospital(game* g, mission* miss)
 {
     npc* dev = g->find_npc(miss->npc_id);
     if (dev != NULL)
@@ -272,7 +272,7 @@ void mission_start::reveal_hospital(game *g, mission *miss)
     miss->target = place;
 }
 
-void mission_start::find_safety(game *g, mission *miss)
+void mission_start::find_safety(game* g, mission* miss)
 {
     point place = g->om_location();
     bool done = false;
@@ -331,6 +331,6 @@ void mission_start::find_safety(game *g, mission *miss)
     }
 }
 
-void mission_start::place_book(game *g, mission *miss)
+void mission_start::place_book(game* g, mission* miss)
 {
 }

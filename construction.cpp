@@ -9,7 +9,7 @@
 #include "crafting.h" // For the use_comps use_tools functions
 
 
-bool will_flood_stop(map *m, bool (&fill)[SEEX * MAPSIZE][SEEY * MAPSIZE],
+bool will_flood_stop(map* m, bool (&fill)[SEEX* MAPSIZE][SEEY* MAPSIZE],
                      int x, int y);
 
 void game::init_construction()
@@ -249,7 +249,7 @@ void game::init_construction()
 
 void game::construction_menu()
 {
-    WINDOW *w_con = newwin(25, 80, 0, 0);
+    WINDOW* w_con = newwin(25, 80, 0, 0);
     wborder(w_con, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     mvwprintz(w_con, 0, 1, c_red, "Construction");
@@ -510,7 +510,7 @@ void game::construction_menu()
     refresh_all();
 }
 
-bool game::player_can_build(player &p, inventory inv, constructable* con,
+bool game::player_can_build(player& p, inventory inv, constructable* con,
                             const int level, bool cont, bool exact_level)
 {
     int last_level = level;
@@ -594,7 +594,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
     return can_build_any;
 }
 
-void game::place_construction(constructable *con)
+void game::place_construction(constructable* con)
 {
     refresh_all();
     inventory total_inv = crafting_inventory();
@@ -704,7 +704,7 @@ void game::complete_construction()
     inventory map_inv;
     map_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
     int stage_num = u.activity.values[0];
-    constructable *built = constructions[u.activity.index];
+    constructable* built = constructions[u.activity.index];
     construction_stage stage = built->stages[stage_num];
     std::vector<component> player_use;
     std::vector<component> map_use;
@@ -748,22 +748,22 @@ void game::complete_construction()
     (effects.*(built->done))(this, point(terx, tery));
 }
 
-bool construct::able_empty(game *g, point p)
+bool construct::able_empty(game* g, point p)
 {
     return (g->m.move_cost(p.x, p.y) == 2);
 }
 
-bool construct::able_tree(game *g, point p)
+bool construct::able_tree(game* g, point p)
 {
     return (g->m.ter(p.x, p.y) == t_tree);
 }
 
-bool construct::able_log(game *g, point p)
+bool construct::able_log(game* g, point p)
 {
     return (g->m.ter(p.x, p.y) == t_log);
 }
 
-bool construct::able_furniture(game *g, point p)
+bool construct::able_furniture(game* g, point p)
 {
     int required_str = 0;
 
@@ -792,7 +792,7 @@ bool construct::able_furniture(game *g, point p)
     return true;
 }
 
-bool construct::able_window(game *g, point p)
+bool construct::able_window(game* g, point p)
 {
     return (g->m.ter(p.x, p.y) == t_window_frame ||
             g->m.ter(p.x, p.y) == t_window_empty ||
@@ -800,22 +800,22 @@ bool construct::able_window(game *g, point p)
             g->m.ter(p.x, p.y) == t_window);
 }
 
-bool construct::able_empty_window(game *g, point p)
+bool construct::able_empty_window(game* g, point p)
 {
     return (g->m.ter(p.x, p.y) == t_window_empty);
 }
 
-bool construct::able_window_pane(game *g, point p)
+bool construct::able_window_pane(game* g, point p)
 {
     return (g->m.ter(p.x, p.y) == t_window || g->m.ter(p.x, p.y) == t_window_domestic || g->m.ter(p.x, p.y) == t_window_alarm);
 }
 
-bool construct::able_broken_window(game *g, point p)
+bool construct::able_broken_window(game* g, point p)
 {
     return (g->m.ter(p.x, p.y) == t_window_frame);
 }
 
-bool construct::able_door(game *g, point p)
+bool construct::able_door(game* g, point p)
 {
     return (g->m.ter(p.x, p.y) == t_door_c ||
             g->m.ter(p.x, p.y) == t_door_b ||
@@ -823,43 +823,43 @@ bool construct::able_door(game *g, point p)
             g->m.ter(p.x, p.y) == t_door_locked);
 }
 
-bool construct::able_door_broken(game *g, point p)
+bool construct::able_door_broken(game* g, point p)
 {
     return (g->m.ter(p.x, p.y) == t_door_b);
 }
 
-bool construct::able_wall(game *g, point p)
+bool construct::able_wall(game* g, point p)
 {
     return (g->m.ter(p.x, p.y) == t_wall_h || g->m.ter(p.x, p.y) == t_wall_v ||
             g->m.ter(p.x, p.y) == t_wall_wood);
 }
 
-bool construct::able_wall_wood(game *g, point p)
+bool construct::able_wall_wood(game* g, point p)
 {
     return (g->m.ter(p.x, p.y) == t_wall_wood);
 }
 
-bool construct::able_indoors(game *g, point p)
+bool construct::able_indoors(game* g, point p)
 {
     return (g->m.is_indoor(p.x, p.y));
 }
 
-bool construct::able_dig(game *g, point p)
+bool construct::able_dig(game* g, point p)
 {
     return (g->m.has_flag(diggable, p.x, p.y));
 }
 
-bool construct::able_chainlink(game *g, point p)
+bool construct::able_chainlink(game* g, point p)
 {
     return (g->m.ter(p.x, p.y) == t_chainfence_v || g->m.ter(p.x, p.y) == t_chainfence_h);
 }
 
-bool construct::able_pit(game *g, point p)
+bool construct::able_pit(game* g, point p)
 {
     return (g->m.ter(p.x, p.y) == t_pit);//|| g->m.ter(p.x, p.y) == t_pit_shallow);
 }
 
-bool construct::able_between_walls(game *g, point p)
+bool construct::able_between_walls(game* g, point p)
 {
     return (g->m.has_flag(supports_roof, p.x - 1, p.y) && g->m.has_flag(supports_roof, p.x + 1, p.y) ||
             g->m.has_flag(supports_roof, p.x - 1, p.y) && g->m.has_flag(supports_roof, p.x, p.y + 1) ||
@@ -869,17 +869,17 @@ bool construct::able_between_walls(game *g, point p)
             g->m.has_flag(supports_roof, p.x, p.y - 1) && g->m.has_flag(supports_roof, p.x, p.y + 1));
 }
 
-bool construct::able_deconstruct(game *g, point p)
+bool construct::able_deconstruct(game* g, point p)
 {
     return (g->m.has_flag(deconstruct, p.x, p.y));
 }
 
-void construct::done_window_pane(game *g, point p)
+void construct::done_window_pane(game* g, point p)
 {
     g->m.add_item(g->u.posx, g->u.posy, g->itypes[itm_glass_sheet], 0);
 }
 
-void construct::done_furniture(game *g, point p)
+void construct::done_furniture(game* g, point p)
 {
     mvprintz(0, 0, c_red, "Press a direction for the furniture to move (. to cancel):");
     int x = 0, y = 0;
@@ -918,7 +918,7 @@ void construct::done_furniture(game *g, point p)
     g->m.i_clear(p.x, p.y);
 }
 
-void construct::done_tree(game *g, point p)
+void construct::done_tree(game* g, point p)
 {
     mvprintz(0, 0, c_red, "Press a direction for the tree to fall in:");
     int x = 0, y = 0;
@@ -937,16 +937,16 @@ void construct::done_tree(game *g, point p)
     }
 }
 
-void construct::done_log(game *g, point p)
+void construct::done_log(game* g, point p)
 {
     g->m.add_item(p.x, p.y, g->itypes[itm_log], int(g->turn), rng(5, 15));
 }
 
 
-void construct::done_vehicle(game *g, point p)
+void construct::done_vehicle(game* g, point p)
 {
     std::string name = string_input_popup("Enter new vehicle name", 20);
-    vehicle *veh = g->m.add_vehicle(g, veh_custom, p.x, p.y, 270);
+    vehicle* veh = g->m.add_vehicle(g, veh_custom, p.x, p.y, 270);
     if (!veh)
     {
         debugmsg("error constructing vehicle");
@@ -956,7 +956,7 @@ void construct::done_vehicle(game *g, point p)
     veh->install_part(0, 0, vp_frame_v2);
 }
 
-void construct::done_tape(game *g, point p)
+void construct::done_tape(game* g, point p)
 {
     g->add_msg("You tape up the %s.", g->m.tername(p.x, p.y).c_str());
     switch (g->m.ter(p.x, p.y))
@@ -973,7 +973,7 @@ void construct::done_tape(game *g, point p)
 
 }
 
-void construct::done_deconstruct(game *g, point p)
+void construct::done_deconstruct(game* g, point p)
 {
     g->add_msg("You disassemble the %s.", g->m.tername(p.x, p.y).c_str());
     switch (g->m.ter(p.x, p.y))

@@ -16,10 +16,10 @@ itype* game::new_artifact()
     if (one_in(2))   // Generate a "tool" artifact
     {
 
-        it_artifact_tool *art = new it_artifact_tool();
+        it_artifact_tool* art = new it_artifact_tool();
         int form = rng(ARTTOOLFORM_NULL + 1, NUM_ARTTOOLFORMS - 1);
 
-        artifact_tool_form_datum *info = &(artifact_tool_form_data[form]);
+        artifact_tool_form_datum* info = &(artifact_tool_form_data[form]);
         art->name = artifact_name(info->name);
         art->color = info->color;
         art->sym = info->sym;
@@ -28,7 +28,7 @@ itype* game::new_artifact()
         art->volume = rng(info->volume_min, info->volume_max);
         art->weight = rng(info->weight_min, info->weight_max);
         // Set up the basic weapon type
-        artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
+        artifact_weapon_datum* weapon = &(artifact_weapon_data[info->base_weapon]);
         art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
         art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
         art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
@@ -167,9 +167,9 @@ It may have unknown powers; use 'a' to activate them.";
     else     // Generate an armor artifact
     {
 
-        it_artifact_armor *art = new it_artifact_armor();
+        it_artifact_armor* art = new it_artifact_armor();
         int form = rng(ARTARMFORM_NULL + 1, NUM_ARTARMFORMS - 1);
-        artifact_armor_form_datum *info = &(artifact_armor_form_data[form]);
+        artifact_armor_form_datum* info = &(artifact_armor_form_data[form]);
 
         art->name = artifact_name(info->name);
         art->sym = '['; // Armor is always [
@@ -201,7 +201,7 @@ It may have unknown powers; use 'a' to activate them.";
             if (info->available_mods[index] != ARMORMOD_NULL)
             {
                 artifact_armor_mod mod = info->available_mods[index];
-                artifact_armor_form_datum *modinfo = &(artifact_armor_mod_data[mod]);
+                artifact_armor_form_datum* modinfo = &(artifact_armor_mod_data[mod]);
                 if (modinfo->volume >= 0 || art->volume > abs(modinfo->volume))
                 {
                     art->volume += modinfo->volume;
@@ -304,15 +304,15 @@ It may have unknown powers; use 'a' to activate them.";
 itype* game::new_natural_artifact(artifact_natural_property prop)
 {
     // Natural artifacts are always tools.
-    it_artifact_tool *art = new it_artifact_tool();
+    it_artifact_tool* art = new it_artifact_tool();
     // Pick a form
     artifact_natural_shape shape =
         artifact_natural_shape(rng(ARTSHAPE_NULL + 1, ARTSHAPE_MAX - 1));
-    artifact_shape_datum *shape_data = &(artifact_shape_data[shape]);
+    artifact_shape_datum* shape_data = &(artifact_shape_data[shape]);
     // Pick a property
     artifact_natural_property property = (prop > ARTPROP_NULL ? prop :
                                           artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1)));
-    artifact_property_datum *property_data = &(artifact_property_data[property]);
+    artifact_property_datum* property_data = &(artifact_property_data[property]);
 
     art->sym = ':';
     art->color = c_yellow;
@@ -497,7 +497,7 @@ std::string artifact_name(std::string type)
 }
 
 
-void game::process_artifact(item *it, player *p, bool wielded)
+void game::process_artifact(item* it, player* p, bool wielded)
 {
     std::vector<art_effect_passive> effects;
     if (it->is_armor())

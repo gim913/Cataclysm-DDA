@@ -9,32 +9,32 @@
 #include "item.h"
 #include "options.h"
 
-int time_to_fire(player &p, it_gun* firing);
-int recoil_add(player &p);
-void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon);
-int calculate_range(player &p, int tarx, int tary);
-double calculate_missed_by(player &p, int trange, item* weapon);
-void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, item* weapon);
-void shoot_player(game *g, player &p, player *h, int &dam, double goodhit);
+int time_to_fire(player& p, it_gun* firing);
+int recoil_add(player& p);
+void make_gun_sound_effect(game* g, player& p, bool burst, item* weapon);
+int calculate_range(player& p, int tarx, int tary);
+double calculate_missed_by(player& p, int trange, item* weapon);
+void shoot_monster(game* g, player& p, monster& mon, int& dam, double goodhit, item* weapon);
+void shoot_player(game* g, player& p, player* h, int& dam, double goodhit);
 
-void splatter(game *g, std::vector<point> trajectory, int dam,
+void splatter(game* g, std::vector<point> trajectory, int dam,
               monster* mon = NULL);
 
-void ammo_effects(game *g, int x, int y, long flags);
+void ammo_effects(game* g, int x, int y, long flags);
 
-void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
+void game::fire(player& p, int tarx, int tary, std::vector<point>& trajectory,
                 bool burst)
 {
     item ammotmp;
     item* gunmod = p.weapon.active_gunmod();
-    it_ammo *curammo = NULL;
-    item *weapon = NULL;
+    it_ammo* curammo = NULL;
+    item* weapon = NULL;
 
     if (p.weapon.has_flag(IF_CHARGE))   // It's a charger gun, so make up a type
     {
         // Charges maxes out at 8.
         int charges = p.weapon.num_charges();
-        it_ammo *tmpammo = dynamic_cast<it_ammo*>(itypes[itm_charge_shot]);
+        it_ammo* tmpammo = dynamic_cast<it_ammo*>(itypes[itm_charge_shot]);
 
         tmpammo->damage = charges * charges;
         tmpammo->pierce = (charges >= 4 ? (charges - 3) * 2.5 : 0);
@@ -470,7 +470,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
                 {
                     goodhit = double(rand() / (RAND_MAX + 1.0)) / 2;
                 }
-                player *h;
+                player* h;
                 if (u.posx == tx && u.posy == ty)
                 {
                     h = &u;
@@ -516,8 +516,8 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 }
 
 
-void game::throw_item(player &p, int tarx, int tary, item &thrown,
-                      std::vector<point> &trajectory)
+void game::throw_item(player& p, int tarx, int tary, item& thrown,
+                      std::vector<point>& trajectory)
 {
     int deviation = 0;
     int trange = 1.5 * rl_dist(p.posx, p.posy, tarx, tary);
@@ -745,9 +745,9 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
 }
 
-std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
-                                int hiy, std::vector <monster> t, int &target,
-                                item *relevent)
+std::vector<point> game::target(int& x, int& y, int lowx, int lowy, int hix,
+                                int hiy, std::vector <monster> t, int& target,
+                                item* relevent)
 {
     std::vector<point> ret;
     int tarx, tary, tart, junk;
@@ -892,7 +892,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
             if (!relevent)   // currently targetting vehicle to refill with fuel
             {
-                vehicle *veh = m.veh_at(x, y);
+                vehicle* veh = m.veh_at(x, y);
                 if (veh)
                 {
                     mvwprintw(w_target, 5, 1, "There is a %s", veh->name.c_str());
@@ -1013,7 +1013,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     while (true);
 }
 
-void game::hit_monster_with_flags(monster &z, unsigned int effects)
+void game::hit_monster_with_flags(monster& z, unsigned int effects)
 {
     if (effects & mfb(AMMO_FLAME))
     {
@@ -1044,7 +1044,7 @@ void game::hit_monster_with_flags(monster &z, unsigned int effects)
     }
 }
 
-int time_to_fire(player &p, it_gun* firing)
+int time_to_fire(player& p, it_gun* firing)
 {
     int time = 0;
     if (firing->skill_used == Skill::skill("pistol"))
@@ -1122,7 +1122,7 @@ int time_to_fire(player &p, it_gun* firing)
     return time;
 }
 
-void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
+void make_gun_sound_effect(game* g, player& p, bool burst, item* weapon)
 {
     std::string gunsound;
     // noise() doesn't suport gunmods, but it does return the right value
@@ -1191,7 +1191,7 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
     }
 }
 
-int calculate_range(player &p, int tarx, int tary)
+int calculate_range(player& p, int tarx, int tary)
 {
     int trange = rl_dist(p.posx, p.posy, tarx, tary);
     it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
@@ -1219,7 +1219,7 @@ int calculate_range(player &p, int tarx, int tary)
     return trange;
 }
 
-double calculate_missed_by(player &p, int trange, item* weapon)
+double calculate_missed_by(player& p, int trange, item* weapon)
 {
     // No type for gunmods,so use player weapon.
     it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
@@ -1262,7 +1262,7 @@ double calculate_missed_by(player &p, int trange, item* weapon)
     return (.00325 * deviation * trange);
 }
 
-int recoil_add(player &p)
+int recoil_add(player& p)
 {
     // Gunmods don't have atype,so use guns.
     it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
@@ -1277,7 +1277,7 @@ int recoil_add(player &p)
     return 0;
 }
 
-void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, item* weapon)
+void shoot_monster(game* g, player& p, monster& mon, int& dam, double goodhit, item* weapon)
 {
     // Gunmods don't have a type, so use the player weapon type.
     it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
@@ -1367,7 +1367,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
     }
 }
 
-void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
+void shoot_player(game* g, player& p, player* h, int& dam, double goodhit)
 {
     int npcdex = g->npc_at(h->posx, h->posy);
     // Gunmods don't have a type, so use the player gun type.
@@ -1469,7 +1469,7 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
     }
 }
 
-void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)
+void splatter(game* g, std::vector<point> trajectory, int dam, monster* mon)
 {
     field_id blood = fd_blood;
     if (mon != NULL)
@@ -1515,7 +1515,7 @@ void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)
     }
 }
 
-void ammo_effects(game *g, int x, int y, long effects)
+void ammo_effects(game* g, int x, int y, long effects)
 {
     if (effects & mfb(AMMO_EXPLOSIVE))
     {

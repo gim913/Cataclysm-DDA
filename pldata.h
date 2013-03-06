@@ -157,7 +157,7 @@ struct player_activity
         placement = point(-1, -1);
     }
 
-    player_activity(const player_activity &copy)
+    player_activity(const player_activity& copy)
     {
         type = copy.type;
         moves_left = copy.moves_left;
@@ -183,7 +183,7 @@ struct player_activity
         return ret.str();
     }
 
-    void load_info(std::stringstream &dump)
+    void load_info(std::stringstream& dump)
     {
         int tmp, tmptype;
         dump >> tmptype >> moves_left >> index >> placement.x >> placement.y >> tmp;

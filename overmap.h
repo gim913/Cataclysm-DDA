@@ -45,17 +45,17 @@ class overmap
 {
 public:
     overmap();
-    overmap(const overmap & om);
-    overmap(game *g, int x, int y, int z);
+    overmap(const overmap& om);
+    overmap(game* g, int x, int y, int z);
     ~overmap();
     void save(std::string name);
     void save(std::string name, int x, int y, int z);
-    void open(game *g, int x, int y, int z);
-    void generate(game *g, overmap* north, overmap* east, overmap* south,
+    void open(game* g, int x, int y, int z);
+    void generate(game* g, overmap* north, overmap* east, overmap* south,
                   overmap* west);
     void generate_sub(overmap* above);
     void make_tutorial();
-    void first_house(int &x, int &y);
+    void first_house(int& x, int& y);
 
     void process_mongroups(); // Makes them die out, maybe more
 
@@ -68,15 +68,15 @@ public:
      * If no such tile can be found, (-1, -1) is returned.
      */
     point find_closest(point origin, oter_id type, int type_range,
-                       int &dist, bool must_be_seen);
+                       int& dist, bool must_be_seen);
     std::vector<point> find_all(point origin, oter_id type, int type_range,
-                                int &dist, bool must_be_seen);
+                                int& dist, bool must_be_seen);
     std::vector<point> find_terrain(std::string term, int cursx, int cursy);
     int closest_city(point p);
     point random_house_in_city(int city_id);
     int dist_from_city(point p);
     // Interactive point choosing; used as the map screen
-    point choose_point(game *g);
+    point choose_point(game* g);
 
     bool ter_in_type_range(int x, int y, oter_id type, int type_range);
     oter_id& ter(int x, int y);
@@ -107,8 +107,8 @@ private:
     bool nullbool;
     std::vector<om_note> notes;
     //Drawing
-    void draw(WINDOW *w, game *g, int &cursx, int &cursy,
-              int &origx, int &origy, char &ch, bool blink);
+    void draw(WINDOW* w, game* g, int& cursx, int& cursy,
+              int& origx, int& origy, char& ch, bool blink);
     // Overall terrain
     void place_river(point pa, point pb);
     void place_forest();
@@ -140,11 +140,11 @@ private:
     void place_radios();
     // File I/O
 
-    friend std::ostream & operator<<(std::ostream &, const overmap *);
+    friend std::ostream& operator<<(std::ostream&, const overmap*);
 };
 
-std::ostream & operator<<(std::ostream &, const overmap *);
-std::ostream & operator<<(std::ostream &, const overmap &);
-std::ostream & operator<<(std::ostream &, const city &);
+std::ostream& operator<<(std::ostream&, const overmap*);
+std::ostream& operator<<(std::ostream&, const overmap&);
+std::ostream& operator<<(std::ostream&, const city&);
 
 #endif

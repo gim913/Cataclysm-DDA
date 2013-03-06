@@ -32,7 +32,7 @@ itype_id ALT_ATTACK_ITEMS[NUM_ALT_ATTACK_ITEMS] =
 #endif
 
 std::string npc_action_name(npc_action action);
-bool thrown_item(item *used);
+bool thrown_item(item* used);
 
 // Used in npc::drop_items()
 struct ratio_index
@@ -44,7 +44,7 @@ struct ratio_index
 
 // class npc functions!
 
-void npc::move(game *g)
+void npc::move(game* g)
 {
     npc_action action = npc_undecided;
     int danger = 0, total_danger = 0, target = -1;
@@ -149,7 +149,7 @@ void npc::move(game *g)
     execute_action(g, action, target);
 }
 
-void npc::execute_action(game *g, npc_action action, int target)
+void npc::execute_action(game* g, npc_action action, int target)
 {
     int oldmoves = moves;
     int tarx = posx, tary = posy;
@@ -423,8 +423,8 @@ void npc::execute_action(game *g, npc_action action, int target)
     }
 }
 
-void npc::choose_monster_target(game *g, int &enemy, int &danger,
-                                int &total_danger)
+void npc::choose_monster_target(game* g, int& enemy, int& danger,
+                                int& total_danger)
 {
     int linet = 0;
     bool defend_u = g->sees_u(posx, posy, linet) && is_defending();
@@ -433,7 +433,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
 
     for (int i = 0; i < g->z.size(); i++)
     {
-        monster *mon = &(g->z[i]);
+        monster* mon = &(g->z[i]);
         if (g->pl_sees(this, mon, linet))
         {
             int distance = (100 * rl_dist(posx, posy, mon->posx, mon->posy)) /
@@ -515,7 +515,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
     }
 }
 
-npc_action npc::method_of_fleeing(game *g, int enemy)
+npc_action npc::method_of_fleeing(game* g, int enemy)
 {
     int speed = (enemy == TARGET_PLAYER ? g->u.current_speed(g) :
                  g->z[enemy].speed);
@@ -536,7 +536,7 @@ npc_action npc::method_of_fleeing(game *g, int enemy)
     return npc_flee;
 }
 
-npc_action npc::method_of_attack(game *g, int target, int danger)
+npc_action npc::method_of_attack(game* g, int target, int danger)
 {
     int tarx = posx, tary = posy;
     bool can_use_gun = (!is_following() || combat_rules.use_guns);
@@ -654,7 +654,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
     return npc_melee;
 }
 
-npc_action npc::address_needs(game *g, int danger)
+npc_action npc::address_needs(game* g, int danger)
 {
     if (has_healing_item())
     {
@@ -703,7 +703,7 @@ npc_action npc::address_needs(game *g, int danger)
     return npc_undecided;
 }
 
-npc_action npc::address_player(game *g)
+npc_action npc::address_player(game* g)
 {
     int linet;
     if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) &&
@@ -780,7 +780,7 @@ npc_action npc::address_player(game *g)
     return npc_undecided;
 }
 
-npc_action npc::long_term_goal_action(game *g)
+npc_action npc::long_term_goal_action(game* g)
 {
     if (g->debugmon)
     {
@@ -806,7 +806,7 @@ npc_action npc::long_term_goal_action(game *g)
 }
 
 
-bool npc::alt_attack_available(game *g)
+bool npc::alt_attack_available(game* g)
 {
     for (int i = 0; i < NUM_ALT_ATTACK_ITEMS; i++)
     {
@@ -846,7 +846,7 @@ int npc::choose_escape_item()
     return ret;
 }
 
-void npc::use_escape_item(game *g, int index, int target)
+void npc::use_escape_item(game* g, int index, int target)
 {
     if (index < 0 || index >= inv.size())
     {
@@ -963,7 +963,7 @@ int npc::confident_range(int index)
     else     // We aren't firing a gun, we're throwing something!
     {
 
-        item *thrown = &(inv[index]);
+        item* thrown = &(inv[index]);
         max = throw_range(index); // The max distance we can throw
         int deviation = 0;
         if (sklevel[sk_throw] < 8)
@@ -1009,7 +1009,7 @@ int npc::confident_range(int index)
 }
 
 // Index defaults to -1, i.e., wielded weapon
-bool npc::wont_hit_friend(game *g, int tarx, int tary, int index)
+bool npc::wont_hit_friend(game* g, int tarx, int tary, int index)
 {
     int linet = 0, dist = sight_range(g->light_level());
     int confident = confident_range(index);
@@ -1084,7 +1084,7 @@ bool npc::need_to_reload()
     return (weapon.charges < gun->clip * .1);
 }
 
-bool npc::enough_time_to_reload(game *g, int target, item &gun)
+bool npc::enough_time_to_reload(game* g, int target, item& gun)
 {
     int rltime = gun.reload_time(*this);
     double turns_til_reloaded = rltime / current_speed(g);
@@ -1114,7 +1114,7 @@ bool npc::enough_time_to_reload(game *g, int target, item &gun)
     return (turns_til_reloaded < turns_til_reached);
 }
 
-void npc::update_path(game *g, int x, int y)
+void npc::update_path(game* g, int x, int y)
 {
     if (path.empty())
     {
@@ -1133,7 +1133,7 @@ void npc::update_path(game *g, int x, int y)
     }
 }
 
-bool npc::can_move_to(game *g, int x, int y)
+bool npc::can_move_to(game* g, int x, int y)
 {
     if ((g->m.move_cost(x, y) > 0 || g->m.has_flag(bashable, x, y)) &&
             rl_dist(posx, posy, x, y) <= 1)
@@ -1143,7 +1143,7 @@ bool npc::can_move_to(game *g, int x, int y)
     return false;
 }
 
-void npc::move_to(game *g, int x, int y)
+void npc::move_to(game* g, int x, int y)
 {
     if (has_disease(DI_DOWNED))
     {
@@ -1227,7 +1227,7 @@ void npc::move_to(game *g, int x, int y)
     }
 }
 
-void npc::move_to_next(game *g)
+void npc::move_to_next(game* g)
 {
     if (path.empty())
     {
@@ -1250,7 +1250,7 @@ void npc::move_to_next(game *g)
 }
 
 // TODO: Rewrite this.  It doesn't work well and is ugly.
-void npc::avoid_friendly_fire(game *g, int target)
+void npc::avoid_friendly_fire(game* g, int target)
 {
     int tarx, tary;
     if (target == TARGET_PLAYER)
@@ -1372,7 +1372,7 @@ void npc::avoid_friendly_fire(game *g, int target)
     execute_action(g, action, target);
 }
 
-void npc::move_away_from(game *g, int x, int y)
+void npc::move_away_from(game* g, int x, int y)
 {
     std::vector<point> options;
     int dx = 0, dy = 0;
@@ -1434,7 +1434,7 @@ void npc::move_pause()
     }
 }
 
-void npc::find_item(game *g)
+void npc::find_item(game* g)
 {
     fetching_item = false;
     int best_value = minimum_item_value();
@@ -1494,7 +1494,7 @@ void npc::find_item(game *g)
             g->m.i_at(itx, ity)[index].tname().c_str());
 }
 
-void npc::pick_up_item(game *g)
+void npc::pick_up_item(game* g)
 {
     if (g->debugmon)
     {
@@ -1515,7 +1515,7 @@ void npc::pick_up_item(game *g)
     // We're adjacent to the item; grab it!
     moves -= 100;
     fetching_item = false;
-    std::vector<item> *items = &(g->m.i_at(itx, ity));
+    std::vector<item>* items = &(g->m.i_at(itx, ity));
     int total_volume = 0, total_weight = 0; // How much the items will add
     std::vector<int> pickup; // Indices of items we want
 
@@ -1606,7 +1606,7 @@ void npc::pick_up_item(game *g)
     }
 }
 
-void npc::drop_items(game *g, int weight, int volume)
+void npc::drop_items(game* g, int weight, int volume)
 {
     if (g->debugmon)
     {
@@ -1738,7 +1738,7 @@ void npc::drop_items(game *g, int weight, int volume)
     update_worst_item_value();
 }
 
-npc_action npc::scan_new_items(game *g, int target)
+npc_action npc::scan_new_items(game* g, int target)
 {
     bool can_use_gun = (!is_following() || combat_rules.use_guns);
     // Check if there's something better to wield
@@ -1787,7 +1787,7 @@ npc_action npc::scan_new_items(game *g, int target)
     return npc_pause;
 }
 
-void npc::melee_monster(game *g, int target)
+void npc::melee_monster(game* g, int target)
 {
     monster* monhit = &(g->z[target]);
     int dam = hit_mon(g, monhit);
@@ -1797,12 +1797,12 @@ void npc::melee_monster(game *g, int target)
     }
 }
 
-void npc::melee_player(game *g, player &foe)
+void npc::melee_player(game* g, player& foe)
 {
     hit_player(g, foe);
 }
 
-void npc::wield_best_melee(game *g)
+void npc::wield_best_melee(game* g)
 {
     int best_score = 0, index = -999;
     for (int i = 0; i < inv.size(); i++)
@@ -1830,7 +1830,7 @@ void npc::wield_best_melee(game *g)
     wield(g, index);
 }
 
-void npc::alt_attack(game *g, int target)
+void npc::alt_attack(game* g, int target)
 {
     itype_id which = itm_null;
     int tarx, tary;
@@ -1887,7 +1887,7 @@ void npc::alt_attack(game *g, int target)
     }
 
     int index;
-    item *used;
+    item* used;
     if (weapon.type->id == which)
     {
         used = &weapon;
@@ -2016,9 +2016,9 @@ void npc::alt_attack(game *g, int target)
     } // Done with throwing-item block
 }
 
-void npc::activate_item(game *g, int index)
+void npc::activate_item(game* g, int index)
 {
-    item *it = &(inv[index]);
+    item* it = &(inv[index]);
     iuse use;
     if (it->is_tool())
     {
@@ -2032,7 +2032,7 @@ void npc::activate_item(game *g, int index)
     }
 }
 
-bool thrown_item(item *used)
+bool thrown_item(item* used)
 {
     if (used == NULL)
     {
@@ -2043,7 +2043,7 @@ bool thrown_item(item *used)
     return (used->active || type == itm_knife_combat || type == itm_spear_wood);
 }
 
-void npc::heal_player(game *g, player &patient)
+void npc::heal_player(game* g, player& patient)
 {
     int dist = rl_dist(posx, posy, patient.posx, patient.posy);
 
@@ -2158,7 +2158,7 @@ void npc::heal_player(game *g, player &patient)
     }
 }
 
-void npc::heal_self(game *g)
+void npc::heal_self(game* g)
 {
     int lowest_HP = 400;
     hp_part worst;
@@ -2227,7 +2227,7 @@ void npc::heal_self(game *g)
     moves -= 250;
 }
 
-void npc::use_painkiller(game *g)
+void npc::use_painkiller(game* g)
 {
     // First, find the best painkiller for our pain level
     int difference = 9999, index = -1;
@@ -2274,7 +2274,7 @@ void npc::use_painkiller(game *g)
     }
 }
 
-void npc::pick_and_eat(game *g)
+void npc::pick_and_eat(game* g)
 {
     int best_hunger = 999, best_thirst = 999, index = -1;
     bool thirst_more_important = (thirst > hunger * 1.5);
@@ -2326,7 +2326,7 @@ void npc::pick_and_eat(game *g)
     moves = 0;
 }
 
-void npc::mug_player(game *g, player &mark)
+void npc::mug_player(game* g, player& mark)
 {
     if (rl_dist(posx, posy, mark.posx, mark.posy) > 1)   // We have to travel
     {
@@ -2450,7 +2450,7 @@ void npc::mug_player(game *g, player &mark)
     }
 }
 
-void npc::look_for_player(game *g, player &sought)
+void npc::look_for_player(game* g, player& sought)
 {
     int linet, range = sight_range(g->light_level());
     if (g->m.sees(posx, posy, sought.posx, sought.posy, range, linet))
@@ -2515,13 +2515,13 @@ bool npc::has_destination()
     return (goalx >= 0 && goalx < OMAPX && goaly >= 0 && goaly < OMAPY);
 }
 
-void npc::reach_destination(game *g)
+void npc::reach_destination(game* g)
 {
     goalx = -1;
     goaly = -1;
 }
 
-void npc::set_destination(game *g)
+void npc::set_destination(game* g)
 {
     /* TODO: Make NPCs' movement more intelligent.
      * Right now this function just makes them attempt to address their needs:
@@ -2591,7 +2591,7 @@ void npc::set_destination(game *g)
     goaly = p.y;
 }
 
-void npc::go_to_destination(game *g)
+void npc::go_to_destination(game* g)
 {
     int sx = (goalx > mapx ? 1 : -1), sy = (goaly > mapy ? 1 : -1);
     if (goalx == mapx && goaly == mapy)     // We're at our desired map square!

@@ -92,7 +92,7 @@ player::player()
     }
 }
 
-player::player(const player &rhs)
+player::player(const player& rhs)
 {
     *this = rhs;
 }
@@ -101,7 +101,7 @@ player::~player()
 {
 }
 
-player& player::operator= (const player & rhs)
+player& player::operator= (const player& rhs)
 {
     id = rhs.id;
     posx = rhs.posx;
@@ -227,7 +227,7 @@ player& player::operator= (const player & rhs)
     return (*this);
 }
 
-void player::normalize(game *g)
+void player::normalize(game* g)
 {
     ret_null = item(g->itypes[0], 0);
     weapon   = item(g->itypes[0], 0);
@@ -248,7 +248,7 @@ void player::pick_name()
     name = Name::generate(male);
 }
 
-void player::reset(game *g)
+void player::reset(game* g)
 {
     // Reset our stats to normal levels
     // Any persistent buffs/debuffs will take place in disease.h,
@@ -448,7 +448,7 @@ void player::temp_equalizer(body_part bp1, body_part bp2)
     }
 }
 
-int player::current_speed(game *g)
+int player::current_speed(game* g)
 {
     int newmoves = 100; // Start with 100 movement points...
     // Minus some for weight...
@@ -704,7 +704,7 @@ nc_color player::color()
     return c_white;
 }
 
-void player::load_info(game *g, std::string data)
+void player::load_info(game* g, std::string data)
 {
     std::stringstream dump;
     dump << data;
@@ -958,7 +958,7 @@ std::string player::save_info()
     return dump.str();
 }
 
-void player::disp_info(game *g)
+void player::disp_info(game* g)
 {
     int line;
     std::vector<std::string> effect_name;
@@ -1821,11 +1821,11 @@ Running costs %s%d movement points", (encumb(bp_feet) >= 0 ? "+" : ""),
                 }
             }
 
-            Skill *selectedSkill;
+            Skill* selectedSkill;
 
             for (int i = min; i < max; i++)
             {
-                Skill *aSkill = Skill::skill(skillslist[i]);
+                Skill* aSkill = Skill::skill(skillslist[i]);
                 SkillLevel level = skillLevel(aSkill);
 
                 bool isLearning = level.isTraining();
@@ -1898,7 +1898,7 @@ Running costs %s%d movement points", (encumb(bp_feet) >= 0 ? "+" : ""),
                 mvwprintz(w_skills, 0, 0, c_ltgray, "           SKILLS         ");
                 for (int i = 0; i < skillslist.size() && i < 7; i++)
                 {
-                    Skill *thisSkill = Skill::skill(i);
+                    Skill* thisSkill = Skill::skill(i);
                     SkillLevel thisLevel = skillLevel(thisSkill);
                     if (thisLevel.exercise() < 0)
                     {
@@ -1954,7 +1954,7 @@ Running costs %s%d movement points", (encumb(bp_feet) >= 0 ? "+" : ""),
 
 void player::disp_morale()
 {
-    WINDOW *w = newwin(25, 80, 0, 0);
+    WINDOW* w = newwin(25, 80, 0, 0);
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     mvwprintz(w, 1,  1, c_white, "Morale Modifiers:");
@@ -2007,7 +2007,7 @@ void player::disp_morale()
     delwin(w);
 }
 
-void player::disp_status(WINDOW *w, game *g)
+void player::disp_status(WINDOW* w, game* g)
 {
     mvwprintz(w, 0, 0, c_ltgray, "Weapon: %s", weapname().c_str());
     if (weapon.is_gun())
@@ -2164,7 +2164,7 @@ void player::disp_status(WINDOW *w, game *g)
         mvwprintz(w, 3, 0, col_pain, "Pain: %d", pain - pkill);
     }
 
-    vehicle *veh = g->m.veh_at(posx, posy);
+    vehicle* veh = g->m.veh_at(posx, posy);
     int dmor = 0;
 
     int morale_cur = morale_level();
@@ -2399,9 +2399,9 @@ void player::charge_power(int amount)
     }
 }
 
-void player::power_bionics(game *g)
+void player::power_bionics(game* g)
 {
-    WINDOW *wBio = newwin(25, 80, 0, 0);
+    WINDOW* wBio = newwin(25, 80, 0, 0);
     werase(wBio);
     std::vector <bionic> passive;
     std::vector <bionic> active;
@@ -2469,7 +2469,7 @@ void player::power_bionics(game *g)
     wrefresh(wBio);
     char ch;
     bool activating = true;
-    bionic *tmp;
+    bionic* tmp;
     int b;
     do
     {
@@ -2694,7 +2694,7 @@ bool player::avoid_trap(trap* tr)
     return false;
 }
 
-void player::pause(game *g)
+void player::pause(game* g)
 {
     moves = 0;
     if (recoil > 0)
@@ -2945,7 +2945,7 @@ int player::intimidation()
     return ret;
 }
 
-void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
+void player::hit(game* g, body_part bphurt, int side, int dam, int cut)
 {
     int painadd = 0;
     if (has_disease(DI_SLEEP))
@@ -3113,7 +3113,7 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
     }
 }
 
-void player::hurt(game *g, body_part bphurt, int side, int dam)
+void player::hurt(game* g, body_part bphurt, int side, int dam)
 {
     int painadd = 0;
     if (has_disease(DI_SLEEP) && rng(0, dam) > 2)
@@ -3309,7 +3309,7 @@ void player::hurtall(int dam)
     }
 }
 
-void player::hitall(game *g, int dam, int vary)
+void player::hitall(game* g, int dam, int vary)
 {
     if (has_disease(DI_SLEEP))
     {
@@ -3344,7 +3344,7 @@ void player::hitall(game *g, int dam, int vary)
     }
 }
 
-void player::knock_back_from(game *g, int x, int y)
+void player::knock_back_from(game* g, int x, int y)
 {
     if (x == posx && y == posy)
     {
@@ -3378,7 +3378,7 @@ void player::knock_back_from(game *g, int x, int y)
     int mondex = g->mon_at(to.x, to.y);
     if (mondex != -1)
     {
-        monster *z = &(g->z[mondex]);
+        monster* z = &(g->z[mondex]);
         hit(g, bp_torso, 0, z->type->size, 0);
         add_disease(DI_STUNNED, 1, g);
         if ((str_max - 6) / 4 > z->type->size)
@@ -3403,7 +3403,7 @@ void player::knock_back_from(game *g, int x, int y)
     int npcdex = g->npc_at(to.x, to.y);
     if (npcdex != -1)
     {
-        npc *p = &(g->active_npc[npcdex]);
+        npc* p = &(g->active_npc[npcdex]);
         hit(g, bp_torso, 0, 3, 0);
         add_disease(DI_STUNNED, 1, g);
         p->hit(g, bp_torso, 0, 3, 0);
@@ -3458,7 +3458,7 @@ int player::hp_percentage()
     return (100 * total_cur) / total_max;
 }
 
-void player::get_sick(game *g)
+void player::get_sick(game* g)
 {
     if (health > 0 && rng(0, health + 10) < health)
     {
@@ -3498,7 +3498,7 @@ void player::get_sick(game *g)
 }
 
 void player::infect(dis_type type, body_part vector, int strength,
-                    int duration, game *g)
+                    int duration, game* g)
 {
     if (dice(strength, 3) > dice(resist(vector), 3))
     {
@@ -3506,7 +3506,7 @@ void player::infect(dis_type type, body_part vector, int strength,
     }
 }
 
-void player::add_disease(dis_type type, int duration, game *g,
+void player::add_disease(dis_type type, int duration, game* g,
                          int intensity, int max_intensity)
 {
     if (duration == 0)
@@ -3668,7 +3668,7 @@ int player::addiction_level(add_type type)
     return 0;
 }
 
-void player::suffer(game *g)
+void player::suffer(game* g)
 {
     for (int i = 0; i < my_bionics.size(); i++)
     {
@@ -4153,7 +4153,7 @@ void player::suffer(game *g)
     }
 }
 
-void player::vomit(game *g)
+void player::vomit(game* g)
 {
     g->add_msg("You throw up heavily!");
     hunger += rng(30, 50);
@@ -4241,7 +4241,7 @@ int player::weight_capacity(bool real_life)
 int player::volume_capacity()
 {
     int ret = 2;    // A small bonus (the overflow)
-    it_armor *armor;
+    it_armor* armor;
     for (int i = 0; i < worn.size(); i++)
     {
         armor = dynamic_cast<it_armor*>(worn[i].type);
@@ -4405,7 +4405,7 @@ void player::sort_inv()
     inv_sorted = true;
 }
 
-void player::i_add(item it, game *g)
+void player::i_add(item it, game* g)
 {
     int item_type_id = itm_null;
     if (it.type)
@@ -4444,7 +4444,7 @@ void player::i_add(item it, game *g)
 
     if (g != NULL && it.is_artifact() && it.is_tool())
     {
-        it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(it.type);
+        it_artifact_tool* art = dynamic_cast<it_artifact_tool*>(it.type);
         g->add_artifact_messages(art->effects_carried);
     }
     inv.push_back(it);
@@ -4487,7 +4487,7 @@ int player::active_item_charges(itype_id id)
     return max;
 }
 
-void player::process_active_items(game *g)
+void player::process_active_items(game* g)
 {
     it_tool* tmp;
     iuse use;
@@ -4593,7 +4593,7 @@ void player::process_active_items(game *g)
     {
         for (int j = 0; j < inv.stack_at(i).size(); j++)
         {
-            item *tmp_it = &(inv.stack_at(i)[j]);
+            item* tmp_it = &(inv.stack_at(i)[j]);
             if (tmp_it->is_artifact() && tmp_it->is_tool())
             {
                 g->process_artifact(tmp_it, this);
@@ -4955,7 +4955,7 @@ int player::butcher_factor()
     {
         for (int j = 0; j < inv.stack_at(i).size(); j++)
         {
-            item *cur_item = &(inv.stack_at(i)[j]);
+            item* cur_item = &(inv.stack_at(i)[j]);
             if (cur_item->damage_cut() >= 10 && !cur_item->has_flag(IF_SPEAR))
             {
                 int factor = cur_item->volume() * 5 - cur_item->weight() * 1.5 -
@@ -5034,7 +5034,7 @@ bool player::has_artifact_with(art_effect_passive effect)
 {
     if (weapon.is_artifact() && weapon.is_tool())
     {
-        it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(weapon.type);
+        it_artifact_tool* tool = dynamic_cast<it_artifact_tool*>(weapon.type);
         for (int i = 0; i < tool->effects_wielded.size(); i++)
         {
             if (tool->effects_wielded[i] == effect)
@@ -5054,7 +5054,7 @@ bool player::has_artifact_with(art_effect_passive effect)
     {
         if (inv[i].is_artifact() && inv[i].is_tool())
         {
-            it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(inv[i].type);
+            it_artifact_tool* tool = dynamic_cast<it_artifact_tool*>(inv[i].type);
             for (int i = 0; i < tool->effects_carried.size(); i++)
             {
                 if (tool->effects_carried[i] == effect)
@@ -5068,7 +5068,7 @@ bool player::has_artifact_with(art_effect_passive effect)
     {
         if (worn[i].is_artifact())
         {
-            it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(worn[i].type);
+            it_artifact_armor* armor = dynamic_cast<it_artifact_armor*>(worn[i].type);
             for (int i = 0; i < armor->effects_worn.size(); i++)
             {
                 if (armor->effects_worn[i] == effect)
@@ -5234,7 +5234,7 @@ bool player::has_item(char let)
     return (has_weapon_or_armor(let) || inv.index_by_letter(let) != -1);
 }
 
-bool player::has_item(item *it)
+bool player::has_item(item* it)
 {
     if (it == &weapon)
     {
@@ -5305,10 +5305,10 @@ int player::lookup_item(char let)
     return -2; // -2 is for "item not found"
 }
 
-bool player::eat(game *g, int index)
+bool player::eat(game* g, int index)
 {
-    it_comest *comest = NULL;
-    item *eaten = NULL;
+    it_comest* comest = NULL;
+    item* eaten = NULL;
     int which = -3; // Helps us know how to delete the item which got eaten
     int linet;
     if (index == -2)
@@ -5702,7 +5702,7 @@ bool player::eat(game *g, int index)
     return true;
 }
 
-bool player::wield(game *g, int index)
+bool player::wield(game* g, int index)
 {
     if (weapon.has_flag(IF_NO_UNWIELD))
     {
@@ -5780,7 +5780,7 @@ bool player::wield(game *g, int index)
         weapon = inv.remove_item(index);
         if (weapon.is_artifact() && weapon.is_tool())
         {
-            it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
+            it_artifact_tool* art = dynamic_cast<it_artifact_tool*>(weapon.type);
             g->add_artifact_messages(art->effects_wielded);
         }
         moves -= 30;
@@ -5797,7 +5797,7 @@ bool player::wield(game *g, int index)
         moves -= 45;
         if (weapon.is_artifact() && weapon.is_tool())
         {
-            it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
+            it_artifact_tool* art = dynamic_cast<it_artifact_tool*>(weapon.type);
             g->add_artifact_messages(art->effects_wielded);
         }
         last_item = itype_id(weapon.type->id);
@@ -5813,7 +5813,7 @@ bool player::wield(game *g, int index)
         moves -= 30;
         if (weapon.is_artifact() && weapon.is_tool())
         {
-            it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
+            it_artifact_tool* art = dynamic_cast<it_artifact_tool*>(weapon.type);
             g->add_artifact_messages(art->effects_wielded);
         }
         last_item = itype_id(weapon.type->id);
@@ -5824,7 +5824,7 @@ bool player::wield(game *g, int index)
 
 }
 
-void player::pick_style(game *g) // Style selection menu
+void player::pick_style(game* g) // Style selection menu
 {
     std::vector<std::string> options;
     options.push_back("No style");
@@ -5843,7 +5843,7 @@ void player::pick_style(game *g) // Style selection menu
     }
 }
 
-bool player::wear(game *g, char let)
+bool player::wear(game* g, char let)
 {
     item* to_wear = NULL;
     int index = -1;
@@ -5888,7 +5888,7 @@ bool player::wear(game *g, char let)
     return true;
 }
 
-bool player::wear_item(game *g, item *to_wear)
+bool player::wear_item(game* g, item* to_wear)
 {
     it_armor* armor = NULL;
     if (to_wear->is_armor())
@@ -5972,8 +5972,8 @@ bool player::wear_item(game *g, item *to_wear)
     {
         for (int i = 0; i < worn.size(); i++)
         {
-            item *worn_item = &worn[i];
-            it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
+            item* worn_item = &worn[i];
+            it_armor* worn_armor = dynamic_cast<it_armor*>(worn_item->type);
             if (worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of(WOOL) || worn_item->made_of(COTTON)))
             {
                 g->add_msg("You're already wearing footwear!");
@@ -5984,7 +5984,7 @@ bool player::wear_item(game *g, item *to_wear)
     g->add_msg("You put on your %s.", to_wear->tname(g).c_str());
     if (to_wear->is_artifact())
     {
-        it_artifact_armor *art = dynamic_cast<it_artifact_armor*>(to_wear->type);
+        it_artifact_armor* art = dynamic_cast<it_artifact_armor*>(to_wear->type);
         g->add_artifact_messages(art->effects_worn);
     }
     moves -= 350; // TODO: Make this variable?
@@ -6001,7 +6001,7 @@ bool player::wear_item(game *g, item *to_wear)
     return true;
 }
 
-bool player::takeoff(game *g, char let)
+bool player::takeoff(game* g, char let)
 {
     for (int i = 0; i < worn.size(); i++)
     {
@@ -6032,12 +6032,12 @@ bool player::takeoff(game *g, char let)
     return false;
 }
 
-void player::use_wielded(game *g)
+void player::use_wielded(game* g)
 {
     use(g, weapon.invlet);
 }
 
-void player::use(game *g, char let)
+void player::use(game* g, char let)
 {
     item* used = &i_at(let);
     item copy;
@@ -6061,7 +6061,7 @@ void player::use(game *g, char let)
     if (used->is_tool())
     {
 
-        it_tool *tool = dynamic_cast<it_tool*>(used->type);
+        it_tool* tool = dynamic_cast<it_tool*>(used->type);
         if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use)
         {
             iuse use;
@@ -6102,7 +6102,7 @@ void player::use(game *g, char let)
             return;
         }
         char gunlet = g->inv("Select gun to modify:");
-        it_gunmod *mod = static_cast<it_gunmod*>(used->type);
+        it_gunmod* mod = static_cast<it_gunmod*>(used->type);
         item* gun = &(i_at(gunlet));
         if (gun->is_null())
         {
@@ -6331,9 +6331,9 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
     }
 }
 
-void player::read(game *g, char ch)
+void player::read(game* g, char ch)
 {
-    vehicle *veh = g->m.veh_at(posx, posy);
+    vehicle* veh = g->m.veh_at(posx, posy);
     if (veh && veh->player_in_control(this))
     {
         g->add_msg("It's bad idea to read while driving.");
@@ -6372,7 +6372,7 @@ void player::read(game *g, char ch)
 
     // Some macguffins can be read, but they aren't treated like books.
     it_macguffin* mac = NULL;
-    item *used;
+    item* used;
     if (index == -2 && weapon.is_macguffin())
     {
         mac = dynamic_cast<it_macguffin*>(weapon.type);
@@ -6444,10 +6444,10 @@ void player::read(game *g, char ch)
     moves = 0;
 }
 
-void player::try_to_sleep(game *g)
+void player::try_to_sleep(game* g)
 {
     int vpart = -1;
-    vehicle *veh = g->m.veh_at(posx, posy, vpart);
+    vehicle* veh = g->m.veh_at(posx, posy, vpart);
     if (g->m.ter(posx, posy) == t_bed || g->m.ter(posx, posy) == t_makeshift_bed ||
             g->m.tr_at(posx, posy) == tr_cot || g->m.tr_at(posx, posy) == tr_rollmat ||
             veh && veh->part_with_feature(vpart, vpf_seat) >= 0 ||
@@ -6462,7 +6462,7 @@ void player::try_to_sleep(game *g)
     add_disease(DI_LYING_DOWN, 300, g);
 }
 
-bool player::can_sleep(game *g)
+bool player::can_sleep(game* g)
 {
     int sleepy = 0;
     if (has_addiction(ADD_SLEEP))
@@ -6475,7 +6475,7 @@ bool player::can_sleep(game *g)
     }
 
     int vpart = -1;
-    vehicle *veh = g->m.veh_at(posx, posy, vpart);
+    vehicle* veh = g->m.veh_at(posx, posy, vpart);
     if (veh && veh->part_with_feature(vpart, vpf_seat) >= 0 ||
             g->m.ter(posx, posy) == t_makeshift_bed || g->m.tr_at(posx, posy) == tr_cot)
     {
@@ -6533,7 +6533,7 @@ int player::encumb(body_part bp)
     return encumb(bp, iLayers, iArmorEnc, iWarmth);
 }
 
-int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
+int player::encumb(body_part bp, int& layers, int& armorenc, int& warmth)
 {
     int ret = 0;
     it_armor* armor;
@@ -6750,7 +6750,7 @@ int player::armor_cut(body_part bp)
     return ret;
 }
 
-void player::absorb(game *g, body_part bp, int &dam, int &cut)
+void player::absorb(game* g, body_part bp, int& dam, int& cut)
 {
     it_armor* tmp;
     int arm_bash = 0, arm_cut = 0;
@@ -6963,7 +6963,7 @@ bool player::wearing_something_on(body_part bp)
     return false;
 }
 
-void player::practice(Skill *s, int amount)
+void player::practice(Skill* s, int amount)
 {
     SkillLevel& level = skillLevel(s);
     if (level.exercise() < 0)
@@ -6980,7 +6980,7 @@ void player::practice(Skill *s, int amount)
 
     bool isSavant = has_trait(PF_SAVANT);
 
-    Skill *savantSkill = NULL;
+    Skill* savantSkill = NULL;
     SkillLevel savantSkillLevel = SkillLevel();
 
     if (isSavant)
@@ -7011,7 +7011,7 @@ void player::practice(Skill *s, int amount)
 
 void player::practice(std::string s, int amount)
 {
-    Skill *aSkill = Skill::skill(s);
+    Skill* aSkill = Skill::skill(s);
     practice(aSkill, amount);
 }
 
@@ -7292,7 +7292,7 @@ SkillLevel& player::skillLevel(size_t id)
     return _skills[Skill::skill(id)];
 }
 
-SkillLevel& player::skillLevel(Skill *_skill)
+SkillLevel& player::skillLevel(Skill* _skill)
 {
     return _skills[_skill];
 }

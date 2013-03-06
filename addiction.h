@@ -8,7 +8,7 @@
 
 #define MIN_ADDICTION_LEVEL 3 // Minimum intensity before effects are seen
 
-void addict_effect(game *g, addiction &add)
+void addict_effect(game* g, addiction& add)
 {
     int in = add.intensity;
 
