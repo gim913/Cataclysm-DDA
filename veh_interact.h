@@ -20,13 +20,13 @@ public:
 private:
     int cpart;
     int page_size;
-    WINDOW *w_grid;
-    WINDOW *w_mode;
-    WINDOW *w_msg;
-    WINDOW *w_disp;
-    WINDOW *w_parts;
-    WINDOW *w_stats;
-    WINDOW *w_list;
+    WINDOW* w_grid;
+    WINDOW* w_mode;
+    WINDOW* w_msg;
+    WINDOW* w_disp;
+    WINDOW* w_parts;
+    WINDOW* w_stats;
+    WINDOW* w_list;
 
     int winw1;
     int winw2;
@@ -41,17 +41,17 @@ private:
     int winy1;
     int winy2;
 
-    vehicle *veh;
-    game *g;
+    vehicle* veh;
+    game* g;
     int ex, ey;
     bool has_wrench;
     bool has_welder;
     bool has_hacksaw;
     inventory crafting_inv;
 
-    int part_at (int dx, int dy);
-    void move_cursor (int dx, int dy);
-    int cant_do (char mode);
+    int part_at(int dx, int dy);
+    void move_cursor(int dx, int dy);
+    int cant_do(char mode);
 
     void do_install(int reason);
     void do_repair(int reason);
@@ -59,10 +59,10 @@ private:
     void do_remove(int reason);
     void do_rename(int reason);
 
-    void display_veh ();
-    void display_stats ();
-    void display_mode (char mode);
-    void display_list (int pos);
+    void display_veh();
+    void display_stats();
+    void display_mode(char mode);
+    void display_list(int pos);
 
     std::vector<int> can_mount;
     std::vector<bool> has_mats;
@@ -72,10 +72,10 @@ private:
     bool obstruct;
     bool has_fuel;
 public:
-    veh_interact ();
-    void exec (game *gm, vehicle *v, int x, int y);
+    veh_interact();
+    void exec(game* gm, vehicle* v, int x, int y);
 };
 
-void complete_vehicle (game *g);
+void complete_vehicle(game* g);
 
 #endif

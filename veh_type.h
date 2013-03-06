@@ -12,7 +12,7 @@ enum vpart_id
 {
     vp_null = 0,
 
-// external parts
+    // external parts
     vp_seat,
     vp_bed,
     vp_frame_h,
@@ -64,7 +64,7 @@ enum vpart_id
     vp_cargo_trunk, // over
     vp_cargo_box,   // over
 
-// pure internal parts
+    // pure internal parts
     vp_controls,
     vp_muffler,
     vp_seatbelt,
@@ -73,8 +73,8 @@ enum vpart_id
     vp_flamethrower,
     vp_plasmagun,
 
-// plating -- special case. mounted as internal, work as first line
-// of defence and gives color to external part
+    // plating -- special case. mounted as internal, work as first line
+    // of defence and gives color to external part
     vp_steel_plate,
     vp_superalloy_plate,
     vp_spiked_plate,
@@ -99,7 +99,7 @@ enum vpart_flags
     vpf_sharp,              // cutting damage instead of bashing
     vpf_unmount_on_damage,  // when damaged, part is unmounted, rather than broken
 
-// functional flags (only one of each can be mounted per tile)
+    // functional flags (only one of each can be mounted per tile)
     vpf_over,               // can be mounted over other part
     vpf_roof,               // is a roof (cover)
     vpf_wheel,              // this part touches ground (trigger traps)
@@ -124,7 +124,7 @@ enum vpart_flags
 
 struct vpart_info
 {
-    const char *name;       // part name
+    const char* name;       // part name
     char sym;               // symbol of part as if it's looking north
     nc_color color;         // color
     char sym_broken;        // symbol of broken part as if it's looking north
@@ -153,135 +153,256 @@ struct vpart_info
 // y, u, n, b to NW, NE, SE, SW lines correspondingly
 // h, j, c to horizontal, vertical, cross correspondingly
 const vpart_info vpart_list[num_vparts] =
-{   // name        sym   color    sym_b   color_b  dmg  dur  par1 par2  item
-    { "null part",  '?', c_red,     '?', c_red,     100, 100, 0, 0, itm_null, 0,
-        0 },
-    { "seat",       '#', c_red,     '*', c_red,     60,  300, 0, 0, itm_seat, 1,
-        mfb(vpf_over) | mfb(vpf_seat) | mfb(vpf_cargo) | mfb(vpf_no_reinforce) },
-    { "bed",        '#', c_magenta, '*', c_magenta, 60,  300, 0, 0, itm_seat, 1,
-        mfb(vpf_over) | mfb(vpf_bed) | mfb(vpf_cargo) | mfb(vpf_no_reinforce) },
-    { "frame",      'h', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) },
-    { "frame",      'j', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) },
-    { "frame",      'c', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) },
-    { "frame",      'y', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) },
-    { "frame",      'u', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) },
-    { "frame",      'n', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) },
-    { "frame",      'b', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) },
-    { "frame",      '=', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) },
-    { "frame",      'H', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) },
-    { "frame",      '^', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) },
-    { "handle",     '^', c_ltcyan,  '#', c_ltcyan,  100, 300, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) },
-    { "board",      'h', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle) },
-    { "board",      'j', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle) },
-    { "board",      'y', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle) },
-    { "board",      'u', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle) },
-    { "board",      'n', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle) },
-    { "board",      'b', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle) },
-    { "roof",       '#', c_ltgray,  '#', c_dkgray,  100, 1000, 0, 0, itm_steel_plate, 1,
-        mfb(vpf_internal) | mfb(vpf_roof) },
-    { "door",       '+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, itm_frame, 2,
-        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_openable) },
-    { "opaque door",'+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, itm_frame, 2,
-        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_opaque) | mfb(vpf_openable) },
-    { "internal door", '+', c_cyan, '&', c_cyan,    75,  75, 0, 0, itm_frame, 2,
-        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_opaque) | mfb(vpf_openable) | mfb(vpf_roof) | mfb(vpf_no_reinforce) },
-    { "windshield", '"', c_ltcyan,  '0', c_ltgray,  70,  50, 0, 0, itm_glass_sheet, 1,
-        mfb(vpf_over) | mfb(vpf_obstacle) | mfb(vpf_no_reinforce) },
-    { "blade",      '-', c_white,   'x', c_white,   250, 100, 0, 0, itm_carblade, 2,
-        mfb(vpf_external) | mfb(vpf_unmount_on_damage) | mfb(vpf_sharp) | mfb(vpf_no_reinforce) },
-    { "blade",      '|', c_white,   'x', c_white,   350, 100, 0, 0, itm_carblade, 2,
-        mfb(vpf_external) | mfb(vpf_unmount_on_damage) | mfb(vpf_sharp) | mfb(vpf_no_reinforce) },
-    { "spike",      '.', c_white,   'x', c_white,   300, 100, 0, 0, itm_carspike, 2,
-        mfb(vpf_external) | mfb(vpf_unmount_on_damage) | mfb(vpf_sharp) | mfb(vpf_no_reinforce) },
+{
+    // name        sym   color    sym_b   color_b  dmg  dur  par1 par2  item
+    {
+        "null part",  '?', c_red,     '?', c_red,     100, 100, 0, 0, itm_null, 0,
+        0
+    },
+    {
+        "seat",       '#', c_red,     '*', c_red,     60,  300, 0, 0, itm_seat, 1,
+        mfb(vpf_over) | mfb(vpf_seat) | mfb(vpf_cargo) | mfb(vpf_no_reinforce)
+    },
+    {
+        "bed",        '#', c_magenta, '*', c_magenta, 60,  300, 0, 0, itm_seat, 1,
+        mfb(vpf_over) | mfb(vpf_bed) | mfb(vpf_cargo) | mfb(vpf_no_reinforce)
+    },
+    {
+        "frame",      'h', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
+    },
+    {
+        "frame",      'j', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
+    },
+    {
+        "frame",      'c', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
+    },
+    {
+        "frame",      'y', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
+    },
+    {
+        "frame",      'u', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
+    },
+    {
+        "frame",      'n', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
+    },
+    {
+        "frame",      'b', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
+    },
+    {
+        "frame",      '=', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
+    },
+    {
+        "frame",      'H', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
+    },
+    {
+        "frame",      '^', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
+    },
+    {
+        "handle",     '^', c_ltcyan,  '#', c_ltcyan,  100, 300, 0, 0, itm_frame, 1,
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
+    },
+    {
+        "board",      'h', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
+    },
+    {
+        "board",      'j', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
+    },
+    {
+        "board",      'y', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
+    },
+    {
+        "board",      'u', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
+    },
+    {
+        "board",      'n', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
+    },
+    {
+        "board",      'b', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
+    },
+    {
+        "roof",       '#', c_ltgray,  '#', c_dkgray,  100, 1000, 0, 0, itm_steel_plate, 1,
+        mfb(vpf_internal) | mfb(vpf_roof)
+    },
+    {
+        "door",       '+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, itm_frame, 2,
+        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_openable)
+    },
+    {
+        "opaque door", '+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, itm_frame, 2,
+        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_opaque) | mfb(vpf_openable)
+    },
+    {
+        "internal door", '+', c_cyan, '&', c_cyan,    75,  75, 0, 0, itm_frame, 2,
+        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_opaque) | mfb(vpf_openable) | mfb(vpf_roof) | mfb(vpf_no_reinforce)
+    },
+    {
+        "windshield", '"', c_ltcyan,  '0', c_ltgray,  70,  50, 0, 0, itm_glass_sheet, 1,
+        mfb(vpf_over) | mfb(vpf_obstacle) | mfb(vpf_no_reinforce)
+    },
+    {
+        "blade",      '-', c_white,   'x', c_white,   250, 100, 0, 0, itm_carblade, 2,
+        mfb(vpf_external) | mfb(vpf_unmount_on_damage) | mfb(vpf_sharp) | mfb(vpf_no_reinforce)
+    },
+    {
+        "blade",      '|', c_white,   'x', c_white,   350, 100, 0, 0, itm_carblade, 2,
+        mfb(vpf_external) | mfb(vpf_unmount_on_damage) | mfb(vpf_sharp) | mfb(vpf_no_reinforce)
+    },
+    {
+        "spike",      '.', c_white,   'x', c_white,   300, 100, 0, 0, itm_carspike, 2,
+        mfb(vpf_external) | mfb(vpf_unmount_on_damage) | mfb(vpf_sharp) | mfb(vpf_no_reinforce)
+    },
 
-//                                                           wheel_width(inches)
-    { "wheel",      '0',    c_dkgray,  'x', c_ltgray,  50,  200, 9, 0, itm_wheel, 4,
-        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
-    { "wide wheel", 'O',     c_dkgray,   'x', c_ltgray,  50,  400, 14, 0, itm_wheel_wide, 5,
-        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
-    { "bicycle wheel",'|',  c_dkgray, 'x', c_ltgray,  50,  40, 2, 0, itm_wheel_bicycle, 1,
-        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
-    { "motorbike wheel",'o',c_dkgray, 'x', c_ltgray,  50,  90, 4, 0, itm_wheel_motorbike, 2,
-        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
-    { "small wheel",    'o',c_dkgray, 'x', c_ltgray,  50,  70, 6, 0, itm_wheel_small, 2,
-        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
-//
-    { "1-cylinder engine",    '*', c_ltred,  '#', c_red,     80, 150, 40, AT_GAS, itm_1cyl_combustion, 2,
-        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size) },
-    { "V-twin engine",       '*', c_ltred,  '#', c_red,     80, 200, 120, AT_GAS, itm_v2_combustion, 2,
-        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size) },
-    { "Inline-4 engine",     '*', c_ltred,  '#', c_red,     80, 300, 300, AT_GAS, itm_i4_combustion, 3,
-        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size) },
-    { "V6 engine",       '*', c_ltred,  '#', c_red,     80, 400, 800, AT_GAS, itm_v6_combustion, 4,
-        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size) },
-    { "V8 engine",       '*', c_ltred,  '#', c_red,     80, 400, 800, AT_GAS, itm_v8_combustion, 4,
-        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size) },
-    { "electric motor",             '*', c_yellow,  '#', c_red,    80, 200, 70, AT_BATT, itm_motor, 3,
-        mfb(vpf_internal) | mfb(vpf_engine) },
-    { "large electric motor",       '*', c_yellow,  '#', c_red,    80, 400, 350, AT_BATT, itm_motor_large, 4,
-        mfb(vpf_internal) | mfb(vpf_engine) },
-    { "plasma engine",              '*', c_ltblue,  '#', c_red,    80, 250, 400, AT_PLASMA, itm_plasma_engine, 6,
-        mfb(vpf_internal) | mfb(vpf_engine) },
-    { "Foot pedals",                '*', c_ltgray,  '#', c_red,     50, 50, 70, AT_MUSCLE, itm_foot_crank, 1,
-        mfb(vpf_internal) | mfb(vpf_engine) },
-//                                                                         capacity type
-    { "gasoline tank",              'O', c_ltred,  '#', c_red,     80, 150, 3000, AT_GAS, itm_metal_tank, 1,
-        mfb(vpf_internal) | mfb(vpf_fuel_tank) },
-    { "storage battery",            'O', c_yellow,  '#', c_red,    80, 300, 1000, AT_BATT, itm_storage_battery, 2,
-        mfb(vpf_internal) | mfb(vpf_fuel_tank) },
-    { "minireactor",                'O', c_ltgreen,  '#', c_red,    80, 700, 10000, AT_PLUT, itm_minireactor, 7,
-        mfb(vpf_internal) | mfb(vpf_fuel_tank) },
-    { "hydrogene tank",             'O', c_ltblue,  '#', c_red,     80, 150, 3000, AT_PLASMA, itm_metal_tank, 1,
-        mfb(vpf_internal) | mfb(vpf_fuel_tank) },
-    { "trunk",                      'H', c_brown,  '#', c_brown,    80, 300, 400, 0, itm_frame, 1,
-        mfb(vpf_over) | mfb(vpf_cargo) },
-    { "box",                        'o', c_brown,  '#', c_brown,    60, 100, 400, 0, itm_frame, 1,
-        mfb(vpf_over) | mfb(vpf_cargo) },
+    //                                                           wheel_width(inches)
+    {
+        "wheel",      '0',    c_dkgray,  'x', c_ltgray,  50,  200, 9, 0, itm_wheel, 4,
+        mfb(vpf_external) | mfb(vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size)
+    },
+    {
+        "wide wheel", 'O',     c_dkgray,   'x', c_ltgray,  50,  400, 14, 0, itm_wheel_wide, 5,
+        mfb(vpf_external) | mfb(vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size)
+    },
+    {
+        "bicycle wheel", '|',  c_dkgray, 'x', c_ltgray,  50,  40, 2, 0, itm_wheel_bicycle, 1,
+        mfb(vpf_external) | mfb(vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size)
+    },
+    {
+        "motorbike wheel", 'o', c_dkgray, 'x', c_ltgray,  50,  90, 4, 0, itm_wheel_motorbike, 2,
+        mfb(vpf_external) | mfb(vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size)
+    },
+    {
+        "small wheel",    'o', c_dkgray, 'x', c_ltgray,  50,  70, 6, 0, itm_wheel_small, 2,
+        mfb(vpf_external) | mfb(vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size)
+    },
+    //
+    {
+        "1-cylinder engine",    '*', c_ltred,  '#', c_red,     80, 150, 40, AT_GAS, itm_1cyl_combustion, 2,
+        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size)
+    },
+    {
+        "V-twin engine",       '*', c_ltred,  '#', c_red,     80, 200, 120, AT_GAS, itm_v2_combustion, 2,
+        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size)
+    },
+    {
+        "Inline-4 engine",     '*', c_ltred,  '#', c_red,     80, 300, 300, AT_GAS, itm_i4_combustion, 3,
+        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size)
+    },
+    {
+        "V6 engine",       '*', c_ltred,  '#', c_red,     80, 400, 800, AT_GAS, itm_v6_combustion, 4,
+        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size)
+    },
+    {
+        "V8 engine",       '*', c_ltred,  '#', c_red,     80, 400, 800, AT_GAS, itm_v8_combustion, 4,
+        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size)
+    },
+    {
+        "electric motor",             '*', c_yellow,  '#', c_red,    80, 200, 70, AT_BATT, itm_motor, 3,
+        mfb(vpf_internal) | mfb(vpf_engine)
+    },
+    {
+        "large electric motor",       '*', c_yellow,  '#', c_red,    80, 400, 350, AT_BATT, itm_motor_large, 4,
+        mfb(vpf_internal) | mfb(vpf_engine)
+    },
+    {
+        "plasma engine",              '*', c_ltblue,  '#', c_red,    80, 250, 400, AT_PLASMA, itm_plasma_engine, 6,
+        mfb(vpf_internal) | mfb(vpf_engine)
+    },
+    {
+        "Foot pedals",                '*', c_ltgray,  '#', c_red,     50, 50, 70, AT_MUSCLE, itm_foot_crank, 1,
+        mfb(vpf_internal) | mfb(vpf_engine)
+    },
+    //                                                                         capacity type
+    {
+        "gasoline tank",              'O', c_ltred,  '#', c_red,     80, 150, 3000, AT_GAS, itm_metal_tank, 1,
+        mfb(vpf_internal) | mfb(vpf_fuel_tank)
+    },
+    {
+        "storage battery",            'O', c_yellow,  '#', c_red,    80, 300, 1000, AT_BATT, itm_storage_battery, 2,
+        mfb(vpf_internal) | mfb(vpf_fuel_tank)
+    },
+    {
+        "minireactor",                'O', c_ltgreen,  '#', c_red,    80, 700, 10000, AT_PLUT, itm_minireactor, 7,
+        mfb(vpf_internal) | mfb(vpf_fuel_tank)
+    },
+    {
+        "hydrogene tank",             'O', c_ltblue,  '#', c_red,     80, 150, 3000, AT_PLASMA, itm_metal_tank, 1,
+        mfb(vpf_internal) | mfb(vpf_fuel_tank)
+    },
+    {
+        "trunk",                      'H', c_brown,  '#', c_brown,    80, 300, 400, 0, itm_frame, 1,
+        mfb(vpf_over) | mfb(vpf_cargo)
+    },
+    {
+        "box",                        'o', c_brown,  '#', c_brown,    60, 100, 400, 0, itm_frame, 1,
+        mfb(vpf_over) | mfb(vpf_cargo)
+    },
 
-    { "controls",   '$', c_ltgray,  '$', c_red,     10, 250, 0, 0, itm_vehicle_controls, 3,
-        mfb(vpf_internal)  | mfb(vpf_controls) },
-//                                                          bonus
-    { "muffler",    '/', c_ltgray,  '/', c_ltgray,  10, 150, 40, 0, itm_muffler, 2,
-        mfb(vpf_internal)  | mfb(vpf_muffler) },
-    { "seatbelt",   ',', c_ltgray,  ',', c_red,     10, 200, 25, 0, itm_rope_6, 1,
-        mfb(vpf_internal)  | mfb(vpf_seatbelt) },
-    { "solar panel", '#', c_yellow,  'x', c_yellow, 10, 20, 30, 0, itm_solar_panel, 6,
-        mfb(vpf_over)  | mfb(vpf_solar_panel) },
+    {
+        "controls",   '$', c_ltgray,  '$', c_red,     10, 250, 0, 0, itm_vehicle_controls, 3,
+        mfb(vpf_internal)  | mfb(vpf_controls)
+    },
+    //                                                          bonus
+    {
+        "muffler",    '/', c_ltgray,  '/', c_ltgray,  10, 150, 40, 0, itm_muffler, 2,
+        mfb(vpf_internal)  | mfb(vpf_muffler)
+    },
+    {
+        "seatbelt",   ',', c_ltgray,  ',', c_red,     10, 200, 25, 0, itm_rope_6, 1,
+        mfb(vpf_internal)  | mfb(vpf_seatbelt)
+    },
+    {
+        "solar panel", '#', c_yellow,  'x', c_yellow, 10, 20, 30, 0, itm_solar_panel, 6,
+        mfb(vpf_over)  | mfb(vpf_solar_panel)
+    },
 
-    { "mounted M249",         't', c_cyan,    '#', c_cyan,    80, 400, 0, AT_223, itm_m249, 6,
-        mfb(vpf_over)  | mfb(vpf_turret) | mfb(vpf_cargo) },
-    { "mounted flamethrower", 't', c_dkgray,  '#', c_dkgray,  80, 400, 0, AT_GAS, itm_flamethrower, 7,
-        mfb(vpf_over)  | mfb(vpf_turret) },
-    { "mounted plasma gun", 't', c_ltblue,    '#', c_ltblue,    80, 400, 0, AT_PLASMA, itm_plasma_rifle, 7,
-        mfb(vpf_over)  | mfb(vpf_turret) },
+    {
+        "mounted M249",         't', c_cyan,    '#', c_cyan,    80, 400, 0, AT_223, itm_m249, 6,
+        mfb(vpf_over)  | mfb(vpf_turret) | mfb(vpf_cargo)
+    },
+    {
+        "mounted flamethrower", 't', c_dkgray,  '#', c_dkgray,  80, 400, 0, AT_GAS, itm_flamethrower, 7,
+        mfb(vpf_over)  | mfb(vpf_turret)
+    },
+    {
+        "mounted plasma gun", 't', c_ltblue,    '#', c_ltblue,    80, 400, 0, AT_PLASMA, itm_plasma_rifle, 7,
+        mfb(vpf_over)  | mfb(vpf_turret)
+    },
 
-    { "steel plating",     ')', c_ltcyan, ')', c_ltcyan, 100, 1000, 0, 0, itm_steel_plate, 3,
-        mfb(vpf_internal) | mfb(vpf_armor) },
-    { "superalloy plating",')', c_dkgray, ')', c_dkgray, 100, 900, 0, 0, itm_alloy_plate, 4,
-        mfb(vpf_internal) | mfb(vpf_armor) },
-    { "spiked plating",    ')', c_red,    ')', c_red,    150, 900, 0, 0, itm_spiked_plate, 3,
-        mfb(vpf_internal) | mfb(vpf_armor) | mfb(vpf_sharp) },
-    { "hard plating",      ')', c_cyan,   ')', c_cyan,   100, 2300, 0, 0, itm_hard_plate, 4,
-        mfb(vpf_internal) | mfb(vpf_armor) },
-    { "head light",        '*', c_white,  '*', c_white,  10, 20, 120, 0, itm_flashlight, 1,
-       mfb(vpf_internal) | mfb(vpf_light) }
+    {
+        "steel plating",     ')', c_ltcyan, ')', c_ltcyan, 100, 1000, 0, 0, itm_steel_plate, 3,
+        mfb(vpf_internal) | mfb(vpf_armor)
+    },
+    {
+        "superalloy plating", ')', c_dkgray, ')', c_dkgray, 100, 900, 0, 0, itm_alloy_plate, 4,
+        mfb(vpf_internal) | mfb(vpf_armor)
+    },
+    {
+        "spiked plating",    ')', c_red,    ')', c_red,    150, 900, 0, 0, itm_spiked_plate, 3,
+        mfb(vpf_internal) | mfb(vpf_armor) | mfb(vpf_sharp)
+    },
+    {
+        "hard plating",      ')', c_cyan,   ')', c_cyan,   100, 2300, 0, 0, itm_hard_plate, 4,
+        mfb(vpf_internal) | mfb(vpf_armor)
+    },
+    {
+        "head light",        '*', c_white,  '*', c_white,  10, 20, 120, 0, itm_flashlight, 1,
+        mfb(vpf_internal) | mfb(vpf_light)
+    }
 };
 
 
@@ -290,7 +411,7 @@ enum vhtype_id
     veh_null = 0,
     veh_custom,
 
-// in-built vehicles
+    // in-built vehicles
     veh_bicycle,
     veh_motorcycle_chassis,
     veh_motorcycle,
