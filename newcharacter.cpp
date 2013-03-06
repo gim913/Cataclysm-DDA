@@ -52,9 +52,12 @@ bool player::create(game *g, character_type type, std::string tempname)
     weapon = item(g->itypes[0], 0);
     WINDOW* w = newwin(25, 80, 0, 0);
     int tab = 0, points = 38;
-    if (type != PLTYPE_CUSTOM) {
-        switch (type) {
-        case PLTYPE_RANDOM: {
+    if (type != PLTYPE_CUSTOM)
+    {
+        switch (type)
+        {
+        case PLTYPE_RANDOM:
+        {
             str_max = rng(6, 12);
             dex_max = rng(6, 12);
             int_max = rng(6, 12);
@@ -70,41 +73,53 @@ bool player::create(game *g, character_type type, std::string tempname)
                 points -= (per_max - HIGH_STAT);
 
             int num_gtraits = 0, num_btraits = 0, rn, tries;
-            while (points < 0 || rng(-3, 20) > points) {
-                if (num_btraits < MAX_TRAIT_POINTS && one_in(3)) {
+            while (points < 0 || rng(-3, 20) > points)
+            {
+                if (num_btraits < MAX_TRAIT_POINTS && one_in(3))
+                {
                     tries = 0;
-                    do {
+                    do
+                    {
                         rn = random_bad_trait();
                         tries++;
-                    } while ((has_trait(rn) ||
-                              num_btraits - traits[rn].points > MAX_TRAIT_POINTS) && tries < 5);
-                    if (tries < 5) {
+                    }
+                    while ((has_trait(rn) ||
+                            num_btraits - traits[rn].points > MAX_TRAIT_POINTS) && tries < 5);
+                    if (tries < 5)
+                    {
                         toggle_trait(rn);
                         points -= traits[rn].points;
                         num_btraits -= traits[rn].points;
                     }
-                } else {
-                    switch (rng(1, 4)) {
+                }
+                else
+                {
+                    switch (rng(1, 4))
+                    {
                     case 1:
-                        if (str_max > 5) {
+                        if (str_max > 5)
+                        {
                             str_max--;
                             points++;
                         }
                         break;
                     case 2:
-                        if (dex_max > 5) {
+                        if (dex_max > 5)
+                        {
                             dex_max--;
                             points++;
                         }
                         break;
                     case 3:
-                        if (int_max > 5) {
+                        if (int_max > 5)
+                        {
                             int_max--;
                             points++;
                         }
                         break;
                     case 4:
-                        if (per_max > 5) {
+                        if (per_max > 5)
+                        {
                             per_max--;
                             points++;
                         }
@@ -112,42 +127,50 @@ bool player::create(game *g, character_type type, std::string tempname)
                     }
                 }
             }
-            while (points > 0) {
-                switch (rng((num_gtraits < MAX_TRAIT_POINTS ? 1 : 5), 9)) {
+            while (points > 0)
+            {
+                switch (rng((num_gtraits < MAX_TRAIT_POINTS ? 1 : 5), 9))
+                {
                 case 1:
                 case 2:
                 case 3:
                 case 4:
                     rn = random_good_trait();
                     if (!has_trait(rn) && points >= traits[rn].points &&
-                            num_gtraits + traits[rn].points <= MAX_TRAIT_POINTS) {
+                            num_gtraits + traits[rn].points <= MAX_TRAIT_POINTS)
+                    {
                         toggle_trait(rn);
                         points -= traits[rn].points;
                         num_gtraits += traits[rn].points;
                     }
                     break;
                 case 5:
-                    switch (rng(1, 4)) {
+                    switch (rng(1, 4))
+                    {
                     case 1:
-                        if (str_max < HIGH_STAT) {
+                        if (str_max < HIGH_STAT)
+                        {
                             str_max++;
                             points--;
                         }
                         break;
                     case 2:
-                        if (dex_max < HIGH_STAT) {
+                        if (dex_max < HIGH_STAT)
+                        {
                             dex_max++;
                             points--;
                         }
                         break;
                     case 3:
-                        if (int_max < HIGH_STAT) {
+                        if (int_max < HIGH_STAT)
+                        {
                             int_max++;
                             points--;
                         }
                         break;
                     case 4:
-                        if (per_max < HIGH_STAT) {
+                        if (per_max < HIGH_STAT)
+                        {
                             per_max++;
                             points--;
                         }
@@ -163,7 +186,8 @@ bool player::create(game *g, character_type type, std::string tempname)
                     Skill *aSkill = Skill::skill(rn);
                     int level = skillLevel(aSkill).level();
 
-                    if (level < points) {
+                    if (level < points)
+                    {
                         points -= level + 1;
                         skillLevel(aSkill).level(level + 2);
                     }
@@ -172,12 +196,14 @@ bool player::create(game *g, character_type type, std::string tempname)
             }
         }
         break;
-        case PLTYPE_TEMPLATE: {
+        case PLTYPE_TEMPLATE:
+        {
             std::ifstream fin;
             std::stringstream filename;
             filename << "data/" << tempname << ".template";
             fin.open(filename.str().c_str());
-            if (!fin.is_open()) {
+            if (!fin.is_open())
+            {
                 debugmsg("Couldn't open %s!", filename.str().c_str());
                 return false;
             }
@@ -189,14 +215,17 @@ bool player::create(game *g, character_type type, std::string tempname)
         break;
         }
         tab = 3;
-    } else
+    }
+    else
         points = OPTIONS[OPT_INITIAL_POINTS];
 
-    do {
+    do
+    {
         werase(w);
         draw_tabs(w);
         wrefresh(w);
-        switch (tab) {
+        switch (tab)
+        {
         case 0:
             tab += set_stats      (w, this, points);
             break;
@@ -210,30 +239,37 @@ bool player::create(game *g, character_type type, std::string tempname)
             tab += set_description(w, this, points);
             break;
         }
-    } while (tab >= 0 && tab < 4);
+    }
+    while (tab >= 0 && tab < 4);
     delwin(w);
 
     if (tab < 0)
         return false;
 
 // Character is finalized.  Now just set up HP, &c
-    for (int i = 0; i < num_hp_parts; i++) {
+    for (int i = 0; i < num_hp_parts; i++)
+    {
         hp_max[i] = calc_HP(str_max, has_trait(PF_TOUGH));
         hp_cur[i] = hp_max[i];
     }
-    if (has_trait(PF_GLASSJAW)) {
+    if (has_trait(PF_GLASSJAW))
+    {
         hp_max[hp_head] = int(hp_max[hp_head] * .85);
         hp_cur[hp_head] = hp_max[hp_head];
     }
     if (has_trait(PF_SMELLY))
         scent = 800;
-    if (has_trait(PF_ANDROID)) {
+    if (has_trait(PF_ANDROID))
+    {
         add_bionic(bionic_id(rng(bio_memory, max_bio_start - 1)));// Other
-        if (bionics[my_bionics[0].id].power_cost > 0) {
+        if (bionics[my_bionics[0].id].power_cost > 0)
+        {
             add_bionic(bionic_id(rng(1, bio_ethanol)));	// Power Source
             max_power_level = 10;
             power_level = 10;
-        } else {
+        }
+        else
+        {
             bionic_id tmpbio;
             do
                 tmpbio = bionic_id(rng(bio_ethanol + 1, bio_armor_legs));
@@ -254,9 +290,11 @@ bool player::create(game *g, character_type type, std::string tempname)
         End of cheatery */
     }
 
-    if (has_trait(PF_MARTIAL_ARTS)) {
+    if (has_trait(PF_MARTIAL_ARTS))
+    {
         itype_id ma_type;
-        do {
+        do
+        {
             int choice = menu("Pick your style:",
                               "Karate", "Judo", "Aikido", "Tai Chi", "Taekwando", NULL);
             if (choice == 1)
@@ -271,7 +309,8 @@ bool player::create(game *g, character_type type, std::string tempname)
                 ma_type = itm_style_taekwando;
             item tmpitem = item(g->itypes[ma_type], 0);
             full_screen_popup(tmpitem.info(true).c_str());
-        } while (!query_yn("Use this style?"));
+        }
+        while (!query_yn("Use this style?"));
         styles.push_back(ma_type);
     }
     ret_null = item(g->itypes[0], 0);
@@ -287,12 +326,14 @@ bool player::create(game *g, character_type type, std::string tempname)
     tmp = item(g->itypes[itm_sneakers_fit], 0, 'c');
     worn.push_back(tmp);
 // The near-sighted get to start with glasses.
-    if (has_trait(PF_MYOPIC)) {
+    if (has_trait(PF_MYOPIC))
+    {
         tmp = item(g->itypes[itm_glasses_eye], 0, 'd');
         worn.push_back(tmp);
     }
 // Likewise, the asthmatic start with their medication.
-    if (has_trait(PF_ASTHMA)) {
+    if (has_trait(PF_ASTHMA))
+    {
         tmp = item(g->itypes[itm_inhaler], 0, 'a' + worn.size());
         inv.push_back(tmp);
     }
@@ -304,10 +345,12 @@ bool player::create(game *g, character_type type, std::string tempname)
 
 void draw_tabs(WINDOW* w)
 {
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 16; i++)
+    {
         if (i < 9)
             mvwputch(w, 0, i +  5, c_ltgray, LINE_OXOX);
-        if (i < 10) {
+        if (i < 10)
+        {
             mvwputch(w, 0, i + 22, c_ltgray, LINE_OXOX);
             mvwputch(w, 0, i + 40, c_ltgray, LINE_OXOX);
         }
@@ -341,7 +384,8 @@ int set_stats(WINDOW* w, player *u, int &points)
     unsigned char sel = 1;
     char ch;
 // Draw horizontal lines, with a gap for the active tab
-    for (int i = 0; i < 80; i++) {
+    for (int i = 0; i < 80; i++)
+    {
         if (i < 4 || i > 14)
             mvwputch(w,  2, i, c_ltgray, LINE_OXOX);
         mvwputch(w,  4, i, c_ltgray, LINE_OXOX);
@@ -371,9 +415,11 @@ int set_stats(WINDOW* w, player *u, int &points)
    > Takes you to the next tab.\n\
    < Returns you to the main menu.");
 
-    do {
+    do
+    {
         mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
-        switch (sel) {
+        switch (sel)
+        {
         case 1:
             if (u->str_max >= HIGH_STAT)
                 mvwprintz(w, 3, 33, c_ltred, "Increasing Str further costs 2 points.");
@@ -467,49 +513,65 @@ int set_stats(WINDOW* w, player *u, int &points)
             sel++;
         if (ch == 'k' && sel > 1)
             sel--;
-        if (ch == 'h') {
-            if (sel == 1 && u->str_max > 4) {
+        if (ch == 'h')
+        {
+            if (sel == 1 && u->str_max > 4)
+            {
                 if (u->str_max > HIGH_STAT)
                     points++;
                 u->str_max--;
                 points++;
-            } else if (sel == 2 && u->dex_max > 4) {
+            }
+            else if (sel == 2 && u->dex_max > 4)
+            {
                 if (u->dex_max > HIGH_STAT)
                     points++;
                 u->dex_max--;
                 points++;
-            } else if (sel == 3 && u->int_max > 4) {
+            }
+            else if (sel == 3 && u->int_max > 4)
+            {
                 if (u->int_max > HIGH_STAT)
                     points++;
                 u->int_max--;
                 points++;
-            } else if (sel == 4 && u->per_max > 4) {
+            }
+            else if (sel == 4 && u->per_max > 4)
+            {
                 if (u->per_max > HIGH_STAT)
                     points++;
                 u->per_max--;
                 points++;
             }
         }
-        if (ch == 'l' && points > 0) {
-            if (sel == 1 && u->str_max < 20 && (u->str_max < HIGH_STAT || points > 1)) {
+        if (ch == 'l' && points > 0)
+        {
+            if (sel == 1 && u->str_max < 20 && (u->str_max < HIGH_STAT || points > 1))
+            {
                 points--;
                 if (u->str_max >= HIGH_STAT)
                     points--;
                 u->str_max++;
-            } else if (sel == 2 && u->dex_max < 20 &&
-                       (u->dex_max < HIGH_STAT || points > 1)) {
+            }
+            else if (sel == 2 && u->dex_max < 20 &&
+                     (u->dex_max < HIGH_STAT || points > 1))
+            {
                 points--;
                 if (u->dex_max >= HIGH_STAT)
                     points--;
                 u->dex_max++;
-            } else if (sel == 3 && u->int_max < 20 &&
-                       (u->int_max < HIGH_STAT || points > 1)) {
+            }
+            else if (sel == 3 && u->int_max < 20 &&
+                     (u->int_max < HIGH_STAT || points > 1))
+            {
                 points--;
                 if (u->int_max >= HIGH_STAT)
                     points--;
                 u->int_max++;
-            } else if (sel == 4 && u->per_max < 20 &&
-                       (u->per_max < HIGH_STAT || points > 1)) {
+            }
+            else if (sel == 4 && u->per_max < 20 &&
+                     (u->per_max < HIGH_STAT || points > 1))
+            {
                 points--;
                 if (u->per_max >= HIGH_STAT)
                     points--;
@@ -520,23 +582,27 @@ int set_stats(WINDOW* w, player *u, int &points)
             return -1;
         if (ch == '>')
             return 1;
-    } while (true);
+    }
+    while (true);
 }
 
 int set_traits(WINDOW* w, player *u, int &points)
 {
 // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
     int num_good = 0, num_bad = 0;
-    for (int i = 0; i < PF_SPLIT; i++) {
+    for (int i = 0; i < PF_SPLIT; i++)
+    {
         if (u->has_trait(i))
             num_good += traits[i].points;
     }
-    for (int i = PF_SPLIT + 1; i < PF_MAX; i++) {
+    for (int i = PF_SPLIT + 1; i < PF_MAX; i++)
+    {
         if (u->has_trait(i))
             num_bad += abs(traits[i].points);
     }
 // Draw horizontal lines, with a gap for the active tab
-    for (int i = 0; i < 80; i++) {
+    for (int i = 0; i < 80; i++)
+    {
         if (i < 21 || i > 32)
             mvwputch(w,  2, i, c_ltgray, LINE_OXOX);
         mvwputch(w,  4, i, c_ltgray, LINE_OXOX);
@@ -555,7 +621,8 @@ int set_traits(WINDOW* w, player *u, int &points)
     mvwputch(w, 2,73, c_ltgray, LINE_XXOX);
     mvwprintz(w, 1,22, h_ltgray, "  TRAITS  ");
 
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 16; i++)
+    {
         mvwprintz(w, 5 + i, 40, c_dkgray, "\
                                    ");
         mvwprintz(w, 5 + i, 40, c_dkgray, traits[PF_SPLIT + 1 + i].name.c_str());
@@ -571,7 +638,8 @@ int set_traits(WINDOW* w, player *u, int &points)
     bool using_adv = true;	// True if we're selecting advantages, false if we're
     // selecting disadvantages
 
-    do {
+    do
+    {
         mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
         mvwprintz(w,  3,20, c_ltgreen, "%s%d/%d", (num_good < 10 ? " " : ""),
                   num_good, MAX_TRAIT_POINTS);
@@ -584,7 +652,8 @@ int set_traits(WINDOW* w, player *u, int &points)
                                                                              ");
         mvwprintz(w, 24, 0, c_ltgray, "\
                                                                              ");
-        if (using_adv) {
+        if (using_adv)
+        {
             col_on  = COL_TR_GOOD_ON;
             col_off = COL_TR_GOOD_OFF;
             hi_on   = hilite(col_on);
@@ -597,7 +666,9 @@ int set_traits(WINDOW* w, player *u, int &points)
             mvwprintz(w,  3, 40, COL_TR_GOOD, "%s costs %d points",
                       traits[cur_adv].name.c_str(), traits[cur_adv].points);
             mvwprintz(w, 22, 0, COL_TR_GOOD, "%s", traits[cur_adv].description.c_str());
-        } else {
+        }
+        else
+        {
             col_on  = COL_TR_BAD_ON;
             col_off = COL_TR_BAD_OFF;
             hi_on   = hilite(col_on);
@@ -611,48 +682,65 @@ int set_traits(WINDOW* w, player *u, int &points)
                       traits[cur_dis].name.c_str(), traits[cur_dis].points * -1);
             mvwprintz(w, 22, 0, COL_TR_BAD, "%s", traits[cur_dis].description.c_str());
         }
-        if (cur_trait <= traitmin + 7) {
-            for (int i = traitmin; i < traitmin + 16; i++) {
+        if (cur_trait <= traitmin + 7)
+        {
+            for (int i = traitmin; i < traitmin + 16; i++)
+            {
                 mvwprintz(w, 5 + i - traitmin, xoff, c_ltgray, "\
                                        ");	// Clear the line
-                if (i == cur_trait) {
+                if (i == cur_trait)
+                {
                     if (u->has_trait(i))
                         mvwprintz(w, 5 + i - traitmin, xoff, hi_on, traits[i].name.c_str());
                     else
                         mvwprintz(w, 5 + i - traitmin, xoff, hi_off, traits[i].name.c_str());
-                } else {
+                }
+                else
+                {
                     if (u->has_trait(i))
                         mvwprintz(w, 5 + i - traitmin, xoff, col_on, traits[i].name.c_str());
                     else
                         mvwprintz(w, 5 + i - traitmin, xoff, col_off, traits[i].name.c_str());
                 }
             }
-        } else if (cur_trait >= traitmax - 9) {
-            for (int i = traitmax - 16; i < traitmax; i++) {
+        }
+        else if (cur_trait >= traitmax - 9)
+        {
+            for (int i = traitmax - 16; i < traitmax; i++)
+            {
                 mvwprintz(w, 21 + i - traitmax, xoff, c_ltgray, "\
                                        ");	// Clear the line
-                if (i == cur_trait) {
+                if (i == cur_trait)
+                {
                     if (u->has_trait(i))
                         mvwprintz(w, 21 + i - traitmax, xoff, hi_on, traits[i].name.c_str());
                     else
                         mvwprintz(w, 21 + i - traitmax, xoff, hi_off, traits[i].name.c_str());
-                } else {
+                }
+                else
+                {
                     if (u->has_trait(i))
                         mvwprintz(w, 21 + i - traitmax, xoff, col_on, traits[i].name.c_str());
                     else
                         mvwprintz(w, 21 + i - traitmax, xoff, col_off, traits[i].name.c_str());
                 }
             }
-        } else {
-            for (int i = cur_trait - 7; i < cur_trait + 9; i++) {
+        }
+        else
+        {
+            for (int i = cur_trait - 7; i < cur_trait + 9; i++)
+            {
                 mvwprintz(w, 12 + i - cur_trait, xoff, c_ltgray, "\
                                       ");	// Clear the line
-                if (i == cur_trait) {
+                if (i == cur_trait)
+                {
                     if (u->has_trait(i))
                         mvwprintz(w, 12 + i - cur_trait, xoff, hi_on, traits[i].name.c_str());
                     else
                         mvwprintz(w, 12 + i - cur_trait, xoff, hi_off, traits[i].name.c_str());
-                } else {
+                }
+                else
+                {
                     if (u->has_trait(i))
                         mvwprintz(w, 12 + i - cur_trait, xoff, col_on, traits[i].name.c_str());
                     else
@@ -662,18 +750,24 @@ int set_traits(WINDOW* w, player *u, int &points)
         }
 
         wrefresh(w);
-        switch (input()) {
+        switch (input())
+        {
         case 'h':
         case 'l':
         case '\t':
-            if (!using_adv) {
-                for (int i = 0; i < 16; i++) {
+            if (!using_adv)
+            {
+                for (int i = 0; i < 16; i++)
+                {
                     mvwprintz(w, 5 + i, 40, c_dkgray, "\
                                        ");
                     mvwprintz(w, 5 + i, 40, c_dkgray, traits[PF_SPLIT + 1 + i].name.c_str());
                 }
-            } else {
-                for (int i = 0; i < 16; i++) {
+            }
+            else
+            {
+                for (int i = 0; i < 16; i++)
+                {
                     mvwprintz(w, 5 + i, 0, c_dkgray, "\
                                        ");
                     mvwprintz(w, 5 + i, 0, c_dkgray, traits[i + 1].name.c_str());
@@ -683,44 +777,55 @@ int set_traits(WINDOW* w, player *u, int &points)
             wrefresh(w);
             break;
         case 'k':
-            if (using_adv) {
+            if (using_adv)
+            {
                 if (cur_adv > 1)
                     cur_adv--;
-            } else {
+            }
+            else
+            {
                 if (cur_dis > PF_SPLIT + 1)
                     cur_dis--;
             }
             break;
         case 'j':
-            if (using_adv) {
+            if (using_adv)
+            {
                 if (cur_adv < PF_SPLIT - 1)
                     cur_adv++;
-            } else {
+            }
+            else
+            {
                 if (cur_dis < PF_MAX - 1)
                     cur_dis++;
             }
             break;
         case ' ':
         case '\n':
-            if (u->has_trait(cur_trait)) {
-                if (points + traits[cur_trait].points >= 0) {
+            if (u->has_trait(cur_trait))
+            {
+                if (points + traits[cur_trait].points >= 0)
+                {
                     u->toggle_trait(cur_trait);
                     points += traits[cur_trait].points;
                     if (using_adv)
                         num_good -= traits[cur_trait].points;
                     else
                         num_bad += traits[cur_trait].points;
-                } else
+                }
+                else
                     mvwprintz(w,  3, 2, c_red, "Points left: %d  ", points);
-            } else if (using_adv && num_good + traits[cur_trait].points >
-                       MAX_TRAIT_POINTS)
+            }
+            else if (using_adv && num_good + traits[cur_trait].points >
+                     MAX_TRAIT_POINTS)
                 popup("Sorry, but you can only take %d points of advantages.",
                       MAX_TRAIT_POINTS);
             else if (!using_adv && num_bad - traits[cur_trait].points >
                      MAX_TRAIT_POINTS)
                 popup("Sorry, but you can only take %d points of disadvantages.",
                       MAX_TRAIT_POINTS);
-            else if (points >= traits[cur_trait].points) {
+            else if (points >= traits[cur_trait].points)
+            {
                 u->toggle_trait(cur_trait);
                 points -= traits[cur_trait].points;
                 if (using_adv)
@@ -734,13 +839,15 @@ int set_traits(WINDOW* w, player *u, int &points)
         case '>':
             return 1;
         }
-    } while (true);
+    }
+    while (true);
 }
 
 int set_skills(WINDOW* w, player *u, int &points)
 {
 // Draw horizontal lines, with a gap for the active tab
-    for (int i = 0; i < 80; i++) {
+    for (int i = 0; i < 80; i++)
+    {
         if (i < 39 || i > 50)
             mvwputch(w,  2, i, c_ltgray, LINE_OXOX);
         mvwputch(w,  4, i, c_ltgray, LINE_OXOX);
@@ -762,7 +869,8 @@ int set_skills(WINDOW* w, player *u, int &points)
     int cur_sk = 1;
     Skill *currentSkill = Skill::skill(cur_sk);
 
-    do {
+    do
+    {
         mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
 // Clear the bottom of the screen.
         mvwprintz(w, 22, 0, c_ltgray, "\
@@ -779,16 +887,21 @@ int set_skills(WINDOW* w, player *u, int &points)
                       skill_name(cur_sk).c_str(), u->skillLevel(currentSkill).level() + 1);
         mvwprintz(w, 22, 0, COL_SKILL_USED, currentSkill->description().c_str());
 
-        if (cur_sk <= 7) {
-            for (int i = 1; i < 17; i++) {
+        if (cur_sk <= 7)
+        {
+            for (int i = 1; i < 17; i++)
+            {
                 Skill *thisSkill = Skill::skill(i);
 
                 mvwprintz(w, 4 + i, 0, c_ltgray, "\
                                              ");	// Clear the line
-                if (u->skillLevel(thisSkill) == 0) {
+                if (u->skillLevel(thisSkill) == 0)
+                {
                     mvwprintz(w, 4 + i, 0, (i == cur_sk ? h_ltgray : c_ltgray),
                               thisSkill->name().c_str());
-                } else {
+                }
+                else
+                {
                     mvwprintz(w, 4 + i, 0,
                               (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
                               "%s ", skill_name(i).c_str());
@@ -796,15 +909,21 @@ int set_skills(WINDOW* w, player *u, int &points)
                         wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
                 }
             }
-        } else if (cur_sk >= Skill::skills.size() - 9) {
-            for (int i = num_skill_types - 16; i < num_skill_types; i++) {
+        }
+        else if (cur_sk >= Skill::skills.size() - 9)
+        {
+            for (int i = num_skill_types - 16; i < num_skill_types; i++)
+            {
                 Skill *thisSkill = Skill::skill(i);
                 mvwprintz(w, 21 + i - num_skill_types, 0, c_ltgray, "\
                                              ");	// Clear the line
-                if (u->skillLevel(thisSkill) == 0) {
+                if (u->skillLevel(thisSkill) == 0)
+                {
                     mvwprintz(w, 21 + i - num_skill_types, 0,
                               (i == cur_sk ? h_ltgray : c_ltgray), thisSkill->name().c_str());
-                } else {
+                }
+                else
+                {
                     mvwprintz(w, 21 + i - num_skill_types, 0,
                               (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "%s ",
                               thisSkill->name().c_str());
@@ -812,15 +931,21 @@ int set_skills(WINDOW* w, player *u, int &points)
                         wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
                 }
             }
-        } else {
-            for (int i = cur_sk - 7; i < cur_sk + 9; i++) {
+        }
+        else
+        {
+            for (int i = cur_sk - 7; i < cur_sk + 9; i++)
+            {
                 Skill *thisSkill = Skill::skill(i);
                 mvwprintz(w, 12 + i - cur_sk, 0, c_ltgray, "\
                                              ");	// Clear the line
-                if (u->skillLevel(thisSkill) == 0) {
+                if (u->skillLevel(thisSkill) == 0)
+                {
                     mvwprintz(w, 12 + i - cur_sk, 0, (i == cur_sk ? h_ltgray : c_ltgray),
                               thisSkill->name().c_str());
-                } else {
+                }
+                else
+                {
                     mvwprintz(w, 12 + i - cur_sk, 0,
                               (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
                               "%s ", thisSkill->name().c_str());
@@ -831,7 +956,8 @@ int set_skills(WINDOW* w, player *u, int &points)
         }
 
         wrefresh(w);
-        switch (input()) {
+        switch (input())
+        {
         case 'j':
             if (cur_sk < Skill::skills.size() - 1)
                 cur_sk++;
@@ -843,13 +969,15 @@ int set_skills(WINDOW* w, player *u, int &points)
             currentSkill = Skill::skill(cur_sk);
             break;
         case 'h':
-            if (u->skillLevel(currentSkill).level()) {
+            if (u->skillLevel(currentSkill).level())
+            {
                 u->skillLevel(currentSkill).level(u->skillLevel(currentSkill).level() - 2);
                 points += u->skillLevel(currentSkill).level() + 1;
             }
             break;
         case 'l':
-            if (points >= u->skillLevel(currentSkill).level() + 1) {
+            if (points >= u->skillLevel(currentSkill).level() + 1)
+            {
                 points -= u->skillLevel(currentSkill).level() + 1;
                 u->skillLevel(currentSkill).level(u->skillLevel(currentSkill).level() + 2);
             }
@@ -859,13 +987,15 @@ int set_skills(WINDOW* w, player *u, int &points)
         case '>':
             return 1;
         }
-    } while (true);
+    }
+    while (true);
 }
 
 int set_description(WINDOW* w, player *u, int &points)
 {
 // Draw horizontal lines, with a gap for the active tab
-    for (int i = 0; i < 80; i++) {
+    for (int i = 0; i < 80; i++)
+    {
         if (i < 57 || i > 73)
             mvwputch(w,  2, i, c_ltgray, LINE_OXOX);
         mvwputch(w,  4, i, c_ltgray, LINE_OXOX);
@@ -902,16 +1032,21 @@ To save this character as a template, press !.");
     bool noname = false;
     long ch;
 
-    do {
-        if (u->male) {
+    do
+    {
+        if (u->male)
+        {
             mvwprintz(w, 8, 10, c_ltred, "Male");
             mvwprintz(w, 8, 15, c_ltgray, "Female");
-        } else {
+        }
+        else
+        {
             mvwprintz(w, 8, 10, c_ltgray, "Male");
             mvwprintz(w, 8, 15, c_ltred, "Female");
         }
 
-        if (!noname) {
+        if (!noname)
+        {
             mvwprintz(w, 6, 8, c_ltgray, u->name.c_str());
             if (line == 1)
                 wprintz(w, h_ltgray, "_");
@@ -923,67 +1058,91 @@ To save this character as a template, press !.");
 
         wrefresh(w);
         ch = input();
-        if (noname) {
+        if (noname)
+        {
             mvwprintz(w, 6, 8, c_ltgray, "______________________________");
             noname = false;
         }
 
 
-        if (ch == '>') {
+        if (ch == '>')
+        {
             if (points > 0)
                 mvwprintz(w,  3, 2, c_red, "\
 Points left: %d    You must use the rest of your points!", points);
-            else if (u->name.size() == 0) {
+            else if (u->name.size() == 0)
+            {
                 mvwprintz(w, 6, 8, h_ltgray, "______NO NAME ENTERED!!!!_____");
                 noname = true;
                 wrefresh(w);
-                if (query_yn("Are you SURE you're finished? Your name will be randomly generated.")) {
+                if (query_yn("Are you SURE you're finished? Your name will be randomly generated."))
+                {
                     u->pick_name();
                     return 1;
                 }
-            } else if (query_yn("Are you SURE you're finished?"))
+            }
+            else if (query_yn("Are you SURE you're finished?"))
                 return 1;
             else
                 refresh();
-        } else if (ch == '<') {
+        }
+        else if (ch == '<')
+        {
             return -1;
-        } else if (ch == '!') {
-            if (points > 0) {
+        }
+        else if (ch == '!')
+        {
+            if (points > 0)
+            {
                 popup("You cannot save a template with unused points!");
-            } else
+            }
+            else
                 save_template(u);
             mvwprintz(w,12, 2, c_ltgray,"To go back and review your character, press <");
             wrefresh(w);
-        } else if (ch == '?') {
+        }
+        else if (ch == '?')
+        {
             mvwprintz(w, 6, 8, c_ltgray, "______________________________");
             u->pick_name();
-        } else {
-            switch (line) {
+        }
+        else
+        {
+            switch (line)
+            {
             case 1:
-                if (ch == KEY_BACKSPACE || ch == 127) {
-                    if (u->name.size() > 0) {
+                if (ch == KEY_BACKSPACE || ch == 127)
+                {
+                    if (u->name.size() > 0)
+                    {
                         mvwprintz(w, 6, 8 + u->name.size(), c_ltgray, "_");
                         u->name.erase(u->name.end() - 1);
                     }
-                } else if (ch == '\t') {
+                }
+                else if (ch == '\t')
+                {
                     line = 2;
                     mvwprintz(w, 6, 8 + u->name.size(), c_ltgray, "_");
-                } else if (((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ||
-                            ch == ' ') && u->name.size() < 30) {
+                }
+                else if (((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ||
+                          ch == ' ') && u->name.size() < 30)
+                {
                     u->name.push_back(ch);
                 }
                 break;
             case 2:
                 if (ch == ' ')
                     u->male = !u->male;
-                else if (ch == 'k' || ch == '\t') {
+                else if (ch == 'k' || ch == '\t')
+                {
                     line = 1;
                     mvwprintz(w, 8, 8, c_ltgray, ":");
                 }
                 break;
             }
         }
-    } while (true);
+    }
+    while (true);
 }
 
 int player::random_good_trait()

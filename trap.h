@@ -6,7 +6,8 @@
 #include "itype.h"
 #include <string>
 
-enum trap_id {
+enum trap_id
+{
     tr_null,
     tr_bubblewrap,
     tr_cot,
@@ -46,7 +47,8 @@ enum trap_id {
 
 struct trap;
 
-struct trapfunc {
+struct trapfunc
+{
     void none		(game *g, int x, int y) { };
     void bubble		(game *g, int x, int y);
     void beartrap		(game *g, int x, int y);
@@ -76,7 +78,8 @@ struct trapfunc {
     void snake		(game *g, int x, int y);
 };
 
-struct trapfuncm {
+struct trapfuncm
+{
     void none	(game *g, monster *z, int x, int y) { };
     void bubble	(game *g, monster *z, int x, int y);
     void cot	(game *g, monster *z, int x, int y);
@@ -104,7 +107,8 @@ struct trapfuncm {
     void snake	(game *g, monster *z, int x, int y);
 };
 
-struct trap {
+struct trap
+{
     int id;
     char sym;
     nc_color color;
@@ -125,7 +129,8 @@ struct trap {
     trap(int pid, char psym, nc_color pcolor, std::string pname,
          int pvisibility, int pavoidance, int pdifficulty,
          void (trapfunc::*pact)(game *, int x, int y),
-         void (trapfuncm::*pactm)(game *, monster *, int x, int y), ...) {
+         void (trapfuncm::*pactm)(game *, monster *, int x, int y), ...)
+    {
         id = pid;
         sym = psym;
         color = pcolor;

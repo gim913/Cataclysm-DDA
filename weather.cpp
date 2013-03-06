@@ -18,9 +18,12 @@ void weather_effect::wet(game *g)
             !g->u.warmth(bp_torso) >= 35 && PLAYER_OUTSIDE && one_in(2))
         g->u.add_morale(MORALE_WET, -1, -30);
 // Put out fires and reduce scent
-    for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
-        for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
-            if (g->m.is_outside(x, y)) {
+    for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++)
+    {
+        for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++)
+        {
+            if (g->m.is_outside(x, y))
+            {
                 field *fd = &(g->m.field_at(x, y));
                 if (fd->type == fd_fire)
                     fd->age += 15;
@@ -37,9 +40,12 @@ void weather_effect::very_wet(game *g)
             PLAYER_OUTSIDE)
         g->u.add_morale(MORALE_WET, -1, -60);
 // Put out fires and reduce scent
-    for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
-        for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
-            if (g->m.is_outside(x, y)) {
+    for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++)
+    {
+        for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++)
+        {
+            if (g->m.is_outside(x, y))
+            {
                 field *fd = &(g->m.field_at(x, y));
                 if (fd->type == fd_fire)
                     fd->age += 45;
@@ -53,7 +59,8 @@ void weather_effect::very_wet(game *g)
 void weather_effect::thunder(game *g)
 {
     very_wet(g);
-    if (one_in(THUNDER_CHANCE)) {
+    if (one_in(THUNDER_CHANCE))
+    {
         if (g->levz >= 0)
             g->add_msg("You hear a distant rumble of thunder.");
         else if (!g->u.has_trait(PF_BADHEARING) && one_in(1 - 3 * g->levz))
@@ -90,36 +97,45 @@ void weather_effect::light_acid(game *g)
 
 void weather_effect::acid(game *g)
 {
-    if (PLAYER_OUTSIDE) {
+    if (PLAYER_OUTSIDE)
+    {
         g->add_msg("The acid rain burns!");
         if (one_in(6))
             g->u.hit(g, bp_head, 0, 0, 1);
-        if (one_in(10)) {
+        if (one_in(10))
+        {
             g->u.hit(g, bp_legs, 0, 0, 1);
             g->u.hit(g, bp_legs, 1, 0, 1);
         }
-        if (one_in(8)) {
+        if (one_in(8))
+        {
             g->u.hit(g, bp_feet, 0, 0, 1);
             g->u.hit(g, bp_feet, 1, 0, 1);
         }
         if (one_in(6))
             g->u.hit(g, bp_torso, 0, 0, 1);
-        if (one_in(8)) {
+        if (one_in(8))
+        {
             g->u.hit(g, bp_arms, 0, 0, 1);
             g->u.hit(g, bp_arms, 1, 0, 1);
         }
     }
-    if (g->levz >= 0) {
-        for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
-            for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
+    if (g->levz >= 0)
+    {
+        for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++)
+        {
+            for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++)
+            {
                 if (!g->m.has_flag(diggable, x, y) && !g->m.has_flag(noitem, x, y) &&
                         g->m.move_cost(x, y) > 0 && g->m.is_outside(x, y) && one_in(400))
                     g->m.add_field(g, x, y, fd_acid, 1);
             }
         }
     }
-    for (int i = 0; i < g->z.size(); i++) {
-        if (g->m.is_outside(g->z[i].posx, g->z[i].posy)) {
+    for (int i = 0; i < g->z.size(); i++)
+    {
+        if (g->m.is_outside(g->z[i].posx, g->z[i].posy))
+        {
             if (!g->z[i].has_flag(MF_ACIDPROOF))
                 g->z[i].hurt(1);
         }

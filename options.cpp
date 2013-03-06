@@ -16,36 +16,45 @@ void load_options()
 {
     std::ifstream fin;
     fin.open("data/options.txt");
-    if (!fin.is_open()) {
+    if (!fin.is_open())
+    {
         fin.close();
         create_default_options();
         fin.open("data/options.txt");
-        if (!fin.is_open()) {
+        if (!fin.is_open())
+        {
             debugmsg("Could neither read nor create ./data/options.txt");
             return;
         }
     }
 
-    while (!fin.eof()) {
+    while (!fin.eof())
+    {
         std::string id;
         fin >> id;
         if (id == "")
             getline(fin, id); // Empty line, chomp it
         else if (id[0] == '#') // # indicates a comment
             getline(fin, id);
-        else {
+        else
+        {
             option_key key = lookup_option_key(id);
-            if (key == OPT_NULL) {
+            if (key == OPT_NULL)
+            {
                 debugmsg("Bad option: %s", id.c_str());
                 getline(fin, id);
-            } else if (option_is_bool(key)) {
+            }
+            else if (option_is_bool(key))
+            {
                 std::string val;
                 fin >> val;
                 if (val == "T")
                     OPTIONS[key] = 1.;
                 else
                     OPTIONS[key] = 0.;
-            } else {
+            }
+            else
+            {
                 std::string check;
                 double val;
                 fin >> check;
@@ -109,7 +118,8 @@ option_key lookup_option_key(std::string id)
 
 std::string option_string(option_key key)
 {
-    switch (key) {
+    switch (key)
+    {
     case OPT_USE_CELSIUS:
         return "use_celsius";
     case OPT_USE_METRIC_SYS:
@@ -156,7 +166,8 @@ std::string option_string(option_key key)
 
 std::string option_desc(option_key key)
 {
-    switch (key) {
+    switch (key)
+    {
     case OPT_USE_CELSIUS:
         return "If true, use C not F";
     case OPT_USE_METRIC_SYS:
@@ -203,7 +214,8 @@ std::string option_desc(option_key key)
 
 std::string option_name(option_key key)
 {
-    switch (key) {
+    switch (key)
+    {
     case OPT_USE_CELSIUS:
         return "Use Celsius";
     case OPT_USE_METRIC_SYS:
@@ -250,7 +262,8 @@ std::string option_name(option_key key)
 
 bool option_is_bool(option_key id)
 {
-    switch (id) {
+    switch (id)
+    {
     case OPT_24_HOUR:
     case OPT_SAFEMODEPROXIMITY:
     case OPT_AUTOSAFEMODETURNS:
@@ -382,7 +395,8 @@ viewport_y 12\n\
         return;
 
     fout << options_header() << std::endl;
-    for (int i = 1; i < NUM_OPTION_KEYS; i++) {
+    for (int i = 1; i < NUM_OPTION_KEYS; i++)
+    {
         option_key key = option_key(i);
         fout << option_string(key) << " ";
         if (option_is_bool(key))

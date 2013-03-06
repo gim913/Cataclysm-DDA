@@ -20,7 +20,8 @@ maximum heat cannot pass 15000u, otherwise the player will vomit to death.
 
 class game;
 
-enum season_type {
+enum season_type
+{
     SPRING = 0,
     SUMMER = 1,
     AUTUMN = 2,
@@ -28,7 +29,8 @@ enum season_type {
 #define FALL AUTUMN
 };
 
-enum weather_type {
+enum weather_type
+{
     WEATHER_NULL,		// For data and stuff
     WEATHER_CLEAR,		// No effects
     WEATHER_SUNNY,		// Glare if no eye protection

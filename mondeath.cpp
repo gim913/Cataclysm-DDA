@@ -10,7 +10,8 @@ void mdeath::normal(game *g, monster *z)
     int junk;
     if (g->u_see(z, junk))
         g->add_msg("It dies!");
-    if (z->made_of(FLESH) && z->has_flag(MF_WARM)) {
+    if (z->made_of(FLESH) && z->has_flag(MF_WARM))
+    {
         if (g->m.field_at(z->posx, z->posy).type == fd_blood &&
                 g->m.field_at(z->posx, z->posy).density < 3)
             g->m.field_at(z->posx, z->posy).density++;
@@ -20,7 +21,8 @@ void mdeath::normal(game *g, monster *z)
 // Drop a dang ol' corpse
 // If their hp is less than -50, we destroyed them so badly no corpse was left
     if ((z->hp >= -50 || z->hp >= 0 - 2 * z->type->hp) &&
-            (z->made_of(FLESH) || z->made_of(VEGGY))) {
+            (z->made_of(FLESH) || z->made_of(VEGGY)))
+    {
         item tmp;
         tmp.make_corpse(g->itypes[itm_corpse], z->type, g->turn);
         g->m.add_item(z->posx, z->posy, tmp);
@@ -39,8 +41,10 @@ void mdeath::boomer(game *g, monster *z)
 {
     std::string tmp;
     g->sound(z->posx, z->posy, 24, "a boomer explode!");
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
+    for (int i = -1; i <= 1; i++)
+    {
+        for (int j = -1; j <= 1; j++)
+        {
             g->m.bash(z->posx + i, z->posy + j, 10, tmp);
             if (g->m.field_at(z->posx + i, z->posy + j).type == fd_bile &&
                     g->m.field_at(z->posx + i, z->posy + j).density < 3)
@@ -48,7 +52,8 @@ void mdeath::boomer(game *g, monster *z)
             else
                 g->m.add_field(g, z->posx + i, z->posy + j, fd_bile, 1);
             int mondex = g->mon_at(z->posx + i, z->posy +j);
-            if (mondex != -1) {
+            if (mondex != -1)
+            {
                 g->z[mondex].stumble(g, false);
                 g->z[mondex].moves -= 250;
             }
@@ -62,7 +67,8 @@ void mdeath::kill_vines(game *g, monster *z)
 {
     std::vector<int> vines;
     std::vector<int> hubs;
-    for (int i = 0; i < g->z.size(); i++) {
+    for (int i = 0; i < g->z.size(); i++)
+    {
         if (g->z[i].type->id == mon_creeper_hub &&
                 (g->z[i].posx != z->posx || g->z[i].posy != z->posy))
             hubs.push_back(i);
@@ -70,11 +76,13 @@ void mdeath::kill_vines(game *g, monster *z)
             vines.push_back(i);
     }
 
-    for (int i = 0; i < vines.size(); i++) {
+    for (int i = 0; i < vines.size(); i++)
+    {
         monster *vine = &(g->z[ vines[i] ]);
         int dist = rl_dist(vine->posx, vine->posy, z->posx, z->posy);
         bool closer_hub = false;
-        for (int j = 0; j < hubs.size() && !closer_hub; j++) {
+        for (int j = 0; j < hubs.size() && !closer_hub; j++)
+        {
             if (rl_dist(vine->posx, vine->posy,
                         g->z[ hubs[j] ].posx, g->z[ hubs[j] ].posy) < dist)
                 closer_hub = true;
@@ -87,8 +95,10 @@ void mdeath::kill_vines(game *g, monster *z)
 void mdeath::vine_cut(game *g, monster *z)
 {
     std::vector<int> vines;
-    for (int x = z->posx - 1; x <= z->posx + 1; x++) {
-        for (int y = z->posy - 1; y <= z->posy + 1; y++) {
+    for (int x = z->posx - 1; x <= z->posx + 1; x++)
+    {
+        for (int y = z->posy - 1; y <= z->posy + 1; y++)
+        {
             if (x == z->posx && y == z->posy)
                 y++; // Skip ourselves
             int mondex = g->mon_at(x, y);
@@ -97,12 +107,16 @@ void mdeath::vine_cut(game *g, monster *z)
         }
     }
 
-    for (int i = 0; i < vines.size(); i++) {
+    for (int i = 0; i < vines.size(); i++)
+    {
         bool found_neighbor = false;
         monster *vine = &(g->z[ vines[i] ]);
-        for (int x = vine->posx - 1; x <= vine->posx + 1 && !found_neighbor; x++) {
-            for (int y = vine->posy - 1; y <= vine->posy + 1 && !found_neighbor; y++) {
-                if (x != z->posx || y != z->posy) { // Not the dying vine
+        for (int x = vine->posx - 1; x <= vine->posx + 1 && !found_neighbor; x++)
+        {
+            for (int y = vine->posy - 1; y <= vine->posy + 1 && !found_neighbor; y++)
+            {
+                if (x != z->posx || y != z->posy)   // Not the dying vine
+                {
                     int mondex = g->mon_at(x, y);
                     if (mondex != -1 && (g->z[mondex].type->id == mon_creeper_hub ||
                                          g->z[mondex].type->id == mon_creeper_vine  ))
@@ -126,20 +140,26 @@ void mdeath::fungus(game *g, monster *z)
     monster spore(g->mtypes[mon_spore]);
     int sporex, sporey;
     g->sound(z->posx, z->posy, 10, "Pouf!");
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
+    for (int i = -1; i <= 1; i++)
+    {
+        for (int j = -1; j <= 1; j++)
+        {
             sporex = z->posx + i;
             sporey = z->posy + j;
-            if (g->m.move_cost(sporex, sporey) > 0 && one_in(5)) {
-                if (g->mon_at(sporex, sporey) >= 0) {	// Spores hit a monster
+            if (g->m.move_cost(sporex, sporey) > 0 && one_in(5))
+            {
+                if (g->mon_at(sporex, sporey) >= 0)  	// Spores hit a monster
+                {
                     if (g->u_see(sporex, sporey, j))
                         g->add_msg("The %s is covered in tiny spores!",
                                    g->z[g->mon_at(sporex, sporey)].name().c_str());
                     if (!g->z[g->mon_at(sporex, sporey)].make_fungus(g))
                         g->kill_mon(g->mon_at(sporex, sporey), (z->friendly != 0));
-                } else if (g->u.posx == sporex && g->u.posy == sporey)
+                }
+                else if (g->u.posx == sporex && g->u.posy == sporey)
                     g->u.infect(DI_SPORES, bp_mouth, 4, 30, g);
-                else {
+                else
+                {
                     spore.spawn(sporex, sporey);
                     g->z.push_back(spore);
                 }
@@ -170,19 +190,23 @@ void mdeath::worm(game *g, monster *z)
 
     std::vector <point> wormspots;
     int wormx, wormy;
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
+    for (int i = -1; i <= 1; i++)
+    {
+        for (int j = -1; j <= 1; j++)
+        {
             wormx = z->posx + i;
             wormy = z->posy + i;
             if (g->m.has_flag(diggable, wormx, wormy) && g->mon_at(wormx, wormy) == -1 &&
-                    !(g->u.posx == wormx && g->u.posy == wormy)) {
+                    !(g->u.posx == wormx && g->u.posy == wormy))
+            {
                 wormspots.push_back(point(wormx, wormy));
             }
         }
     }
     int rn;
     monster worm(g->mtypes[mon_halfworm]);
-    for (int worms = 0; worms < 2 && wormspots.size() > 0; worms++) {
+    for (int worms = 0; worms < 2 && wormspots.size() > 0; worms++)
+    {
         rn = rng(0, wormspots.size() - 1);
         worm.spawn(wormspots[rn].x, wormspots[rn].y);
         g->z.push_back(worm);
@@ -221,7 +245,8 @@ void mdeath::blobsplit(game *g, monster *z)
 {
     int j;
     int speed = z->speed - rng(30, 50);
-    if (speed <= 0) {
+    if (speed <= 0)
+    {
         if (g->u_see(z, j))
             g->add_msg("The %s splatters into tiny, dead pieces.", z->name().c_str());
         return;
@@ -234,8 +259,10 @@ void mdeath::blobsplit(game *g, monster *z)
     blob.hp = blob.speed;
     std::vector <point> valid;
 
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
+    for (int i = -1; i <= 1; i++)
+    {
+        for (int j = -1; j <= 1; j++)
+        {
             if (g->m.move_cost(z->posx+i, z->posy+j) > 0 &&
                     g->mon_at(z->posx+i, z->posy+j) == -1 &&
                     (g->u.posx != z->posx+i || g->u.posy != z->posy + j))
@@ -244,7 +271,8 @@ void mdeath::blobsplit(game *g, monster *z)
     }
 
     int rn;
-    for (int s = 0; s < 2 && valid.size() > 0; s++) {
+    for (int s = 0; s < 2 && valid.size() > 0; s++)
+    {
         rn = rng(0, valid.size() - 1);
         blob.spawn(valid[rn].x, valid[rn].y);
         g->z.push_back(blob);
@@ -261,13 +289,16 @@ void mdeath::melt(game *g, monster *z)
 
 void mdeath::amigara(game *g, monster *z)
 {
-    if (g->u.has_disease(DI_AMIGARA)) {
+    if (g->u.has_disease(DI_AMIGARA))
+    {
         int count = 0;
-        for (int i = 0; i < g->z.size(); i++) {
+        for (int i = 0; i < g->z.size(); i++)
+        {
             if (g->z[i].type->id == mon_amigara_horror)
                 count++;
         }
-        if (count <= 1) { // We're the last!
+        if (count <= 1)   // We're the last!
+        {
             g->u.rem_disease(DI_AMIGARA);
             g->add_msg("Your obsession with the fault fades away...");
             item art(g->new_artifact(), g->turn);
@@ -287,7 +318,8 @@ void mdeath::thing(game *g, monster *z)
 void mdeath::explode(game *g, monster *z)
 {
     int size;
-    switch (z->type->size) {
+    switch (z->type->size)
+    {
     case MS_TINY:
         size =  4;
         break;
@@ -320,7 +352,8 @@ void mdeath::gameover(game *g, monster *z)
 
 void mdeath::kill_breathers(game *g, monster *z)
 {
-    for (int i = 0; i < g->z.size(); i++) {
+    for (int i = 0; i < g->z.size(); i++)
+    {
         if (g->z[i].type->id == mon_breather_hub || g->z[i].type->id == mon_breather)
             g->z[i].dead = true;
     }

@@ -6,7 +6,8 @@
 #include "faction.h"
 #include <iosfwd>
 
-struct settlement {
+struct settlement
+{
     settlement();
     settlement(int mapx, int mapy);
     void pick_faction(game *g, int omx, int omy);

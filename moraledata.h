@@ -4,7 +4,8 @@
 #include <string>
 #include "morale.h"
 
-std::string morale_data[NUM_MORALE_TYPES] = {
+std::string morale_data[NUM_MORALE_TYPES] =
+{
     "This is a bug",
     "Enjoyed %i",
     "Music",

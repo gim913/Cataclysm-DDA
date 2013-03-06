@@ -13,7 +13,8 @@
 
 class mdeath;
 
-enum monster_species {
+enum monster_species
+{
     species_none = 0,
     species_mammal,
     species_insect,
@@ -27,7 +28,8 @@ enum monster_species {
     num_species
 };
 
-enum mon_id {
+enum mon_id
+{
     mon_null = 0,
 // Wildlife
     mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_cougar,
@@ -82,7 +84,8 @@ enum mon_id {
     num_monsters
 };
 
-enum m_size {
+enum m_size
+{
     MS_TINY = 0,	// Rodent
     MS_SMALL,	// Half human
     MS_MEDIUM,	// Human
@@ -92,7 +95,8 @@ enum m_size {
 
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
-enum monster_trigger {
+enum monster_trigger
+{
     MTRIG_NULL = 0,
     MTRIG_TIME,		// Random over time.
     MTRIG_MEAT,		// Meat or a corpse nearby
@@ -117,7 +121,8 @@ std::vector<monster_trigger> default_fears(monster_species spec);
 #ifndef mfb
 #define mfb(n) long(1 << (n))
 #endif
-enum m_flag {
+enum m_flag
+{
     MF_NULL = 0,	// Helps with setvector
     MF_SEES,	// It can see you (and will run/follow)
     MF_HEARS,	// It can hear you
@@ -160,7 +165,8 @@ enum m_flag {
     MF_MAX		// Sets the length of the flags - obviously MUST be last
 };
 
-struct mtype {
+struct mtype
+{
     int id;
     std::string name;
     std::string description;
@@ -197,7 +203,8 @@ struct mtype {
 
 
 // Default constructor
-    mtype () {
+    mtype ()
+    {
         id = 0;
         name = "human";
         description = "";
@@ -236,7 +243,8 @@ struct mtype {
            unsigned char psp_freq,
            void (mdeath::*pdies)      (game *, monster *),
            void (mattack::*psp_attack)(game *, monster *),
-           std::string pdescription ) {
+           std::string pdescription )
+    {
         id = pid;
         name = pname;
         species = pspecies;
@@ -269,7 +277,8 @@ struct mtype {
 
     bool has_flag(m_flag flag)
     {
-        for (int i = 0; i < flags.size(); i++) {
+        for (int i = 0; i < flags.size(); i++)
+        {
             if (flags[i] == flag)
                 return true;
         }

@@ -27,14 +27,16 @@ struct special_attack
     int cut;
     int stab;
 
-    special_attack() {
+    special_attack()
+    {
         bash = 0;
         cut = 0;
         stab = 0;
     };
 };
 
-class player {
+class player
+{
     std::map<Skill*,SkillLevel> _skills;
 
 public:
@@ -53,7 +55,8 @@ public:
 
     void pick_name(); // Picks a name from NAMES_*
 
-    virtual bool is_npc() {
+    virtual bool is_npc()
+    {
         return false;    // Overloaded for NPCs in npc.h
     }
     nc_color color();				// What color to draw us as

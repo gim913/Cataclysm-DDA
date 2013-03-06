@@ -7,7 +7,8 @@
 #include <stdint.h>
 
 
-enum skill {
+enum skill
+{
     sk_null = 0,
 // Melee
     sk_dodge, sk_melee, sk_unarmed, sk_bashing, sk_cutting, sk_stabbing,
@@ -25,7 +26,8 @@ enum skill {
     num_skill_types	// MUST be last!
 };
 
-class Skill {
+class Skill
+{
     size_t _id;
     std::string _ident;
 
@@ -44,33 +46,41 @@ public:
     Skill(size_t id, std::string ident, std::string name, std::string description);
 
     //DEBUG
-    size_t id() {
+    size_t id()
+    {
         return _id;
     }
 
-    std::string ident() {
+    std::string ident()
+    {
         return _ident;
     }
-    std::string name() {
+    std::string name()
+    {
         return _name;
     }
-    std::string description() {
+    std::string description()
+    {
         return _description;
     }
 
-    bool operator==(const Skill& b) const {
+    bool operator==(const Skill& b) const
+    {
         return this->_ident == b._ident;
     }
-    bool operator< (const Skill& b) const {
+    bool operator< (const Skill& b) const
+    {
         return this->_ident <  b._ident;    // Only here for the benefit of std::map<Skill,T>
     }
 
-    bool operator!=(const Skill& b) const {
+    bool operator!=(const Skill& b) const
+    {
         return !(*this == b);
     }
 };
 
-class SkillLevel {
+class SkillLevel
+{
     int _level;
     int _exercise;
     bool _isTraining;
@@ -79,23 +89,28 @@ public:
     SkillLevel(int level = 0, int exercise = 0, bool isTraining = true);
     SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExercise, bool isTraining = true);
 
-    bool isTraining() const {
+    bool isTraining() const
+    {
         return _isTraining;
     }
-    bool toggleTraining() {
+    bool toggleTraining()
+    {
         _isTraining = !_isTraining;
         return _isTraining;
     }
 
-    int level() const {
+    int level() const
+    {
         return _level;
     }
-    int level(int level) {
+    int level(int level)
+    {
         _level = level;
         return level;
     }
 
-    int exercise() const {
+    int exercise() const
+    {
         return _exercise;
     }
 
@@ -106,43 +121,55 @@ public:
 
     int readBook(int minimumGain, int maximumGain, int maximumLevel = 0xFFFFFFFF);
 
-    bool operator==(const SkillLevel& b) const {
+    bool operator==(const SkillLevel& b) const
+    {
         return this->_level == b._level && this->_exercise == b._exercise;
     }
-    bool operator< (const SkillLevel& b) const {
+    bool operator< (const SkillLevel& b) const
+    {
         return this->_level <  b._level || (this->_level == b._level && this->_exercise < b._exercise);
     }
-    bool operator> (const SkillLevel& b) const {
+    bool operator> (const SkillLevel& b) const
+    {
         return this->_level >  b._level || (this->_level == b._level && this->_exercise > b._exercise);
     }
 
-    bool operator==(const int& b) const {
+    bool operator==(const int& b) const
+    {
         return this->_level == b;
     }
-    bool operator< (const int& b) const {
+    bool operator< (const int& b) const
+    {
         return this->_level <  b;
     }
-    bool operator> (const int& b) const {
+    bool operator> (const int& b) const
+    {
         return this->_level >  b;
     }
 
-    bool operator!=(const SkillLevel& b) const {
+    bool operator!=(const SkillLevel& b) const
+    {
         return !(*this == b);
     }
-    bool operator<=(const SkillLevel& b) const {
+    bool operator<=(const SkillLevel& b) const
+    {
         return !(*this >  b);
     }
-    bool operator>=(const SkillLevel& b) const {
+    bool operator>=(const SkillLevel& b) const
+    {
         return !(*this <  b);
     }
 
-    bool operator!=(const int& b) const {
+    bool operator!=(const int& b) const
+    {
         return !(*this == b);
     }
-    bool operator<=(const int& b) const {
+    bool operator<=(const int& b) const
+    {
         return !(*this >  b);
     }
-    bool operator>=(const int& b) const {
+    bool operator>=(const int& b) const
+    {
         return !(*this <  b);
     }
 };

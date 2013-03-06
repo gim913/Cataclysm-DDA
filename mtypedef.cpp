@@ -1213,7 +1213,8 @@ away.  Defend it at all costs!"
 std::vector<monster_trigger> default_anger(monster_species spec)
 {
     std::vector<monster_trigger> ret;
-    switch (spec) {
+    switch (spec)
+    {
     case species_mammal:
         break;
     case species_insect:
@@ -1241,7 +1242,8 @@ std::vector<monster_trigger> default_anger(monster_species spec)
 std::vector<monster_trigger> default_fears(monster_species spec)
 {
     std::vector<monster_trigger> ret;
-    switch (spec) {
+    switch (spec)
+    {
     case species_mammal:
         setvector(ret, MTRIG_HURT, MTRIG_FIRE, MTRIG_FRIEND_DIED, NULL);
         break;

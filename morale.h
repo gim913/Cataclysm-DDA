@@ -56,7 +56,8 @@ struct morale_point
         if (item_type != NULL)
             item_name = item_type->name;
         size_t it = ret.find("%i");
-        while (it != std::string::npos) {
+        while (it != std::string::npos)
+        {
             ret.replace(it, 2, item_name);
             it = ret.find("%i");
         }

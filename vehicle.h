@@ -20,7 +20,8 @@ const int k_mvel = 200;
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
 // 3 - thin_obstacle, 4 - bashable, 5 - destructible, 6 - other
-enum veh_coll_type {
+enum veh_coll_type
+{
     veh_coll_nothing = 0,
     veh_coll_body,
     veh_coll_veh,
@@ -32,7 +33,8 @@ enum veh_coll_type {
     num_veh_coll_types
 };
 
-struct veh_collision {
+struct veh_collision
+{
 //int veh?
     int part;
     veh_coll_type type;
@@ -54,13 +56,16 @@ struct vehicle_part
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
     }
-    bool has_flag( int flag ) {
+    bool has_flag( int flag )
+    {
         return flag & flags;
     }
-    int set_flag( int flag ) {
+    int set_flag( int flag )
+    {
         return flags |= flag;
     }
-    int remove_flag( int flag ) {
+    int remove_flag( int flag )
+    {
         return flags &= ~flag;
     }
 

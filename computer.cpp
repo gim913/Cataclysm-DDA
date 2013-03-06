@@ -76,9 +76,11 @@ void computer::use(game *g)
 
     print_line("Logging into %s...", name.c_str());
 
-    if (security > 0) {
+    if (security > 0)
+    {
         print_error("ERROR!  Access denied!");
-        switch (query_ynq("Bypass security?")) {
+        switch (query_ynq("Bypass security?"))
+        {
         case 'q':
         case 'Q':
             shutdown_terminal();
@@ -93,8 +95,10 @@ void computer::use(game *g)
 
         case 'y':
         case 'Y':
-            if (!hack_attempt(&(g->u))) {
-                if (failures.size() == 0) {
+            if (!hack_attempt(&(g->u)))
+            {
+                if (failures.size() == 0)
+                {
                     print_line("Maximum login attempts exceeded. Press any key...");
                     getch();
                     shutdown_terminal();
@@ -103,14 +107,18 @@ void computer::use(game *g)
                 activate_random_failure(g);
                 shutdown_terminal();
                 return;
-            } else { // Successful hack attempt
+            }
+            else     // Successful hack attempt
+            {
                 security = 0;
                 print_line("Login successful.  Press any key...");
                 getch();
                 reset_terminal();
             }
         }
-    } else { // No security
+    }
+    else     // No security
+    {
         print_line("Login successful.  Press any key...");
         getch();
         reset_terminal();
@@ -119,7 +127,8 @@ void computer::use(game *g)
 // Main computer loop
 
     bool done = false; // Are we done using the computer?
-    do {
+    do
+    {
         //reset_terminal();
         print_line("");
         print_line("%s - Root Menu", name.c_str());
@@ -134,25 +143,33 @@ void computer::use(game *g)
         while (ch != 'q' && ch != 'Q' && (ch < '1' || ch - '1' >= options.size()));
         if (ch == 'q' || ch == 'Q')
             done = true;
-        else { // We selected an option other than quit.
+        else   // We selected an option other than quit.
+        {
             ch -= '1'; // So '1' -> 0; index in options.size()
             computer_option current = options[ch];
-            if (current.security > 0) {
+            if (current.security > 0)
+            {
                 print_error("Password required.");
-                if (query_bool("Hack into system?")) {
-                    if (!hack_attempt(&(g->u), current.security)) {
+                if (query_bool("Hack into system?"))
+                {
+                    if (!hack_attempt(&(g->u), current.security))
+                    {
                         activate_random_failure(g);
                         shutdown_terminal();
                         return;
-                    } else {
+                    }
+                    else
+                    {
                         activate_function(g, current.action);
                         reset_terminal();
                     }
                 }
-            } else // No need to hack, just activate
+            }
+            else   // No need to hack, just activate
                 activate_function(g, current.action);
         } // Done processing a selected option.
-    } while (!done); // Done with main terminal loop
+    }
+    while (!done);   // Done with main terminal loop
 
     shutdown_terminal(); // This should have been done by now, but just in case.
 }
@@ -177,16 +194,19 @@ std::string computer::save_data()
     std::stringstream data;
     std::string savename = name; // Replace " " with "_"
     size_t found = savename.find(" ");
-    while (found != std::string::npos) {
+    while (found != std::string::npos)
+    {
         savename.replace(found, 1, "_");
         found = savename.find(" ");
     }
     data << savename << " " << security << " " << mission_id << " " <<
          options.size() << " ";
-    for (int i = 0; i < options.size(); i++) {
+    for (int i = 0; i < options.size(); i++)
+    {
         savename = options[i].name;
         found = savename.find(" ");
-        while (found != std::string::npos) {
+        while (found != std::string::npos)
+        {
             savename.replace(found, 1, "_");
             found = savename.find(" ");
         }
@@ -210,19 +230,22 @@ void computer::load_data(std::string data)
 // Pull in name and security
     dump >> name >> security >> mission_id;
     size_t found = name.find("_");
-    while (found != std::string::npos) {
+    while (found != std::string::npos)
+    {
         name.replace(found, 1, " ");
         found = name.find("_");
     }
 // Pull in options
     int optsize;
     dump >> optsize;
-    for (int n = 0; n < optsize; n++) {
+    for (int n = 0; n < optsize; n++)
+    {
         std::string tmpname;
         int tmpaction, tmpsec;
         dump >> tmpname >> tmpaction >> tmpsec;
         size_t found = tmpname.find("_");
-        while (found != std::string::npos) {
+        while (found != std::string::npos)
+        {
             tmpname.replace(found, 1, " ");
             found = tmpname.find("_");
         }
@@ -231,7 +254,8 @@ void computer::load_data(std::string data)
 // Pull in failures
     int failsize, tmpfail;
     dump >> failsize;
-    for (int n = 0; n < failsize; n++) {
+    for (int n = 0; n < failsize; n++)
+    {
         dump >> tmpfail;
         failures.push_back(computer_failure(tmpfail));
     }
@@ -239,7 +263,8 @@ void computer::load_data(std::string data)
 
 void computer::activate_function(game *g, computer_action action)
 {
-    switch (action) {
+    switch (action)
+    {
 
     case COMPACT_NULL:
         break; // Why would this be called?
@@ -250,21 +275,30 @@ void computer::activate_function(game *g, computer_action action)
         break;
 
     case COMPACT_SAMPLE:
-        for (int x = 0; x < SEEX * MAPSIZE; x++) {
-            for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                if (g->m.ter(x, y) == t_sewage_pump) {
-                    for (int x1 = x - 1; x1 <= x + 1; x1++) {
-                        for (int y1 = y - 1; y1 <= y + 1; y1++ ) {
-                            if (g->m.ter(x1, y1) == t_counter) {
+        for (int x = 0; x < SEEX * MAPSIZE; x++)
+        {
+            for (int y = 0; y < SEEY * MAPSIZE; y++)
+            {
+                if (g->m.ter(x, y) == t_sewage_pump)
+                {
+                    for (int x1 = x - 1; x1 <= x + 1; x1++)
+                    {
+                        for (int y1 = y - 1; y1 <= y + 1; y1++ )
+                        {
+                            if (g->m.ter(x1, y1) == t_counter)
+                            {
                                 bool found_item = false;
-                                for (int i = 0; i < g->m.i_at(x1, y1).size(); i++) {
+                                for (int i = 0; i < g->m.i_at(x1, y1).size(); i++)
+                                {
                                     item *it = &(g->m.i_at(x1, y1)[i]);
-                                    if (it->is_container() && it->contents.empty()) {
+                                    if (it->is_container() && it->contents.empty())
+                                    {
                                         it->put_in( item(g->itypes[itm_sewage], g->turn) );
                                         found_item = true;
                                     }
                                 }
-                                if (!found_item) {
+                                if (!found_item)
+                                {
                                     item sewage(g->itypes[itm_sewage], g->turn);
                                     g->m.add_item(x1, y1, sewage);
                                 }
@@ -284,8 +318,10 @@ void computer::activate_function(game *g, computer_action action)
         break;
 
     case COMPACT_TERMINATE:
-        for (int x = 0; x < SEEX * MAPSIZE; x++) {
-            for (int y = 0; y < SEEY * MAPSIZE; y++) {
+        for (int x = 0; x < SEEX * MAPSIZE; x++)
+        {
+            for (int y = 0; y < SEEY * MAPSIZE; y++)
+            {
                 int mondex = g->mon_at(x, y);
                 if (mondex != -1 &&
                         ((g->m.ter(x, y - 1) == t_reinforced_glass_h &&
@@ -299,16 +335,21 @@ void computer::activate_function(game *g, computer_action action)
         break;
 
     case COMPACT_PORTAL:
-        for (int i = 0; i < SEEX * MAPSIZE; i++) {
-            for (int j = 0; j < SEEY * MAPSIZE; j++) {
+        for (int i = 0; i < SEEX * MAPSIZE; i++)
+        {
+            for (int j = 0; j < SEEY * MAPSIZE; j++)
+            {
                 int numtowers = 0;
-                for (int xt = i - 2; xt <= i + 2; xt++) {
-                    for (int yt = j - 2; yt <= j + 2; yt++) {
+                for (int xt = i - 2; xt <= i + 2; xt++)
+                {
+                    for (int yt = j - 2; yt <= j + 2; yt++)
+                    {
                         if (g->m.ter(xt, yt) == t_radio_tower)
                             numtowers++;
                     }
                 }
-                if (numtowers == 4) {
+                if (numtowers == 4)
+                {
                     if (g->m.tr_at(i, j) == tr_portal)
                         g->m.tr_at(i, j) = tr_null;
                     else
@@ -318,59 +359,71 @@ void computer::activate_function(game *g, computer_action action)
         }
         break;
 
-    case COMPACT_CASCADE: {
+    case COMPACT_CASCADE:
+    {
         if (!query_bool("WARNING: Resonance cascade carries severe risk!  Continue?"))
             return;
         std::vector<point> cascade_points;
-        for (int i = g->u.posx - 10; i <= g->u.posx + 10; i++) {
-            for (int j = g->u.posy - 10; j <= g->u.posy + 10; j++) {
+        for (int i = g->u.posx - 10; i <= g->u.posx + 10; i++)
+        {
+            for (int j = g->u.posy - 10; j <= g->u.posy + 10; j++)
+            {
                 if (g->m.ter(i, j) == t_radio_tower)
                     cascade_points.push_back(point(i, j));
             }
         }
         if (cascade_points.size() == 0)
             g->resonance_cascade(g->u.posx, g->u.posy);
-        else {
+        else
+        {
             point p = cascade_points[rng(0, cascade_points.size() - 1)];
             g->resonance_cascade(p.x, p.y);
         }
     }
     break;
 
-    case COMPACT_RESEARCH: {
+    case COMPACT_RESEARCH:
+    {
         int lines = 0, notes = 0;
         std::string log, tmp;
         int ch;
         std::ifstream fin;
         fin.open("data/LAB_NOTES");
-        if (!fin.is_open()) {
+        if (!fin.is_open())
+        {
             debugmsg("Couldn't open ./data/LAB_NOTES for reading");
             return;
         }
-        while (fin.good()) {
+        while (fin.good())
+        {
             ch = fin.get();
             if (ch == '%')
                 notes++;
         }
 
-        while (lines < 10) {
+        while (lines < 10)
+        {
             fin.clear();
             fin.seekg(0, std::ios::beg);
             fin.clear();
             int choice = rng(1, notes);
-            while (choice > 0) {
+            while (choice > 0)
+            {
                 getline(fin, tmp);
                 if (tmp.find_first_of('%') == 0)
                     choice--;
             }
             getline(fin, tmp);
-            do {
+            do
+            {
                 lines++;
-                if (lines < 15 && tmp.find_first_of('%') != 0) {
+                if (lines < 15 && tmp.find_first_of('%') != 0)
+                {
                     log.append(tmp);
                     log.append("\n");
                 }
-            } while(tmp.find_first_of('%') != 0 && getline(fin, tmp));
+            }
+            while(tmp.find_first_of('%') != 0 && getline(fin, tmp));
         }
         print_line(" %s", log.c_str());
         print_line("Press any key...");
@@ -378,7 +431,8 @@ void computer::activate_function(game *g, computer_action action)
     }
     break;
 
-    case COMPACT_MAPS: {
+    case COMPACT_MAPS:
+    {
         int minx = int((g->levx + int(MAPSIZE / 2)) / 2) - 40;
         int maxx = int((g->levx + int(MAPSIZE / 2)) / 2) + 40;
         int miny = int((g->levy + int(MAPSIZE / 2)) / 2) - 40;
@@ -388,7 +442,8 @@ void computer::activate_function(game *g, computer_action action)
         if (miny < 0)             miny = 0;
         if (maxy >= OMAPY) maxy = OMAPY - 1;
         overmap tmp(g, g->cur_om.posx, g->cur_om.posy, 0);
-        for (int i = minx; i <= maxx; i++) {
+        for (int i = minx; i <= maxx; i++)
+        {
             for (int j = miny; j <= maxy; j++)
                 tmp.seen(i, j) = true;
         }
@@ -397,7 +452,8 @@ void computer::activate_function(game *g, computer_action action)
     }
     break;
 
-    case COMPACT_MAP_SEWER: {
+    case COMPACT_MAP_SEWER:
+    {
         int minx = int((g->levx + int(MAPSIZE / 2)) / 2) - 60;
         int maxx = int((g->levx + int(MAPSIZE / 2)) / 2) + 60;
         int miny = int((g->levy + int(MAPSIZE / 2)) / 2) - 60;
@@ -406,7 +462,8 @@ void computer::activate_function(game *g, computer_action action)
         if (maxx >= OMAPX) maxx = OMAPX - 1;
         if (miny < 0)      miny = 0;
         if (maxy >= OMAPY) maxy = OMAPY - 1;
-        for (int i = minx; i <= maxx; i++) {
+        for (int i = minx; i <= maxx; i++)
+        {
             for (int j = miny; j <= maxy; j++)
                 if ((g->cur_om.ter(i, j) >= ot_sewer_ns &&
                         g->cur_om.ter(i, j) <= ot_sewer_nesw) ||
@@ -419,29 +476,35 @@ void computer::activate_function(game *g, computer_action action)
     break;
 
 
-    case COMPACT_MISS_LAUNCH: {
+    case COMPACT_MISS_LAUNCH:
+    {
         overmap tmp_om(g, g->cur_om.posx, g->cur_om.posy, 0);
 // Target Acquisition.
         point target = tmp_om.choose_point(g);
-        if (target.x == -1) {
+        if (target.x == -1)
+        {
             print_line("Launch canceled.");
             return;
         }
 // Figure out where the glass wall is...
         int wall_spot = 0;
-        for (int i = g->u.posx; i < g->u.posx + SEEX * 2 && wall_spot == 0; i++) {
+        for (int i = g->u.posx; i < g->u.posx + SEEX * 2 && wall_spot == 0; i++)
+        {
             if (g->m.ter(i, 10) == t_wall_glass_v)
                 wall_spot = i;
         }
 // ...and put radioactive to the right of it
-        for (int i = wall_spot + 1; i < SEEX * 2 - 1; i++) {
-            for (int j = 1; j < SEEY * 2 - 1; j++) {
+        for (int i = wall_spot + 1; i < SEEX * 2 - 1; i++)
+        {
+            for (int j = 1; j < SEEY * 2 - 1; j++)
+            {
                 if (one_in(3))
                     g->m.add_field(NULL, i, j, fd_nuke_gas, 3);
             }
         }
 // For each level between here and the surface, remove the missile
-        for (int level = g->cur_om.posz; level < 0; level++) {
+        for (int level = g->cur_om.posz; level < 0; level++)
+        {
             tmp_om = g->cur_om;
             g->cur_om = overmap(g, tmp_om.posx, tmp_om.posy, level);
             tinymap tmpmap(&g->itypes, &g->mapitems, &g->traps);
@@ -450,7 +513,8 @@ void computer::activate_function(game *g, computer_action action)
             tmpmap.save(&tmp_om, g->turn, g->levx, g->levy);
         }
         g->cur_om = tmp_om;
-        for (int x = target.x - 2; x <= target.x + 2; x++) {
+        for (int x = target.x - 2; x <= target.x + 2; x++)
+        {
             for (int y = target.y -  2; y <= target.y + 2; y++)
                 g->nuke(x, y);
         }
@@ -460,13 +524,18 @@ void computer::activate_function(game *g, computer_action action)
     case COMPACT_MISS_DISARM: // TODO: This!
         break;
 
-    case COMPACT_LIST_BIONICS: {
+    case COMPACT_LIST_BIONICS:
+    {
         std::vector<std::string> names;
         int more = 0;
-        for (int x = 0; x < SEEX * MAPSIZE; x++) {
-            for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
-                    if (g->m.i_at(x, y)[i].is_bionic()) {
+        for (int x = 0; x < SEEX * MAPSIZE; x++)
+        {
+            for (int y = 0; y < SEEY * MAPSIZE; y++)
+            {
+                for (int i = 0; i < g->m.i_at(x, y).size(); i++)
+                {
+                    if (g->m.i_at(x, y)[i].is_bionic())
+                    {
                         if (names.size() < 9)
                             names.push_back(g->m.i_at(x, y)[i].tname());
                         else
@@ -483,8 +552,10 @@ void computer::activate_function(game *g, computer_action action)
     break;
 
     case COMPACT_ELEVATOR_ON:
-        for (int x = 0; x < SEEX * MAPSIZE; x++) {
-            for (int y = 0; y < SEEY * MAPSIZE; y++) {
+        for (int x = 0; x < SEEX * MAPSIZE; x++)
+        {
+            for (int y = 0; y < SEEY * MAPSIZE; y++)
+            {
                 if (g->m.ter(x, y) == t_elevator_control_off)
                     g->m.ter(x, y) = t_elevator_control;
             }
@@ -593,9 +664,11 @@ of pureed bone & LSD.");
     case COMPACT_DOWNLOAD_SOFTWARE:
         if (!g->u.has_amount(itm_usb_drive, 1))
             print_error("USB drive required!");
-        else {
+        else
+        {
             mission *miss = g->find_mission(mission_id);
-            if (miss == NULL) {
+            if (miss == NULL)
+            {
                 debugmsg("Computer couldn't find its mission!");
                 return;
             }
@@ -609,9 +682,12 @@ of pureed bone & LSD.");
         break;
 
     case COMPACT_BLOOD_ANAL:
-        for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
-            for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
-                if (g->m.ter(x, y) == t_centrifuge) {
+        for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++)
+        {
+            for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++)
+            {
+                if (g->m.ter(x, y) == t_centrifuge)
+                {
                     if (g->m.i_at(x, y).empty())
                         print_error("ERROR: Please place sample in centrifuge.");
                     else if (g->m.i_at(x, y).size() > 1)
@@ -622,17 +698,21 @@ of pureed bone & LSD.");
                         print_error("ERROR: Vacutainer empty.");
                     else if (g->m.i_at(x, y)[0].contents[0].type->id != itm_blood)
                         print_error("ERROR: Please only use blood samples.");
-                    else { // Success!
+                    else   // Success!
+                    {
                         item *blood = &(g->m.i_at(x, y)[0].contents[0]);
                         if (blood->corpse == NULL || blood->corpse->id == mon_null)
                             print_line("Result:  Human blood, no pathogens found.");
-                        else if (blood->corpse->sym == 'Z') {
+                        else if (blood->corpse->sym == 'Z')
+                        {
                             print_line("Result:  Human blood.  Unknown pathogen found.");
                             print_line("Pathogen bonded to erythrocytes and leukocytes.");
-                            if (query_bool("Download data?")) {
+                            if (query_bool("Download data?"))
+                            {
                                 if (!g->u.has_amount(itm_usb_drive, 1))
                                     print_error("USB drive required!");
-                                else {
+                                else
+                                {
                                     item software(g->itypes[itm_software_blood_data], 0);
                                     int index = g->u.pick_usb();
                                     g->u.inv[index].contents.clear();
@@ -640,7 +720,8 @@ of pureed bone & LSD.");
                                     print_line("Software downloaded.");
                                 }
                             }
-                        } else
+                        }
+                        else
                             print_line("Result: Unknown blood type.  Test nonconclusive.");
                         print_line("Press any key...");
                         getch();
@@ -662,14 +743,17 @@ void computer::activate_random_failure(game *g)
 
 void computer::activate_failure(game *g, computer_failure fail)
 {
-    switch (fail) {
+    switch (fail)
+    {
 
     case COMPFAIL_NULL:
         break;	// Do nothing.  Why was this even called >:|
 
     case COMPFAIL_SHUTDOWN:
-        for (int x = 0; x < SEEX * MAPSIZE; x++) {
-            for (int y = 0; y < SEEY * MAPSIZE; y++) {
+        for (int x = 0; x < SEEX * MAPSIZE; x++)
+        {
+            for (int y = 0; y < SEEY * MAPSIZE; y++)
+            {
                 if (g->m.has_flag(console, x, y))
                     g->m.ter(x, y) = t_console_broken;
             }
@@ -682,16 +766,21 @@ void computer::activate_failure(game *g, computer_failure fail)
             g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
         break;
 
-    case COMPFAIL_MANHACKS: {
+    case COMPFAIL_MANHACKS:
+    {
         int num_robots = rng(4, 8);
-        for (int i = 0; i < num_robots; i++) {
+        for (int i = 0; i < num_robots; i++)
+        {
             int mx, my, tries = 0;
-            do {
+            do
+            {
                 mx = rng(g->u.posx - 3, g->u.posx + 3);
                 my = rng(g->u.posy - 3, g->u.posy + 3);
                 tries++;
-            } while (!g->is_empty(mx, my) && tries < 10);
-            if (tries != 10) {
+            }
+            while (!g->is_empty(mx, my) && tries < 10);
+            if (tries != 10)
+            {
                 g->add_msg("Manhacks drop from compartments in the ceiling.");
                 monster robot(g->mtypes[mon_manhack]);
                 robot.spawn(mx, my);
@@ -701,16 +790,21 @@ void computer::activate_failure(game *g, computer_failure fail)
     }
     break;
 
-    case COMPFAIL_SECUBOTS: {
+    case COMPFAIL_SECUBOTS:
+    {
         int num_robots = 1;
-        for (int i = 0; i < num_robots; i++) {
+        for (int i = 0; i < num_robots; i++)
+        {
             int mx, my, tries = 0;
-            do {
+            do
+            {
                 mx = rng(g->u.posx - 3, g->u.posx + 3);
                 my = rng(g->u.posy - 3, g->u.posy + 3);
                 tries++;
-            } while (!g->is_empty(mx, my) && tries < 10);
-            if (tries != 10) {
+            }
+            while (!g->is_empty(mx, my) && tries < 10);
+            if (tries != 10)
+            {
                 g->add_msg("Secubots emerge from compartments in the floor.");
                 monster robot(g->mtypes[mon_secubot]);
                 robot.spawn(mx, my);
@@ -727,9 +821,12 @@ void computer::activate_failure(game *g, computer_failure fail)
 
     case COMPFAIL_PUMP_EXPLODE:
         g->add_msg("The pump explodes!");
-        for (int x = 0; x < SEEX * MAPSIZE; x++) {
-            for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                if (g->m.ter(x, y) == t_sewage_pump) {
+        for (int x = 0; x < SEEX * MAPSIZE; x++)
+        {
+            for (int y = 0; y < SEEY * MAPSIZE; y++)
+            {
+                if (g->m.ter(x, y) == t_sewage_pump)
+                {
                     g->m.ter(x, y) = t_rubble;
                     g->explosion(x, y, 10, 0, false);
                 }
@@ -739,12 +836,16 @@ void computer::activate_failure(game *g, computer_failure fail)
 
     case COMPFAIL_PUMP_LEAK:
         g->add_msg("Sewage leaks!");
-        for (int x = 0; x < SEEX * MAPSIZE; x++) {
-            for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                if (g->m.ter(x, y) == t_sewage_pump) {
+        for (int x = 0; x < SEEX * MAPSIZE; x++)
+        {
+            for (int y = 0; y < SEEY * MAPSIZE; y++)
+            {
+                if (g->m.ter(x, y) == t_sewage_pump)
+                {
                     point p(x, y);
                     int leak_size = rng(4, 10);
-                    for (int i = 0; i < leak_size; i++) {
+                    for (int i = 0; i < leak_size; i++)
+                    {
                         std::vector<point> next_move;
                         if (g->m.move_cost(p.x, p.y - 1) > 0)
                             next_move.push_back( point(p.x, p.y - 1) );
@@ -757,7 +858,8 @@ void computer::activate_failure(game *g, computer_failure fail)
 
                         if (next_move.empty())
                             i = leak_size;
-                        else {
+                        else
+                        {
                             p = next_move[rng(0, next_move.size() - 1)];
                             g->m.ter(p.x, p.y) = t_sewage;
                         }
@@ -776,10 +878,14 @@ void computer::activate_failure(game *g, computer_failure fail)
 
     case COMPFAIL_DESTROY_BLOOD:
         print_error("ERROR: Disruptive Spin");
-        for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
-            for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
-                if (g->m.ter(x, y) == t_centrifuge) {
-                    for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
+        for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++)
+        {
+            for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++)
+            {
+                if (g->m.ter(x, y) == t_centrifuge)
+                {
+                    for (int i = 0; i < g->m.i_at(x, y).size(); i++)
+                    {
                         if (g->m.i_at(x, y).empty())
                             print_error("ERROR: Please place sample in centrifuge.");
                         else if (g->m.i_at(x, y).size() > 1)
@@ -790,7 +896,8 @@ void computer::activate_failure(game *g, computer_failure fail)
                             print_error("ERROR: Vacutainer empty.");
                         else if (g->m.i_at(x, y)[0].contents[0].type->id != itm_blood)
                             print_error("ERROR: Please only use blood samples.");
-                        else {
+                        else
+                        {
                             print_error("ERROR: Blood sample destroyed.");
                             g->m.i_at(x, y)[i].contents.clear();
                         }
@@ -856,9 +963,11 @@ void computer::print_line(const char *mes, ...)
 // Replace any '\n' with "\n " to allow for the border
     std::string message = buff;
     size_t pos = 0;
-    while (pos != std::string::npos) {
+    while (pos != std::string::npos)
+    {
         pos = message.find("\n", pos);
-        if (pos != std::string::npos) {
+        if (pos != std::string::npos)
+        {
             message.replace(pos, 1, "\n ");
             pos += 2;
         }
@@ -891,8 +1000,10 @@ void computer::print_gibberish_line()
 {
     std::string gibberish;
     int length = rng(50, 70);
-    for (int i = 0; i < length; i++) {
-        switch (rng(0, 4)) {
+    for (int i = 0; i < length; i++)
+    {
+        switch (rng(0, 4))
+        {
         case 0:
             gibberish += '0' + rng(0, 9);
             break;

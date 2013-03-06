@@ -34,19 +34,22 @@
 
 #define PICKUP_RANGE 2
 
-enum tut_type {
+enum tut_type
+{
     TUT_NULL,
     TUT_BASIC, TUT_COMBAT,
     TUT_MAX
 };
 
-enum input_ret {
+enum input_ret
+{
     IR_GOOD,
     IR_BAD,
     IR_TIMEOUT
 };
 
-enum quit_status {
+enum quit_status
+{
     QUIT_NO = 0,  // Still playing
     QUIT_MENU,    // Quit at the menu
     QUIT_SUICIDE, // Quit with 'Q'
@@ -67,12 +70,14 @@ struct game_message
     calendar turn;
     int count;
     std::string message;
-    game_message() {
+    game_message()
+    {
         turn = 0;
         count = 1;
         message = "";
     };
-    game_message(calendar T, std::string M) : turn (T), message (M) {
+    game_message(calendar T, std::string M) : turn (T), message (M)
+    {
         count = 1;
     };
 };

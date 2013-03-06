@@ -4464,11 +4464,13 @@ attacks with no penalty.",
         return; // No artifacts yet!
 
     bool done = fin.eof();
-    while (!done) {
+    while (!done)
+    {
         char arttype = ' ';
         fin >> arttype;
 
-        if (arttype == 'T') {
+        if (arttype == 'T')
+        {
             it_artifact_tool *art = new it_artifact_tool();
 
             int num_effects, chargetmp, m1tmp, m2tmp, voltmp, wgttmp, bashtmp,
@@ -4488,19 +4490,22 @@ attacks with no penalty.",
             art->charge_type = art_charge(chargetmp);
             art->item_flags = flagstmp;
             art->max_charges = maxtmp;
-            for (int i = 0; i < num_effects; i++) {
+            for (int i = 0; i < num_effects; i++)
+            {
                 int effect;
                 fin >> effect;
                 art->effects_wielded.push_back( art_effect_passive(effect) );
             }
             fin >> num_effects;
-            for (int i = 0; i < num_effects; i++) {
+            for (int i = 0; i < num_effects; i++)
+            {
                 int effect;
                 fin >> effect;
                 art->effects_activated.push_back( art_effect_active(effect) );
             }
             fin >> num_effects;
-            for (int i = 0; i < num_effects; i++) {
+            for (int i = 0; i < num_effects; i++)
+            {
                 int effect;
                 fin >> effect;
                 art->effects_carried.push_back( art_effect_passive(effect) );
@@ -4509,38 +4514,48 @@ attacks with no penalty.",
             std::string namepart;
             std::stringstream namedata;
             bool start = true;
-            do {
+            do
+            {
                 fin >> namepart;
-                if (namepart != "-") {
+                if (namepart != "-")
+                {
                     if (!start)
                         namedata << " ";
                     else
                         start = false;
                     namedata << namepart;
                 }
-            } while (namepart.find("-") == std::string::npos);
+            }
+            while (namepart.find("-") == std::string::npos);
             art->name = namedata.str();
             start = true;
 
             std::stringstream descdata;
-            do {
+            do
+            {
                 fin >> namepart;
-                if (namepart == "=") {
+                if (namepart == "=")
+                {
                     descdata << "\n";
                     start = true;
-                } else if (namepart != "-") {
+                }
+                else if (namepart != "-")
+                {
                     if (!start)
                         descdata << " ";
                     descdata << namepart;
                     start = false;
                 }
-            } while (namepart.find("-") == std::string::npos && !fin.eof());
+            }
+            while (namepart.find("-") == std::string::npos && !fin.eof());
             art->description = descdata.str();
 
             art->id = itypes.size();
             itypes.push_back(art);
 
-        } else if (arttype == 'A') {
+        }
+        else if (arttype == 'A')
+        {
             it_artifact_armor *art = new it_artifact_armor();
 
             int num_effects, m1tmp, m2tmp, voltmp, wgttmp, bashtmp, cuttmp,
@@ -4567,7 +4582,8 @@ attacks with no penalty.",
             art->warmth = warmtmp;
             art->storage = storagetmp;
             art->item_flags = flagstmp;
-            for (int i = 0; i < num_effects; i++) {
+            for (int i = 0; i < num_effects; i++)
+            {
                 int effect;
                 fin >> effect;
                 art->effects_worn.push_back( art_effect_passive(effect) );
@@ -4576,7 +4592,8 @@ attacks with no penalty.",
             std::string namepart;
             std::stringstream namedata;
             bool start = true;
-            do {
+            do
+            {
                 if (!start)
                     namedata << " ";
                 else
@@ -4584,23 +4601,29 @@ attacks with no penalty.",
                 fin >> namepart;
                 if (namepart != "-")
                     namedata << namepart;
-            } while (namepart.find("-") == std::string::npos);
+            }
+            while (namepart.find("-") == std::string::npos);
             art->name = namedata.str();
             start = true;
 
             std::stringstream descdata;
-            do {
+            do
+            {
                 fin >> namepart;
-                if (namepart == "=") {
+                if (namepart == "=")
+                {
                     descdata << "\n";
                     start = true;
-                } else if (namepart != "-") {
+                }
+                else if (namepart != "-")
+                {
                     if (!start)
                         descdata << " ";
                     descdata << namepart;
                     start = false;
                 }
-            } while (namepart.find("-") == std::string::npos && !fin.eof());
+            }
+            while (namepart.find("-") == std::string::npos && !fin.eof());
             art->description = descdata.str();
 
             art->id = itypes.size();
@@ -4620,7 +4643,8 @@ attacks with no penalty.",
 
 std::string ammo_name(ammotype t)
 {
-    switch (t) {
+    switch (t)
+    {
     case AT_NAIL:
         return "nails";
     case AT_BB:
@@ -4680,7 +4704,8 @@ std::string ammo_name(ammotype t)
 
 itype_id default_ammo(ammotype guntype)
 {
-    switch (guntype) {
+    switch (guntype)
+    {
     case AT_NAIL:
         return itm_nail;
     case AT_BB:

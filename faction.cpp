@@ -94,7 +94,8 @@ void faction::load_info(std::string data)
     job2 = faction_job(jobtmp2);
     int size, tmpop;
     dump >> size;
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++)
+    {
         dump >> tmpop;
         opinion_of.push_back(tmpop);
     }
@@ -133,9 +134,11 @@ void faction::randomize()
     int num_values = 0;
     int tries = 0;
     values = 0;
-    do {
+    do
+    {
         int v = rng(1, NUM_FACVALS - 1);
-        if (!has_value(faction_value(v)) && matches_us(faction_value(v))) {
+        if (!has_value(faction_value(v)) && matches_us(faction_value(v)))
+        {
             values |= mfb(v);
             tries = 0;
             num_values++;
@@ -144,17 +147,21 @@ void faction::randomize()
             sneak    += facval_data[v].sneak;
             crime    += facval_data[v].crime;
             cult     += facval_data[v].cult;
-        } else
+        }
+        else
             tries++;
-    } while((one_in(num_values) || one_in(num_values)) && tries < 15);
+    }
+    while((one_in(num_values) || one_in(num_values)) && tries < 15);
 
     std::string noun;
     int sel = 1, best = strength;
-    if (sneak > best) {
+    if (sneak > best)
+    {
         sel = 2;
         best = sneak;
     }
-    if (crime > best) {
+    if (crime > best)
+    {
         sel = 3;
         best = crime;
     }
@@ -163,7 +170,8 @@ void faction::randomize()
     if (strength <= 0 && sneak <= 0 && crime <= 0 && cult <= 0)
         sel = 0;
 
-    switch (sel) {
+    switch (sel)
+    {
     case 1:
         noun  = faction_noun_strong[rng(0, 14)];
         power = dice(5, 20);
@@ -190,18 +198,22 @@ void faction::randomize()
         size  = dice(6, 6);
     }
 
-    if (one_in(4)) {
+    if (one_in(4))
+    {
         do
             name = "The " + noun + " of " + invent_name();
         while (name.length() > MAX_FAC_NAME_SIZE);
     }
-    else if (one_in(2)) {
+    else if (one_in(2))
+    {
         do
             name = "The " + invent_adj() + " " + noun;
         while (name.length() > MAX_FAC_NAME_SIZE);
     }
-    else {
-        do {
+    else
+    {
+        do
+        {
             std::string adj;
             if (good >= 3)
                 adj = faction_adj_pos[rng(0, 14)];
@@ -212,7 +224,8 @@ void faction::randomize()
             name = "The " + adj + " " + noun;
             if (one_in(4))
                 name += " of " + invent_name();
-        } while (name.length() > MAX_FAC_NAME_SIZE);
+        }
+        while (name.length() > MAX_FAC_NAME_SIZE);
     }
 }
 
@@ -262,7 +275,8 @@ bool faction::matches_us(faction_value v)
     int numvals = 2;
     if (job2 != FACJOB_NULL)
         numvals++;
-    for (int i = 0; i < NUM_FACVALS; i++) {
+    for (int i = 0; i < NUM_FACVALS; i++)
+    {
         if (has_value(faction_value(i)))
             numvals++;
     }
@@ -308,15 +322,18 @@ std::string faction::describe()
         ret += ".";
     else
         ret += ", but they are also involved in " + facjob_data[job2].name + ".";
-    if (values != 0) {
+    if (values != 0)
+    {
         ret += " They are known for ";
-        for (int i = 0; i < NUM_FACVALS; i++) {
+        for (int i = 0; i < NUM_FACVALS; i++)
+        {
             if (has_value(faction_value(i)))
                 ret += facval_data[i].name + ", ";
         }
     }
     size_t pos = ret.find_last_of(",");
-    if (pos != std::string::npos) {
+    if (pos != std::string::npos)
+    {
         ret.replace(pos, 2, ".");
         pos = ret.find_last_of(",");
         if (pos != std::string::npos)
@@ -367,8 +384,10 @@ std::string invent_name()
     std::string ret = "";
     std::string tmp;
     int syllables = rng(2, 3);
-    for (int i = 0; i < syllables; i++) {
-        switch (rng(0, 25)) {
+    for (int i = 0; i < syllables; i++)
+    {
+        switch (rng(0, 25))
+        {
         case  0:
             tmp = "ab";
             break;
@@ -458,7 +477,8 @@ std::string invent_adj()
 {
     int syllables = dice(2, 2) - 1;
     std::string ret,  tmp;
-    switch (rng(0, 25)) {
+    switch (rng(0, 25))
+    {
     case  0:
         ret = "Ald";
         break;
@@ -538,8 +558,10 @@ std::string invent_adj()
         ret = "Zor";
         break;
     }
-    for (int i = 0; i < syllables - 2; i++) {
-        switch (rng(0, 17)) {
+    for (int i = 0; i < syllables - 2; i++)
+    {
+        switch (rng(0, 17))
+        {
         case  0:
             tmp = "al";
             break;
@@ -597,7 +619,8 @@ std::string invent_adj()
         }
         ret += tmp;
     }
-    switch (rng(0, 24)) {
+    switch (rng(0, 24))
+    {
     case  0:
         tmp = "";
         break;

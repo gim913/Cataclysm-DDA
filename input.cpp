@@ -72,7 +72,8 @@ void get_direction(int &x, int &y, InputEvent &input)
     x = 0;
     y = 0;
 
-    switch(input) {
+    switch(input)
+    {
     case DirectionN:
         --y;
         break;

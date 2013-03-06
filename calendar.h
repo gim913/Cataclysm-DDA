@@ -28,7 +28,8 @@
 // How much light is provided in full daylight
 #define DAYLIGHT_LEVEL 60
 
-enum moon_phase {
+enum moon_phase
+{
     MOON_NEW = 0,
     MOON_HALF,
     MOON_FULL

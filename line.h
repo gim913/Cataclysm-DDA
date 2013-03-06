@@ -8,7 +8,8 @@
 
 #define SLOPE_VERTICAL 999999
 
-enum direction {
+enum direction
+{
     NORTH = 0,
     NORTHEAST,
     EAST,
@@ -36,7 +37,8 @@ std::string direction_name_short(direction dir);
 
 
 // weird class for 2d vectors where dist is derived from rl_dist
-struct rl_vec2d {
+struct rl_vec2d
+{
     float x;
     float y;
 

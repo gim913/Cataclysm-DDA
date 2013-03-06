@@ -8,13 +8,15 @@
 
 void init_colors();
 
-enum col_attribute {
+enum col_attribute
+{
     WA_NULL = 0,
     HI = 1,
     INV = 2
 };
 
-enum nc_color {
+enum nc_color
+{
     c_black   = COLOR_PAIR(30),
     c_white   = COLOR_PAIR(1)  | A_BOLD,
     c_ltgray  = COLOR_PAIR(1),

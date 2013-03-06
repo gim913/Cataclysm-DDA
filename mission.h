@@ -12,7 +12,8 @@ struct mission;
 class game;
 enum talk_topic;
 
-enum mission_id {
+enum mission_id
+{
     MISSION_NULL,
     MISSION_GET_ANTIBIOTICS,
     MISSION_GET_SOFTWARE,
@@ -25,7 +26,8 @@ enum mission_id {
 
 std::string mission_dialogue(mission_id id, talk_topic state);
 
-enum mission_origin {
+enum mission_origin
+{
     ORIGIN_NULL = 0,
     ORIGIN_GAME_START,	// Given when the game starts
     ORIGIN_OPENER_NPC,	// NPC comes up to you when the game starts
@@ -34,7 +36,8 @@ enum mission_origin {
     NUM_ORIGIN
 };
 
-enum mission_goal {
+enum mission_goal
+{
     MGOAL_NULL = 0,
     MGOAL_GO_TO,		// Reach a certain overmap tile
     MGOAL_FIND_ITEM,	// Find an item of a given type
@@ -46,11 +49,14 @@ enum mission_goal {
     NUM_MGOAL
 };
 
-struct mission_place {	// Return true if [posx,posy] is valid in overmap
-    bool never		(game *g, int posx, int posy) {
+struct mission_place  	// Return true if [posx,posy] is valid in overmap
+{
+    bool never		(game *g, int posx, int posy)
+    {
         return false;
     }
-    bool always		(game *g, int posx, int posy) {
+    bool always		(game *g, int posx, int posy)
+    {
         return true;
     }
     bool near_town		(game *g, int posx, int posy);
@@ -62,7 +68,8 @@ struct mission_place {	// Return true if [posx,posy] is valid in overmap
  * if the current goal has been reached.  At that point they either start the
  * goal, or run the appropriate mission_end function.
  */
-struct mission_start {
+struct mission_start
+{
     void standard		(game *, mission *); // Standard for its goal type
     void infect_npc	(game *, mission *); // DI_INFECTION, remove antibiotics
     void place_dog		(game *, mission *); // Put a dog in a house!
@@ -73,17 +80,20 @@ struct mission_start {
     void place_book	(game *, mission *); // Place a book to retrieve
 };
 
-struct mission_end {	// These functions are run when a mission ends
+struct mission_end  	// These functions are run when a mission ends
+{
     void standard		(game *, mission *) {}; // Nothing special happens
     void heal_infection	(game *, mission *);
 };
 
-struct mission_fail {
+struct mission_fail
+{
     void standard		(game *, mission *) {}; // Nothing special happens
     void kill_npc		(game *, mission *); // Kill the NPC who assigned it!
 };
 
-struct mission_type {
+struct mission_type
+{
     int id;		// Matches it to a mission_id above
     std::string name;	// The name the mission is given in menus
     mission_goal goal;	// The basic goal type
@@ -120,7 +130,8 @@ struct mission_type {
     mission create(game *g, int npc_id = -1); // Create a mission
 };
 
-struct mission {
+struct mission
+{
     mission_type *type;
     std::string description; // Basic descriptive text
     bool failed;		// True if we've failed it!

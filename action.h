@@ -1,7 +1,8 @@
 #ifndef _ACTION_H_
 #define _ACTION_H_
 
-enum action_id {
+enum action_id
+{
     ACTION_NULL = 0,
 // Movement
     ACTION_PAUSE,

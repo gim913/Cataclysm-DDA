@@ -1,7 +1,8 @@
 #ifndef _INPUT_H_
 #define _INPUT_H_
 
-enum InputEvent {
+enum InputEvent
+{
     Confirm,
     Cancel,
     Close,

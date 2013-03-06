@@ -13,7 +13,8 @@ std::string artifact_name(std::string type);
 
 itype* game::new_artifact()
 {
-    if (one_in(2)) { // Generate a "tool" artifact
+    if (one_in(2))   // Generate a "tool" artifact
+    {
 
         it_artifact_tool *art = new it_artifact_tool();
         int form = rng(ARTTOOLFORM_NULL + 1, NUM_ARTTOOLFORMS - 1);
@@ -33,9 +34,11 @@ itype* game::new_artifact()
         art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
         art->item_flags = weapon->flags;
 // Add an extra weapon perhaps?
-        if (one_in(2)) {
+        if (one_in(2))
+        {
             int select = rng(0, 2);
-            if (info->extra_weapons[select] != ARTWEAP_NULL) {
+            if (info->extra_weapons[select] != ARTWEAP_NULL)
+            {
                 weapon = &(artifact_weapon_data[ info->extra_weapons[select] ]);
                 art->volume += weapon->volume;
                 art->weight += weapon->weight;
@@ -66,13 +69,17 @@ It may have unknown powers; use 'a' to activate them.";
         while (!good_effects.empty() && !bad_effects.empty() &&
                 num_good < 3 && num_bad < 3 &&
                 (num_good < 1 || num_bad < 1 || one_in(num_good + 1) ||
-                 one_in(num_bad + 1) || value > 1)) {
-            if (value < 1 && one_in(2)) { // Good
+                 one_in(num_bad + 1) || value > 1))
+        {
+            if (value < 1 && one_in(2))   // Good
+            {
                 int index = rng(0, good_effects.size() - 1);
                 passive_tmp = good_effects[index];
                 good_effects.erase(good_effects.begin() + index);
                 num_good++;
-            } else if (!bad_effects.empty()) { // Bad effect
+            }
+            else if (!bad_effects.empty())     // Bad effect
+            {
                 int index = rng(0, bad_effects.size() - 1);
                 passive_tmp = bad_effects[index];
                 bad_effects.erase(bad_effects.begin() + index);
@@ -90,13 +97,17 @@ It may have unknown powers; use 'a' to activate them.";
         while (one_in(2) && !good_effects.empty() && !bad_effects.empty() &&
                 num_good < 3 && num_bad < 3 &&
                 ((num_good > 2 && one_in(num_good + 1)) || num_bad < 1 ||
-                 one_in(num_bad + 1) || value > 1)) {
-            if (value < 1 && one_in(3)) { // Good
+                 one_in(num_bad + 1) || value > 1))
+        {
+            if (value < 1 && one_in(3))   // Good
+            {
                 int index = rng(0, good_effects.size() - 1);
                 passive_tmp = good_effects[index];
                 good_effects.erase(good_effects.begin() + index);
                 num_good++;
-            } else { // Bad effect
+            }
+            else     // Bad effect
+            {
                 int index = rng(0, bad_effects.size() - 1);
                 passive_tmp = bad_effects[index];
                 bad_effects.erase(bad_effects.begin() + index);
@@ -116,14 +127,18 @@ It may have unknown powers; use 'a' to activate them.";
         while (!good_a_effects.empty() && !bad_a_effects.empty() &&
                 num_good < 3 && num_bad < 3 &&
                 (value > 3 || (num_bad > 0 && num_good == 0) ||
-                 !one_in(3 - num_good) || !one_in(3 - num_bad))) {
-            if (!one_in(3) && value <= 1) { // Good effect
+                 !one_in(3 - num_good) || !one_in(3 - num_bad)))
+        {
+            if (!one_in(3) && value <= 1)   // Good effect
+            {
                 int index = rng(0, good_a_effects.size() - 1);
                 active_tmp = good_a_effects[index];
                 good_a_effects.erase(good_a_effects.begin() + index);
                 num_good++;
                 value += active_effect_cost[active_tmp];
-            } else { // Bad effect
+            }
+            else     // Bad effect
+            {
                 int index = rng(0, bad_a_effects.size() - 1);
                 active_tmp = bad_a_effects[index];
                 bad_a_effects.erase(bad_a_effects.begin() + index);
@@ -144,7 +159,9 @@ It may have unknown powers; use 'a' to activate them.";
         itypes.push_back(art);
         return art;
 
-    } else { // Generate an armor artifact
+    }
+    else     // Generate an armor artifact
+    {
 
         it_artifact_armor *art = new it_artifact_armor();
         int form = rng(ARTARMFORM_NULL + 1, NUM_ARTARMFORMS - 1);
@@ -174,9 +191,11 @@ It may have unknown powers; use 'a' to activate them.";
                      "It is the only one of its kind.");
 
 // Modify the armor further
-        if (!one_in(4)) {
+        if (!one_in(4))
+        {
             int index = rng(0, 4);
-            if (info->available_mods[index] != ARMORMOD_NULL) {
+            if (info->available_mods[index] != ARMORMOD_NULL)
+            {
                 artifact_armor_mod mod = info->available_mods[index];
                 artifact_armor_form_datum *modinfo = &(artifact_armor_mod_data[mod]);
                 if (modinfo->volume >= 0 || art->volume > abs(modinfo->volume))
@@ -228,13 +247,17 @@ It may have unknown powers; use 'a' to activate them.";
         while (!good_effects.empty() && !bad_effects.empty() &&
                 num_good < 3 && num_bad < 3 &&
                 (num_good < 1 || one_in(num_good * 2) || value > 1 ||
-                 (num_bad < 3 && !one_in(3 - num_bad)))) {
-            if (value < 1 && one_in(2)) { // Good effect
+                 (num_bad < 3 && !one_in(3 - num_bad))))
+        {
+            if (value < 1 && one_in(2))   // Good effect
+            {
                 int index = rng(0, good_effects.size() - 1);
                 passive_tmp = good_effects[index];
                 good_effects.erase(good_effects.begin() + index);
                 num_good++;
-            } else { // Bad effect
+            }
+            else     // Bad effect
+            {
                 int index = rng(0, bad_effects.size() - 1);
                 passive_tmp = bad_effects[index];
                 bad_effects.erase(bad_effects.begin() + index);
@@ -280,11 +303,13 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
     art->description = desc.str();
 // Add line breaks to the description as necessary
     size_t pos = 76;
-    while (art->description.length() - pos >= 76) {
+    while (art->description.length() - pos >= 76)
+    {
         pos = art->description.find_last_of(' ', pos);
         if (pos == std::string::npos)
             pos = art->description.length();
-        else {
+        else
+        {
             art->description[pos] = '\n';
             pos += 76;
         }
@@ -294,7 +319,8 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
 // and bad passive + good active
     bool good_passive = false, bad_passive = false,
          good_active  = false, bad_active  = false;
-    switch (rng(1, 3)) {
+    switch (rng(1, 3))
+    {
     case 1:
         good_passive = true;
         bad_passive  = true;
@@ -314,23 +340,28 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
     art_effect_passive aep_good = AEP_NULL, aep_bad = AEP_NULL;
     art_effect_active  aea_good = AEA_NULL, aea_bad = AEA_NULL;
 
-    do {
-        if (good_passive) {
+    do
+    {
+        if (good_passive)
+        {
             aep_good = property_data->passive_good[ rng(0, 3) ];
             if (aep_good == AEP_NULL || one_in(4))
                 aep_good = art_effect_passive(rng(AEP_NULL + 1, AEP_SPLIT - 1));
         }
-        if (bad_passive) {
+        if (bad_passive)
+        {
             aep_bad = property_data->passive_bad[ rng(0, 3) ];
             if (aep_bad == AEP_NULL || one_in(4))
                 aep_bad = art_effect_passive(rng(AEP_SPLIT + 1, NUM_AEAS - 1));
         }
-        if (good_active) {
+        if (good_active)
+        {
             aea_good = property_data->active_good[ rng(0, 3) ];
             if (aea_good == AEA_NULL || one_in(4))
                 aea_good = art_effect_active(rng(AEA_NULL + 1, AEA_SPLIT - 1));
         }
-        if (bad_active) {
+        if (bad_active)
+        {
             aea_bad = property_data->active_bad[ rng(0, 3) ];
             if (aea_bad == AEA_NULL || one_in(4))
                 aea_bad = art_effect_active(rng(AEA_SPLIT + 1, NUM_AEAS - 1));
@@ -339,7 +370,8 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
         value = passive_effect_cost[aep_good] + passive_effect_cost[aep_bad] +
                 active_effect_cost[aea_good] +  active_effect_cost[aea_bad];
         value_to_reach++; // Yes, it is intentional that this is 1 the first check
-    } while (value > value_to_reach);
+    }
+    while (value > value_to_reach);
 
     if (aep_good != AEP_NULL)
         art->effects_carried.push_back(aep_good);
@@ -352,7 +384,8 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
 
 // Natural artifacts ALWAYS can recharge
 // (When "implanting" them in a mundane item, this ability may be lost
-    if (!art->effects_activated.empty()) {
+    if (!art->effects_activated.empty())
+    {
         art->max_charges = rng(1, 4);
         art->def_charges = art->max_charges;
         art->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
@@ -400,7 +433,8 @@ std::string artifact_name(std::string type)
     std::stringstream ret;
     ret << type << " of ";
     std::string noun = artifact_noun[rng(0, NUM_ART_NOUNS - 1)];
-    if (noun[0] == '+') {
+    if (noun[0] == '+')
+    {
         ret << "the ";
         noun = noun.substr(1); // Chop off '+'
     }
@@ -412,19 +446,25 @@ std::string artifact_name(std::string type)
 void game::process_artifact(item *it, player *p, bool wielded)
 {
     std::vector<art_effect_passive> effects;
-    if (it->is_armor()) {
+    if (it->is_armor())
+    {
         it_artifact_armor* armor = dynamic_cast<it_artifact_armor*>(it->type);
         effects = armor->effects_worn;
-    } else if (it->is_tool()) {
+    }
+    else if (it->is_tool())
+    {
         it_artifact_tool* tool = dynamic_cast<it_artifact_tool*>(it->type);
         effects = tool->effects_carried;
-        if (wielded) {
+        if (wielded)
+        {
             for (int i = 0; i < tool->effects_wielded.size(); i++)
                 effects.push_back(tool->effects_wielded[i]);
         }
 // Recharge it if necessary
-        if (it->charges < tool->max_charges) {
-            switch (tool->charge_type) {
+        if (it->charges < tool->max_charges)
+        {
+            switch (tool->charge_type)
+            {
             case ARTC_TIME:
                 if (turn.second == 0 && turn.minute == 0) // Once per hour
                     it->charges++;
@@ -435,14 +475,16 @@ void game::process_artifact(item *it, player *p, bool wielded)
                     it->charges++;
                 break;
             case ARTC_PAIN:
-                if (turn.second == 0) {
+                if (turn.second == 0)
+                {
                     add_msg("You suddenly feel sharp pain for no reason.");
                     p->pain += 3 * rng(1, 3);
                     it->charges++;
                 }
                 break;
             case ARTC_HP:
-                if (turn.second == 0) {
+                if (turn.second == 0)
+                {
                     add_msg("You feel your body decaying.");
                     p->hurtall(1);
                     it->charges++;
@@ -452,8 +494,10 @@ void game::process_artifact(item *it, player *p, bool wielded)
         }
     }
 
-    for (int i = 0; i < effects.size(); i++) {
-        switch (effects[i]) {
+    for (int i = 0; i < effects.size(); i++)
+    {
+        switch (effects[i])
+        {
         case AEP_STR_UP:
             p->str_cur += 4;
             break;
@@ -481,7 +525,8 @@ void game::process_artifact(item *it, player *p, bool wielded)
             break;
 
         case AEP_SMOKE:
-            if (one_in(10)) {
+            if (one_in(10))
+            {
                 int x = p->posx + rng(-1, 1), y = p->posy + rng(-1, 1);
                 if (m.add_field(this, x, y, fd_smoke, rng(1, 3)))
                     add_msg("The %s emits some smoke.", it->tname().c_str());
@@ -492,9 +537,12 @@ void game::process_artifact(item *it, player *p, bool wielded)
             break; // Handled in player::hit()
 
         case AEP_EXTINGUISH:
-            for (int x = p->posx - 1; x <= p->posx + 1; x++) {
-                for (int y = p->posy - 1; y <= p->posy + 1; y++) {
-                    if (m.field_at(x, y).type == fd_fire) {
+            for (int x = p->posx - 1; x <= p->posx + 1; x++)
+            {
+                for (int y = p->posy - 1; y <= p->posy + 1; y++)
+                {
+                    if (m.field_at(x, y).type == fd_fire)
+                    {
                         if (m.field_at(x, y).density == 0)
                             m.remove_field(x, y);
                         else
@@ -515,7 +563,8 @@ void game::process_artifact(item *it, player *p, bool wielded)
             break;
 
         case AEP_EVIL:
-            if (one_in(150)) { // Once every 15 minutes, on average
+            if (one_in(150))   // Once every 15 minutes, on average
+            {
                 p->add_disease(DI_EVIL, 300, this);
                 if (!wielded && !it->is_armor())
                     add_msg("You have an urge to %s the %s.",
@@ -563,8 +612,10 @@ void game::process_artifact(item *it, player *p, bool wielded)
 void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 {
     int net_str = 0, net_dex = 0, net_per = 0, net_int = 0, net_speed = 0;
-    for (int i = 0; i < effects.size(); i++) {
-        switch (effects[i]) {
+    for (int i = 0; i < effects.size(); i++)
+    {
+        switch (effects[i])
+        {
         case AEP_STR_UP:
             net_str += 4;
             break;

@@ -5,7 +5,8 @@
 #define sgn(x) (((x) < 0) ? -1 : 1)
 #endif
 
-enum material {
+enum material
+{
     MNULL = 0,
 //Food Materials
     LIQUID, VEGGY, FLESH, POWDER,
@@ -15,7 +16,8 @@ enum material {
     STONE, PAPER, WOOD, PLASTIC, GLASS, IRON, STEEL, SILVER
 };
 
-struct point {
+struct point
+{
     int x;
     int y;
     point(int X = 0, int Y = 0) : x (X), y (Y) {}
@@ -23,7 +25,8 @@ struct point {
     ~point() {}
 };
 
-struct tripoint {
+struct tripoint
+{
     int x;
     int y;
     int z;

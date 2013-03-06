@@ -49,11 +49,13 @@ void mission::load_info(game *g, std::ifstream &data)
     data >> type_id;
     type = &(g->mission_types[type_id]);
     std::string tmpdesc;
-    do {
+    do
+    {
         data >> tmpdesc;
         if (tmpdesc != "<>")
             description += tmpdesc + " ";
-    } while (tmpdesc != "<>");
+    }
+    while (tmpdesc != "<>");
     description = description.substr( 0, description.size() - 1 ); // Ending ' '
     data >> failed >> value >> rewtype >> reward_id >> rew_item >> rew_skill >>
          uid >> target.x >> target.y >> itemid >> count >> deadline >> npc_id >>
@@ -67,12 +69,15 @@ void mission::load_info(game *g, std::ifstream &data)
 
 std::string mission_dialogue (mission_id id, talk_topic state)
 {
-    switch (id) {
+    switch (id)
+    {
 
     case MISSION_GET_ANTIBIOTICS:
-        switch (state) {
+        switch (state)
+        {
         case TALK_MISSION_DESCRIBE:
-            switch (rng(1, 4)) {
+            switch (rng(1, 4))
+            {
             case 1:
                 return "Hey <name_g>... I really need your help...";
             case 2:
@@ -108,7 +113,8 @@ There's a town nearby.  Check pharmacies; it'll be behind the counter.";
         break;
 
     case MISSION_GET_SOFTWARE:
-        switch (state) {
+        switch (state)
+        {
         case TALK_MISSION_DESCRIBE:
             return "Oh man, I can't believe I forgot to download it...";
         case TALK_MISSION_OFFER:
@@ -132,7 +138,8 @@ Thanks!  Just pull the data onto this USB drive and bring it to me.";
         break;
 
     case MISSION_GET_ZOMBIE_BLOOD_ANAL:
-        switch (state) {
+        switch (state)
+        {
         case TALK_MISSION_DESCRIBE:
             return "\
 It could be very informative to perform an analysis of zombie blood...";
@@ -163,7 +170,8 @@ computers before completing that part.";
         break;
 
     case MISSION_RESCUE_DOG:
-        switch (state) {
+        switch (state)
+        {
         case TALK_MISSION_DESCRIBE:
             return "Oh, my poor puppy...";
 
@@ -202,7 +210,8 @@ Thank you so much for finding him!";
         break;
 
     case MISSION_KILL_ZOMBIE_MOM:
-        switch (state) {
+        switch (state)
+        {
         case TALK_MISSION_DESCRIBE:
             return "Oh god, I can't believe it happened...";
         case TALK_MISSION_OFFER:
@@ -226,7 +235,8 @@ of those things now.  Can you put her out of her misery for me?";
         }
         break;
     default:
-        switch (state) {
+        switch (state)
+        {
         case TALK_MISSION_DESCRIBE:
         case TALK_MISSION_OFFER:
         case TALK_MISSION_ACCEPTED:

@@ -46,7 +46,8 @@ void init_colors()
 
 int color_to_int(nc_color col)
 {
-    switch (col) {
+    switch (col)
+    {
     case c_black  :
         return  0;
     case c_white  :
@@ -175,7 +176,8 @@ int color_to_int(nc_color col)
 
 nc_color int_to_color(int key)
 {
-    switch (key) {
+    switch (key)
+    {
     case  0:
         return c_black  ;
     case  1:

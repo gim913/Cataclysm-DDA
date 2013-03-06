@@ -27,11 +27,14 @@ int main(int argc, char *argv[])
 //args: world seeding only.
     argc--;
     argv++;
-    while (argc) {
-        if(std::string(argv[0]) == "--seed") {
+    while (argc)
+    {
+        if(std::string(argv[0]) == "--seed")
+        {
             argc--;
             argv++;
-            if(argc) {
+            if(argc)
+            {
                 seed = djb2_hash((unsigned char*)argv[0]);
                 argc--;
                 argv++;
@@ -68,19 +71,23 @@ int main(int argc, char *argv[])
     sigaction(SIGINT, &sigIntHandler, NULL);
 #endif
 
-    do {
+    do
+    {
         g->setup();
         while (!g->do_turn()) ;
         if (g->uquit == QUIT_DELETE_WORLD)
             delete_world = true;
         if (g->game_quit())
             quit_game = true;
-    } while (!quit_game);
+    }
+    while (!quit_game);
 
     if (delete_world)
     {
         g->delete_save();
-    } else {
+    }
+    else
+    {
         MAPBUFFER.save_if_dirty();
     }
 
@@ -89,21 +96,29 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void exit_handler(int s) {
+void exit_handler(int s)
+{
     bool bExit = false;
 
-    if (s == 2) {
-        if (query_yn("Really Quit without saving?")) {
+    if (s == 2)
+    {
+        if (query_yn("Really Quit without saving?"))
+        {
             bExit = true;
         }
-    } else if (s == -999) {
+    }
+    else if (s == -999)
+    {
         bExit = true;
-    } else {
+    }
+    else
+    {
         //query_yn("Signal received: %d", s);
         bExit = true;
     }
 
-    if (bExit) {
+    if (bExit)
+    {
         erase(); // Clear screen
         endwin(); // End ncurses
 #if (defined _WIN32 || defined WINDOWS)

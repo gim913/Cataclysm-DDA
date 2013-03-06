@@ -31,7 +31,8 @@ void parse_tags(std::string &phrase, player *u, npc *me);
  */
 
 // Attitude is how we feel about the player, what we do around them
-enum npc_attitude {
+enum npc_attitude
+{
     NPCATT_NULL = 0,	// Don't care/ignoring player
     NPCATT_TALK,		// Move to and talk to player
     NPCATT_TRADE,		// Move to and trade with player
@@ -54,7 +55,8 @@ enum npc_attitude {
 
 std::string npc_attitude_name(npc_attitude);
 
-enum npc_mission {
+enum npc_mission
+{
     NPC_MISSION_NULL = 0,	// Nothing in particular
     NPC_MISSION_RESCUE_U,	// Find the player and aid them
     NPC_MISSION_SHELTER,	// Stay in shelter, introduce player to game
@@ -67,7 +69,8 @@ enum npc_mission {
 
 //std::string npc_mission_name(npc_mission);
 
-enum npc_class {
+enum npc_class
+{
     NC_NONE,
     NC_SHOPKEEP,	// Found in towns.  Stays in his shop mostly.
     NC_HACKER,	// Weak in combat but has hacking skills and equipment
@@ -82,7 +85,8 @@ enum npc_class {
 
 std::string npc_class_name(npc_class);
 
-enum npc_action {
+enum npc_action
+{
     npc_undecided = 0,
     npc_pause, //1
     npc_reload, npc_sleep, // 2, 3
@@ -96,14 +100,16 @@ enum npc_action {
     num_npc_actions
 };
 
-enum npc_need {
+enum npc_need
+{
     need_none,
     need_ammo, need_weapon, need_gun,
     need_food, need_drink,
     num_needs
 };
 
-enum npc_flag {
+enum npc_flag
+{
     NF_NULL,
 // Items desired
     NF_FOOD_HOARDER,
@@ -113,7 +119,8 @@ enum npc_flag {
     NF_MAX
 };
 
-enum npc_favor_type {
+enum npc_favor_type
+{
     FAVOR_NULL,
     FAVOR_GENERAL,	// We owe you... a favor?
     FAVOR_CASH,	// We owe cash (or goods of equivalent value)
@@ -129,7 +136,8 @@ struct npc_favor
     itype_id item_id;
     Skill *skill;
 
-    npc_favor() {
+    npc_favor()
+    {
         type = FAVOR_NULL;
         value = 0;
         item_id = itm_null;
@@ -138,13 +146,15 @@ struct npc_favor
 
 };
 
-struct npc_personality {
+struct npc_personality
+{
 // All values should be in the -10 to 10 range.
     signed char aggression;
     signed char bravery;
     signed char collector;
     signed char altruism;
-    npc_personality() {
+    npc_personality()
+    {
         aggression = 0;
         bravery    = 0;
         collector  = 0;
@@ -161,12 +171,14 @@ struct npc_opinion
     int owed;
     std::vector<npc_favor> favors;
 
-    int total_owed() {
+    int total_owed()
+    {
         int ret = owed;
         return ret;
     }
 
-    npc_opinion() {
+    npc_opinion()
+    {
         trust = 0;
         fear  = 0;
         value = 0;
@@ -230,7 +242,8 @@ struct npc_opinion
     {
         int tmpsize;
         info >> trust >> fear >> value >> anger >> owed >> tmpsize;
-        for (int i = 0; i < tmpsize; i++) {
+        for (int i = 0; i < tmpsize; i++)
+        {
             int tmptype, tmpitem, tmpskill;
             npc_favor tmpfavor;
             info >> tmptype >> tmpfavor.value >> tmpitem >> tmpskill;
@@ -242,7 +255,8 @@ struct npc_opinion
     }
 };
 
-enum combat_engagement {
+enum combat_engagement
+{
     ENGAGE_NONE = 0,
     ENGAGE_CLOSE,
     ENGAGE_WEAK,
@@ -278,7 +292,8 @@ struct npc_combat_rules
     }
 };
 
-enum talk_topic {
+enum talk_topic
+{
     TALK_NONE = 0,	// Used to go back to last subject
     TALK_DONE,	// Used to end the conversation
     TALK_MISSION_LIST, // List available missions. Intentionally placed above START
@@ -376,12 +391,14 @@ struct npc_chatbin
         info >> tmptopic >> mission_selected >> tempvalue >> tmpsize_miss >>
              tmpsize_assigned;
         first_topic = talk_topic(tmptopic);
-        for (int i = 0; i < tmpsize_miss; i++) {
+        for (int i = 0; i < tmpsize_miss; i++)
+        {
             int tmpmiss;
             info >> tmpmiss;
             missions.push_back(tmpmiss);
         }
-        for (int i = 0; i < tmpsize_assigned; i++) {
+        for (int i = 0; i < tmpsize_assigned; i++)
+        {
             int tmpmiss;
             info >> tmpmiss;
             missions_assigned.push_back(tmpmiss);
@@ -389,7 +406,8 @@ struct npc_chatbin
     }
 };
 
-class npc : public player {
+class npc : public player
+{
 
 public:
 
@@ -397,7 +415,8 @@ public:
 //npc(npc& rhs);
     npc(const npc &rhs);
     ~npc();
-    virtual bool is_npc() {
+    virtual bool is_npc()
+    {
         return true;
     }
 

@@ -17,57 +17,76 @@ void game::wish()
     std::vector<int> search_results;
     item tmp;
     tmp.corpse = mtypes[0];
-    do {
+    do
+    {
         werase(w_info);
         werase(w_list);
         mvwprintw(w_list, 0, 0, "Wish for a: ");
-        if (search) {
+        if (search)
+        {
             found = false;
-            if (ch == '\n') {
+            if (ch == '\n')
+            {
                 search = false;
                 found = true;
                 ch = '.';
-            } else if (ch == KEY_BACKSPACE || ch == 127) {
+            }
+            else if (ch == KEY_BACKSPACE || ch == 127)
+            {
                 if (pattern.length() > 0)
                     pattern.erase(pattern.end() - 1);
-            } else if (ch == '>') {
+            }
+            else if (ch == '>')
+            {
                 search = false;
-                if (!search_results.empty()) {
+                if (!search_results.empty())
+                {
                     result_selected++;
                     if (result_selected > search_results.size())
                         result_selected = 0;
                     shift = search_results[result_selected];
                     a = 0;
-                    if (shift + 23 > itypes.size()) {
+                    if (shift + 23 > itypes.size())
+                    {
                         a = shift + 23 - itypes.size();
                         shift = itypes.size() - 23;
                     }
                 }
-            } else if (ch == '<') {
+            }
+            else if (ch == '<')
+            {
                 search = false;
-                if (!search_results.empty()) {
+                if (!search_results.empty())
+                {
                     result_selected--;
                     if (result_selected < 0)
                         result_selected = search_results.size() - 1;
                     shift = search_results[result_selected];
                     a = 0;
-                    if (shift + 23 > itypes.size()) {
+                    if (shift + 23 > itypes.size())
+                    {
                         a = shift + 23 - itypes.size();
                         shift = itypes.size() - 23;
                     }
                 }
-            } else {
+            }
+            else
+            {
                 pattern += ch;
                 search_results.clear();
             }
 
-            if (search) {
-                for (int i = 0; i < itypes.size(); i++) {
-                    if (itypes[i]->name.find(pattern) != std::string::npos) {
+            if (search)
+            {
+                for (int i = 0; i < itypes.size(); i++)
+                {
+                    if (itypes[i]->name.find(pattern) != std::string::npos)
+                    {
                         shift = i;
                         a = 0;
                         result_selected = 0;
-                        if (shift + 23 > itypes.size()) {
+                        if (shift + 23 > itypes.size())
+                        {
                             a = shift + 23 - itypes.size();
                             shift = itypes.size() - 23;
                         }
@@ -75,38 +94,47 @@ void game::wish()
                         search_results.push_back(i);
                     }
                 }
-                if (search_results.size() > 0) {
+                if (search_results.size() > 0)
+                {
                     shift = search_results[0];
                     a = 0;
                 }
             }
 
-        } else {	// Not searching; scroll by keys
+        }
+        else  	// Not searching; scroll by keys
+        {
             if (ch == 'j') a++;
             if (ch == 'k') a--;
-            if (ch == '/') {
+            if (ch == '/')
+            {
                 search = true;
                 pattern =  "";
                 found = false;
                 search_results.clear();
             }
-            if (ch == '>' && !search_results.empty()) {
+            if (ch == '>' && !search_results.empty())
+            {
                 result_selected++;
                 if (result_selected > search_results.size())
                     result_selected = 0;
                 shift = search_results[result_selected];
                 a = 0;
-                if (shift + 23 > itypes.size()) {
+                if (shift + 23 > itypes.size())
+                {
                     a = shift + 23 - itypes.size();
                     shift = itypes.size() - 23;
                 }
-            } else if (ch == '<' && !search_results.empty()) {
+            }
+            else if (ch == '<' && !search_results.empty())
+            {
                 result_selected--;
                 if (result_selected < 0)
                     result_selected = search_results.size() - 1;
                 shift = search_results[result_selected];
                 a = 0;
-                if (shift + 23 > itypes.size()) {
+                if (shift + 23 > itypes.size())
+                {
                     a = shift + 23 - itypes.size();
                     shift = itypes.size() - 23;
                 }
@@ -116,17 +144,20 @@ void game::wish()
             mvwprintz(w_list, 0, 11, c_green, "%s               ", pattern.c_str());
         else if (pattern.length() > 0)
             mvwprintz(w_list, 0, 11, c_red, "%s not found!            ",pattern.c_str());
-        if (a < 0) {
+        if (a < 0)
+        {
             a = 0;
             shift--;
             if (shift < 0) shift = 0;
         }
-        if (a > 22) {
+        if (a > 22)
+        {
             a = 22;
             shift++;
             if (shift + 23 > itypes.size()) shift = itypes.size() - 23;
         }
-        for (int i = 1; i < 24 && i-1+shift < itypes.size(); i++) {
+        for (int i = 1; i < 24 && i-1+shift < itypes.size(); i++)
+        {
             nc_color col = c_white;
             if (i == a + 1)
                 col = h_white;
@@ -154,7 +185,8 @@ void game::wish()
             ch = getch();
         else
             ch = input();
-    } while (ch != '\n');
+    }
+    while (ch != '\n');
     clear();
     mvprintw(0, 0, "\nWish granted - %d (%d).", tmp.type->id, itm_antibiotics);
     tmp.invlet = nextinv;
@@ -176,57 +208,76 @@ void game::monster_wish()
     std::string info;
     std::vector<int> search_results;
     monster tmp;
-    do {
+    do
+    {
         werase(w_info);
         werase(w_list);
         mvwprintw(w_list, 0, 0, "Spawn a: ");
-        if (search) {
+        if (search)
+        {
             found = false;
-            if (ch == '\n') {
+            if (ch == '\n')
+            {
                 search = false;
                 found = true;
                 ch = '.';
-            } else if (ch == KEY_BACKSPACE || ch == 127) {
+            }
+            else if (ch == KEY_BACKSPACE || ch == 127)
+            {
                 if (pattern.length() > 0)
                     pattern.erase(pattern.end() - 1);
-            } else if (ch == '>') {
+            }
+            else if (ch == '>')
+            {
                 search = false;
-                if (!search_results.empty()) {
+                if (!search_results.empty())
+                {
                     result_selected++;
                     if (result_selected > search_results.size())
                         result_selected = 0;
                     shift = search_results[result_selected];
                     a = 0;
-                    if (shift + 23 > mtypes.size()) {
+                    if (shift + 23 > mtypes.size())
+                    {
                         a = shift + 23 - mtypes.size();
                         shift = mtypes.size() - 23;
                     }
                 }
-            } else if (ch == '<') {
+            }
+            else if (ch == '<')
+            {
                 search = false;
-                if (!search_results.empty()) {
+                if (!search_results.empty())
+                {
                     result_selected--;
                     if (result_selected < 0)
                         result_selected = search_results.size() - 1;
                     shift = search_results[result_selected];
                     a = 0;
-                    if (shift + 23 > mtypes.size()) {
+                    if (shift + 23 > mtypes.size())
+                    {
                         a = shift + 23 - mtypes.size();
                         shift = mtypes.size() - 23;
                     }
                 }
-            } else {
+            }
+            else
+            {
                 pattern += ch;
                 search_results.clear();
             }
 
-            if (search) {
-                for (int i = 1; i < mtypes.size(); i++) {
-                    if (mtypes[i]->name.find(pattern) != std::string::npos) {
+            if (search)
+            {
+                for (int i = 1; i < mtypes.size(); i++)
+                {
+                    if (mtypes[i]->name.find(pattern) != std::string::npos)
+                    {
                         shift = i;
                         a = 0;
                         result_selected = 0;
-                        if (shift + 23 > mtypes.size()) {
+                        if (shift + 23 > mtypes.size())
+                        {
                             a = shift + 23 - mtypes.size();
                             shift = mtypes.size() - 23;
                         }
@@ -236,33 +287,41 @@ void game::monster_wish()
                 }
             }
 
-        } else {	// Not searching; scroll by keys
+        }
+        else  	// Not searching; scroll by keys
+        {
             if (ch == 'j') a++;
             if (ch == 'k') a--;
             if (ch == 'f') friendly = !friendly;
-            if (ch == '/') {
+            if (ch == '/')
+            {
                 search = true;
                 pattern =  "";
                 found = false;
                 search_results.clear();
             }
-            if (ch == '>' && !search_results.empty()) {
+            if (ch == '>' && !search_results.empty())
+            {
                 result_selected++;
                 if (result_selected > search_results.size())
                     result_selected = 0;
                 shift = search_results[result_selected];
                 a = 0;
-                if (shift + 23 > mtypes.size()) {
+                if (shift + 23 > mtypes.size())
+                {
                     a = shift + 23 - mtypes.size();
                     shift = mtypes.size() - 23;
                 }
-            } else if (ch == '<' && !search_results.empty()) {
+            }
+            else if (ch == '<' && !search_results.empty())
+            {
                 result_selected--;
                 if (result_selected < 0)
                     result_selected = search_results.size() - 1;
                 shift = search_results[result_selected];
                 a = 0;
-                if (shift + 23 > mtypes.size()) {
+                if (shift + 23 > mtypes.size())
+                {
                     a = shift + 23 - mtypes.size();
                     shift = mtypes.size() - 23;
                 }
@@ -272,17 +331,20 @@ void game::monster_wish()
             mvwprintz(w_list, 0, 11, c_green, "%s               ", pattern.c_str());
         else if (pattern.length() > 0)
             mvwprintz(w_list, 0, 11, c_red, "%s not found!            ",pattern.c_str());
-        if (a < 0) {
+        if (a < 0)
+        {
             a = 0;
             shift--;
             if (shift < 1) shift = 1;
         }
-        if (a > 22) {
+        if (a > 22)
+        {
             a = 22;
             shift++;
             if (shift + 23 > mtypes.size()) shift = mtypes.size() - 23;
         }
-        for (int i = 1; i < 24; i++) {
+        for (int i = 1; i < 24; i++)
+        {
             nc_color col = c_white;
             if (i == a + 1)
                 col = h_white;
@@ -299,7 +361,8 @@ void game::monster_wish()
             ch = getch();
         else
             ch = input();
-    } while (ch != '\n');
+    }
+    while (ch != '\n');
     clear();
     delwin(w_info);
     delwin(w_list);
@@ -322,57 +385,76 @@ void game::mutation_wish()
     std::string pattern;
     std::string info;
     std::vector<int> search_results;
-    do {
+    do
+    {
         werase(w_info);
         werase(w_list);
         mvwprintw(w_list, 0, 0, "Mutate: ");
-        if (search) {
+        if (search)
+        {
             found = false;
-            if (ch == '\n') {
+            if (ch == '\n')
+            {
                 search = false;
                 found = true;
                 ch = '.';
-            } else if (ch == KEY_BACKSPACE || ch == 127) {
+            }
+            else if (ch == KEY_BACKSPACE || ch == 127)
+            {
                 if (pattern.length() > 0)
                     pattern.erase(pattern.end() - 1);
-            } else if (ch == '>') {
+            }
+            else if (ch == '>')
+            {
                 search = false;
-                if (!search_results.empty()) {
+                if (!search_results.empty())
+                {
                     result_selected++;
                     if (result_selected > search_results.size())
                         result_selected = 0;
                     shift = search_results[result_selected];
                     a = 0;
-                    if (shift + 23 > PF_MAX2) {
+                    if (shift + 23 > PF_MAX2)
+                    {
                         a = shift + 23 - PF_MAX2;
                         shift = PF_MAX2 - 23;
                     }
                 }
-            } else if (ch == '<') {
+            }
+            else if (ch == '<')
+            {
                 search = false;
-                if (!search_results.empty()) {
+                if (!search_results.empty())
+                {
                     result_selected--;
                     if (result_selected < 0)
                         result_selected = search_results.size() - 1;
                     shift = search_results[result_selected];
                     a = 0;
-                    if (shift + 23 > PF_MAX2) {
+                    if (shift + 23 > PF_MAX2)
+                    {
                         a = shift + 23 - PF_MAX2;
                         shift = PF_MAX2 - 23;
                     }
                 }
-            } else {
+            }
+            else
+            {
                 pattern += ch;
                 search_results.clear();
             }
 
-            if (search) {
-                for (int i = 0; i < PF_MAX2; i++) {
-                    if (traits[i].name.find(pattern) != std::string::npos) {
+            if (search)
+            {
+                for (int i = 0; i < PF_MAX2; i++)
+                {
+                    if (traits[i].name.find(pattern) != std::string::npos)
+                    {
                         shift = i;
                         a = 0;
                         result_selected = 0;
-                        if (shift + 23 > PF_MAX2) {
+                        if (shift + 23 > PF_MAX2)
+                        {
                             a = shift + 23 - PF_MAX2;
                             shift = PF_MAX2 - 23;
                         }
@@ -380,38 +462,47 @@ void game::mutation_wish()
                         search_results.push_back(i);
                     }
                 }
-                if (search_results.size() > 0) {
+                if (search_results.size() > 0)
+                {
                     shift = search_results[0];
                     a = 0;
                 }
             }
 
-        } else {	// Not searching; scroll by keys
+        }
+        else  	// Not searching; scroll by keys
+        {
             if (ch == 'j') a++;
             if (ch == 'k') a--;
-            if (ch == '/') {
+            if (ch == '/')
+            {
                 search = true;
                 pattern =  "";
                 found = false;
                 search_results.clear();
             }
-            if (ch == '>' && !search_results.empty()) {
+            if (ch == '>' && !search_results.empty())
+            {
                 result_selected++;
                 if (result_selected > search_results.size())
                     result_selected = 0;
                 shift = search_results[result_selected];
                 a = 0;
-                if (shift + 23 > PF_MAX2) {
+                if (shift + 23 > PF_MAX2)
+                {
                     a = shift + 23 - PF_MAX2;
                     shift = PF_MAX2 - 23;
                 }
-            } else if (ch == '<' && !search_results.empty()) {
+            }
+            else if (ch == '<' && !search_results.empty())
+            {
                 result_selected--;
                 if (result_selected < 0)
                     result_selected = search_results.size() - 1;
                 shift = search_results[result_selected];
                 a = 0;
-                if (shift + 23 > PF_MAX2) {
+                if (shift + 23 > PF_MAX2)
+                {
                     a = shift + 23 - PF_MAX2;
                     shift = PF_MAX2 - 23;
                 }
@@ -421,17 +512,20 @@ void game::mutation_wish()
             mvwprintz(w_list, 0, 11, c_green, "%s               ", pattern.c_str());
         else if (pattern.length() > 0)
             mvwprintz(w_list, 0, 11, c_red, "%s not found!            ",pattern.c_str());
-        if (a < 0) {
+        if (a < 0)
+        {
             a = 0;
             shift--;
             if (shift < 0) shift = 0;
         }
-        if (a > 22) {
+        if (a > 22)
+        {
             a = 22;
             shift++;
             if (shift + 23 > PF_MAX2) shift = PF_MAX2 - 23;
         }
-        for (int i = 1; i < 24; i++) {
+        for (int i = 1; i < 24; i++)
+        {
             nc_color col = c_white;
             if (i == a + 1)
                 col = h_white;
@@ -440,22 +534,26 @@ void game::mutation_wish()
         mvwprintw(w_info, 1, 0, mutation_data[a+shift].valid ? "Valid" : "Nonvalid");
         int line2 = 2;
         mvwprintw(w_info, line2, 0, "Prereqs:");
-        for (int j = 0; j < mutation_data[a+shift].prereqs.size(); j++) {
+        for (int j = 0; j < mutation_data[a+shift].prereqs.size(); j++)
+        {
             mvwprintw(w_info, line2, 9, traits[ mutation_data[a+shift].prereqs[j] ].name.c_str());
             line2++;
         }
         mvwprintw(w_info, line2, 0, "Cancels:");
-        for (int j = 0; j < mutation_data[a+shift].cancels.size(); j++) {
+        for (int j = 0; j < mutation_data[a+shift].cancels.size(); j++)
+        {
             mvwprintw(w_info, line2, 9, traits[ mutation_data[a+shift].cancels[j] ].name.c_str());
             line2++;
         }
         mvwprintw(w_info, line2, 0, "Becomes:");
-        for (int j = 0; j < mutation_data[a+shift].replacements.size(); j++) {
+        for (int j = 0; j < mutation_data[a+shift].replacements.size(); j++)
+        {
             mvwprintw(w_info, line2, 9, traits[ mutation_data[a+shift].replacements[j] ].name.c_str());
             line2++;
         }
         mvwprintw(w_info, line2, 0, "Add-ons:");
-        for (int j = 0; j < mutation_data[a+shift].additions.size(); j++) {
+        for (int j = 0; j < mutation_data[a+shift].additions.size(); j++)
+        {
             mvwprintw(w_info, line2, 9, traits[ mutation_data[a+shift].additions[j] ].name.c_str());
             line2++;
         }
@@ -465,7 +563,8 @@ void game::mutation_wish()
             ch = getch();
         else
             ch = input();
-    } while (ch != '\n');
+    }
+    while (ch != '\n');
     clear();
     if (a+shift == 0)
         u.mutate(this);

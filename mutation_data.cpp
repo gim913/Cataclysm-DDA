@@ -516,7 +516,8 @@ void game::init_mutations()
 std::vector<pl_flag> mutations_from_category(mutation_category cat)
 {
     std::vector<pl_flag> ret;
-    switch (cat) {
+    switch (cat)
+    {
 
     case MUTCAT_LIZARD:
         setvector(ret,

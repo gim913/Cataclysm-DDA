@@ -63,7 +63,8 @@ bool WinCreate()
     WindowClassType.hbrBackground = 0;//Thanks jday! Remove background brush
     WindowClassType.lpszClassName = szWindowClass;
     success = RegisterClassExW(&WindowClassType);
-    if ( success== 0) {
+    if ( success== 0)
+    {
         return false;
     }
     WindowStyle = WS_OVERLAPPEDWINDOW & ~(WS_THICKFRAME) & ~(WS_MAXIMIZEBOX);
@@ -72,7 +73,8 @@ bool WinCreate()
                                    WindowY, WindowWidth + (WinBorderWidth) * 1,
                                    WindowHeight + (WinBorderHeight +
                                            WinTitleSize) * 1, 0, 0, WindowINST, NULL);
-    if (WindowHandle == 0) {
+    if (WindowHandle == 0)
+    {
         return false;
     }
     ShowWindow(WindowHandle,5);
@@ -82,13 +84,16 @@ bool WinCreate()
 //Unregisters, releases the DC if needed, and destroys the window.
 void WinDestroy()
 {
-    if ((WindowDC > 0) && (ReleaseDC(WindowHandle, WindowDC) == 0)) {
+    if ((WindowDC > 0) && (ReleaseDC(WindowHandle, WindowDC) == 0))
+    {
         WindowDC = 0;
     }
-    if ((!WindowHandle == 0) && (!(DestroyWindow(WindowHandle)))) {
+    if ((!WindowHandle == 0) && (!(DestroyWindow(WindowHandle))))
+    {
         WindowHandle = 0;
     }
-    if (!(UnregisterClassW(szWindowClass, WindowINST))) {
+    if (!(UnregisterClassW(szWindowClass, WindowINST)))
+    {
         WindowINST = 0;
     }
 };
@@ -97,10 +102,12 @@ void WinDestroy()
 LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
                                  WPARAM wParam, LPARAM lParam)
 {
-    switch (Msg) {
+    switch (Msg)
+    {
     case WM_CHAR:               //This handles most key presses
         lastchar=(int)wParam;
-        switch (lastchar) {
+        switch (lastchar)
+        {
         case 13:            //Reroute ENTER key for compatilbity purposes
             lastchar=10;
             break;
@@ -110,7 +117,8 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
         };
         break;
     case WM_KEYDOWN:                //Here we handle non-character input
-        switch (wParam) {
+        switch (wParam)
+        {
         case VK_LEFT:
             lastchar = KEY_LEFT;
             break;
@@ -164,19 +172,23 @@ void DrawWindow(WINDOW *win)
 {
     int i,j,drawx,drawy;
     char tmp;
-    for (j=0; j<win->height; j++) {
+    for (j=0; j<win->height; j++)
+    {
         if (win->line[j].touched)
-            for (i=0; i<win->width; i++) {
+            for (i=0; i<win->width; i++)
+            {
                 win->line[j].touched=false;
                 drawx=((win->x+i)*fontwidth);
                 drawy=((win->y+j)*fontheight);//-j;
-                if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)) {
+                if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight))
+                {
                     tmp = win->line[j].chars[i];
                     int FG = win->line[j].FG[i];
                     int BG = win->line[j].BG[i];
                     FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
 
-                    if ( tmp > 0) {
+                    if ( tmp > 0)
+                    {
                         //if (tmp==95){//If your font doesnt draw underscores..uncomment
                         //        HorzLineDIB(drawx,drawy+fontheight-2,drawx+fontwidth,1,FG);
                         //    } else { // all the wa to here
@@ -184,8 +196,11 @@ void DrawWindow(WINDOW *win)
                         SetTextColor(backbuffer,color);
                         ExtTextOut(backbuffer,drawx,drawy,0,NULL,&tmp,1,NULL);
                         //    }     //and this line too.
-                    } else if (  tmp < 0 ) {
-                        switch (tmp) {
+                    }
+                    else if (  tmp < 0 )
+                    {
+                        switch (tmp)
+                        {
                         case -60://box bottom/top side (horizontal line)
                             HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
                             break;
@@ -244,7 +259,8 @@ void DrawWindow(WINDOW *win)
 void CheckMessages()
 {
     MSG msg;
-    while (PeekMessage(&msg, 0 , 0, 0, PM_REMOVE)) {
+    while (PeekMessage(&msg, 0 , 0, 0, PM_REMOVE))
+    {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
@@ -265,18 +281,22 @@ WINDOW *initscr(void)
     char * typeface_c;
     std::ifstream fin;
     fin.open("data\\FONTDATA");
-    if (!fin.is_open()) {
+    if (!fin.is_open())
+    {
         MessageBox(WindowHandle, "Failed to open FONTDATA, loading defaults.",
                    NULL, NULL);
         fontheight=16;
         fontwidth=8;
-    } else {
+    }
+    else
+    {
         getline(fin, typeface);
         typeface_c= new char [typeface.size()+1];
         strcpy (typeface_c, typeface.c_str());
         fin >> fontwidth;
         fin >> fontheight;
-        if ((fontwidth <= 4) || (fontheight <=4)) {
+        if ((fontwidth <= 4) || (fontheight <=4))
+        {
             MessageBox(WindowHandle, "Invalid font size specified!",
                        NULL, NULL);
             fontheight=16;
@@ -307,12 +327,15 @@ WINDOW *initscr(void)
     DeleteObject(SelectObject(backbuffer, backbit));//load the buffer into DC
 
     int nResults = AddFontResourceExA("data\\termfont",FR_PRIVATE,NULL);
-    if (nResults>0) {
+    if (nResults>0)
+    {
         font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
                           ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
                           PROOF_QUALITY, FF_MODERN, typeface_c);   //Create our font
 
-    } else {
+    }
+    else
+    {
         MessageBox(WindowHandle, "Failed to load default font, using FixedSys.",
                    NULL, NULL);
         font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
@@ -370,7 +393,8 @@ int delwin(WINDOW *win)
     int j;
     win->inuse=false;
     win->draw=false;
-    for (j=0; j<win->height; j++) {
+    for (j=0; j<win->height; j++)
+    {
         delete win->line[j].chars;
         delete win->line[j].FG;
         delete win->line[j].BG;
@@ -380,8 +404,10 @@ int delwin(WINDOW *win)
     return 1;
 };
 
-inline int newline(WINDOW *win) {
-    if (win->cursory < win->height - 1) {
+inline int newline(WINDOW *win)
+{
+    if (win->cursory < win->height - 1)
+    {
         win->cursory++;
         win->cursorx=0;
         return 1;
@@ -389,7 +415,8 @@ inline int newline(WINDOW *win) {
     return 0;
 };
 
-inline void addedchar(WINDOW *win) {
+inline void addedchar(WINDOW *win)
+{
     win->cursorx++;
     win->line[win->cursory].touched=true;
     if (win->cursorx > win->width)
@@ -488,18 +515,24 @@ inline int printstring(WINDOW *win, char *fmt)
 {
     int size = strlen(fmt);
     int j;
-    for (j=0; j<size; j++) {
-        if (!(fmt[j]==10)) { //check that this isnt a newline char
-            if (win->cursorx <= win->width - 1 && win->cursory <= win->height - 1) {
+    for (j=0; j<size; j++)
+    {
+        if (!(fmt[j]==10))   //check that this isnt a newline char
+        {
+            if (win->cursorx <= win->width - 1 && win->cursory <= win->height - 1)
+            {
                 win->line[win->cursory].chars[win->cursorx]=fmt[j];
                 win->line[win->cursory].FG[win->cursorx]=win->FG;
                 win->line[win->cursory].BG[win->cursorx]=win->BG;
                 win->line[win->cursory].touched=true;
                 addedchar(win);
-            } else
+            }
+            else
                 return 0; //if we try and write anything outside the window, abort completely
-        } else // if the character is a newline, make sure to move down a line
-            if (newline(win)==0) {
+        }
+        else   // if the character is a newline, make sure to move down a line
+            if (newline(win)==0)
+            {
                 return 0;
             }
     }
@@ -559,7 +592,8 @@ int werase(WINDOW *win)
     int j,i;
     for (j=0; j<win->height; j++)
     {
-        for (i=0; i<win->width; i++)   {
+        for (i=0; i<win->width; i++)
+        {
             win->line[j].chars[i]=0;
             win->line[j].FG[i]=0;
             win->line[j].BG[i]=0;
@@ -744,7 +778,8 @@ int waddch(WINDOW *win, const chtype ch)
     char charcode;
     charcode=ch;
 
-    switch (ch) {       //LINE_NESW  - X for on, O for off
+    switch (ch)         //LINE_NESW  - X for on, O for off
+    {
     case 4194424:   //#define LINE_XOXO 4194424
         charcode=179;
         break;

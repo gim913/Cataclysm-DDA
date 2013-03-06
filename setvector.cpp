@@ -16,7 +16,8 @@ void setvector(std::vector<component> &vec, ... )
     va_start(ap, vec);
     itype_id it_tmp;
     int n_tmp;
-    while ((it_tmp = (itype_id)va_arg(ap, int))) {
+    while ((it_tmp = (itype_id)va_arg(ap, int)))
+    {
         n_tmp = (int)va_arg(ap, int);
         component tmp(it_tmp, n_tmp);
         vec.push_back(tmp);
@@ -40,7 +41,8 @@ void setvector(std::vector<items_location_and_chance> &vec, ... )
     va_start(ap, vec);
     items_location tmploc;
     int tmpchance;
-    while ((tmploc = (items_location)va_arg(ap, int))) {
+    while ((tmploc = (items_location)va_arg(ap, int)))
+    {
         tmpchance = (int)va_arg(ap, int);
         vec.push_back(items_location_and_chance(tmploc, tmpchance));
     }
@@ -126,7 +128,8 @@ void setvector(std::vector<style_move> &vec, ... )
     technique_id tmptech;
     int tmplevel;
 
-    while ((tmpname = va_arg(ap, char *))) {
+    while ((tmpname = va_arg(ap, char *)))
+    {
         tmptech = (technique_id)va_arg(ap, int);
         tmplevel = (int)va_arg(ap, int);
         vec.push_back( style_move(tmpname, tmptech, tmplevel) );

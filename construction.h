@@ -33,10 +33,12 @@ struct constructable
 struct construct // Construction functions.
 {
 // Bools - able to build at the given point?
-    bool able_always(game *, point) {
+    bool able_always(game *, point)
+    {
         return true;
     }
-    bool able_never (game *, point) {
+    bool able_never (game *, point)
+    {
         return false;
     }
 

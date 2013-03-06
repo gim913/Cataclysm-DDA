@@ -25,14 +25,16 @@
 #define LIGHTMAP_CACHE_X (2 * LIGHTMAP_RANGE_X + 1)
 #define LIGHTMAP_CACHE_Y (2 * LIGHTMAP_RANGE_Y + 1)
 
-enum lit_level {
+enum lit_level
+{
     LL_DARK = 0,
     LL_LOW,    // Hard to see
     LL_LIT,
     LL_BRIGHT  // Probably only for light sources
 };
 
-struct light_map_cache {
+struct light_map_cache
+{
     float transparency;
     vehicle* veh;
     int veh_part;

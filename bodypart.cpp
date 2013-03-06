@@ -3,7 +3,8 @@
 
 std::string body_part_name (body_part bp, int side)
 {
-    switch (bp) {
+    switch (bp)
+    {
     case bp_head:
         return "head";
     case bp_eyes:
@@ -43,7 +44,8 @@ std::string body_part_name (body_part bp, int side)
 
 std::string encumb_text(body_part bp)
 {
-    switch (bp) {
+    switch (bp)
+    {
     case bp_head:
         return "";
     case bp_eyes:

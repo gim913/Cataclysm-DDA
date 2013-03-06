@@ -10,7 +10,8 @@
 class player;
 class npc;
 
-struct iteminfo {
+struct iteminfo
+{
 public:
     std::string sType; //Itemtype
     std::string sName; //Main item text
@@ -20,7 +21,8 @@ public:
     bool bNewLine; //New line at the end
     bool bLowerIsBetter; //Lower values are better (red <-> green)
 
-    iteminfo(std::string sIn0, std::string sIn1, std::string sIn2 = "", int iIn0 = -999, std::string sIn3 = "", bool bIn0 = true, bool bIn1 = false) {
+    iteminfo(std::string sIn0, std::string sIn1, std::string sIn2 = "", int iIn0 = -999, std::string sIn3 = "", bool bIn0 = true, bool bIn1 = false)
+    {
         sType = sIn0;
         sName = sIn1;
         sPre = sIn2;
@@ -147,7 +149,8 @@ public:
     char burnt;	         // How badly we're burnt
     unsigned int bday;     // The turn on which it was created
     int owned;	            // UID of NPC owner; 0 = player, -1 = unowned
-    union {
+    union
+    {
         int poison;	         // How badly poisoned is it?
         int bigness;         // engine power, wheel size
     };

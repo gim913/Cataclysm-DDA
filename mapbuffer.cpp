@@ -19,7 +19,8 @@ mapbuffer::~mapbuffer()
     reset();
 }
 
-void mapbuffer::reset() {
+void mapbuffer::reset()
+{
     std::list<submap*>::iterator it;
     for (it = submap_list.begin(); it != submap_list.end(); it++)
         delete *it;
@@ -92,7 +93,8 @@ void mapbuffer::save()
     int num_saved_submaps = 0;
     int num_total_submaps = submap_list.size();
 
-    for (it = submaps.begin(); it != submaps.end(); it++) {
+    for (it = submaps.begin(); it != submaps.end(); it++)
+    {
         if (num_saved_submaps % 100 == 0)
             popup_nowait("Please wait as the map saves [%d/%d]",
                          num_saved_submaps, num_total_submaps);
@@ -101,13 +103,15 @@ void mapbuffer::save()
         submap *sm = it->second;
         fout << sm->turn_last_touched << std::endl;
 // Dump the terrain.
-        for (int j = 0; j < SEEY; j++) {
+        for (int j = 0; j < SEEY; j++)
+        {
             for (int i = 0; i < SEEX; i++)
                 fout << int(sm->ter[i][j]) << " ";
             fout << std::endl;
         }
 // Dump the radiation
-        for (int j = 0; j < SEEY; j++) {
+        for (int j = 0; j < SEEY; j++)
+        {
             for (int i = 0; i < SEEX; i++)
                 fout << sm->rad[i][j] << " ";
         }
@@ -119,9 +123,12 @@ void mapbuffer::save()
 // Also, this wastes space since we print the coords for each item, when we
 //   could be printing a list of items for each coord (except the empty ones)
         item tmp;
-        for (int j = 0; j < SEEY; j++) {
-            for (int i = 0; i < SEEX; i++) {
-                for (int k = 0; k < sm->itm[i][j].size(); k++) {
+        for (int j = 0; j < SEEY; j++)
+        {
+            for (int i = 0; i < SEEX; i++)
+            {
+                for (int k = 0; k < sm->itm[i][j].size(); k++)
+                {
                     tmp = sm->itm[i][j][k];
                     fout << "I " << i << " " << j << std::endl;
                     fout << tmp.save_info() << std::endl;
@@ -131,8 +138,10 @@ void mapbuffer::save()
             }
         }
 // Output the traps
-        for (int j = 0; j < SEEY; j++) {
-            for (int i = 0; i < SEEX; i++) {
+        for (int j = 0; j < SEEY; j++)
+        {
+            for (int i = 0; i < SEEX; i++)
+            {
                 if (sm->trp[i][j] != tr_null)
                     fout << "T " << i << " " << j << " " << sm->trp[i][j] <<
                          std::endl;
@@ -141,8 +150,10 @@ void mapbuffer::save()
 
 // Output the fields
         field tmpf;
-        for (int j = 0; j < SEEY; j++) {
-            for (int i = 0; i < SEEX; i++) {
+        for (int j = 0; j < SEEY; j++)
+        {
+            for (int i = 0; i < SEEX; i++)
+            {
                 tmpf = sm->fld[i][j];
                 if (tmpf.type != fd_null)
                     fout << "F " << i << " " << j << " " << int(tmpf.type) << " " <<
@@ -151,7 +162,8 @@ void mapbuffer::save()
         }
 // Output the spawn points
         spawn_point tmpsp;
-        for (int i = 0; i < sm->spawns.size(); i++) {
+        for (int i = 0; i < sm->spawns.size(); i++)
+        {
             tmpsp = sm->spawns[i];
             fout << "S " << int(tmpsp.type) << " " << tmpsp.count << " " << tmpsp.posx <<
                  " " << tmpsp.posy << " " << tmpsp.faction_id << " " <<
@@ -159,7 +171,8 @@ void mapbuffer::save()
                  tmpsp.name << std::endl;
         }
 // Output the vehicles
-        for (int i = 0; i < sm->vehicles.size(); i++) {
+        for (int i = 0; i < sm->vehicles.size(); i++)
+        {
             fout << "V ";
             sm->vehicles[i]->save (fout);
         }
@@ -168,8 +181,10 @@ void mapbuffer::save()
             fout << "c " << sm->comp.save_data() << std::endl;
 
 // Output the graffiti
-        for (int j = 0; j < SEEY; j++) {
-            for (int i = 0; i < SEEX; i++) {
+        for (int j = 0; j < SEEY; j++)
+        {
+            for (int i = 0; i < SEEX; i++)
+            {
                 if (sm->graf[i][j].contents)
                     fout << "G " << i << " " << j << *sm->graf[i][j].contents << std::endl;
             }
@@ -184,7 +199,8 @@ void mapbuffer::save()
 
 void mapbuffer::load()
 {
-    if (!master_game) {
+    if (!master_game)
+    {
         debugmsg("Can't load mapbuffer without a master_game");
         return;
     }
@@ -200,7 +216,8 @@ void mapbuffer::load()
     std::string databuff;
     fin >> num_submaps;
 
-    while (!fin.eof()) {
+    while (!fin.eof())
+    {
         if (num_loaded % 100 == 0)
             popup_nowait("Please wait as the map loads [%d/%d]",
                          num_loaded, num_submaps);
@@ -212,8 +229,10 @@ void mapbuffer::load()
         if (turndif < 0)
             turndif = 0;
 // Load terrain
-        for (int j = 0; j < SEEY; j++) {
-            for (int i = 0; i < SEEX; i++) {
+        for (int j = 0; j < SEEY; j++)
+        {
+            for (int i = 0; i < SEEX; i++)
+            {
                 int tmpter;
                 fin >> tmpter;
                 sm->ter[i][j] = ter_id(tmpter);
@@ -224,8 +243,10 @@ void mapbuffer::load()
             }
         }
 // Load irradiation
-        for (int j = 0; j < SEEY; j++) {
-            for (int i = 0; i < SEEX; i++) {
+        for (int j = 0; j < SEEY; j++)
+        {
+            for (int i = 0; i < SEEX; i++)
+            {
                 int radtmp;
                 fin >> radtmp;
                 radtmp -= int(turndif / 100);	// Radiation slowly decays
@@ -236,10 +257,12 @@ void mapbuffer::load()
         }
 // Load items and traps and fields and spawn points and vehicles
         std::string string_identifier;
-        do {
+        do
+        {
             fin >> string_identifier; // "----" indicates end of this submap
             t = 0;
-            if (string_identifier == "I") {
+            if (string_identifier == "I")
+            {
                 fin >> itx >> ity;
                 getline(fin, databuff); // Clear out the endline
                 getline(fin, databuff);
@@ -247,7 +270,9 @@ void mapbuffer::load()
                 sm->itm[itx][ity].push_back(it_tmp);
                 if (it_tmp.active)
                     sm->active_item_count++;
-            } else if (string_identifier == "C") {
+            }
+            else if (string_identifier == "C")
+            {
                 getline(fin, databuff); // Clear out the endline
                 getline(fin, databuff);
                 int index = sm->itm[itx][ity].size() - 1;
@@ -255,15 +280,21 @@ void mapbuffer::load()
                 sm->itm[itx][ity][index].put_in(it_tmp);
                 if (it_tmp.active)
                     sm->active_item_count++;
-            } else if (string_identifier == "T") {
+            }
+            else if (string_identifier == "T")
+            {
                 fin >> itx >> ity >> t;
                 sm->trp[itx][ity] = trap_id(t);
-            } else if (string_identifier == "F") {
+            }
+            else if (string_identifier == "F")
+            {
                 fields_here = true;
                 fin >> itx >> ity >> t >> d >> a;
                 sm->fld[itx][ity] = field(field_id(t), d, a);
                 sm->field_count++;
-            } else if (string_identifier == "S") {
+            }
+            else if (string_identifier == "S")
+            {
                 char tmpfriend;
                 int tmpfac = -1, tmpmis = -1;
                 std::string spawnname;
@@ -271,17 +302,23 @@ void mapbuffer::load()
                 spawn_point tmp(mon_id(t), a, itx, ity, tmpfac, tmpmis, (tmpfriend == '1'),
                                 spawnname);
                 sm->spawns.push_back(tmp);
-            } else if (string_identifier == "V") {
+            }
+            else if (string_identifier == "V")
+            {
                 vehicle * veh = new vehicle(master_game);
                 veh->load (fin);
                 //veh.smx = gridx;
                 //veh.smy = gridy;
                 master_game->m.vehicle_list.insert(veh);
                 sm->vehicles.push_back(veh);
-            } else if (string_identifier == "c") {
+            }
+            else if (string_identifier == "c")
+            {
                 getline(fin, databuff);
                 sm->comp.load_data(databuff);
-            } else if (string_identifier == "G") {
+            }
+            else if (string_identifier == "G")
+            {
                 std::string s;
                 int j;
                 int i;
@@ -289,7 +326,8 @@ void mapbuffer::load()
                 getline(fin,s);
                 sm->graf[j][i] = graffiti(s);
             }
-        } while (string_identifier != "----" && !fin.eof());
+        }
+        while (string_identifier != "----" && !fin.eof());
 
         submap_list.push_back(sm);
         submaps[ tripoint(locx, locy, locz) ] = sm;

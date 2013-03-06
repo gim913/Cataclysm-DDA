@@ -28,7 +28,8 @@
 
 nc_color hilite(nc_color c)
 {
-    switch (c) {
+    switch (c)
+    {
     case c_white:
         return h_white;
     case c_ltgray:
@@ -65,8 +66,10 @@ nc_color hilite(nc_color c)
 
 nc_color invert_color(nc_color c)
 {
-    if (OPTIONS[OPT_NO_CBLINK]) {
-        switch (c) {
+    if (OPTIONS[OPT_NO_CBLINK])
+    {
+        switch (c)
+        {
         case c_white:
         case c_ltgray:
         case c_dkgray:
@@ -91,7 +94,8 @@ nc_color invert_color(nc_color c)
             return i_brown;
         }
     }
-    switch (c) {
+    switch (c)
+    {
     case c_white:
         return i_white;
     case c_ltgray:
@@ -129,7 +133,8 @@ nc_color invert_color(nc_color c)
 
 nc_color red_background(nc_color c)
 {
-    switch (c) {
+    switch (c)
+    {
     case c_white:
         return c_white_red;
     case c_ltgray:
@@ -166,7 +171,8 @@ nc_color red_background(nc_color c)
 
 nc_color rand_color()
 {
-    switch (rng(0, 9)) {
+    switch (rng(0, 9))
+    {
     case 0:
         return c_white;
     case 1:
@@ -316,7 +322,8 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
     for (int i = 0; i < labels.size(); i++)
         total_width += labels[i].length() + 6; // "< |four| >"
 
-    if (total_width > win_width) {
+    if (total_width > win_width)
+    {
         //debugmsg("draw_tabs not given enough space! %s", labels[0]);
         return;
     }
@@ -329,11 +336,13 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
     int xpos = 0;
     double savings = 0;
 
-    for (int i = 0; i < labels.size(); i++) {
+    for (int i = 0; i < labels.size(); i++)
+    {
         int length = labels[i].length();
         xpos += buffer + 2;
         savings += buffer_extra;
-        if (savings > 1) {
+        if (savings > 1)
+        {
             savings--;
             xpos++;
         }
@@ -341,17 +350,21 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
         mvwputch(w, 1, xpos, c_white, LINE_XOXO);
         mvwputch(w, 0, xpos + length + 1, c_white, LINE_OOXX);
         mvwputch(w, 1, xpos + length + 1, c_white, LINE_XOXO);
-        if (i == active_tab) {
+        if (i == active_tab)
+        {
             mvwputch(w, 1, xpos - 2, h_white, '<');
             mvwputch(w, 1, xpos + length + 3, h_white, '>');
             mvwputch(w, 2, xpos, c_white, LINE_XOOX);
             mvwputch(w, 2, xpos + length + 1, c_white, LINE_XXOO);
             mvwprintz(w, 1, xpos + 1, h_white, labels[i].c_str());
-            for (int x = xpos + 1; x <= xpos + length; x++) {
+            for (int x = xpos + 1; x <= xpos + length; x++)
+            {
                 mvwputch(w, 0, x, c_white, LINE_OXOX);
                 mvwputch(w, 2, x, c_black, 'x');
             }
-        } else {
+        }
+        else
+        {
             mvwputch(w, 2, xpos, c_white, LINE_XXOX);
             mvwputch(w, 2, xpos + length + 1, c_white, LINE_XXOX);
             mvwprintz(w, 1, xpos + 1, c_white, labels[i].c_str());
@@ -452,34 +465,43 @@ std::string string_input_popup(std::string title, int max_length, std::string in
 
     int posx = startx + input.size();
     mvwputch(w, 1, posx, h_ltgray, '_');
-    do {
+    do
+    {
         wrefresh(w);
         long ch = getch();
-        if (ch == 27) {	// Escape
+        if (ch == 27)  	// Escape
+        {
             werase(w);
             wrefresh(w);
             delwin(w);
             refresh();
             return "";
-        } else if (ch == '\n') {
+        }
+        else if (ch == '\n')
+        {
             werase(w);
             wrefresh(w);
             delwin(w);
             refresh();
             return ret;
-        } else if ((ch == KEY_BACKSPACE || ch == 127) && posx > startx) {
+        }
+        else if ((ch == KEY_BACKSPACE || ch == 127) && posx > startx)
+        {
 // Move the cursor back and re-draw it
             ret = ret.substr(0, ret.size() - 1);
             mvwputch(w, 1, posx, c_ltgray, '_');
             posx--;
             mvwputch(w, 1, posx, h_ltgray, '_');
-        } else if(ret.size() < max_length || max_length == 0) {
+        }
+        else if(ret.size() < max_length || max_length == 0)
+        {
             ret += ch;
             mvwputch(w, 1, posx, c_magenta, ch);
             posx++;
             mvwputch(w, 1, posx, h_ltgray, '_');
         }
-    } while (true);
+    }
+    while (true);
 }
 
 char popup_getkey(const char *mes, ...)
@@ -493,7 +515,8 @@ char popup_getkey(const char *mes, ...)
     int width = 0;
     int height = 2;
     size_t pos = tmp.find_first_of('\n');
-    while (pos != std::string::npos) {
+    while (pos != std::string::npos)
+    {
         height++;
         if (pos > width)
             width = pos;
@@ -512,7 +535,8 @@ char popup_getkey(const char *mes, ...)
     tmp = buff;
     pos = tmp.find_first_of('\n');
     int line_num = 0;
-    while (pos != std::string::npos) {
+    while (pos != std::string::npos)
+    {
         std::string line = tmp.substr(0, pos);
         line_num++;
         mvwprintz(w, line_num, 1, c_white, line.c_str());
@@ -533,13 +557,15 @@ char popup_getkey(const char *mes, ...)
 
 int menu_vec(const char *mes, std::vector<std::string> options)
 {
-    if (options.size() == 0) {
+    if (options.size() == 0)
+    {
         debugmsg("0-length menu (\"%s\")", mes);
         return -1;
     }
     std::string title = mes;
     int height = 3 + options.size(), width = title.length() + 2;
-    for (int i = 0; i < options.size(); i++) {
+    for (int i = 0; i < options.size(); i++)
+    {
         if (options[i].length() + 6 > width)
             width = options[i].length() + 6;
     }
@@ -583,12 +609,15 @@ int menu(const char *mes, ...)
     char* tmp;
     std::vector<std::string> options;
     bool done = false;
-    while (!done) {
+    while (!done)
+    {
         tmp = va_arg(ap, char*);
-        if (tmp != NULL) {
+        if (tmp != NULL)
+        {
             std::string strtmp = tmp;
             options.push_back(strtmp);
-        } else
+        }
+        else
             done = true;
     }
     return (menu_vec(mes, options));
@@ -605,7 +634,8 @@ void popup_top(const char *mes, ...)
     int width = 0;
     int height = 2;
     size_t pos = tmp.find_first_of('\n');
-    while (pos != std::string::npos) {
+    while (pos != std::string::npos)
+    {
         height++;
         if (pos > width)
             width = pos;
@@ -621,7 +651,8 @@ void popup_top(const char *mes, ...)
     tmp = buff;
     pos = tmp.find_first_of('\n');
     int line_num = 0;
-    while (pos != std::string::npos) {
+    while (pos != std::string::npos)
+    {
         std::string line = tmp.substr(0, pos);
         line_num++;
         mvwprintz(w, line_num, 1, c_white, line.c_str());
@@ -653,7 +684,8 @@ void popup(const char *mes, ...)
     int width = 0;
     int height = 2;
     size_t pos = tmp.find_first_of('\n');
-    while (pos != std::string::npos) {
+    while (pos != std::string::npos)
+    {
         height++;
         if (pos > width)
             width = pos;
@@ -672,7 +704,8 @@ void popup(const char *mes, ...)
     tmp = buff;
     pos = tmp.find_first_of('\n');
     int line_num = 0;
-    while (pos != std::string::npos) {
+    while (pos != std::string::npos)
+    {
         std::string line = tmp.substr(0, pos);
         line_num++;
         mvwprintz(w, line_num, 1, c_white, line.c_str());
@@ -704,7 +737,8 @@ void popup_nowait(const char *mes, ...)
     int width = 0;
     int height = 2;
     size_t pos = tmp.find_first_of('\n');
-    while (pos != std::string::npos) {
+    while (pos != std::string::npos)
+    {
         height++;
         if (pos > width)
             width = pos;
@@ -723,7 +757,8 @@ void popup_nowait(const char *mes, ...)
     tmp = buff;
     pos = tmp.find_first_of('\n');
     int line_num = 0;
-    while (pos != std::string::npos) {
+    while (pos != std::string::npos)
+    {
         std::string line = tmp.substr(0, pos);
         line_num++;
         mvwprintz(w, line_num, 1, c_white, line.c_str());
@@ -750,7 +785,8 @@ void full_screen_popup(const char* mes, ...)
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     size_t pos = tmp.find_first_of('\n');
     int line_num = 0;
-    while (pos != std::string::npos) {
+    while (pos != std::string::npos)
+    {
         std::string line = tmp.substr(0, pos);
         line_num++;
         mvwprintz(w, line_num, 1, c_white, line.c_str());
@@ -779,67 +815,102 @@ char compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
     int iStartX = 0;
     std::string sPlus;
     bool bStartNewLine = true;
-    for (int i = 0; i < vItemDisplay.size(); i++) {
-        if (vItemDisplay[i].sType == "MENU") {
-            if (vItemDisplay[i].sPre == "iY") {
+    for (int i = 0; i < vItemDisplay.size(); i++)
+    {
+        if (vItemDisplay[i].sType == "MENU")
+        {
+            if (vItemDisplay[i].sPre == "iY")
+            {
                 line_num += vItemDisplay[i].iValue;
-            } else if (vItemDisplay[i].sPre == "iX") {
+            }
+            else if (vItemDisplay[i].sPre == "iX")
+            {
                 iStartX = vItemDisplay[i].iValue;
-            } else {
+            }
+            else
+            {
                 mvwprintz(w, line_num, iStartX, c_ltgreen, "%s", (vItemDisplay[i].sName).c_str());
                 wprintz(w, c_white, "%s", (vItemDisplay[i].sPre).c_str());
                 line_num++;
             }
-        } else if (vItemDisplay[i].sType == "DESCRIPTION") {
+        }
+        else if (vItemDisplay[i].sType == "DESCRIPTION")
+        {
             std::string sText = vItemDisplay[i].sName;
             std::replace(sText.begin(), sText.end(), '\n', ' ');
             int iPos;
-            while (1) {
+            while (1)
+            {
                 line_num++;
-                if (sText.size() > 36) {
+                if (sText.size() > 36)
+                {
                     int iPos = sText.find_last_of(' ', 36);
                     mvwprintz(w, line_num, 2, c_white, (sText.substr(0, iPos)).c_str());
                     sText = sText.substr(iPos+1, sText.size());
-                } else {
+                }
+                else
+                {
                     mvwprintz(w, line_num, 2, c_white, (sText).c_str());
                     break;
                 }
             }
-        } else {
-            if (bStartNewLine) {
+        }
+        else
+        {
+            if (bStartNewLine)
+            {
                 mvwprintz(w, line_num, 2, c_white, "%s", (vItemDisplay[i].sName).c_str());
                 bStartNewLine = false;
-            } else {
+            }
+            else
+            {
                 wprintz(w, c_white, "%s", (vItemDisplay[i].sName).c_str());
             }
 
             sPlus = "";
             std::string sPre = vItemDisplay[i].sPre;
-            if (sPre.size() > 1 && sPre.substr(sPre.size()-1, 1) == "+") {
+            if (sPre.size() > 1 && sPre.substr(sPre.size()-1, 1) == "+")
+            {
                 wprintz(w, c_white, "%s", (sPre.substr(0, sPre.size()-1)).c_str());
                 sPlus = "+";
-            } else if (sPre != "+")
+            }
+            else if (sPre != "+")
                 wprintz(w, c_white, "%s", sPre.c_str());
             else if (sPre == "+")
                 sPlus = "+";
 
-            if (vItemDisplay[i].iValue != -999) {
+            if (vItemDisplay[i].iValue != -999)
+            {
                 nc_color thisColor = c_white;
-                for (int k = 0; k < vItemCompare.size(); k++) {
-                    if (vItemCompare[k].iValue != -999) {
-                        if (vItemDisplay[i].sName == vItemCompare[k].sName) {
-                            if (vItemDisplay[i].iValue == vItemCompare[k].iValue) {
+                for (int k = 0; k < vItemCompare.size(); k++)
+                {
+                    if (vItemCompare[k].iValue != -999)
+                    {
+                        if (vItemDisplay[i].sName == vItemCompare[k].sName)
+                        {
+                            if (vItemDisplay[i].iValue == vItemCompare[k].iValue)
+                            {
                                 thisColor = c_white;
-                            } else if (vItemDisplay[i].iValue > vItemCompare[k].iValue) {
-                                if (vItemDisplay[i].bLowerIsBetter) {
+                            }
+                            else if (vItemDisplay[i].iValue > vItemCompare[k].iValue)
+                            {
+                                if (vItemDisplay[i].bLowerIsBetter)
+                                {
                                     thisColor = c_ltred;
-                                } else {
+                                }
+                                else
+                                {
                                     thisColor = c_ltgreen;
                                 }
-                            } else if (vItemDisplay[i].iValue < vItemCompare[k].iValue) {
-                                if (vItemDisplay[i].bLowerIsBetter) {
+                            }
+                            else if (vItemDisplay[i].iValue < vItemCompare[k].iValue)
+                            {
+                                if (vItemDisplay[i].bLowerIsBetter)
+                                {
                                     thisColor = c_ltgreen;
-                                } else {
+                                }
+                                else
+                                {
                                     thisColor = c_ltred;
                                 }
                             }
@@ -854,7 +925,8 @@ char compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
             }
             wprintz(w, c_white, (vItemDisplay[i].sPost).c_str());
 
-            if (vItemDisplay[i].bNewLine) {
+            if (vItemDisplay[i].bNewLine)
+            {
                 line_num++;
                 bStartNewLine = true;
             }
@@ -867,7 +939,8 @@ char compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
     char ch = ' ';
 
     wrefresh(w);
-    if (!bLeft) {
+    if (!bLeft)
+    {
         ch = getch();
         werase(w);
         wrefresh(w);
@@ -880,7 +953,8 @@ char compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
 
 char rand_char()
 {
-    switch (rng(0, 9)) {
+    switch (rng(0, 9))
+    {
     case 0:
         return '|';
     case 1:
@@ -931,32 +1005,40 @@ long special_symbol (char sym)
 }
 
 // crawl through string, probing each word while treating spaces & newlines the same.
-std::string word_rewrap (const std::string &in, int width) {
+std::string word_rewrap (const std::string &in, int width)
+{
     std::ostringstream o;
     int i_ok = 0; // pos in string of next char probe
     int x_ok = 0; // ditto for column pos
-    while (i_ok <= in.size()) {
+    while (i_ok <= in.size())
+    {
         bool fit = false;
         int j=0; // j = word probe counter.
-        while(x_ok + j <= width) {
-            if (i_ok + j >= in.size()) {
+        while(x_ok + j <= width)
+        {
+            if (i_ok + j >= in.size())
+            {
                 fit = true;
                 break;
             }
             char c = in[i_ok+j];
-            if (c == '\n' || c == ' ') { //whitespace detected. copy word.
+            if (c == '\n' || c == ' ')   //whitespace detected. copy word.
+            {
                 fit = true;
                 break;
             }
             j++;
         }
-        if(fit == false) {
+        if(fit == false)
+        {
             o << '\n';
             x_ok = 0;
         }
-        else {
+        else
+        {
             o << ' ';
-            for (int k=i_ok; k < i_ok+j; k++) {
+            for (int k=i_ok; k < i_ok+j; k++)
+            {
                 o << in[k];
             }
             i_ok += j+1;

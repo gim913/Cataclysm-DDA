@@ -52,7 +52,8 @@ npc::npc()
         sklevel[i] = 0;
 }
 
-npc::npc(const npc &rhs) {
+npc::npc(const npc &rhs)
+{
     *this = rhs;
 }
 
@@ -121,7 +122,8 @@ npc& npc::operator= (const npc & rhs)
     for (int i = 0; i < rhs.path.size(); i++)
         path.push_back(rhs.path[i]);
 
-    for (int i = 0; i < num_hp_parts; i++) {
+    for (int i = 0; i < num_hp_parts; i++)
+    {
         hp_cur[i] = rhs.hp_cur[i];
         hp_max[i] = rhs.hp_max[i];
     }
@@ -192,8 +194,10 @@ std::string npc::save_info()
 
 // Inventory size, plus armor size, plus 1 for the weapon
     dump << std::endl << inv.num_items() + worn.size() + 1 << std::endl;
-    for (int i = 0; i < inv.size(); i++) {
-        for (int j = 0; j < inv.stack_at(i).size(); j++) {
+    for (int i = 0; i < inv.size(); i++)
+    {
+        for (int j = 0; j < inv.stack_at(i).size(); j++)
+        {
             dump << "I " << inv.stack_at(i)[j].save_info() << std::endl;
             for (int k = 0; k < inv.stack_at(i)[j].contents.size(); k++)
                 dump << "C " << inv.stack_at(i)[j].contents[k].save_info() << std::endl;
@@ -216,11 +220,13 @@ void npc::load_info(game *g, std::string data)
     dump << data;
     dump >> id;
 // Standard player stuff
-    do {
+    do
+    {
         dump >> tmpname;
         if (tmpname != "||")
             name += tmpname + " ";
-    } while (tmpname != "||");
+    }
+    while (tmpname != "||");
     name = name.substr(0, name.size() - 1); // Strip off trailing " "
     dump >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
          int_cur >> int_max >> per_cur >> per_max >> hunger >> thirst >>
@@ -252,13 +258,15 @@ void npc::load_info(game *g, std::string data)
     int typetmp;
     disease illtmp;
     dump >> numstyle;
-    for (int i = 0; i < numstyle; i++) {
+    for (int i = 0; i < numstyle; i++)
+    {
         dump >> typetmp;
         styles.push_back(itype_id(typetmp));
     }
 
     dump >> numill;
-    for (int i = 0; i < numill; i++) {
+    for (int i = 0; i < numill; i++)
+    {
         dump >> typetmp >> illtmp.duration;
         illtmp.type = dis_type(typetmp);
         illness.push_back(illtmp);
@@ -266,7 +274,8 @@ void npc::load_info(game *g, std::string data)
     int numadd;
     addiction addtmp;
     dump >> numadd;
-    for (int i = 0; i < numadd; i++) {
+    for (int i = 0; i < numadd; i++)
+    {
         dump >> typetmp >> addtmp.intensity >> addtmp.sated;
         addtmp.type = add_type(typetmp);
         addictions.push_back(addtmp);
@@ -274,7 +283,8 @@ void npc::load_info(game *g, std::string data)
     int numbio;
     bionic biotmp;
     dump >> numbio;
-    for (int i = 0; i < numbio; i++) {
+    for (int i = 0; i < numbio; i++)
+    {
         dump >> typetmp >> biotmp.invlet >> biotmp.powered >> biotmp.charge;
         biotmp.id = bionic_id(typetmp);
         my_bionics.push_back(biotmp);
@@ -327,9 +337,11 @@ void npc::randomize(game *g, npc_class type)
         type = NC_NONE;
 
     myclass = type;
-    switch (type) {	// Type of character
+    switch (type)  	// Type of character
+    {
     case NC_NONE:	// Untyped; no particular specialization
-        for (int i = 1; i < num_skill_types; i++) {
+        for (int i = 1; i < num_skill_types; i++)
+        {
             sklevel[i] = dice(4, 2) - rng(1, 4);
             if (!one_in(3))
                 sklevel[i] = 0;
@@ -337,7 +349,8 @@ void npc::randomize(game *g, npc_class type)
         break;
 
     case NC_HACKER:
-        for (int i = 1; i < num_skill_types; i++) {
+        for (int i = 1; i < num_skill_types; i++)
+        {
             sklevel[i] = dice(2, 2) - rng(1, 2);
             if (!one_in(3))
                 sklevel[i] = 0;
@@ -353,7 +366,8 @@ void npc::randomize(game *g, npc_class type)
         break;
 
     case NC_DOCTOR:
-        for (int i = 1; i < num_skill_types; i++) {
+        for (int i = 1; i < num_skill_types; i++)
+        {
             sklevel[i] = dice(3, 2) - rng(1, 3);
             if (!one_in(3))
                 sklevel[i] = 0;
@@ -369,7 +383,8 @@ void npc::randomize(game *g, npc_class type)
         break;
 
     case NC_TRADER:
-        for (int i = 1; i < num_skill_types; i++) {
+        for (int i = 1; i < num_skill_types; i++)
+        {
             sklevel[i] = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
             if (!one_in(3))
                 sklevel[i] = 0;
@@ -385,7 +400,8 @@ void npc::randomize(game *g, npc_class type)
         break;
 
     case NC_NINJA:
-        for (int i = 1; i < num_skill_types; i++) {
+        for (int i = 1; i < num_skill_types; i++)
+        {
             sklevel[i] = dice(2, 2) - rng(1, 2);
             if (!one_in(3))
                 sklevel[i] = 0;
@@ -405,7 +421,8 @@ void npc::randomize(game *g, npc_class type)
         break;
 
     case NC_COWBOY:
-        for (int i = 1; i < num_skill_types; i++) {
+        for (int i = 1; i < num_skill_types; i++)
+        {
             sklevel[i] = dice(3, 2) - rng(0, 4);
             if (sklevel[i] < 0)
                 sklevel[i] = 0;
@@ -421,7 +438,8 @@ void npc::randomize(game *g, npc_class type)
         break;
 
     case NC_SCIENTIST:
-        for (int i = 1; i < num_skill_types; i++) {
+        for (int i = 1; i < num_skill_types; i++)
+        {
             sklevel[i] = dice(3, 2) - 4;
             if (sklevel[i] < 0)
                 sklevel[i] = 0;
@@ -429,7 +447,8 @@ void npc::randomize(game *g, npc_class type)
         sklevel[sk_computer] += rng(0, 3);
         sklevel[sk_electronics] += rng(0, 3);
         sklevel[sk_firstaid] += rng(0, 1);
-        switch (rng(1, 3)) { // pick a specialty
+        switch (rng(1, 3))   // pick a specialty
+        {
         case 1:
             sklevel[sk_computer] += rng(2, 6);
             break;
@@ -453,7 +472,8 @@ void npc::randomize(game *g, npc_class type)
         break;
 
     case NC_BOUNTY_HUNTER:
-        for (int i = 1; i < num_skill_types; i++) {
+        for (int i = 1; i < num_skill_types; i++)
+        {
             sklevel[i] = dice(3, 2) - 3;
             if (sklevel[i] > 0 && one_in(3))
                 sklevel[i]--;
@@ -464,7 +484,8 @@ void npc::randomize(game *g, npc_class type)
         personality.bravery += rng(0, 5);
         break;
     }
-    for (int i = 0; i < num_hp_parts; i++) {
+    for (int i = 0; i < num_hp_parts; i++)
+    {
         hp_max[i] = 60 + str_max * 3;
         hp_cur[i] = hp_max[i];
     }
@@ -481,7 +502,8 @@ void npc::randomize_from_faction(game *g, faction *fac)
     my_fac = fac;
     randomize(g);
 
-    switch (fac->goal) {
+    switch (fac->goal)
+    {
     case FACGOAL_DOMINANCE:
         personality.aggression += rng(0, 3);
         personality.bravery += rng(1, 4);
@@ -536,18 +558,21 @@ void npc::randomize_from_faction(game *g, faction *fac)
         break;
     }
 // Jobs
-    if (fac->has_job(FACJOB_EXTORTION)) {
+    if (fac->has_job(FACJOB_EXTORTION))
+    {
         personality.aggression += rng(0, 3);
         personality.bravery -= rng(0, 2);
         personality.altruism -= rng(2, 6);
     }
-    if (fac->has_job(FACJOB_INFORMATION)) {
+    if (fac->has_job(FACJOB_INFORMATION))
+    {
         int_max += rng(0, 4);
         per_max += rng(0, 4);
         personality.aggression -= rng(0, 4);
         personality.collector += rng(1, 3);
     }
-    if (fac->has_job(FACJOB_TRADE) || fac->has_job(FACJOB_CARAVANS)) {
+    if (fac->has_job(FACJOB_TRADE) || fac->has_job(FACJOB_CARAVANS))
+    {
         if (!one_in(3))
             randomize(g, NC_TRADER);
         personality.aggression -= rng(1, 5);
@@ -556,9 +581,12 @@ void npc::randomize_from_faction(game *g, faction *fac)
     }
     if (fac->has_job(FACJOB_SCAVENGE))
         personality.collector += rng(4, 8);
-    if (fac->has_job(FACJOB_MERCENARIES)) {
-        if (!one_in(3)) {
-            switch (rng(1, 3)) {
+    if (fac->has_job(FACJOB_MERCENARIES))
+    {
+        if (!one_in(3))
+        {
+            switch (rng(1, 3))
+            {
             case 1:
                 randomize(g, NC_NINJA);
                 break;
@@ -577,13 +605,15 @@ void npc::randomize_from_faction(game *g, faction *fac)
         per_max += rng(0, 2);
         dex_max += rng(0, 2);
     }
-    if (fac->has_job(FACJOB_ASSASSINS)) {
+    if (fac->has_job(FACJOB_ASSASSINS))
+    {
         personality.bravery -= rng(0, 2);
         personality.altruism -= rng(1, 3);
         per_max += rng(1, 3);
         dex_max += rng(0, 2);
     }
-    if (fac->has_job(FACJOB_RAIDERS)) {
+    if (fac->has_job(FACJOB_RAIDERS))
+    {
         if (one_in(3))
             randomize(g, NC_COWBOY);
         personality.aggression += rng(3, 5);
@@ -592,7 +622,8 @@ void npc::randomize_from_faction(game *g, faction *fac)
         str_max += rng(0, 3);
         int_max -= rng(0, 2);
     }
-    if (fac->has_job(FACJOB_THIEVES)) {
+    if (fac->has_job(FACJOB_THIEVES))
+    {
         if (one_in(3))
             randomize(g, NC_NINJA);
         personality.aggression -= rng(2, 5);
@@ -602,7 +633,8 @@ void npc::randomize_from_faction(game *g, faction *fac)
         per_max += rng(1, 4);
         dex_max += rng(1, 3);
     }
-    if (fac->has_job(FACJOB_DOCTORS)) {
+    if (fac->has_job(FACJOB_DOCTORS))
+    {
         if (!one_in(4))
             randomize(g, NC_DOCTOR);
         personality.aggression -= rng(3, 6);
@@ -612,20 +644,24 @@ void npc::randomize_from_faction(game *g, faction *fac)
         per_max += rng(0, 2);
         sklevel[sk_firstaid] += rng(1, 5);
     }
-    if (fac->has_job(FACJOB_FARMERS)) {
+    if (fac->has_job(FACJOB_FARMERS))
+    {
         personality.aggression -= rng(2, 4);
         personality.altruism += rng(0, 3);
         str_max += rng(1, 3);
     }
-    if (fac->has_job(FACJOB_DRUGS)) {
+    if (fac->has_job(FACJOB_DRUGS))
+    {
         personality.aggression -= rng(0, 2);
         personality.bravery -= rng(0, 3);
         personality.altruism -= rng(1, 4);
     }
-    if (fac->has_job(FACJOB_MANUFACTURE)) {
+    if (fac->has_job(FACJOB_MANUFACTURE))
+    {
         personality.aggression -= rng(0, 2);
         personality.bravery -= rng(0, 2);
-        switch (rng(1, 4)) {
+        switch (rng(1, 4))
+        {
         case 1:
             sklevel[sk_mechanics] += dice(2, 4);
             break;
@@ -641,35 +677,42 @@ void npc::randomize_from_faction(game *g, faction *fac)
         }
     }
 
-    if (fac->has_value(FACVAL_CHARITABLE)) {
+    if (fac->has_value(FACVAL_CHARITABLE))
+    {
         personality.aggression -= rng(2, 5);
         personality.bravery += rng(0, 4);
         personality.altruism += rng(2, 5);
     }
-    if (fac->has_value(FACVAL_LONERS)) {
+    if (fac->has_value(FACVAL_LONERS))
+    {
         personality.aggression -= rng(1, 3);
         personality.altruism -= rng(1, 4);
     }
-    if (fac->has_value(FACVAL_EXPLORATION)) {
+    if (fac->has_value(FACVAL_EXPLORATION))
+    {
         per_max += rng(0, 4);
         personality.aggression -= rng(0, 2);
     }
-    if (fac->has_value(FACVAL_ARTIFACTS)) {
+    if (fac->has_value(FACVAL_ARTIFACTS))
+    {
         personality.collector += rng(2, 5);
         personality.altruism -= rng(0, 2);
     }
-    if (fac->has_value(FACVAL_BIONICS)) {
+    if (fac->has_value(FACVAL_BIONICS))
+    {
         str_max += rng(0, 2);
         dex_max += rng(0, 2);
         per_max += rng(0, 2);
         int_max += rng(0, 4);
-        if (one_in(3)) {
+        if (one_in(3))
+        {
             sklevel[sk_mechanics] += dice(2, 3);
             sklevel[sk_electronics] += dice(2, 3);
             sklevel[sk_firstaid] += dice(2, 3);
         }
     }
-    if (fac->has_value(FACVAL_BOOKS)) {
+    if (fac->has_value(FACVAL_BOOKS))
+    {
         str_max -= rng(0, 2);
         per_max -= rng(0, 3);
         int_max += rng(0, 4);
@@ -677,37 +720,44 @@ void npc::randomize_from_faction(game *g, faction *fac)
         personality.bravery -= rng(0, 3);
         personality.collector += rng(0, 3);
     }
-    if (fac->has_value(FACVAL_TRAINING)) {
+    if (fac->has_value(FACVAL_TRAINING))
+    {
         str_max += rng(0, 3);
         dex_max += rng(0, 3);
         per_max += rng(0, 2);
         int_max += rng(0, 2);
-        for (int i = 1; i < num_skill_types; i++) {
+        for (int i = 1; i < num_skill_types; i++)
+        {
             if (one_in(3))
                 sklevel[i] += rng(2, 4);
         }
     }
-    if (fac->has_value(FACVAL_ROBOTS)) {
+    if (fac->has_value(FACVAL_ROBOTS))
+    {
         int_max += rng(0, 3);
         personality.aggression -= rng(0, 3);
         personality.collector += rng(0, 3);
     }
-    if (fac->has_value(FACVAL_TREACHERY)) {
+    if (fac->has_value(FACVAL_TREACHERY))
+    {
         personality.aggression += rng(0, 3);
         personality.altruism -= rng(2, 5);
     }
-    if (fac->has_value(FACVAL_STRAIGHTEDGE)) {
+    if (fac->has_value(FACVAL_STRAIGHTEDGE))
+    {
         personality.collector -= rng(0, 2);
         str_max += rng(0, 1);
         per_max += rng(0, 2);
         int_max += rng(0, 3);
     }
-    if (fac->has_value(FACVAL_LAWFUL)) {
+    if (fac->has_value(FACVAL_LAWFUL))
+    {
         personality.aggression -= rng(3, 7);
         personality.altruism += rng(1, 5);
         int_max += rng(0, 2);
     }
-    if (fac->has_value(FACVAL_CRUELTY)) {
+    if (fac->has_value(FACVAL_CRUELTY))
+    {
         personality.aggression += rng(3, 6);
         personality.bravery -= rng(1, 4);
         personality.altruism -= rng(2, 5);
@@ -721,7 +771,8 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
              gloves = itm_null, coat = itm_null, mask = itm_null,
              glasses = itm_null, hat = itm_null;
 
-    switch(rng(0, (male ? 3 : 4))) {
+    switch(rng(0, (male ? 3 : 4)))
+    {
     case 0:
         pants = itm_jeans;
         break;
@@ -738,7 +789,8 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
         pants = itm_skirt;
         break;
     }
-    switch (rng(0, 3)) {
+    switch (rng(0, 3))
+    {
     case 0:
         shirt = itm_tshirt;
         break;
@@ -752,7 +804,8 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
         shirt = itm_tank_top;
         break;
     }
-    switch(rng(0, 10)) {
+    switch(rng(0, 10))
+    {
     case  8:
         gloves = itm_gloves_leather;
         break;
@@ -763,7 +816,8 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
         gloves = itm_fire_gauntlets;
         break;
     }
-    switch (rng(0, 6)) {
+    switch (rng(0, 6))
+    {
     case 2:
         coat = itm_hoodie;
         break;
@@ -784,8 +838,10 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
         coat = itm_kevlar;
     shoes = itm_sneakers;
     mask = itm_null;
-    if (one_in(8)) {
-        switch(rng(0, 2)) {
+    if (one_in(8))
+    {
+        switch(rng(0, 2))
+        {
         case 0:
             mask = itm_mask_dust;
             break;
@@ -801,8 +857,10 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
     if (one_in(8))
         glasses = itm_glasses_safety;
     hat = itm_null;
-    if (one_in(6)) {
-        switch(rng(0, 5)) {
+    if (one_in(6))
+    {
+        switch(rng(0, 5))
+        {
         case 0:
             hat = itm_hat_ball;
             break;
@@ -825,7 +883,8 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
     }
 
 // Now, more specific stuff for certain classes.
-    switch (type) {
+    switch (type)
+    {
     case NC_DOCTOR:
         if (one_in(2))
             pants = itm_pants;
@@ -844,7 +903,8 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
     case NC_TRADER:
         if (one_in(2))
             pants = itm_pants_cargo;
-        switch (rng(0, 8)) {
+        switch (rng(0, 8))
+        {
         case 1:
             coat = itm_hoodie;
             break;
@@ -912,7 +972,8 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
             mask = itm_mask_filter;
         if (one_in(5))
             glasses = itm_goggles_ski;
-        if (one_in(3)) {
+        if (one_in(3))
+        {
             mask = itm_null;
             hat = itm_helmet_motor;
         }
@@ -938,7 +999,8 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
         ret.push_back(item(g->itypes[hat], 0));
 
 // Second pass--for extra stuff like backpacks, etc
-    switch (type) {
+    switch (type)
+    {
     case NC_NONE:
     case NC_DOCTOR:
     case NC_SCIENTIST:
@@ -967,23 +1029,29 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
     itype_id tmp;
 
 // First, if we're wielding a gun, get some ammo for it
-    if (me->weapon.is_gun()) {
+    if (me->weapon.is_gun())
+    {
         it_gun *gun = dynamic_cast<it_gun*>(me->weapon.type);
         tmp = default_ammo(gun->ammo);
-        if (total_space >= g->itypes[tmp]->volume) {
+        if (total_space >= g->itypes[tmp]->volume)
+        {
             ret.push_back(item(g->itypes[tmp], 0));
             total_space -= ret[ret.size() - 1].volume();
         }
         while ((type == NC_COWBOY || type == NC_BOUNTY_HUNTER || !one_in(3)) &&
-                !one_in(4) && total_space >= g->itypes[tmp]->volume) {
+                !one_in(4) && total_space >= g->itypes[tmp]->volume)
+        {
             ret.push_back(item(g->itypes[tmp], 0));
             total_space -= ret[ret.size() - 1].volume();
         }
     }
-    if (type == NC_TRADER) {	// Traders just have tons of random junk
-        while (total_space > 0 && !one_in(50)) {
+    if (type == NC_TRADER)  	// Traders just have tons of random junk
+    {
+        while (total_space > 0 && !one_in(50))
+        {
             tmp = itype_id(rng(2, num_items - 1));
-            if (total_space >= g->itypes[tmp]->volume) {
+            if (total_space >= g->itypes[tmp]->volume)
+            {
                 ret.push_back(item(g->itypes[tmp], 0));
                 ret[ret.size() - 1] = ret[ret.size() - 1].in_its_container(&g->itypes);
                 total_space -= ret[ret.size() - 1].volume();
@@ -992,21 +1060,26 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
     }
     int index;
     items_location from;
-    if (type == NC_HACKER) {
+    if (type == NC_HACKER)
+    {
         from = mi_npc_hacker;
-        while(total_space > 0 && !one_in(10)) {
+        while(total_space > 0 && !one_in(10))
+        {
             index = rng(0, g->mapitems[from].size() - 1);
             tmp = g->mapitems[from][index];
             item tmpit(g->itypes[tmp], 0);
             tmpit = tmpit.in_its_container(&g->itypes);
-            if (total_space >= tmpit.volume()) {
+            if (total_space >= tmpit.volume())
+            {
                 ret.push_back(tmpit);
                 total_space -= tmpit.volume();
             }
         }
     }
-    if (type == NC_DOCTOR) {
-        while(total_space > 0 && !one_in(10)) {
+    if (type == NC_DOCTOR)
+    {
+        while(total_space > 0 && !one_in(10))
+        {
             if (one_in(3))
                 from = mi_softdrugs;
             else
@@ -1015,7 +1088,8 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
             tmp = g->mapitems[from][index];
             item tmpit(g->itypes[tmp], 0);
             tmpit = tmpit.in_its_container(&g->itypes);
-            if (total_space >= tmpit.volume()) {
+            if (total_space >= tmpit.volume())
+            {
                 ret.push_back(tmpit);
                 total_space -= tmpit.volume();
             }
@@ -1023,18 +1097,23 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
     }
 // TODO: More specifics.
 
-    while (total_space > 0 && !one_in(8)) {
+    while (total_space > 0 && !one_in(8))
+    {
         tmp = itype_id(rng(4, num_items - 1));
-        if (total_space >= g->itypes[tmp]->volume) {
+        if (total_space >= g->itypes[tmp]->volume)
+        {
             ret.push_back(item(g->itypes[tmp], 0));
             ret[ret.size() - 1] = ret[ret.size() - 1].in_its_container(&g->itypes);
             total_space -= ret[ret.size() - 1].volume();
         }
     }
 
-    for (int i = 0; i < ret.size(); i++) {
-        for (int j = 0; j < g->mapitems[mi_trader_avoid].size(); j++) {
-            if (ret[i].type->id == g->mapitems[mi_trader_avoid][j]) {
+    for (int i = 0; i < ret.size(); i++)
+    {
+        for (int j = 0; j < g->mapitems[mi_trader_avoid].size(); j++)
+        {
+            if (ret[i].type->id == g->mapitems[mi_trader_avoid][j])
+            {
                 ret.erase(ret.begin() + i);
                 i--;
                 j = 0;
@@ -1052,7 +1131,8 @@ void npc::spawn_at(overmap *o, int x, int y)
     omy = o->posy;
     mapx = x;
     mapy = y;
-    if (x == -1 || y == -1) {
+    if (x == -1 || y == -1)
+    {
         int city_index = rng(0, o->cities.size() - 1);
         int x = o->cities[city_index].x;
         int y = o->cities[city_index].y;
@@ -1068,8 +1148,10 @@ skill npc::best_skill()
 {
     std::vector<int> best_skills;
     int highest = 0;
-    for (int i = sk_unarmed; i <= sk_rifle; i++) {
-        if (sklevel[i] > highest && i != sk_gun) {
+    for (int i = sk_unarmed; i <= sk_rifle; i++)
+    {
+        if (sklevel[i] > highest && i != sk_gun)
+        {
             highest = sklevel[i];
             best_skills.clear();
         }
@@ -1082,15 +1164,18 @@ skill npc::best_skill()
 
 void npc::starting_weapon(game *g)
 {
-    if (!styles.empty()) {
+    if (!styles.empty())
+    {
         weapon.make(g->itypes[styles[rng(0, styles.size() - 1)]]);
         return;
     }
     skill best = best_skill();
     int index;
-    switch (best) {
+    switch (best)
+    {
     case sk_bashing:
-        switch (rng(0, 5)) {
+        switch (rng(0, 5))
+        {
         case 0:
             weapon.make(g->itypes[itm_hammer]);
             break;
@@ -1112,7 +1197,8 @@ void npc::starting_weapon(game *g)
         }
         break;
     case sk_cutting:
-        switch (rng(0, 5)) {
+        switch (rng(0, 5))
+        {
         case 0:
             weapon.make(g->itypes[itm_knife_butcher]);
             break;
@@ -1153,7 +1239,8 @@ void npc::starting_weapon(game *g)
         weapon.make(g->itypes[(g->mapitems[mi_rifles])[index]]);
         break;
     }
-    if (weapon.is_gun()) {
+    if (weapon.is_gun())
+    {
         it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
         weapon.charges = gun->clip;
         weapon.curammo = dynamic_cast<it_ammo*>(g->itypes[default_ammo(gun->ammo)]);
@@ -1168,28 +1255,35 @@ bool npc::wear_if_wanted(item it)
     it_armor* armor = dynamic_cast<it_armor*>(it.type);
     int max_encumb[num_bp] = {2, 3, 3, 4, 3, 3, 3, 2};
     bool encumb_ok = true;
-    for (int i = 0; i < num_bp && encumb_ok; i++) {
+    for (int i = 0; i < num_bp && encumb_ok; i++)
+    {
         if (armor->covers & mfb(i) && encumb(body_part(i)) + armor->encumber >
                 max_encumb[i])
             encumb_ok = false;
     }
-    if (encumb_ok) {
+    if (encumb_ok)
+    {
         worn.push_back(it);
         return true;
     }
 // Otherwise, maybe we should take off one or more items and replace them
     std::vector<int> removal;
-    for (int i = 0; i < worn.size(); i++) {
-        for (int j = 0; j < num_bp; j++) {
+    for (int i = 0; i < worn.size(); i++)
+    {
+        for (int j = 0; j < num_bp; j++)
+        {
             if (armor->covers & mfb(j) &&
-                    dynamic_cast<it_armor*>(worn[i].type)->covers & mfb(j)) {
+                    dynamic_cast<it_armor*>(worn[i].type)->covers & mfb(j))
+            {
                 removal.push_back(i);
                 j = num_bp;
             }
         }
     }
-    for (int i = 0; i < removal.size(); i++) {
-        if (true) {
+    for (int i = 0; i < removal.size(); i++)
+    {
+        if (true)
+        {
 //  if (worn[removal[i]].value_to(this) < it.value_to(this)) {
             inv.push_back(worn[removal[i]]);
             worn.push_back(it);
@@ -1201,16 +1295,20 @@ bool npc::wear_if_wanted(item it)
 
 bool npc::wield(game *g, int index)
 {
-    if (index < 0) { // Wielding a style
+    if (index < 0)   // Wielding a style
+    {
         index = 0 - index - 1;
-        if (index >= styles.size()) {
+        if (index >= styles.size())
+        {
             debugmsg("npc::wield(%d) [styles.size() = %d]", index, styles.size());
             return false;
         }
-        if (volume_carried() + weapon.volume() <= volume_capacity()) {
+        if (volume_carried() + weapon.volume() <= volume_capacity())
+        {
             i_add(remove_weapon());
             moves -= 15; // Extra penalty for putting weapon away
-        } else // No room for weapon, so we drop it
+        }
+        else   // No room for weapon, so we drop it
             g->m.add_item(posx, posy, remove_weapon());
         moves -= 15;
         weapon.make( g->itypes[styles[index]] );
@@ -1220,14 +1318,17 @@ bool npc::wield(game *g, int index)
         return true;
     }
 
-    if (index >= inv.size()) {
+    if (index >= inv.size())
+    {
         debugmsg("npc::wield(%d) [inv.size() = %d]", index, inv.size());
         return false;
     }
-    if (volume_carried() + weapon.volume() <= volume_capacity()) {
+    if (volume_carried() + weapon.volume() <= volume_capacity())
+    {
         i_add(remove_weapon());
         moves -= 15;
-    } else // No room for weapon, so we drop it
+    }
+    else   // No room for weapon, so we drop it
         g->m.add_item(posx, posy, remove_weapon());
     moves -= 15;
     weapon = inv[index];
@@ -1240,9 +1341,11 @@ bool npc::wield(game *g, int index)
 
 void npc::perform_mission(game *g)
 {
-    switch (mission) {
+    switch (mission)
+    {
     case NPC_MISSION_RESCUE_U:
-        if (int(g->turn) % 24 == 0) {
+        if (int(g->turn) % 24 == 0)
+        {
             if (mapx > g->levx)
                 mapx--;
             else if (mapx < g->levx)
@@ -1257,7 +1360,8 @@ void npc::perform_mission(game *g)
     case NPC_MISSION_SHOPKEEP:
         break;	// Just stay where we are
     default:	// Random Walk
-        if (int(g->turn) % 24 == 0) {
+        if (int(g->turn) % 24 == 0)
+        {
             mapx += rng(-1, 1);
             mapy += rng(-1, 1);
         }
@@ -1267,12 +1371,14 @@ void npc::perform_mission(game *g)
 void npc::form_opinion(player *u)
 {
 // FEAR
-    if (u->weapon.is_gun()) {
+    if (u->weapon.is_gun())
+    {
         if (weapon.is_gun())
             op_of_u.fear += 2;
         else
             op_of_u.fear += 6;
-    } else if (u->weapon.type->melee_dam >= 12 || u->weapon.type->melee_cut >= 12)
+    }
+    else if (u->weapon.type->melee_dam >= 12 || u->weapon.type->melee_cut >= 12)
         op_of_u.fear += 2;
     else if (u->unarmed_attack())	// Unarmed
         op_of_u.fear -= 3;
@@ -1286,7 +1392,8 @@ void npc::form_opinion(player *u)
     else if (u->str_max <= 3)
         op_of_u.fear -= 3;
 
-    for (int i = 0; i < num_hp_parts; i++) {
+    for (int i = 0; i < num_hp_parts; i++)
+    {
         if (u->hp_cur[i] <= u->hp_max[i] / 2)
             op_of_u.fear--;
         if (hp_cur[i] <= hp_max[i] / 2)
@@ -1331,12 +1438,14 @@ void npc::form_opinion(player *u)
 
 // VALUE
     op_of_u.value = 0;
-    for (int i = 0; i < num_hp_parts; i++) {
+    for (int i = 0; i < num_hp_parts; i++)
+    {
         if (hp_cur[i] < hp_max[i] * .8)
             op_of_u.value++;
     }
     decide_needs();
-    for (int i = 0; i < needs.size(); i++) {
+    for (int i = 0; i < needs.size(); i++)
+    {
         if (needs[i] == need_food || needs[i] == need_drink)
             op_of_u.value += 2;
     }
@@ -1353,7 +1462,8 @@ void npc::form_opinion(player *u)
 talk_topic npc::pick_talk_topic(player *u)
 {
 //form_opinion(u);
-    if (personality.aggression > 0) {
+    if (personality.aggression > 0)
+    {
         if (op_of_u.fear * 2 < personality.bravery && personality.altruism < 0)
             return TALK_MUG;
         if (personality.aggression + personality.bravery - op_of_u.fear > 0)
@@ -1373,12 +1483,14 @@ talk_topic npc::pick_talk_topic(player *u)
 int npc::player_danger(player *u)
 {
     int ret = 0;
-    if (u->weapon.is_gun()) {
+    if (u->weapon.is_gun())
+    {
         if (weapon.is_gun())
             ret += 4;
         else
             ret += 8;
-    } else if (u->weapon.type->melee_dam >= 12 || u->weapon.type->melee_cut >= 12)
+    }
+    else if (u->weapon.type->melee_dam >= 12 || u->weapon.type->melee_cut >= 12)
         ret++;
     else if (u->weapon.type->id == 0)	// Unarmed
         ret -= 3;
@@ -1394,7 +1506,8 @@ int npc::player_danger(player *u)
     else if (u->str_max <= 3)
         ret -= 4;
 
-    for (int i = 0; i < num_hp_parts; i++) {
+    for (int i = 0; i < num_hp_parts; i++)
+    {
         if (u->hp_cur[i] <= u->hp_max[i] / 2)
             ret--;
         if (hp_cur[i] <= hp_max[i] / 2)
@@ -1451,7 +1564,8 @@ std::vector<skill> npc::skills_offered_to(player *p)
     std::vector<skill> ret;
     if (p == NULL)
         return ret;
-    for (int i = 0; i < num_skill_types; i++) {
+    for (int i = 0; i < num_skill_types; i++)
+    {
         if (p->skillLevel(Skill::skill(i)) < sklevel[i])
             ret.push_back( skill(i) );
     }
@@ -1463,9 +1577,11 @@ std::vector<itype_id> npc::styles_offered_to(player *p)
     std::vector<itype_id> ret;
     if (p == NULL)
         return ret;
-    for (int i = 0; i < styles.size(); i++) {
+    for (int i = 0; i < styles.size(); i++)
+    {
         bool found = false;
-        for (int j = 0; j < p->styles.size() && !found; j++) {
+        for (int j = 0; j < p->styles.size() && !found; j++)
+        {
             if (p->styles[j] == styles[i])
                 found = true;
         }
@@ -1508,7 +1624,8 @@ void npc::decide_needs()
     int needrank[num_needs];
     for (int i = 0; i < num_needs; i++)
         needrank[i] = 20;
-    if (weapon.is_gun()) {
+    if (weapon.is_gun())
+    {
         it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
         needrank[need_ammo] = 5 * has_ammo(gun->ammo).size();
     }
@@ -1523,13 +1640,15 @@ void npc::decide_needs()
                              sklevel[sk_gun] * 2 + 5;
     needrank[need_food] = 15 - hunger;
     needrank[need_drink] = 15 - thirst;
-    for (int i = 0; i < inv.size(); i++) {
+    for (int i = 0; i < inv.size(); i++)
+    {
         it_comest* food = NULL;
         if (inv[i].is_food())
             food = dynamic_cast<it_comest*>(inv[i].type);
         else if (inv[i].is_food_container())
             food = dynamic_cast<it_comest*>(inv[i].contents[0].type);
-        if (food != NULL) {
+        if (food != NULL)
+        {
             needrank[need_food] += food->nutr / 4;
             needrank[need_drink] += food->quench / 4;
         }
@@ -1537,18 +1656,24 @@ void npc::decide_needs()
     needs.clear();
     int j;
     bool serious = false;
-    for (int i = 1; i < num_needs; i++) {
+    for (int i = 1; i < num_needs; i++)
+    {
         if (needrank[i] < 10)
             serious = true;
     }
-    if (!serious) {
+    if (!serious)
+    {
         needs.push_back(need_none);
         needrank[0] = 10;
     }
-    for (int i = 1; i < num_needs; i++) {
-        if (needrank[i] < 20) {
-            for (j = 0; j < needs.size(); j++) {
-                if (needrank[i] < needrank[needs[j]]) {
+    for (int i = 1; i < num_needs; i++)
+    {
+        if (needrank[i] < 20)
+        {
+            for (j = 0; j < needs.size(); j++)
+            {
+                if (needrank[i] < needrank[needs[j]])
+                {
                     needs.insert(needs.begin() + j, npc_need(i));
                     j = needs.size() + 1;
                 }
@@ -1569,10 +1694,13 @@ void npc::say(game *g, std::string line, ...)
     line = buff;
     int junk;
     parse_tags(line, &(g->u), this);
-    if (g->u_see(posx, posy, junk)) {
+    if (g->u_see(posx, posy, junk))
+    {
         g->add_msg("%s says, \"%s\"", name.c_str(), line.c_str());
         g->sound(posx, posy, 16, "");
-    } else {
+    }
+    else
+    {
         std::string sound = name + " saying, \"" + line + "\"";
         g->sound(posx, posy, 16, sound);
     }
@@ -1582,12 +1710,15 @@ void npc::init_selling(std::vector<int> &indices, std::vector<int> &prices)
 {
     int val, price;
     bool found_lighter = false;
-    for (int i = 0; i < inv.size(); i++) {
+    for (int i = 0; i < inv.size(); i++)
+    {
         if (inv[i].type->id == itm_lighter && !found_lighter)
             found_lighter = true;
-        else {
+        else
+        {
             val = value(inv[i]) - (inv[i].price() / 50);
-            if (val <= NPC_LOW_VALUE || mission == NPC_MISSION_SHOPKEEP) {
+            if (val <= NPC_LOW_VALUE || mission == NPC_MISSION_SHOPKEEP)
+            {
                 indices.push_back(i);
                 price = inv[i].price() / (price_adjustment(sklevel[sk_barter]));
                 prices.push_back(price);
@@ -1600,9 +1731,11 @@ void npc::init_buying(inventory you, std::vector<int> &indices,
                       std::vector<int> &prices)
 {
     int val, price;
-    for (int i = 0; i < you.size(); i++) {
+    for (int i = 0; i < you.size(); i++)
+    {
         val = value(you[i]);
-        if (val >= NPC_HI_VALUE) {
+        if (val >= NPC_HI_VALUE)
+        {
             indices.push_back(i);
             price = you[i].price();
             if (val >= NPC_VERY_HI_VALUE)
@@ -1623,7 +1756,8 @@ int npc::minimum_item_value()
 void npc::update_worst_item_value()
 {
     worst_item_value = 99999;
-    for (int i = 0; i < inv.size(); i++) {
+    for (int i = 0; i < inv.size(); i++)
+    {
         int itval = value(inv[i]);
         if (itval < worst_item_value)
             worst_item_value = itval;
@@ -1634,13 +1768,15 @@ int npc::value(item &it)
 {
     int ret = it.price() / 50;
     skill best = best_skill();
-    if (best != sk_unarmed) {
+    if (best != sk_unarmed)
+    {
         int weapon_val = it.weapon_value(sklevel) - weapon.weapon_value(sklevel);
         if (weapon_val > 0)
             ret += weapon_val;
     }
 
-    if (it.is_food()) {
+    if (it.is_food())
+    {
         it_comest* comest = dynamic_cast<it_comest*>(it.type);
         if (comest->nutr > 0 || comest->quench > 0)
             ret++;
@@ -1650,16 +1786,20 @@ int npc::value(item &it)
             ret += (comest->quench + thirst - 40) / 4;
     }
 
-    if (it.is_ammo()) {
+    if (it.is_ammo())
+    {
         it_ammo* ammo = dynamic_cast<it_ammo*>(it.type);
         it_gun* gun;
-        if (weapon.is_gun()) {
+        if (weapon.is_gun())
+        {
             gun = dynamic_cast<it_gun*>(weapon.type);
             if (ammo->type == gun->ammo)
                 ret += 14;
         }
-        for (int i = 0; i < inv.size(); i++) {
-            if (inv[i].is_gun()) {
+        for (int i = 0; i < inv.size(); i++)
+        {
+            if (inv[i].is_gun())
+            {
                 gun = dynamic_cast<it_gun*>(inv[i].type);
                 if (ammo->type == gun->ammo)
                     ret += 14;
@@ -1667,9 +1807,11 @@ int npc::value(item &it)
         }
     }
 
-    if (it.is_book()) {
+    if (it.is_book())
+    {
         it_book* book = dynamic_cast<it_book*>(it.type);
-        if (book->intel <= int_cur) {
+        if (book->intel <= int_cur)
+        {
             ret += book->fun;
             if (skillLevel(book->type) < book->level && skillLevel(book->type) >= book->req)
                 ret += book->level * 3;
@@ -1677,7 +1819,8 @@ int npc::value(item &it)
     }
 
 // TODO: Sometimes we want more than one tool?  Also we don't want EVERY tool.
-    if (it.is_tool() && !has_amount(itype_id(it.type->id), 1)) {
+    if (it.is_tool() && !has_amount(itype_id(it.type->id), 1))
+    {
         ret += 8;
     }
 
@@ -1691,7 +1834,8 @@ int npc::value(item &it)
         ret += 10;
     if (fac_has_value(FACVAL_BOOKS) && it.is_book())
         ret += 14;
-    if (fac_has_job(FACJOB_SCAVENGE)) { // Computed last for _reasons_.
+    if (fac_has_job(FACJOB_SCAVENGE))   // Computed last for _reasons_.
+    {
         ret += 6;
         ret *= 1.3;
     }
@@ -1700,7 +1844,8 @@ int npc::value(item &it)
 
 bool npc::has_healing_item()
 {
-    for (int i = 0; i < inv.size(); i++) {
+    for (int i = 0; i < inv.size(); i++)
+    {
         if (inv[i].type->id == itm_bandages || inv[i].type->id == itm_1st_aid)
             return true;
     }
@@ -1709,7 +1854,8 @@ bool npc::has_healing_item()
 
 bool npc::has_painkiller()
 {
-    for (int i = 0; i < inv.size(); i++) {
+    for (int i = 0; i < inv.size(); i++)
+    {
         if ((pain <= 35 && inv[i].type->id == itm_aspirin) ||
                 (pain >= 50 && inv[i].type->id == itm_oxycodone) ||
                 inv[i].type->id == itm_tramadol || inv[i].type->id == itm_codeine)
@@ -1734,7 +1880,8 @@ bool npc::is_friend()
 
 bool npc::is_following()
 {
-    switch (attitude) {
+    switch (attitude)
+    {
     case NPCATT_FOLLOW:
     case NPCATT_FOLLOW_RUN:
     case NPCATT_DEFEND:
@@ -1768,7 +1915,8 @@ int npc::danger_assessment(game *g)
 {
     int ret = 0;
     int sightdist = g->light_level(), junk;
-    for (int i = 0; i < g->z.size(); i++) {
+    for (int i = 0; i < g->z.size(); i++)
+    {
         if (g->m.sees(posx, posy, g->z[i].posx, g->z[i].posy, sightdist, junk))
             ret += g->z[i].type->difficulty;
     }
@@ -1777,15 +1925,20 @@ int npc::danger_assessment(game *g)
         ret = -10 + 5 * ret;	// Low danger if no monsters around
 
 // Mod for the player
-    if (is_enemy()) {
-        if (rl_dist(posx, posy, g->u.posx, g->u.posy) < 10) {
+    if (is_enemy())
+    {
+        if (rl_dist(posx, posy, g->u.posx, g->u.posy) < 10)
+        {
             if (g->u.weapon.is_gun())
                 ret += 10;
             else
                 ret += 10 - rl_dist(posx, posy, g->u.posx, g->u.posy);
         }
-    } else if (is_friend()) {
-        if (rl_dist(posx, posy, g->u.posx, g->u.posy) < 8) {
+    }
+    else if (is_friend())
+    {
+        if (rl_dist(posx, posy, g->u.posx, g->u.posy) < 8)
+        {
             if (g->u.weapon.is_gun())
                 ret -= 8;
             else
@@ -1793,15 +1946,19 @@ int npc::danger_assessment(game *g)
         }
     }
 
-    for (int i = 0; i < num_hp_parts; i++) {
-        if (i == hp_head || i == hp_torso) {
+    for (int i = 0; i < num_hp_parts; i++)
+    {
+        if (i == hp_head || i == hp_torso)
+        {
             if (hp_cur[i] < hp_max[i] / 4)
                 ret += 5;
             else if (hp_cur[i] < hp_max[i] / 2)
                 ret += 3;
             else if (hp_cur[i] < hp_max[i] * .9)
                 ret += 1;
-        } else {
+        }
+        else
+        {
             if (hp_cur[i] < hp_max[i] / 4)
                 ret += 2;
             else if (hp_cur[i] < hp_max[i] / 2)
@@ -1832,20 +1989,24 @@ bool npc::emergency(int danger)
 
 void npc::told_to_help(game *g)
 {
-    if (!is_following() && personality.altruism < 0) {
+    if (!is_following() && personality.altruism < 0)
+    {
         say(g, "Screw you!");
         return;
     }
-    if (is_following()) {
+    if (is_following())
+    {
         if (personality.altruism + 4 * op_of_u.value + personality.bravery >
-                danger_assessment(g)) {
+                danger_assessment(g))
+        {
             say(g, "I've got your back!");
             attitude = NPCATT_DEFEND;
         }
         return;
     }
     if (int((personality.altruism + personality.bravery) / 4) >
-            danger_assessment(g)) {
+            danger_assessment(g))
+    {
         say(g, "Alright, I got you covered!");
         attitude = NPCATT_DEFEND;
     }
@@ -1853,17 +2014,21 @@ void npc::told_to_help(game *g)
 
 void npc::told_to_wait(game *g)
 {
-    if (!is_following()) {
+    if (!is_following())
+    {
         debugmsg("%s told to wait, but isn't following", name.c_str());
         return;
     }
     if (5 + op_of_u.value + op_of_u.trust + personality.bravery * 2 >
-            danger_assessment(g)) {
+            danger_assessment(g))
+    {
         say(g, "Alright, I'll wait here.");
         if (one_in(3))
             op_of_u.trust--;
         attitude = NPCATT_WAIT;
-    } else {
+    }
+    else
+    {
         if (one_in(2))
             op_of_u.trust--;
         say(g, "No way, man!");
@@ -1872,14 +2037,18 @@ void npc::told_to_wait(game *g)
 
 void npc::told_to_leave(game *g)
 {
-    if (!is_following()) {
+    if (!is_following())
+    {
         debugmsg("%s told to leave, but isn't following", name.c_str());
         return;
     }
-    if (danger_assessment(g) - personality.bravery > op_of_u.value) {
+    if (danger_assessment(g) - personality.bravery > op_of_u.value)
+    {
         say(g, "No way, I need you!");
         op_of_u.trust -= 2;
-    } else {
+    }
+    else
+    {
         say(g, "Alright, see you later.");
         op_of_u.trust -= 2;
         op_of_u.value -= 1;
@@ -1932,7 +2101,8 @@ void npc::print_info(WINDOW* w)
     std::string wearing;
     std::stringstream wstr;
     wstr << "Wearing: ";
-    for (int i = 0; i < worn.size(); i++) {
+    for (int i = 0; i < worn.size(); i++)
+    {
         if (i > 0)
             wstr << ", ";
         wstr << worn[i].tname();
@@ -1940,7 +2110,8 @@ void npc::print_info(WINDOW* w)
     wearing = wstr.str();
     int line = 8;
     size_t split;
-    do {
+    do
+    {
         split = (wearing.length() <= 46) ? std::string::npos :
                 wearing.find_last_of(' ', 46);
         if (split == std::string::npos)
@@ -1949,14 +2120,16 @@ void npc::print_info(WINDOW* w)
             mvwprintz(w, line, 1, c_blue, wearing.substr(0, split).c_str());
         wearing = wearing.substr(split + 1);
         line++;
-    } while (split != std::string::npos && line <= 11);
+    }
+    while (split != std::string::npos && line <= 11);
 }
 
 std::string npc::short_description()
 {
     std::stringstream ret;
     ret << "Wielding " << weapon.tname() << ";   " << "Wearing: ";
-    for (int i = 0; i < worn.size(); i++) {
+    for (int i = 0; i < worn.size(); i++)
+    {
         if (i > 0)
             ret << ", ";
         ret << worn[i].tname();
@@ -2060,7 +2233,8 @@ void npc::die(game *g, bool your_fault)
     int j;
     if (g->u_see(posx, posy, j))
         g->add_msg("%s dies!", name.c_str());
-    if (your_fault && !g->u.has_trait(PF_HEARTLESS)) {
+    if (your_fault && !g->u.has_trait(PF_HEARTLESS))
+    {
         if (is_friend())
             g->u.add_morale(MORALE_KILLED_FRIEND, -500);
         else if (!is_enemy())
@@ -2078,7 +2252,8 @@ void npc::die(game *g, bool your_fault)
     if (weapon.type->id != itm_null)
         g->m.add_item(posx, posy, weapon);
 
-    for (int i = 0; i < g->active_missions.size(); i++) {
+    for (int i = 0; i < g->active_missions.size(); i++)
+    {
         if (g->active_missions[i].npc_id == id)
             g->fail_mission( g->active_missions[i].uid );
     }
@@ -2086,7 +2261,8 @@ void npc::die(game *g, bool your_fault)
 
 std::string npc_attitude_name(npc_attitude att)
 {
-    switch (att) {
+    switch (att)
+    {
     case NPCATT_NULL:	// Don't care/ignoring player
         return "Ignoring";
     case NPCATT_TALK:		// Move to and talk to player
@@ -2128,7 +2304,8 @@ std::string npc_attitude_name(npc_attitude att)
 
 std::string npc_class_name(npc_class classtype)
 {
-    switch(classtype) {
+    switch(classtype)
+    {
     case NC_NONE:
         return "No class";
     case NC_SHOPKEEP:	// Found in towns.  Stays in his shop mostly.

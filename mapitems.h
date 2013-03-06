@@ -1,6 +1,7 @@
 #ifndef _MAPITEMS_H_
 #define _MAPITEMS_H_
-enum items_location {
+enum items_location
+{
     mi_none,
     mi_field, mi_forest, mi_hive, mi_hive_center,
     mi_road,
@@ -56,7 +57,8 @@ struct items_location_and_chance
 {
     items_location loc;
     int chance;
-    items_location_and_chance (items_location l, int c) {
+    items_location_and_chance (items_location l, int c)
+    {
         loc = l;
         chance = c;
     };

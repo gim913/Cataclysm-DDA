@@ -7,7 +7,8 @@
 
 void dis_msg(game *g, dis_type type)
 {
-    switch (type) {
+    switch (type)
+    {
     case DI_GLARE:
         g->add_msg("The sunlight's glare makes it hard to see.");
         break;
@@ -89,7 +90,8 @@ void dis_effect(game *g, player &p, disease &dis)
 {
     int bonus;
     int junk;
-    switch (dis.type) {
+    switch (dis.type)
+    {
     case DI_GLARE:
         p.per_cur -= 1;
         break;
@@ -99,7 +101,8 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_COLD_HEAD:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 3 :
             p.int_cur -= 3;
             if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your thoughts are unclear.");
@@ -111,7 +114,8 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_COLD_TORSO:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 3 :
             p.dex_cur -= 2;
             if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your torso is burning up. You should remove some layers.");
@@ -127,7 +131,8 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_COLD_ARMS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 3 :
             p.dex_cur -= 2;
         case 2 :
@@ -138,7 +143,8 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_COLD_HANDS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 3 :
             p.dex_cur -= 2;
         case 2 :
@@ -149,7 +155,8 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_COLD_LEGS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 3 :
             p.str_cur--;
             if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your legs are seizing from the incredible cold.");
@@ -164,7 +171,8 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_COLD_FEET:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 3 :
             p.str_cur--;
         case 2 :
@@ -175,7 +183,8 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_FROSTBITE_HANDS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 2 :
             p.dex_cur -= 3;
         case 1 :
@@ -185,7 +194,8 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_FROSTBITE_FEET:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 2 : // -4 speed
         case 1 :
             if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
@@ -194,7 +204,8 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_FROSTBITE_MOUTH:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 2 :
             p.per_cur -= 3;
         case 1 :
@@ -224,7 +235,8 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_HOT_HEAD:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 3 :
             p.thirst--;
             if (p.pain < 50) p.pain++;
@@ -243,7 +255,8 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_HOT_TORSO:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 3 :
             p.thirst--;
             p.str_cur--;
@@ -260,7 +273,8 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_HOT_ARMS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 3 :
             p.thirst--;
             if (p.pain < 50) p.pain++;
@@ -272,7 +286,8 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_HOT_HANDS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 3 :
             p.dex_cur--;
         case 2 :
@@ -283,7 +298,8 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_HOT_LEGS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 3 :
             p.thirst--;
             if (p.pain < 50) p.pain++;
@@ -296,7 +312,8 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_HOT_FEET:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 3 :
             if (p.pain < 50) p.pain++;
         case 2 :
@@ -310,21 +327,27 @@ void dis_effect(game *g, player &p, disease &dis)
     case DI_COMMON_COLD:
         if (int(g->turn) % 300 == 0)
             p.thirst++;
-        if (p.has_disease(DI_TOOK_FLUMED)) {
+        if (p.has_disease(DI_TOOK_FLUMED))
+        {
             p.str_cur--;
             p.int_cur--;
-        } else {
+        }
+        else
+        {
             p.str_cur -= 3;
             p.dex_cur--;
             p.int_cur -= 2;
             p.per_cur--;
         }
-        if (one_in(300)) {
+        if (one_in(300))
+        {
             p.moves -= 80;
-            if (!p.is_npc()) {
+            if (!p.is_npc())
+            {
                 g->add_msg("You cough noisily.");
                 g->sound(p.posx, p.posy, 12, "");
-            } else
+            }
+            else
                 g->sound(p.posx, p.posy, 12, "loud coughing");
         }
         break;
@@ -332,25 +355,32 @@ void dis_effect(game *g, player &p, disease &dis)
     case DI_FLU:
         if (int(g->turn) % 300 == 0)
             p.thirst++;
-        if (p.has_disease(DI_TOOK_FLUMED)) {
+        if (p.has_disease(DI_TOOK_FLUMED))
+        {
             p.str_cur -= 2;
             p.int_cur--;
-        } else {
+        }
+        else
+        {
             p.str_cur -= 4;
             p.dex_cur -= 2;
             p.int_cur -= 2;
             p.per_cur--;
         }
-        if (one_in(300)) {
+        if (one_in(300))
+        {
             p.moves -= 80;
-            if (!p.is_npc()) {
+            if (!p.is_npc())
+            {
                 g->add_msg("You cough noisily.");
                 g->sound(p.posx, p.posy, 12, "");
-            } else
+            }
+            else
                 g->sound(p.posx, p.posy, 12, "loud coughing");
         }
         if (one_in(3600) || (p.has_trait(PF_WEAKSTOMACH) && one_in(3000)) ||
-                (p.has_trait(PF_NAUSEA) && one_in(2400))) {
+                (p.has_trait(PF_NAUSEA) && one_in(2400)))
+        {
             if (!p.has_disease(DI_TOOK_FLUMED) || one_in(2))
                 p.vomit(g);
         }
@@ -359,11 +389,14 @@ void dis_effect(game *g, player &p, disease &dis)
     case DI_SMOKE:
         p.str_cur--;
         p.dex_cur--;
-        if (one_in(5)) {
-            if (!p.is_npc()) {
+        if (one_in(5))
+        {
+            if (!p.is_npc())
+            {
                 g->add_msg("You cough heavily.");
                 g->sound(p.posx, p.posy, 12, "");
-            } else
+            }
+            else
                 g->sound(p.posx, p.posy, 12, "a hacking cough.");
             p.moves -= 80;
             p.hurt(g, bp_torso, 0, 1 - (rng(0, 1) * rng(0, 1)));
@@ -375,11 +408,14 @@ void dis_effect(game *g, player &p, disease &dis)
         p.dex_cur -= 2;
         p.int_cur -= 1;
         p.per_cur -= 4;
-        if (one_in(3)) {
-            if (!p.is_npc()) {
+        if (one_in(3))
+        {
+            if (!p.is_npc())
+            {
                 g->add_msg("You cough heavily.");
                 g->sound(p.posx, p.posy, 12, "");
-            } else
+            }
+            else
                 g->sound(p.posx, p.posy, 12, "a hacking cough");
             p.moves -= 100;
             p.hurt(g, bp_torso, 0, rng(0, 3) * rng(0, 1));
@@ -388,15 +424,21 @@ void dis_effect(game *g, player &p, disease &dis)
 
     case DI_ONFIRE:
         p.hurtall(3);
-        for (int i = 0; i < p.worn.size(); i++) {
-            if (p.worn[i].made_of(VEGGY) || p.worn[i].made_of(PAPER)) {
+        for (int i = 0; i < p.worn.size(); i++)
+        {
+            if (p.worn[i].made_of(VEGGY) || p.worn[i].made_of(PAPER))
+            {
                 p.worn.erase(p.worn.begin() + i);
                 i--;
-            } else if ((p.worn[i].made_of(COTTON) || p.worn[i].made_of(WOOL)) &&
-                       one_in(10)) {
+            }
+            else if ((p.worn[i].made_of(COTTON) || p.worn[i].made_of(WOOL)) &&
+                     one_in(10))
+            {
                 p.worn.erase(p.worn.begin() + i);
                 i--;
-            } else if (p.worn[i].made_of(PLASTIC) && one_in(50)) {
+            }
+            else if (p.worn[i].made_of(PLASTIC) && one_in(50))
+            {
                 p.worn.erase(p.worn.begin() + i);
                 i--;
             }
@@ -423,25 +465,34 @@ void dis_effect(game *g, player &p, disease &dis)
         p.moves -= 10;
         p.str_cur -= 1;
         p.dex_cur -= 1;
-        if (dis.duration > -600) {	// First hour symptoms
-            if (one_in(160 + bonus)) {
-                if (!p.is_npc()) {
+        if (dis.duration > -600)  	// First hour symptoms
+        {
+            if (one_in(160 + bonus))
+            {
+                if (!p.is_npc())
+                {
                     g->add_msg("You cough heavily.");
                     g->sound(p.posx, p.posy, 12, "");
-                } else
+                }
+                else
                     g->sound(p.posx, p.posy, 12, "a hacking cough");
                 p.pain++;
             }
-            if (one_in(100 + bonus)) {
+            if (one_in(100 + bonus))
+            {
                 if (!p.is_npc())
                     g->add_msg("You feel nauseous.");
             }
-            if (one_in(100 + bonus)) {
+            if (one_in(100 + bonus))
+            {
                 if (!p.is_npc())
                     g->add_msg("You smell and taste mushrooms.");
             }
-        } else if (dis.duration > -3600) {	// One to six hours
-            if (one_in(600 + bonus * 3)) {
+        }
+        else if (dis.duration > -3600)  	// One to six hours
+        {
+            if (one_in(600 + bonus * 3))
+            {
                 if (!p.is_npc())
                     g->add_msg("You spasm suddenly!");
                 p.moves -= 100;
@@ -449,7 +500,8 @@ void dis_effect(game *g, player &p, disease &dis)
             }
             if ((p.has_trait(PF_WEAKSTOMACH) && one_in(1600 + bonus *  8)) ||
                     (p.has_trait(PF_NAUSEA) && one_in(800 + bonus * 6)) ||
-                    one_in(2000 + bonus * 10)) {
+                    one_in(2000 + bonus * 10))
+            {
                 if (!p.is_npc())
                     g->add_msg("You vomit a thick, gray goop.");
                 else if (g->u_see(p.posx, p.posy, junk))
@@ -458,8 +510,11 @@ void dis_effect(game *g, player &p, disease &dis)
                 p.hunger += 50;
                 p.thirst += 68;
             }
-        } else {	// Full symptoms
-            if (one_in(1000 + bonus * 8)) {
+        }
+        else  	// Full symptoms
+        {
+            if (one_in(1000 + bonus * 8))
+            {
                 if (!p.is_npc())
                     g->add_msg("You double over, spewing live spores from your mouth!");
                 else if (g->u_see(p.posx, p.posy, junk))
@@ -467,25 +522,33 @@ void dis_effect(game *g, player &p, disease &dis)
                 p.moves = -500;
                 int sporex, sporey;
                 monster spore(g->mtypes[mon_spore]);
-                for (int i = -1; i <= 1; i++) {
-                    for (int j = -1; j <= 1; j++) {
+                for (int i = -1; i <= 1; i++)
+                {
+                    for (int j = -1; j <= 1; j++)
+                    {
                         sporex = p.posx + i;
                         sporey = p.posy + j;
-                        if (g->m.move_cost(sporex, sporey) > 0 && one_in(5)) {
-                            if (g->mon_at(sporex, sporey) >= 0) {	// Spores hit a monster
+                        if (g->m.move_cost(sporex, sporey) > 0 && one_in(5))
+                        {
+                            if (g->mon_at(sporex, sporey) >= 0)  	// Spores hit a monster
+                            {
                                 if (g->u_see(sporex, sporey, junk))
                                     g->add_msg("The %s is covered in tiny spores!",
                                                g->z[g->mon_at(sporex, sporey)].name().c_str());
                                 if (!g->z[g->mon_at(sporex, sporey)].make_fungus(g))
                                     g->kill_mon(g->mon_at(sporex, sporey));
-                            } else {
+                            }
+                            else
+                            {
                                 spore.spawn(sporex, sporey);
                                 g->z.push_back(spore);
                             }
                         }
                     }
                 }
-            } else if (one_in(6000 + bonus * 20)) {
+            }
+            else if (one_in(6000 + bonus * 20))
+            {
                 if (!p.is_npc())
                     g->add_msg("Fungus stalks burst through your hands!");
                 else if (g->u_see(p.posx, p.posy, junk))
@@ -502,7 +565,8 @@ void dis_effect(game *g, player &p, disease &dis)
 
     case DI_LYING_DOWN:
         p.moves = 0;
-        if (p.can_sleep(g)) {
+        if (p.can_sleep(g))
+        {
             dis.duration = 1;
             if (!p.is_npc())
                 g->add_msg("You fall asleep.");
@@ -515,34 +579,39 @@ void dis_effect(game *g, player &p, disease &dis)
 
     case DI_SLEEP:
         p.moves = 0;
-        if (int(g->turn) % 25 == 0) {
+        if (int(g->turn) % 25 == 0)
+        {
             if (p.fatigue > 0)
                 p.fatigue -= 1 + rng(0, 1) * rng(0, 1);
             if (p.has_trait(PF_FASTHEALER))
                 p.healall(rng(0, 1));
             else
                 p.healall(rng(0, 1) * rng(0, 1) * rng(0, 1));
-            if (p.fatigue <= 0 && p.fatigue > -20) {
+            if (p.fatigue <= 0 && p.fatigue > -20)
+            {
                 p.fatigue = -25;
                 g->add_msg("Fully rested.");
                 dis.duration = dice(3, 100);
             }
         }
-        if (int(g->turn) % 100 == 0 && !p.has_bionic(bio_recycler)) {
+        if (int(g->turn) % 100 == 0 && !p.has_bionic(bio_recycler))
+        {
 // Hunger and thirst advance more slowly while we sleep.
             p.hunger--;
             p.thirst--;
         }
         if (rng(5, 80) + rng(0, 120) + rng(0, abs(p.fatigue)) +
                 rng(0, abs(p.fatigue * 5)) < g->light_level() &&
-                (p.fatigue < 10 || one_in(p.fatigue / 2))) {
+                (p.fatigue < 10 || one_in(p.fatigue / 2)))
+        {
             g->add_msg("The light wakes you up.");
             dis.duration = 1;
         }
         // Cold may wake you up.
         // Player gets desperate for sleep
         if (p.temp_cur[bp_torso] < BODYTEMP_VERY_COLD - p.fatigue/2 ||
-                (one_in(p.temp_cur[bp_torso]) && p.temp_cur[bp_torso] < BODYTEMP_NORM - p.fatigue/2)) {
+                (one_in(p.temp_cur[bp_torso]) && p.temp_cur[bp_torso] < BODYTEMP_NORM - p.fatigue/2))
+        {
             g->add_msg("The cold wakes you up.");
             dis.duration = 1;
         }
@@ -551,13 +620,17 @@ void dis_effect(game *g, player &p, disease &dis)
 
     case DI_STEMCELL_TREATMENT:
         //slightly repair broken limbs. (also nonbroken limbs (unless they're too healthy))
-        for (int i = 0; i < num_hp_parts; i++) {
-            if(one_in(6)) {
-                if (p.hp_cur[i] < rng(0,40)) {
+        for (int i = 0; i < num_hp_parts; i++)
+        {
+            if(one_in(6))
+            {
+                if (p.hp_cur[i] < rng(0,40))
+                {
                     g->add_msg("You feel your skeleton melt and mend.");
                     p.hp_cur[i]+= rng(1,8);
                 }
-                else if (p.hp_cur[i] > rng(10,2000)) {
+                else if (p.hp_cur[i] > rng(10,2000))
+                {
                     g->add_msg("You feel your skeleton melt");
                     p.hp_cur[i] -= rng(0,8);
                 }
@@ -615,7 +688,8 @@ void dis_effect(game *g, player &p, disease &dis)
                 (p.has_trait(PF_WEAKSTOMACH) || p.has_trait(PF_NAUSEA) || one_in(20)))
             p.vomit(g);
         if (!p.has_disease(DI_SLEEP) && dis.duration >= 4500 &&
-                one_in(500 - int(dis.duration / 80))) {
+                one_in(500 - int(dis.duration / 80)))
+        {
             if (!p.is_npc())
                 g->add_msg("You pass out.");
             p.add_disease(DI_SLEEP, dis.duration / 2, g);
@@ -623,14 +697,17 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_CIG:
-        if (dis.duration >= 600) {	// Smoked too much
+        if (dis.duration >= 600)  	// Smoked too much
+        {
             p.str_cur--;
             p.dex_cur--;
             if (dis.duration >= 1200 && (one_in(50) ||
                                          (p.has_trait(PF_WEAKSTOMACH) && one_in(30)) ||
                                          (p.has_trait(PF_NAUSEA) && one_in(20))))
                 p.vomit(g);
-        } else {
+        }
+        else
+        {
             p.dex_cur++;
             p.int_cur++;
             p.per_cur++;
@@ -644,7 +721,8 @@ void dis_effect(game *g, player &p, disease &dis)
 
     case DI_POISON:
         if ((!p.has_trait(PF_POISRESIST) && one_in(150)) ||
-                ( p.has_trait(PF_POISRESIST) && one_in(900))   ) {
+                ( p.has_trait(PF_POISRESIST) && one_in(900))   )
+        {
             if (!p.is_npc())
                 g->add_msg("You're suddenly wracked with pain!");
             p.pain++;
@@ -657,7 +735,8 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_BLEED:
-        if (!p.is_npc() && one_in(2)) {
+        if (!p.is_npc() && one_in(2))
+        {
             g->add_msg("You lose some blood.");
             p.pain++;
             p.hurt(g, bp_torso, 0, 1);
@@ -669,7 +748,8 @@ void dis_effect(game *g, player &p, disease &dis)
 
     case DI_BADPOISON:
         if ((!p.has_trait(PF_POISRESIST) && one_in(100)) ||
-                ( p.has_trait(PF_POISRESIST) && one_in(500))   ) {
+                ( p.has_trait(PF_POISRESIST) && one_in(500))   )
+        {
             if (!p.is_npc())
                 g->add_msg("You're suddenly wracked with pain!");
             p.pain += 2;
@@ -687,7 +767,8 @@ void dis_effect(game *g, player &p, disease &dis)
         bonus = 0;
         if (p.has_trait(PF_POISRESIST))
             bonus = 600;
-        if (one_in(300 + bonus)) {
+        if (one_in(300 + bonus))
+        {
             if (!p.is_npc())
                 g->add_msg("You're suddenly wracked with pain and nausea!");
             p.hurt(g, bp_torso, 0, 1);
@@ -708,7 +789,8 @@ void dis_effect(game *g, player &p, disease &dis)
         p.str_cur--;
         break;
 
-    case DI_DERMATIK: {
+    case DI_DERMATIK:
+    {
         int formication_chance = 600;
         if (dis.duration > -2400 && dis.duration < 0)
             formication_chance = 2400 + dis.duration;
@@ -718,20 +800,24 @@ void dis_effect(game *g, player &p, disease &dis)
         if (dis.duration < -2400 && one_in(2400))
             p.vomit(g);
 
-        if (dis.duration < -14400) { // Spawn some larvae!
+        if (dis.duration < -14400)   // Spawn some larvae!
+        {
 // Choose how many insects; more for large characters
             int num_insects = 1;
             while (num_insects < 6 && rng(0, 10) < p.str_max)
                 num_insects++;
 // Figure out where they may be placed
             std::vector<point> valid_spawns;
-            for (int x = p.posx - 1; x <= p.posy + 1; x++) {
-                for (int y = p.posy - 1; y <= p.posy + 1; y++) {
+            for (int x = p.posx - 1; x <= p.posy + 1; x++)
+            {
+                for (int y = p.posy - 1; y <= p.posy + 1; y++)
+                {
                     if (g->is_empty(x, y))
                         valid_spawns.push_back(point(x, y));
                 }
             }
-            if (valid_spawns.size() >= 1) {
+            if (valid_spawns.size() >= 1)
+            {
                 int t;
                 p.rem_disease(DI_DERMATIK); // No more infection!  yay.
                 if (!p.is_npc())
@@ -740,7 +826,8 @@ void dis_effect(game *g, player &p, disease &dis)
                     g->add_msg("Insects erupt from %s's skin!", p.name.c_str());
                 p.moves -= 600;
                 monster grub(g->mtypes[mon_dermatik_larva]);
-                while (valid_spawns.size() > 0 && num_insects > 0) {
+                while (valid_spawns.size() > 0 && num_insects > 0)
+                {
                     num_insects--;
 // Hurt the player
                     body_part burst = bp_torso;
@@ -785,12 +872,15 @@ void dis_effect(game *g, player &p, disease &dis)
     case DI_FORMICATION:
         p.int_cur -= 2;
         p.str_cur -= 1;
-        if (one_in(10 + 40 * p.int_cur)) {
+        if (one_in(10 + 40 * p.int_cur))
+        {
             int t;
-            if (!p.is_npc()) {
+            if (!p.is_npc())
+            {
                 g->add_msg("You start scratching yourself all over!");
                 g->cancel_activity();
-            } else if (g->u_see(p.posx, p.posy, t))
+            }
+            else if (g->u_see(p.posx, p.posy, t))
                 g->add_msg("%s starts scratching %s all over!", p.name.c_str(),
                            (p.male ? "himself" : "herself"));
             p.moves -= 150;
@@ -800,18 +890,24 @@ void dis_effect(game *g, player &p, disease &dis)
 
     case DI_HALLU:
 // This assumes that we were given DI_HALLU with a 3600 (6-hour) lifespan
-        if (dis.duration > 3000) {	// First hour symptoms
-            if (one_in(300)) {
+        if (dis.duration > 3000)  	// First hour symptoms
+        {
+            if (one_in(300))
+            {
                 if (!p.is_npc())
                     g->add_msg("You feel a little strange.");
             }
-        } else if (dis.duration > 2400) {	// Coming up
-            if (one_in(100) || (p.has_trait(PF_WEAKSTOMACH) && one_in(100))) {
+        }
+        else if (dis.duration > 2400)  	// Coming up
+        {
+            if (one_in(100) || (p.has_trait(PF_WEAKSTOMACH) && one_in(100)))
+            {
                 if (!p.is_npc())
                     g->add_msg("You feel nauseous.");
                 p.hunger -= 5;
             }
-            if (!p.is_npc()) {
+            if (!p.is_npc())
+            {
                 if (one_in(200))
                     g->add_msg("Huh?  What was that?");
                 else if (one_in(200))
@@ -819,14 +915,17 @@ void dis_effect(game *g, player &p, disease &dis)
                 else if (one_in(200))
                     g->add_msg("Of course... it's all fractals!");
             }
-        } else if (dis.duration == 2400)	// Visuals start
+        }
+        else if (dis.duration == 2400)	// Visuals start
             p.add_disease(DI_VISUALS, 2400, g);
-        else {	// Full symptoms
+        else  	// Full symptoms
+        {
             p.per_cur -= 2;
             p.int_cur -= 1;
             p.dex_cur -= 2;
             p.str_cur -= 1;
-            if (one_in(50)) {	// Generate phantasm
+            if (one_in(50))  	// Generate phantasm
+            {
                 monster phantasm(g->mtypes[mon_hallu_zom + rng(0, 3)]);
                 phantasm.spawn(p.posx + rng(-10, 10), p.posy + rng(-10, 10));
                 g->z.push_back(phantasm);
@@ -835,16 +934,21 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_ADRENALINE:
-        if (dis.duration > 150) {	// 5 minutes positive effects
+        if (dis.duration > 150)  	// 5 minutes positive effects
+        {
             p.str_cur += 5;
             p.dex_cur += 3;
             p.int_cur -= 8;
             p.per_cur += 1;
-        } else if (dis.duration == 150) {	// 15 minutes come-down
+        }
+        else if (dis.duration == 150)  	// 15 minutes come-down
+        {
             if (!p.is_npc())
                 g->add_msg("Your adrenaline rush wears off.  You feel AWFUL!");
             p.moves -= 300;
-        } else {
+        }
+        else
+        {
             p.str_cur -= 2;
             p.dex_cur -= 1;
             p.int_cur -= 1;
@@ -853,7 +957,8 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_ASTHMA:
-        if (dis.duration > 1200) {
+        if (dis.duration > 1200)
+        {
             if (!p.is_npc())
                 g->add_msg("Your asthma overcomes you.  You stop breathing and die...");
             p.hurtall(500);
@@ -870,12 +975,15 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_METH:
-        if (dis.duration > 600) {
+        if (dis.duration > 600)
+        {
             p.str_cur += 2;
             p.dex_cur += 2;
             p.int_cur += 3;
             p.per_cur += 3;
-        } else {
+        }
+        else
+        {
             p.str_cur -= 3;
             p.dex_cur -= 2;
             p.int_cur -= 1;
@@ -895,15 +1003,18 @@ void dis_effect(game *g, player &p, disease &dis)
 // Default we get around 300 duration points per teleport (possibly more
 // depending on the source).
 // TODO: Include a chance to teleport to the nether realm.
-        if (dis.duration > 6000) {	// 20 teles (no decay; in practice at least 21)
-            if (one_in(1000 - ((dis.duration - 6000) / 10))) {
+        if (dis.duration > 6000)  	// 20 teles (no decay; in practice at least 21)
+        {
+            if (one_in(1000 - ((dis.duration - 6000) / 10)))
+            {
                 if (!p.is_npc())
                     g->add_msg("Glowing lights surround you, and you teleport.");
                 g->teleport();
                 if (one_in(10))
                     p.rem_disease(DI_TELEGLOW);
             }
-            if (one_in(1200 - ((dis.duration - 6000) / 5)) && one_in(20)) {
+            if (one_in(1200 - ((dis.duration - 6000) / 5)) && one_in(20))
+            {
                 if (!p.is_npc())
                     g->add_msg("You pass out.");
                 p.add_disease(DI_SLEEP, 1200, g);
@@ -911,24 +1022,30 @@ void dis_effect(game *g, player &p, disease &dis)
                     p.rem_disease(DI_TELEGLOW);
             }
         }
-        if (dis.duration > 3600) { // 12 teles
-            if (one_in(4000 - int(.25 * (dis.duration - 3600)))) {
+        if (dis.duration > 3600)   // 12 teles
+        {
+            if (one_in(4000 - int(.25 * (dis.duration - 3600))))
+            {
                 int range = g->moncats[mcat_nether].size();
                 mon_id type = (g->moncats[mcat_nether])[rng(0, range - 1)];
                 monster beast(g->mtypes[type]);
                 int x, y, tries = 0;
-                do {
+                do
+                {
                     x = p.posx + rng(-4, 4);
                     y = p.posy + rng(-4, 4);
                     tries++;
-                } while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1) &&
-                         tries < 10);
-                if (tries < 10) {
+                }
+                while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1) &&
+                        tries < 10);
+                if (tries < 10)
+                {
                     if (g->m.move_cost(x, y) == 0)
                         g->m.ter(x, y) = t_rubble;
                     beast.spawn(x, y);
                     g->z.push_back(beast);
-                    if (g->u_see(x, y, junk)) {
+                    if (g->u_see(x, y, junk))
+                    {
                         g->cancel_activity_query("A monster appears nearby!");
                         g->add_msg("A portal opens nearby, and a monster crawls through!");
                     }
@@ -936,7 +1053,8 @@ void dis_effect(game *g, player &p, disease &dis)
                         p.rem_disease(DI_TELEGLOW);
                 }
             }
-            if (one_in(3500 - int(.25 * (dis.duration - 3600)))) {
+            if (one_in(3500 - int(.25 * (dis.duration - 3600))))
+            {
                 if (!p.is_npc())
                     g->add_msg("You shudder suddenly.");
                 p.mutate(g);
@@ -944,30 +1062,35 @@ void dis_effect(game *g, player &p, disease &dis)
                     p.rem_disease(DI_TELEGLOW);
             }
         }
-        if (dis.duration > 2400) {	// 8 teleports
+        if (dis.duration > 2400)  	// 8 teleports
+        {
             if (one_in(10000 - dis.duration))
                 p.add_disease(DI_SHAKES, rng(40, 80), g);
-            if (one_in(12000 - dis.duration)) {
+            if (one_in(12000 - dis.duration))
+            {
                 if (!p.is_npc())
                     g->add_msg("Your vision is filled with bright lights...");
                 p.add_disease(DI_BLIND, rng(10, 20), g);
                 if (one_in(8))
                     p.rem_disease(DI_TELEGLOW);
             }
-            if (one_in(5000) && !p.has_disease(DI_HALLU)) {
+            if (one_in(5000) && !p.has_disease(DI_HALLU))
+            {
                 p.add_disease(DI_HALLU, 3600, g);
                 if (one_in(5))
                     p.rem_disease(DI_TELEGLOW);
             }
         }
-        if (one_in(4000)) {
+        if (one_in(4000))
+        {
             if (!p.is_npc())
                 g->add_msg("You're suddenly covered in ectoplasm.");
             p.add_disease(DI_BOOMERED, 100, g);
             if (one_in(4))
                 p.rem_disease(DI_TELEGLOW);
         }
-        if (one_in(10000)) {
+        if (one_in(10000))
+        {
             p.add_disease(DI_FUNGUS, -1, g);
             p.rem_disease(DI_TELEGLOW);
         }
@@ -975,23 +1098,28 @@ void dis_effect(game *g, player &p, disease &dis)
 
     case DI_ATTENTION:
         if (one_in( 100000 / dis.duration ) && one_in( 100000 / dis.duration ) &&
-                one_in(250)) {
+                one_in(250))
+        {
             int range = g->moncats[mcat_nether].size();
             mon_id type = (g->moncats[mcat_nether])[rng(0, range - 1)];
             monster beast(g->mtypes[type]);
             int x, y, tries = 0, junk;
-            do {
+            do
+            {
                 x = p.posx + rng(-4, 4);
                 y = p.posy + rng(-4, 4);
                 tries++;
-            } while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1) &&
-                     tries < 10);
-            if (tries < 10) {
+            }
+            while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1) &&
+                    tries < 10);
+            if (tries < 10)
+            {
                 if (g->m.move_cost(x, y) == 0)
                     g->m.ter(x, y) = t_rubble;
                 beast.spawn(x, y);
                 g->z.push_back(beast);
-                if (g->u_see(x, y, junk)) {
+                if (g->u_see(x, y, junk))
+                {
                     g->cancel_activity_query("A monster appears nearby!");
                     g->add_msg("A portal opens nearby, and a monster crawls through!");
                 }
@@ -1000,30 +1128,38 @@ void dis_effect(game *g, player &p, disease &dis)
         }
         break;
 
-    case DI_EVIL: {
+    case DI_EVIL:
+    {
         bool lesser = false; // Worn or wielded; diminished effects
-        if (p.weapon.is_artifact() && p.weapon.is_tool()) {
+        if (p.weapon.is_artifact() && p.weapon.is_tool())
+        {
             it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(p.weapon.type);
-            for (int i = 0; i < tool->effects_carried.size(); i++) {
+            for (int i = 0; i < tool->effects_carried.size(); i++)
+            {
                 if (tool->effects_carried[i] == AEP_EVIL)
                     lesser = true;
             }
-            for (int i = 0; i < tool->effects_wielded.size(); i++) {
+            for (int i = 0; i < tool->effects_wielded.size(); i++)
+            {
                 if (tool->effects_wielded[i] == AEP_EVIL)
                     lesser = true;
             }
         }
-        for (int i = 0; !lesser && i < p.worn.size(); i++) {
-            if (p.worn[i].is_artifact()) {
+        for (int i = 0; !lesser && i < p.worn.size(); i++)
+        {
+            if (p.worn[i].is_artifact())
+            {
                 it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(p.worn[i].type);
-                for (int i = 0; i < armor->effects_worn.size(); i++) {
+                for (int i = 0; i < armor->effects_worn.size(); i++)
+                {
                     if (armor->effects_worn[i] == AEP_EVIL)
                         lesser = true;
                 }
             }
         }
 
-        if (lesser) { // Only minor effects, some even good!
+        if (lesser)   // Only minor effects, some even good!
+        {
             p.str_cur += (dis.duration > 4500 ? 10 : int(dis.duration / 450));
             if (dis.duration < 600)
                 p.dex_cur++;
@@ -1031,7 +1167,9 @@ void dis_effect(game *g, player &p, disease &dis)
                 p.dex_cur -= (dis.duration > 3600 ? 10 : int((dis.duration - 600) / 300));
             p.int_cur -= (dis.duration > 3000 ? 10 : int((dis.duration - 500) / 250));
             p.per_cur -= (dis.duration > 4800 ? 10 : int((dis.duration - 800) / 400));
-        } else { // Major effects, all bad.
+        }
+        else     // Major effects, all bad.
+        {
             p.str_cur -= (dis.duration > 5000 ? 10 : int(dis.duration / 500));
             p.dex_cur -= (dis.duration > 6000 ? 10 : int(dis.duration / 600));
             p.int_cur -= (dis.duration > 4500 ? 10 : int(dis.duration / 450));
@@ -1044,9 +1182,11 @@ void dis_effect(game *g, player &p, disease &dis)
 
 int disease_speed_boost(disease dis)
 {
-    switch (dis.type) {
+    switch (dis.type)
+    {
     case DI_COLD_TORSO:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1 :
             return  -2;
         case 2 :
@@ -1055,7 +1195,8 @@ int disease_speed_boost(disease dis)
             return -20;
         }
     case DI_COLD_LEGS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1 :
             return  -2;
         case 2 :
@@ -1064,12 +1205,14 @@ int disease_speed_boost(disease dis)
             return -20;
         }
     case DI_FROSTBITE_FEET:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 2 :
             return -4;
         }
     case DI_HOT_HEAD:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1 :
             return  -2;
         case 2 :
@@ -1078,7 +1221,8 @@ int disease_speed_boost(disease dis)
             return -20;
         }
     case DI_HOT_TORSO:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1 :
             return  -2;
         case 2 :
@@ -1115,13 +1259,15 @@ int disease_speed_boost(disease dis)
 
 std::string dis_name(disease dis)
 {
-    switch (dis.type) {
+    switch (dis.type)
+    {
     case DI_NULL:
         return "";
     case DI_GLARE:
         return "Glare";
     case DI_COLD_HEAD:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Cold head";
         case 2:
@@ -1130,7 +1276,8 @@ std::string dis_name(disease dis)
             return "Freezing head!!";
         }
     case DI_COLD_TORSO:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Cold torso";
         case 2:
@@ -1139,7 +1286,8 @@ std::string dis_name(disease dis)
             return "Freezing torso!!";
         }
     case DI_COLD_ARMS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Cold arms";
         case 2:
@@ -1148,7 +1296,8 @@ std::string dis_name(disease dis)
             return "Freezing arms!!";
         }
     case DI_COLD_HANDS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Cold hands";
         case 2:
@@ -1157,7 +1306,8 @@ std::string dis_name(disease dis)
             return "Freezing hands!!";
         }
     case DI_COLD_LEGS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Cold legs";
         case 2:
@@ -1166,7 +1316,8 @@ std::string dis_name(disease dis)
             return "Freezing legs!!";
         }
     case DI_COLD_FEET:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Cold feet";
         case 2:
@@ -1175,28 +1326,32 @@ std::string dis_name(disease dis)
             return "Freezing feet!!";
         }
     case DI_FROSTBITE_HANDS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Frostnip - hands";
         case 2:
             return "Frostbite - hands";
         }
     case DI_FROSTBITE_FEET:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Frostnip - feet";
         case 2:
             return "Frostbite - feet";
         }
     case DI_FROSTBITE_MOUTH:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Frostnip - face";
         case 2:
             return "Frostbite - face";
         }
     case DI_HOT_HEAD:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Hot head";
         case 2:
@@ -1205,7 +1360,8 @@ std::string dis_name(disease dis)
             return "Scorching head!!";
         }
     case DI_HOT_TORSO:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Hot torso";
         case 2:
@@ -1214,7 +1370,8 @@ std::string dis_name(disease dis)
             return "Scorching torso!!";
         }
     case DI_HOT_ARMS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Hot arms";
         case 2:
@@ -1223,7 +1380,8 @@ std::string dis_name(disease dis)
             return "Scorching arms!!";
         }
     case DI_HOT_HANDS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Hot hands";
         case 2:
@@ -1232,7 +1390,8 @@ std::string dis_name(disease dis)
             return "Scorching hands!!";
         }
     case DI_HOT_LEGS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Hot legs";
         case 2:
@@ -1241,7 +1400,8 @@ std::string dis_name(disease dis)
             return "Scorching legs!!";
         }
     case DI_HOT_FEET:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Hot feet";
         case 2:
@@ -1348,7 +1508,8 @@ std::string dis_name(disease dis)
     case DI_SPEED_BOOST:
         return "Attack Speed Bonus";
     case DI_VIPER_COMBO:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Snakebite Unlocked!";
         case 2:
@@ -1367,7 +1528,8 @@ std::string dis_description(disease dis)
 {
     int strpen, dexpen, intpen, perpen;
     std::stringstream stream;
-    switch (dis.type) {
+    switch (dis.type)
+    {
 
     case DI_NULL:
         return "None";
@@ -1376,7 +1538,8 @@ std::string dis_description(disease dis)
         return "Perception - 1";
 
     case DI_COLD_HEAD:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Your head is exposed to the cold.";
         case 2:
@@ -1386,7 +1549,8 @@ std::string dis_description(disease dis)
         }
 
     case DI_COLD_EYES:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Your eyes are exposed to the cold.";
         case 2:
@@ -1396,7 +1560,8 @@ std::string dis_description(disease dis)
         }
 
     case DI_COLD_MOUTH:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Your mouth is exposed to the cold.";
         case 2:
@@ -1406,7 +1571,8 @@ std::string dis_description(disease dis)
         }
 
     case DI_COLD_TORSO:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Your torso is exposed to the cold.";
         case 2:
@@ -1416,7 +1582,8 @@ std::string dis_description(disease dis)
         }
 
     case DI_COLD_ARMS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Your arms are exposed to the cold.";
         case 2:
@@ -1426,7 +1593,8 @@ std::string dis_description(disease dis)
         }
 
     case DI_COLD_HANDS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Your hands are exposed to the cold.";
         case 2:
@@ -1436,7 +1604,8 @@ std::string dis_description(disease dis)
         }
 
     case DI_COLD_LEGS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Your legs are exposed to the cold.";
         case 2:
@@ -1446,7 +1615,8 @@ std::string dis_description(disease dis)
         }
 
     case DI_COLD_FEET:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Your feet are exposed to the cold.";
         case 2:
@@ -1456,7 +1626,8 @@ std::string dis_description(disease dis)
         }
 
     case DI_FROSTBITE_HANDS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "\
    Your hands are frostnipped from the prolonged exposure to the cold and have gone numb. When the blood begins to flow, it will be painful.";
@@ -1465,7 +1636,8 @@ std::string dis_description(disease dis)
    Your hands are frostbitten from the prolonged exposure to the cold. The tissues in your hands are frozen.";
         }
     case DI_FROSTBITE_FEET:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "\
    Your feet are frostnipped from the prolonged exposure to the cold and have gone numb. When the blood begins to flow, it will be painful.";
@@ -1474,7 +1646,8 @@ std::string dis_description(disease dis)
    Your feet are frostbitten from the prolonged exposure to the cold. The tissues in your feet are frozen.";
         }
     case DI_FROSTBITE_MOUTH:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "\
    Your face is frostnipped from the prolonged exposure to the cold and has gone numb. When the blood begins to flow, it will be painful.";
@@ -1494,7 +1667,8 @@ std::string dis_description(disease dis)
  Your legs are frostbitten from prolonged exposure to the cold. It is extremely painful.";
 
     case DI_HOT_HEAD:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Your head feels warm.";
         case 2:
@@ -1504,7 +1678,8 @@ std::string dis_description(disease dis)
         }
 
     case DI_HOT_TORSO:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Your torso feels warm.";
         case 2:
@@ -1514,7 +1689,8 @@ std::string dis_description(disease dis)
         }
 
     case DI_HOT_ARMS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Your arms feel warm.";
         case 2:
@@ -1524,7 +1700,8 @@ std::string dis_description(disease dis)
         }
 
     case DI_HOT_HANDS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Your hands feel warm.";
         case 2:
@@ -1534,7 +1711,8 @@ std::string dis_description(disease dis)
         }
 
     case DI_HOT_LEGS:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Your legs feel warm.";
         case 2:
@@ -1544,7 +1722,8 @@ std::string dis_description(disease dis)
         }
 
     case DI_HOT_FEET:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "Your feet feel hot.";
         case 2:
@@ -1764,7 +1943,8 @@ You're stuck in a pit.  Sight distance is limited and you have to climb out.";
         return stream.str();
 
     case DI_VIPER_COMBO:
-        switch (dis.intensity) {
+        switch (dis.intensity)
+        {
         case 1:
             return "\
 Your next strike will be a Snakebite, using your hand in a cone shape.  This\n\

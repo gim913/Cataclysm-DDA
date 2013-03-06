@@ -3,7 +3,8 @@
 
 #include "weather.h"
 
-std::string season_name[4] = {
+std::string season_name[4] =
+{
     "Spring", "Summer", "Autumn", "Winter"
 };
 
@@ -14,56 +15,70 @@ std::string season_name[4] = {
  *  patterns have "stay the same" as a highly likely transition; see below
  * Note light modifier assumes baseline of DAYLIGHT_LEVEL at 60
  */
-weather_datum weather_data[NUM_WEATHER_TYPES] = {
-    {   "NULL Weather - BUG", c_magenta,
+weather_datum weather_data[NUM_WEATHER_TYPES] =
+{
+    {
+        "NULL Weather - BUG", c_magenta,
         {0, 0, 0, 0}, 0, 0, 0, 0, false,
         &weather_effect::none
     },
-    {   "Clear", c_cyan,
+    {
+        "Clear", c_cyan,
         {55, 85, 60, 30}, 0, 0, 0, 30, 120, false,
         &weather_effect::none
     },
-    {   "Sunny", c_ltcyan,
+    {
+        "Sunny", c_ltcyan,
         {70, 100, 70, 40}, 0, 0, 20, 60, 300, false,
         &weather_effect::glare
     },
-    {   "Cloudy", c_ltgray,
+    {
+        "Cloudy", c_ltgray,
         {50, 75, 60, 20}, 0, 2, -20, 60, 300, false,
         &weather_effect::none
     },
-    {   "Drizzle", c_ltblue,
+    {
+        "Drizzle", c_ltblue,
         {45, 70, 45, 35}, 1, 3, -30, 10, 60, true,
         &weather_effect::wet
     },
-    {   "Rain", c_blue,
+    {
+        "Rain", c_blue,
         {42, 65, 40, 30}, 3, 5, -40, 30, 180, true,
         &weather_effect::very_wet
     },
-    {   "Thunder Storm", c_dkgray,
+    {
+        "Thunder Storm", c_dkgray,
         {42, 70, 40, 30}, 4, 7, -50, 30, 120, true,
         &weather_effect::thunder
     },
-    {   "Lightning Storm", c_yellow,
+    {
+        "Lightning Storm", c_yellow,
         {45, 52, 42, 32}, 4, 8, -50, 10, 30, true,
         &weather_effect::lightning
     },
-    {   "Acidic Drizzle", c_ltgreen,
+    {
+        "Acidic Drizzle", c_ltgreen,
         {45, 70, 45, 35}, 2, 3, -30, 10, 30, true,
         &weather_effect::light_acid
     },
-    {   "Acid Rain", c_green,
+    {
+        "Acid Rain", c_green,
         {45, 70, 45, 30}, 4, 6, -40, 10, 30, true,
         &weather_effect::acid
     },
-    {   "Flurries", c_white,
+    {
+        "Flurries", c_white,
         {30, 30, 30, 20}, 2, 4, -30, 10, 60, true,
         &weather_effect::flurry
     },
-    {   "Snowing", c_white,
+    {
+        "Snowing", c_white,
         {25, 25, 20, 10}, 4, 7, -30, 30, 360, true,
         &weather_effect::snow
     },
-    {   "Snowstorm", c_white,
+    {
+        "Snowstorm", c_white,
         {20, 20, 20,  5}, 6, 10, -55, 60, 180, true,
         &weather_effect::snowstorm
     }
@@ -72,8 +87,10 @@ weather_datum weather_data[NUM_WEATHER_TYPES] = {
 /* Chances for each season, for the weather listed on the left to shift to the
  * weather listed across the top.
  */
-int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES] = {
-    {   // SPRING
+int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES] =
+{
+    {
+        // SPRING
 //         NUL CLR SUN CLD DRZ RAI THN LGT AC1 AC2 SN1 SN2 SN3
         /* NUL */ {  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
         /* CLR */ {  0,  5,  2,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0},
@@ -92,7 +109,8 @@ int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES] = {
         /* SN3 */ {  0,  0,  0,  0,  1,  3,  2,  1,  0,  0,  1,  1,  1}
     },
 
-    {   // SUMMER
+    {
+        // SUMMER
 //         NUL CLR SUN CLD DRZ RAI THN LGT AC1 AC2 SN1 SN2 SN3
         /* NUL */ {  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
         /* CLR */ {  0,  5,  5,  2,  2,  1,  1,  0,  1,  0,  1,  0,  0},
@@ -111,7 +129,8 @@ int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES] = {
         /* SN3 */ {  0,  0,  0,  2,  1,  3,  3,  1,  0,  0,  2,  2,  0}
     },
 
-    {   // AUTUMN
+    {
+        // AUTUMN
 //         NUL CLR SUN CLD DRZ RAI THN LGT AC1 AC2 SN1 SN2 SN3
         /* NUL */ {  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
         /* CLR */ {  0,  6,  3,  3,  3,  1,  1,  0,  1,  0,  1,  0,  0},
@@ -130,7 +149,8 @@ int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES] = {
         /* SN3 */ {  0,  0,  0,  2,  1,  5,  2,  0,  0,  0,  2,  1,  1}
     },
 
-    {   // WINTER
+    {
+        // WINTER
 //         NUL CLR SUN CLD DRZ RAI THN LGT AC1 AC2 SN1 SN2 SN3
         /* NUL */ {  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
         /* CLR */ {  0,  9,  3,  4,  1,  0,  0,  0,  1,  0,  2,  0,  0},

@@ -25,7 +25,8 @@ class item;
 struct itype;
 
 // TODO: This should be const& but almost no functions are const
-struct wrapped_vehicle {
+struct wrapped_vehicle
+{
     int x;
     int y;
     int i; // submap col
@@ -205,7 +206,8 @@ protected:
 
     bool inbounds(const int x, const int y);
     int my_MAPSIZE;
-    virtual bool is_tiny() {
+    virtual bool is_tiny()
+    {
         return false;
     };
 
@@ -234,7 +236,8 @@ public:
     ~tinymap();
 
 protected:
-    virtual bool is_tiny() {
+    virtual bool is_tiny()
+    {
         return true;
     };
 

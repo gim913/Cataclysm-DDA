@@ -16,7 +16,8 @@ std::string fac_respect_text(int val);
 
 class game;
 
-enum faction_goal {
+enum faction_goal
+{
     FACGOAL_NULL = 0,
     FACGOAL_NONE,
     FACGOAL_WEALTH,
@@ -32,7 +33,8 @@ enum faction_goal {
     NUM_FACGOALS
 };
 
-enum faction_job {
+enum faction_job
+{
     FACJOB_NULL = 0,
     FACJOB_EXTORTION,	// Protection rackets, etc
     FACJOB_INFORMATION,	// Gathering & sale of information
@@ -51,7 +53,8 @@ enum faction_job {
     NUM_FACJOBS
 };
 
-enum faction_value {
+enum faction_value
+{
     FACVAL_NULL = 0,
     FACVAL_CHARITABLE,	// Give their job for free (often)
     FACVAL_LONERS,		// Avoid associating with outsiders
@@ -69,7 +72,8 @@ enum faction_value {
 };
 
 
-struct faction {
+struct faction
+{
     faction();
     faction(int uid);
     ~faction();

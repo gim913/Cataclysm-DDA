@@ -5,7 +5,8 @@
 long input()
 {
     long ch = getch();
-    switch (ch) {
+    switch (ch)
+    {
     case KEY_UP:
         return 'k';
     case KEY_LEFT:
@@ -28,7 +29,8 @@ bool input_wait(char & ret_ch, int delay_ms)
         ret_ch = '\0';
         timeout(delay_ms);
         long ch = getch();
-        switch (ch) {
+        switch (ch)
+        {
         case KEY_UP:
             ret_ch = 'k';
             break;
@@ -69,7 +71,8 @@ void get_direction(game *g, int &x, int &y, char ch)
     else
         act = g->keymap[ch];
 
-    switch (act) {
+    switch (act)
+    {
     case ACTION_MOVE_NW:
         x = -1;
         y = -1;

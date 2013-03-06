@@ -19,7 +19,8 @@
 
 class overmap;
 
-struct oter_t {
+struct oter_t
+{
     std::string name;
     long sym;	// This is a long, so we can support curses linedrawing
     nc_color color;
@@ -41,7 +42,8 @@ const map_extras subway_extras(
 const map_extras build_extras(
     90,  0,  5, 12,  0, 10,  0,  5,  5,  0, 0, 0, 60,  8,  1,  3);
 
-enum oter_id {
+enum oter_id
+{
     ot_null = 0,
     ot_crater,
 // Wild terrain
@@ -134,7 +136,8 @@ enum oter_id {
 
 // Order MUST match enum oter_id above!
 
-const oter_t oterlist[num_ter_types] = {
+const oter_t oterlist[num_ter_types] =
+{
     {"nothing",		'%',	c_white,	0, no_extras, false, false},
     {"crater",		'O',	c_red,		2, field_extras, false, false},
     {"field",		'.',	c_brown,	2, field_extras, false, false},
@@ -362,7 +365,8 @@ const oter_t oterlist[num_ter_types] = {
 #define OMSPEC_FREQ 15
 
 // Flags that determine special behavior for placement
-enum omspec_flag {
+enum omspec_flag
+{
     OMS_FLAG_NULL = 0,
     OMS_FLAG_ROTATE_ROAD,	// Rotate to face road--assumes 3 following rotations
     OMS_FLAG_ROTATE_RANDOM, // Rotate randomly--assumes 3 following rotations
@@ -379,10 +383,12 @@ enum omspec_flag {
 struct omspec_place
 {
 // Able functions - true if p is valid
-    bool never      (overmap *om, point p) {
+    bool never      (overmap *om, point p)
+    {
         return false;
     }
-    bool always     (overmap *om, point p) {
+    bool always     (overmap *om, point p)
+    {
         return true;
     }
     bool water      (overmap *om, point p); // Only on rivers
@@ -447,125 +453,155 @@ enum omspec_id
 
 // Set min or max to -1 to ignore them
 
-const overmap_special overmap_specials[NUM_OMSPECS] = {
+const overmap_special overmap_specials[NUM_OMSPECS] =
+{
 
 // Terrain	 MIN MAX DISTANCE
-    {   ot_crater,	   0, 10,  0, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_crater,	   0, 10,  0, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::land, mfb(OMS_FLAG_BLOB)
     },
 
-    {   ot_hive, 	   0, 50, 10, -1, mcat_bee, 20, 60, 2, 4,
+    {
+        ot_hive, 	   0, 50, 10, -1, mcat_bee, 20, 60, 2, 4,
         &omspec_place::forest, mfb(OMS_FLAG_3X3)
     },
 
-    {   ot_house_north,   0,100,  0, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_house_north,   0,100,  0, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD)
     },
 
-    {   ot_s_gas_north,   0,100,  0, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_s_gas_north,   0,100,  0, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD)
     },
 
-    {   ot_cabin,   0, 30, 20, -1, mcat_null, 0, 0, 0, 0,  // Woods cabin
+    {
+        ot_cabin,   0, 30, 20, -1, mcat_null, 0, 0, 0, 0,  // Woods cabin
         &omspec_place::forest, 0
     },
 
-    {   ot_lmoe,   0, 3, 20, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_lmoe,   0, 3, 20, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::land, 0
     },
 
-    {   ot_farm,   0, 20, 20, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_farm,   0, 20, 20, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) |mfb(OMS_FLAG_DIRT_LOT)
     },
 
-    {   ot_temple_stairs, 0,  3, 20, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_temple_stairs, 0,  3, 20, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::forest, 0
     },
 
-    {   ot_lab_stairs,	   0, 30,  8, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_lab_stairs,	   0, 30,  8, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::land, mfb(OMS_FLAG_ROAD)
     },
 
-    {   ot_fema_entrance,	   0, 5,  8, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_fema_entrance,	   0, 5,  8, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::land, mfb(OMS_FLAG_3X3_SECOND)
     }, //Oddzball-Fema test
 
 // Terrain	 MIN MAX DISTANCE
-    {   ot_bunker,	   2, 10,  4, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_bunker,	   2, 10,  4, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::land, mfb(OMS_FLAG_ROAD)
     },
 
-    {   ot_outpost,	   0, 10,  4, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_outpost,	   0, 10,  4, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::wilderness, 0
     },
 
-    {   ot_silo,	   0,  1, 30, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_silo,	   0,  1, 30, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)
     },
 
-    {   ot_radio_tower,   1,  5,  0, 20, mcat_null, 0, 0, 0, 0,
+    {
+        ot_radio_tower,   1,  5,  0, 20, mcat_null, 0, 0, 0, 0,
         &omspec_place::by_highway, 0
     },
 
-    {   ot_mansion_entrance, 0, 8, 0, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_mansion_entrance, 0, 8, 0, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND)
     },
 
-    {   ot_mansion_entrance, 0, 4, 10, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_mansion_entrance, 0, 4, 10, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND)
     },
 
-    {   ot_megastore_entrance, 0, 5, 0, 10, mcat_null, 0, 0, 0, 0,
+    {
+        ot_megastore_entrance, 0, 5, 0, 10, mcat_null, 0, 0, 0, 0,
         &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND)
     },
 
-    {   ot_hospital_entrance, 1, 5, 3, 15, mcat_null, 0, 0, 0, 0,
+    {
+        ot_hospital_entrance, 1, 5, 3, 15, mcat_null, 0, 0, 0, 0,
         &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND)
     },
 
-    {   ot_sewage_treatment, 1,  5, 10, 20, mcat_null, 0, 0, 0, 0,
+    {
+        ot_sewage_treatment, 1,  5, 10, 20, mcat_null, 0, 0, 0, 0,
         &omspec_place::land, mfb(OMS_FLAG_PARKING_LOT)
     },
 
-    {   ot_mine_entrance,  0,  5,  15, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_mine_entrance,  0,  5,  15, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT)
     },
 
 // Terrain	 MIN MAX DISTANCE
-    {   ot_anthill,	   0, 30,  10, -1, mcat_ant, 10, 30, 1000, 2000,
+    {
+        ot_anthill,	   0, 30,  10, -1, mcat_ant, 10, 30, 1000, 2000,
         &omspec_place::wilderness, 0
     },
 
-    {   ot_spider_pit,	   0,500,  0, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_spider_pit,	   0,500,  0, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::forest, 0
     },
 
-    {   ot_slimepit,	   0,  4,  0, -1, mcat_goo, 2, 10, 100, 200,
+    {
+        ot_slimepit,	   0,  4,  0, -1, mcat_goo, 2, 10, 100, 200,
         &omspec_place::land, 0
     },
 
-    {   ot_fungal_bloom,  0,  3,  5, -1, mcat_fungi, 600, 1200, 30, 50,
+    {
+        ot_fungal_bloom,  0,  3,  5, -1, mcat_fungi, 600, 1200, 30, 50,
         &omspec_place::wilderness, 0
     },
 
-    {   ot_triffid_grove, 0,  4,  0, -1, mcat_triffid, 800, 1300, 12, 20,
+    {
+        ot_triffid_grove, 0,  4,  0, -1, mcat_triffid, 800, 1300, 12, 20,
         &omspec_place::forest, 0
     },
 
-    {   ot_river_center,  0, 10, 10, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_river_center,  0, 10, 10, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::always, mfb(OMS_FLAG_BLOB)
     },
 
 // Terrain	 MIN MAX DISTANCE
-    {   ot_shelter,       5, 10,  5, 10, mcat_null, 0, 0, 0, 0,
+    {
+        ot_shelter,       5, 10,  5, 10, mcat_null, 0, 0, 0, 0,
         &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)
     },
 
-    {   ot_cave,	   0, 30,  0, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_cave,	   0, 30,  0, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::wilderness, 0
     },
 
-    {   ot_toxic_dump,	   0,  5, 15, -1, mcat_null, 0, 0, 0, 0,
+    {
+        ot_toxic_dump,	   0,  5, 15, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::wilderness,0
     }
 

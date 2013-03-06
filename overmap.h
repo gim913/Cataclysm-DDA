@@ -13,14 +13,16 @@
 class npc;
 struct settlement;
 
-struct city {
+struct city
+{
     int x;
     int y;
     int s;
     city(int X = -1, int Y = -1, int S = -1) : x (X), y (Y), s (S) {}
 };
 
-struct om_note {
+struct om_note
+{
     int x;
     int y;
     int num;
@@ -29,7 +31,8 @@ struct om_note {
         x (X), y (Y), num (N), text (T) {}
 };
 
-struct radio_tower {
+struct radio_tower
+{
     int x;
     int y;
     int strength;

@@ -9,7 +9,8 @@ bool tutorial_game::init(game *g)
     for (int i = 0; i < NUM_LESSONS; i++)
         tutorials_seen[i] = false;
 // Set the scent map to 0
-    for (int i = 0; i < SEEX * MAPSIZE; i++) {
+    for (int i = 0; i < SEEX * MAPSIZE; i++)
+    {
         for (int j = 0; j < SEEX * MAPSIZE; j++)
             g->scent(i, j) = 0;
     }
@@ -34,14 +35,17 @@ bool tutorial_game::init(game *g)
     g->u.skillLevel("gun").level(5);
     g->u.skillLevel("melee").level(5);
 // Init the starting map at g location.
-    for (int i = 0; i <= MAPSIZE; i += 2) {
-        for (int j = 0; j <= MAPSIZE; j += 2) {
+    for (int i = 0; i <= MAPSIZE; i += 2)
+    {
+        for (int j = 0; j <= MAPSIZE; j += 2)
+        {
             tinymap tm(&g->itypes, &g->mapitems, &g->traps);
             tm.generate(g, &(g->cur_om), g->levx + i - 1, g->levy + j - 1, int(g->turn));
         }
     }
 // Start with the overmap revealed
-    for (int x = 0; x < OMAPX; x++) {
+    for (int x = 0; x < OMAPX; x++)
+    {
         for (int y = 0; y < OMAPY; y++)
             g->cur_om.seen(x, y) = true;
     }
@@ -55,13 +59,16 @@ bool tutorial_game::init(game *g)
 
 void tutorial_game::per_turn(game *g)
 {
-    if (g->turn == HOURS(12)) {
+    if (g->turn == HOURS(12))
+    {
         add_message(g, LESSON_INTRO);
         add_message(g, LESSON_INTRO);
-    } else if (g->turn == HOURS(12) + 3)
+    }
+    else if (g->turn == HOURS(12) + 3)
         add_message(g, LESSON_INTRO);
 
-    if (g->light_level() == 1) {
+    if (g->light_level() == 1)
+    {
         if (g->u.has_amount(itm_flashlight, 1))
             add_message(g, LESSON_DARK);
         else
@@ -74,9 +81,12 @@ void tutorial_game::per_turn(game *g)
     if (g->u.recoil >= 5)
         add_message(g, LESSON_RECOIL);
 
-    if (!tutorials_seen[LESSON_BUTCHER]) {
-        for (int i = 0; i < g->m.i_at(g->u.posx, g->u.posy).size(); i++) {
-            if (g->m.i_at(g->u.posx, g->u.posy)[i].type->id == itm_corpse) {
+    if (!tutorials_seen[LESSON_BUTCHER])
+    {
+        for (int i = 0; i < g->m.i_at(g->u.posx, g->u.posy).size(); i++)
+        {
+            if (g->m.i_at(g->u.posx, g->u.posy)[i].type->id == itm_corpse)
+            {
                 add_message(g, LESSON_BUTCHER);
                 i = g->m.i_at(g->u.posx, g->u.posy).size();
             }
@@ -84,24 +94,37 @@ void tutorial_game::per_turn(game *g)
     }
 
     bool showed_message = false;
-    for (int x = g->u.posx - 1; x <= g->u.posx + 1 && !showed_message; x++) {
-        for (int y = g->u.posy - 1; y <= g->u.posy + 1 && !showed_message; y++) {
-            if (g->m.ter(x, y) == t_door_o) {
+    for (int x = g->u.posx - 1; x <= g->u.posx + 1 && !showed_message; x++)
+    {
+        for (int y = g->u.posy - 1; y <= g->u.posy + 1 && !showed_message; y++)
+        {
+            if (g->m.ter(x, y) == t_door_o)
+            {
                 add_message(g, LESSON_OPEN);
                 showed_message = true;
-            } else if (g->m.ter(x, y) == t_door_c) {
+            }
+            else if (g->m.ter(x, y) == t_door_c)
+            {
                 add_message(g, LESSON_CLOSE);
                 showed_message = true;
-            } else if (g->m.ter(x, y) == t_window) {
+            }
+            else if (g->m.ter(x, y) == t_window)
+            {
                 add_message(g, LESSON_SMASH);
                 showed_message = true;
-            } else if (g->m.ter(x, y) == t_rack && !g->m.i_at(x, y).empty()) {
+            }
+            else if (g->m.ter(x, y) == t_rack && !g->m.i_at(x, y).empty())
+            {
                 add_message(g, LESSON_EXAMINE);
                 showed_message = true;
-            } else if (g->m.ter(x, y) == t_stairs_down) {
+            }
+            else if (g->m.ter(x, y) == t_stairs_down)
+            {
                 add_message(g, LESSON_STAIRS);
                 showed_message = true;
-            } else if (g->m.ter(x, y) == t_water_sh) {
+            }
+            else if (g->m.ter(x, y) == t_water_sh)
+            {
                 add_message(g, LESSON_PICKUP_WATER);
                 showed_message = true;
             }
@@ -118,9 +141,11 @@ void tutorial_game::pre_action(game *g, action_id &act)
 
 void tutorial_game::post_action(game *g, action_id act)
 {
-    switch (act) {
+    switch (act)
+    {
     case ACTION_RELOAD:
-        if (g->u.weapon.is_gun() && !tutorials_seen[LESSON_GUN_FIRE]) {
+        if (g->u.weapon.is_gun() && !tutorials_seen[LESSON_GUN_FIRE])
+        {
             monster tmp(g->mtypes[mon_zombie], g->u.posx, g->u.posy - 6);
             g->z.push_back(tmp);
             tmp.spawn(g->u.posx + 2, g->u.posy - 5);
@@ -142,8 +167,10 @@ void tutorial_game::post_action(game *g, action_id act)
     case ACTION_USE:
         if (g->u.has_amount(itm_grenade_act, 1))
             add_message(g, LESSON_ACT_GRENADE);
-        for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
-            for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
+        for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++)
+        {
+            for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++)
+            {
                 if (g->m.tr_at(x, y) == tr_bubblewrap)
                     add_message(g, LESSON_ACT_BUBBLEWRAP);
             }
@@ -159,9 +186,11 @@ void tutorial_game::post_action(game *g, action_id act)
             add_message(g, LESSON_DRANK_WATER);
         break;
 
-    case ACTION_WEAR: {
+    case ACTION_WEAR:
+    {
         itype *it = g->itypes[ g->u.last_item];
-        if (it->is_armor()) {
+        if (it->is_armor())
+        {
             it_armor *armor = dynamic_cast<it_armor*>(it);
             if (armor->dmg_resist >= 2 || armor->cut_resist >= 4)
                 add_message(g, LESSON_WORE_ARMOR);
@@ -181,7 +210,8 @@ void tutorial_game::post_action(game *g, action_id act)
     case ACTION_EXAMINE:
         add_message(g, LESSON_INTERACT);
 // Fall through to...
-    case ACTION_PICKUP: {
+    case ACTION_PICKUP:
+    {
         itype *it = g->itypes[ g->u.last_item ];
         if (it->is_armor())
             add_message(g, LESSON_GOT_ARMOR);
@@ -207,9 +237,12 @@ void tutorial_game::post_action(game *g, action_id act)
 void tutorial_game::add_message(game *g, tut_lesson lesson)
 {
 // Cycle through intro lessons
-    if (lesson == LESSON_INTRO) {
-        while (lesson != NUM_LESSONS && tutorials_seen[lesson]) {
-            switch (lesson) {
+    if (lesson == LESSON_INTRO)
+    {
+        while (lesson != NUM_LESSONS && tutorials_seen[lesson])
+        {
+            switch (lesson)
+            {
             case LESSON_INTRO:
                 lesson = LESSON_MOVE;
                 break;

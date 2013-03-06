@@ -10,7 +10,8 @@
 class game;
 struct special_game;
 
-enum special_game_id {
+enum special_game_id
+{
     SGAME_NULL = 0,
     SGAME_TUTORIAL,
     SGAME_DEFENSE,
@@ -22,11 +23,13 @@ special_game* get_special_game(special_game_id id);
 
 struct special_game
 {
-    virtual special_game_id id() {
+    virtual special_game_id id()
+    {
         return SGAME_NULL;
     };
 // init is run when the game begins
-    virtual bool init(game *g) {
+    virtual bool init(game *g)
+    {
         return true;
     };
 // per_turn is run every turn--before any player actions
@@ -43,7 +46,8 @@ struct special_game
 
 // TUTORIAL:
 
-enum tut_lesson {
+enum tut_lesson
+{
     LESSON_INTRO,
     LESSON_MOVE, LESSON_LOOK, LESSON_OPEN, LESSON_CLOSE, LESSON_SMASH,
     LESSON_WINDOW, LESSON_PICKUP, LESSON_EXAMINE, LESSON_INTERACT,
@@ -70,7 +74,8 @@ enum tut_lesson {
 
 struct tutorial_game : public special_game
 {
-    virtual special_game_id id() {
+    virtual special_game_id id()
+    {
         return SGAME_TUTORIAL;
     };
     virtual bool init(game *g);
@@ -88,7 +93,8 @@ private:
 
 // DEFENSE
 
-enum defense_style {
+enum defense_style
+{
     DEFENSE_CUSTOM = 0,
     DEFENSE_EASY,
     DEFENSE_MEDIUM,
@@ -102,7 +108,8 @@ enum defense_style {
     NUM_DEFENSE_STYLES
 };
 
-enum defense_location {
+enum defense_location
+{
     DEFLOC_NULL = 0,
     DEFLOC_HOSPITAL,
     DEFLOC_MALL,
@@ -111,7 +118,8 @@ enum defense_location {
     NUM_DEFENSE_LOCATIONS
 };
 
-enum caravan_category {
+enum caravan_category
+{
     CARAVAN_CART = 0,
     CARAVAN_MELEE,
     CARAVAN_GUNS,
@@ -126,7 +134,8 @@ struct defense_game : public special_game
 {
     defense_game();
 
-    virtual special_game_id id() {
+    virtual special_game_id id()
+    {
         return SGAME_DEFENSE;
     };
     virtual bool init(game *g);

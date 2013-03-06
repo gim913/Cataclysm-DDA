@@ -29,7 +29,8 @@ void tileray::init (int adx, int ady)
     deltay = ady;
     if (!adx && !ady)
         direction = 0;
-    else {
+    else
+    {
         direction = (int) (atan2 (deltay, deltax) * 180.0 / M_PI);
         if (direction <0)
             direction += 360;
@@ -314,7 +315,8 @@ void tileray::advance (int num)
     for (int i = 0; i < anum; i++)
     {
         if (mostly_vertical ())
-        {   // mostly vertical line
+        {
+            // mostly vertical line
             leftover += ax;
             if (leftover >= ay)
             {
@@ -324,7 +326,8 @@ void tileray::advance (int num)
             last_dy++;
         }
         else
-        {   // mostly horizontal line
+        {
+            // mostly horizontal line
             leftover += ay;
             if (leftover >= ax)
             {

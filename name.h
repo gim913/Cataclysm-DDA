@@ -5,7 +5,8 @@
 #include <vector>
 #include <stdint.h>
 
-typedef enum {
+typedef enum
+{
     nameIsMaleName = 1,
     nameIsFemaleName = 2,
     nameIsUnisexName = 3,
@@ -15,7 +16,8 @@ typedef enum {
 
 class NameGenerator;
 
-class Name {
+class Name
+{
 public:
     Name();
     Name(std::string name, uint32_t flags);
@@ -25,10 +27,12 @@ public:
 
     static std::string get(uint32_t searchFlags);
 
-    std::string value() const {
+    std::string value() const
+    {
         return _value;
     }
-    uint32_t flags() const {
+    uint32_t flags() const
+    {
         return _flags;
     }
 
@@ -42,9 +46,11 @@ private:
     uint32_t _flags;
 };
 
-class NameGenerator {
+class NameGenerator
+{
 public:
-    static NameGenerator& generator() {
+    static NameGenerator& generator()
+    {
         static NameGenerator generator;
 
         return generator;

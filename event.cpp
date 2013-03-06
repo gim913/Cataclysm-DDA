@@ -5,21 +5,26 @@
 
 void event::actualize(game *g)
 {
-    switch (type) {
+    switch (type)
+    {
 
-    case EVENT_HELP: {
+    case EVENT_HELP:
+    {
         npc tmp;
         int num = 1;
         if (faction_id >= 0)
             num = rng(1, 6);
-        for (int i = 0; i < num; i++) {
-            if (faction_id != -1) {
+        for (int i = 0; i < num; i++)
+        {
+            if (faction_id != -1)
+            {
                 faction* fac = g->faction_by_id(faction_id);
                 if (fac)
                     tmp.randomize_from_faction(g, fac);
                 else
                     debugmsg("EVENT_HELP run with invalid faction_id");
-            } else
+            }
+            else
                 tmp.randomize(g);
             tmp.attitude = NPCATT_DEFEND;
             tmp.posx = g->u.posx - SEEX * 2 + rng(-5, 5);
@@ -29,8 +34,10 @@ void event::actualize(game *g)
     }
     break;
 
-    case EVENT_ROBOT_ATTACK: {
-        if (rl_dist(g->levx, g->levy, map_point.x, map_point.y) <= 4) {
+    case EVENT_ROBOT_ATTACK:
+    {
+        if (rl_dist(g->levx, g->levy, map_point.x, map_point.y) <= 4)
+        {
             mtype *robot_type = g->mtypes[mon_tripod];
             if (faction_id == 0) // The cops!
                 robot_type = g->mtypes[mon_copbot];
@@ -43,21 +50,26 @@ void event::actualize(game *g)
     }
     break;
 
-    case EVENT_SPAWN_WYRMS: {
+    case EVENT_SPAWN_WYRMS:
+    {
         if (g->levz >= 0)
             return;
         monster wyrm(g->mtypes[mon_dark_wyrm]);
         int num_wyrms = rng(1, 4);
-        for (int i = 0; i < num_wyrms; i++) {
+        for (int i = 0; i < num_wyrms; i++)
+        {
             int tries = 0;
             int monx = -1, mony = -1;
-            do {
+            do
+            {
                 monx = rng(0, SEEX * MAPSIZE);
                 mony = rng(0, SEEY * MAPSIZE);
                 tries++;
-            } while (tries < 10 && !g->is_empty(monx, mony) &&
-                     rl_dist(g->u.posx, g->u.posx, monx, mony) <= 2);
-            if (tries < 10) {
+            }
+            while (tries < 10 && !g->is_empty(monx, mony) &&
+                    rl_dist(g->u.posx, g->u.posx, monx, mony) <= 2);
+            if (tries < 10)
+            {
                 wyrm.spawn(monx, mony);
                 g->z.push_back(wyrm);
             }
@@ -67,13 +79,17 @@ void event::actualize(game *g)
     }
     break;
 
-    case EVENT_AMIGARA: {
+    case EVENT_AMIGARA:
+    {
         int num_horrors = rng(3, 5);
         int faultx = -1, faulty = -1;
         bool horizontal;
-        for (int x = 0; x < SEEX * MAPSIZE && faultx == -1; x++) {
-            for (int y = 0; y < SEEY * MAPSIZE && faulty == -1; y++) {
-                if (g->m.ter(x, y) == t_fault) {
+        for (int x = 0; x < SEEX * MAPSIZE && faultx == -1; x++)
+        {
+            for (int y = 0; y < SEEY * MAPSIZE && faulty == -1; y++)
+            {
+                if (g->m.ter(x, y) == t_fault)
+                {
                     faultx = x;
                     faulty = y;
                     if (g->m.ter(x - 1, y) == t_fault || g->m.ter(x + 1, y) == t_fault)
@@ -84,27 +100,36 @@ void event::actualize(game *g)
             }
         }
         monster horror(g->mtypes[mon_amigara_horror]);
-        for (int i = 0; i < num_horrors; i++) {
+        for (int i = 0; i < num_horrors; i++)
+        {
             int tries = 0;
             int monx = -1, mony = -1;
-            do {
-                if (horizontal) {
+            do
+            {
+                if (horizontal)
+                {
                     monx = rng(faultx, faultx + 2 * SEEX - 8);
-                    for (int n = -1; n <= 1; n++) {
+                    for (int n = -1; n <= 1; n++)
+                    {
                         if (g->m.ter(monx, faulty + n) == t_rock_floor)
                             mony = faulty + n;
                     }
-                } else { // Vertical fault
+                }
+                else     // Vertical fault
+                {
                     mony = rng(faulty, faulty + 2 * SEEY - 8);
-                    for (int n = -1; n <= 1; n++) {
+                    for (int n = -1; n <= 1; n++)
+                    {
                         if (g->m.ter(faultx + n, mony) == t_rock_floor)
                             monx = faultx + n;
                     }
                 }
                 tries++;
-            } while ((monx == -1 || mony == -1 || g->is_empty(monx, mony)) &&
-                     tries < 10);
-            if (tries < 10) {
+            }
+            while ((monx == -1 || mony == -1 || g->is_empty(monx, mony)) &&
+                    tries < 10);
+            if (tries < 10)
+            {
                 horror.spawn(monx, mony);
                 g->z.push_back(horror);
             }
@@ -113,19 +138,25 @@ void event::actualize(game *g)
     break;
 
     case EVENT_ROOTS_DIE:
-        for (int x = 0; x < SEEX * MAPSIZE; x++) {
-            for (int y = 0; y < SEEY * MAPSIZE; y++) {
+        for (int x = 0; x < SEEX * MAPSIZE; x++)
+        {
+            for (int y = 0; y < SEEY * MAPSIZE; y++)
+            {
                 if (g->m.ter(x, y) == t_root_wall && one_in(3))
                     g->m.ter(x, y) = t_underbrush;
             }
         }
         break;
 
-    case EVENT_TEMPLE_OPEN: {
+    case EVENT_TEMPLE_OPEN:
+    {
         bool saw_grate = false;
-        for (int x = 0; x < SEEX * MAPSIZE; x++) {
-            for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                if (g->m.ter(x, y) == t_grate) {
+        for (int x = 0; x < SEEX * MAPSIZE; x++)
+        {
+            for (int y = 0; y < SEEY * MAPSIZE; y++)
+            {
+                if (g->m.ter(x, y) == t_grate)
+                {
                     g->m.ter(x, y) = t_stairs_down;
                     int j;
                     if (!saw_grate && g->u_see(x, y, j))
@@ -138,37 +169,50 @@ void event::actualize(game *g)
     }
     break;
 
-    case EVENT_TEMPLE_FLOOD: {
+    case EVENT_TEMPLE_FLOOD:
+    {
         bool flooded = false;
 
         ter_id flood_buf[SEEX*MAPSIZE][SEEY*MAPSIZE];
-        for (int x = 0; x < SEEX * MAPSIZE; x++) {
+        for (int x = 0; x < SEEX * MAPSIZE; x++)
+        {
             for (int y = 0; y < SEEY * MAPSIZE; y++)
                 flood_buf[x][y] = g->m.ter(x, y);
         }
-        for (int x = 0; x < SEEX * MAPSIZE; x++) {
-            for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                if (g->m.ter(x, y) == t_water_sh) {
+        for (int x = 0; x < SEEX * MAPSIZE; x++)
+        {
+            for (int y = 0; y < SEEY * MAPSIZE; y++)
+            {
+                if (g->m.ter(x, y) == t_water_sh)
+                {
                     bool deepen = false;
-                    for (int wx = x - 1;  wx <= x + 1 && !deepen; wx++) {
-                        for (int wy = y - 1;  wy <= y + 1 && !deepen; wy++) {
+                    for (int wx = x - 1;  wx <= x + 1 && !deepen; wx++)
+                    {
+                        for (int wy = y - 1;  wy <= y + 1 && !deepen; wy++)
+                        {
                             if (g->m.ter(wx, wy) == t_water_dp)
                                 deepen = true;
                         }
                     }
-                    if (deepen) {
+                    if (deepen)
+                    {
                         flood_buf[x][y] = t_water_dp;
                         flooded = true;
                     }
-                } else if (g->m.ter(x, y) == t_rock_floor) {
+                }
+                else if (g->m.ter(x, y) == t_rock_floor)
+                {
                     bool flood = false;
-                    for (int wx = x - 1;  wx <= x + 1 && !flood; wx++) {
-                        for (int wy = y - 1;  wy <= y + 1 && !flood; wy++) {
+                    for (int wx = x - 1;  wx <= x + 1 && !flood; wx++)
+                    {
+                        for (int wy = y - 1;  wy <= y + 1 && !flood; wy++)
+                        {
                             if (g->m.ter(wx, wy) == t_water_dp || g->m.ter(wx, wy) == t_water_sh)
                                 flood = true;
                         }
                     }
-                    if (flood) {
+                    if (flood)
+                    {
                         flood_buf[x][y] = t_water_sh;
                         flooded = true;
                     }
@@ -178,16 +222,19 @@ void event::actualize(game *g)
         if (!flooded)
             return; // We finished flooding the entire chamber!
 // Check if we should print a message
-        if (flood_buf[g->u.posx][g->u.posy] != g->m.ter(g->u.posx, g->u.posy)) {
+        if (flood_buf[g->u.posx][g->u.posy] != g->m.ter(g->u.posx, g->u.posy))
+        {
             if (flood_buf[g->u.posx][g->u.posy] == t_water_sh)
                 g->add_msg("Water quickly floods up to your knees.");
-            else { // Must be deep water!
+            else   // Must be deep water!
+            {
                 g->add_msg("Water fills nearly to the ceiling!");
                 g->plswim(g->u.posx, g->u.posy);
             }
         }
 // flood_buf is filled with correct tiles; now copy them back to g->m
-        for (int x = 0; x < SEEX * MAPSIZE; x++) {
+        for (int x = 0; x < SEEX * MAPSIZE; x++)
+        {
             for (int y = 0; y < SEEY * MAPSIZE; y++)
                 g->m.ter(x, y) = flood_buf[x][y];
         }
@@ -195,9 +242,11 @@ void event::actualize(game *g)
     }
     break;
 
-    case EVENT_TEMPLE_SPAWN: {
+    case EVENT_TEMPLE_SPAWN:
+    {
         mon_id montype;
-        switch (rng(1, 4)) {
+        switch (rng(1, 4))
+        {
         case 1:
             montype = mon_sewer_snake;
             break;
@@ -213,13 +262,16 @@ void event::actualize(game *g)
         }
         monster spawned( g->mtypes[montype] );
         int tries = 0, x, y;
-        do {
+        do
+        {
             x = rng(g->u.posx - 5, g->u.posx + 5);
             y = rng(g->u.posy - 5, g->u.posy + 5);
             tries++;
-        } while (tries < 20 && !g->is_empty(x, y) &&
-                 rl_dist(x, y, g->u.posx, g->u.posy) <= 2);
-        if (tries < 20) {
+        }
+        while (tries < 20 && !g->is_empty(x, y) &&
+                rl_dist(x, y, g->u.posx, g->u.posy) <= 2);
+        if (tries < 20)
+        {
             spawned.spawn(x, y);
             g->z.push_back(spawned);
         }
@@ -233,9 +285,12 @@ void event::actualize(game *g)
 
 void event::per_turn(game *g)
 {
-    switch (type) {
-    case EVENT_WANTED: {
-        if (g->levz >= 0 && one_in(100)) { // About once every 10 minutes
+    switch (type)
+    {
+    case EVENT_WANTED:
+    {
+        if (g->levz >= 0 && one_in(100))   // About once every 10 minutes
+        {
             monster eyebot(g->mtypes[mon_eyebot]);
             eyebot.faction_id = faction_id;
             point place = g->m.random_outdoor_tile();
@@ -251,7 +306,8 @@ void event::per_turn(game *g)
     break;
 
     case EVENT_SPAWN_WYRMS:
-        if (g->levz >= 0) {
+        if (g->levz >= 0)
+        {
             turn--;
             return;
         }

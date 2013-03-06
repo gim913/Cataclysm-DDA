@@ -11,7 +11,8 @@ class player;
 class game;
 class item;
 
-enum monster_effect_type {
+enum monster_effect_type
+{
     ME_NULL = 0,
     ME_BEARTRAP,		// Stuck in beartrap
     ME_POISONED,		// Slowed, takes damage
@@ -27,7 +28,8 @@ enum monster_effect_type {
     NUM_MONSTER_EFFECTS
 };
 
-enum monster_attitude {
+enum monster_attitude
+{
     MATT_NULL = 0,
     MATT_FRIEND,
     MATT_FLEE,
@@ -44,7 +46,8 @@ struct monster_effect
     monster_effect(monster_effect_type T, int D) : type (T), duration (D) {}
 };
 
-class monster {
+class monster
+{
 public:
     monster();
     monster(mtype *t);

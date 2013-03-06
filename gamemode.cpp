@@ -3,7 +3,8 @@
 
 std::string special_game_name(special_game_id id)
 {
-    switch (id) {
+    switch (id)
+    {
     case SGAME_NULL:
     case NUM_SPECIAL_GAMES:
         return "nethack (this is a bug)";
@@ -19,7 +20,8 @@ std::string special_game_name(special_game_id id)
 special_game* get_special_game(special_game_id id)
 {
     special_game* ret;
-    switch (id) {
+    switch (id)
+    {
     case SGAME_NULL:
         ret = new special_game;
         break;

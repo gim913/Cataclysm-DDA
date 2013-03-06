@@ -3,7 +3,8 @@
 
 #include <string>
 
-enum option_key {
+enum option_key
+{
     OPT_NULL = 0,
     OPT_FORCE_YN, // Y/N versus y/n
     OPT_USE_CELSIUS, // Display temp as C not F
@@ -31,21 +32,27 @@ struct option_table
 {
     double options[NUM_OPTION_KEYS];
 
-    option_table() {
-        for (int i = 0; i < NUM_OPTION_KEYS; i++) {
-            if(i == OPT_VIEWPORT_X || i == OPT_VIEWPORT_Y) {
+    option_table()
+    {
+        for (int i = 0; i < NUM_OPTION_KEYS; i++)
+        {
+            if(i == OPT_VIEWPORT_X || i == OPT_VIEWPORT_Y)
+            {
                 options[i] = 12;
             }
-            else {
+            else
+            {
                 options[i] = 0;
             }
         }
     };
 
-    double& operator[] (option_key i) {
+    double& operator[] (option_key i)
+    {
         return options[i];
     };
-    double& operator[] (int i) {
+    double& operator[] (int i)
+    {
         return options[i];
     };
 };

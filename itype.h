@@ -32,7 +32,8 @@ enum item_cat
 };
 
 
-enum itype_id {
+enum itype_id
+{
     itm_null = 0,
     itm_corpse,
 // Special pseudoitems
@@ -277,7 +278,8 @@ enum itype_id {
 
 // IMPORTANT: If adding a new AT_*** ammotype, add it to the ammo_name function
 //  at the end of itypedef.cpp
-enum ammotype {
+enum ammotype
+{
     AT_NULL, AT_THREAD,
     AT_BATT, AT_PLUT,
     AT_NAIL, AT_BB, AT_BOLT, AT_ARROW,
@@ -294,7 +296,8 @@ enum ammotype {
     NUM_AMMO_TYPES
 };
 
-enum software_type {
+enum software_type
+{
     SW_NULL,
     SW_USELESS,
     SW_HACKING,
@@ -304,7 +307,8 @@ enum software_type {
     NUM_SOFTWARE_TYPES
 };
 
-enum item_flag {
+enum item_flag
+{
     IF_NULL,
 
     IF_LIGHT_4,	// Provides 4 tiles of light
@@ -336,7 +340,8 @@ enum item_flag {
     NUM_ITEM_FLAGS
 };
 
-enum ammo_effect {
+enum ammo_effect
+{
     AMMO_FLAME,		// Sets fire to terrain and monsters
     AMMO_INCENDIARY,	// Sparks explosive terrain
     AMMO_EXPLOSIVE,		// Small explosion
@@ -352,7 +357,8 @@ enum ammo_effect {
 };
 
 
-enum technique_id {
+enum technique_id
+{
     TEC_NULL,
 // Offensive Techniques
     TEC_SWEEP,	// Crits may make your enemy fall & miss a turn
@@ -378,7 +384,8 @@ enum technique_id {
     NUM_TECHNIQUES
 };
 
-enum bigness_property_aspect {
+enum bigness_property_aspect
+{
     BIGNESS_ENGINE_NULL,         // like a cookie-cutter-cut cookie, this type has no bigness aspect.
     BIGNESS_ENGINE_DISPLACEMENT, // combustion engine CC displacement
     BIGNESS_KILOWATTS,           // electric motor power
@@ -439,62 +446,81 @@ unsigned item_flags :
 unsigned techniques :
     NUM_TECHNIQUES;
 
-    virtual bool is_food()          {
+    virtual bool is_food()
+    {
         return false;
     }
-    virtual bool is_ammo()          {
+    virtual bool is_ammo()
+    {
         return false;
     }
-    virtual bool is_gun()           {
+    virtual bool is_gun()
+    {
         return false;
     }
-    virtual bool is_gunmod()        {
+    virtual bool is_gunmod()
+    {
         return false;
     }
-    virtual bool is_bionic()        {
+    virtual bool is_bionic()
+    {
         return false;
     }
-    virtual bool is_armor()         {
+    virtual bool is_armor()
+    {
         return false;
     }
-    virtual bool is_book()          {
+    virtual bool is_book()
+    {
         return false;
     }
-    virtual bool is_tool()          {
+    virtual bool is_tool()
+    {
         return false;
     }
-    virtual bool is_container()     {
+    virtual bool is_container()
+    {
         return false;
     }
-    virtual bool is_software()      {
+    virtual bool is_software()
+    {
         return false;
     }
-    virtual bool is_macguffin()     {
+    virtual bool is_macguffin()
+    {
         return false;
     }
-    virtual bool is_style()         {
+    virtual bool is_style()
+    {
         return false;
     }
-    virtual bool is_artifact()      {
+    virtual bool is_artifact()
+    {
         return false;
     }
-    virtual bool is_var_veh_part()  {
+    virtual bool is_var_veh_part()
+    {
         return false;
     }
-    virtual bool is_engine()         {
+    virtual bool is_engine()
+    {
         return false;
     }
-    virtual bool is_wheel()          {
+    virtual bool is_wheel()
+    {
         return false;
     }
-    virtual bool count_by_charges() {
+    virtual bool count_by_charges()
+    {
         return false;
     }
-    virtual std::string save_data() {
+    virtual std::string save_data()
+    {
         return std::string();
     }
 
-    itype() {
+    itype()
+    {
         id = 0;
         rarity = 0;
         name  = "none";
@@ -515,7 +541,8 @@ unsigned techniques :
           char psym, nc_color pcolor, material pm1, material pm2,
           unsigned short pvolume, unsigned short pweight,
           signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-          unsigned pitem_flags, unsigned ptechniques = 0) {
+          unsigned pitem_flags, unsigned ptechniques = 0)
+    {
         id          = pid;
         rarity      = prarity;
         price       = pprice;
@@ -551,7 +578,8 @@ struct it_comest : public itype
     itype_id container;	// The container it comes in
     itype_id tool;		// Tool needed to consume (e.g. lighter for cigarettes)
 
-    virtual bool is_food() {
+    virtual bool is_food()
+    {
         return true;
     }
 // virtual bool count_by_charges() { return charges >= 1 ; }
@@ -580,7 +608,8 @@ struct it_comest : public itype
               itype_id ptool, void (iuse::*puse)(game *, player *, item *, bool),
               add_type padd)
         :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+    {
         quench = pquench;
         nutr = pnutr;
         spoils = pspoils;
@@ -614,18 +643,22 @@ struct it_var_veh_part: public itype
                     unsigned int big_max,
                     bigness_property_aspect big_aspect)
         :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0) {
+               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0)
+    {
         min_bigness = big_min;
         max_bigness = big_max;
         bigness_aspect = big_aspect;
     }
-    virtual bool is_var_veh_part() {
+    virtual bool is_var_veh_part()
+    {
         return true;
     }
-    virtual bool is_wheel()          {
+    virtual bool is_wheel()
+    {
         return false;
     }
-    virtual bool is_engine() {
+    virtual bool is_engine()
+    {
         if (id < itm_1cyl_combustion) return false;
         if (id > itm_v8_combustion) return false;
         return true;
@@ -646,11 +679,13 @@ struct it_ammo : public itype
 unsigned ammo_effects :
     NUM_AMMO_EFFECTS;
 
-    virtual bool is_ammo() {
+    virtual bool is_ammo()
+    {
         return true;
     }
 // virtual bool count_by_charges() { return id != itm_gasoline; }
-    virtual bool count_by_charges() {
+    virtual bool count_by_charges()
+    {
         return true;
     }
 
@@ -665,7 +700,8 @@ unsigned ammo_effects :
             signed char paccuracy, unsigned char precoil, unsigned char prange,
             unsigned char pcount)
         :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0) {
+               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0)
+    {
         type = ptype;
         damage = pdamage;
         pierce = ppierce;
@@ -689,7 +725,8 @@ struct it_gun : public itype
     int clip;
     int reload_time;
 
-    virtual bool is_gun() {
+    virtual bool is_gun()
+    {
         return true;
     }
 
@@ -704,7 +741,8 @@ struct it_gun : public itype
            signed char paccuracy, signed char precoil, unsigned char pdurability,
            unsigned char pburst, int pclip, int preload_time)
         :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+    {
         skill_used = pskill_used?Skill::skill(pskill_used):NULL;
         ammo = pammo;
         dmg_bonus = pdmg_bonus;
@@ -728,7 +766,8 @@ unsigned acceptible_ammo_types :
     bool used_on_smg;
     bool used_on_rifle;
 
-    virtual bool is_gunmod() {
+    virtual bool is_gunmod()
+    {
         return true;
     }
 
@@ -745,7 +784,8 @@ unsigned acceptible_ammo_types :
               bool shotgun, bool smg, bool rifle)
 
         :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+    {
         accuracy = paccuracy;
         damage = pdamage;
         loudness = ploudness;
@@ -771,13 +811,16 @@ struct it_armor : public itype
     signed char warmth;
     unsigned char storage;
 
-    virtual bool is_armor() {
+    virtual bool is_armor()
+    {
         return true;
     }
-    virtual bool is_artifact() {
+    virtual bool is_artifact()
+    {
         return false;
     }
-    virtual std::string save_data() {
+    virtual std::string save_data()
+    {
         return std::string();
     }
 
@@ -804,7 +847,8 @@ struct it_armor : public itype
              unsigned char penv_resist, signed char pwarmth,
              unsigned char pstorage)
         :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+    {
         covers = pcovers;
         encumber = pencumber;
         dmg_resist = pdmg_resist;
@@ -824,7 +868,8 @@ struct it_book : public itype
     unsigned char intel;	// Intelligence required to read, at all
     unsigned char time;	// How long, in 10-turns (aka minutes), it takes to read
     // "To read" means getting 1 skill point, not all of em
-    virtual bool is_book() {
+    virtual bool is_book()
+    {
         return true;
     }
     it_book(int pid, unsigned char prarity, unsigned int pprice,
@@ -837,7 +882,8 @@ struct it_book : public itype
             const char *ptype, unsigned char plevel, unsigned char preq,
             signed char pfun, unsigned char pintel, unsigned char ptime)
         :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+    {
         type = ptype?Skill::skill(ptype):NULL;
         level = plevel;
         req = preq;
@@ -847,7 +893,8 @@ struct it_book : public itype
     }
 };
 
-enum container_flags {
+enum container_flags
+{
     con_rigid,
     con_wtight,
     con_seals,
@@ -859,7 +906,8 @@ struct it_container : public itype
     unsigned char contains;	// Internal volume
 unsigned flags :
     num_con_flags;
-    virtual bool is_container() {
+    virtual bool is_container()
+    {
         return true;
     }
     it_container(int pid, unsigned char prarity, unsigned int pprice,
@@ -871,7 +919,8 @@ unsigned flags :
 
                  unsigned char pcontains, unsigned pflags)
         :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+    {
         contains = pcontains;
         flags = pflags;
     }
@@ -887,13 +936,16 @@ struct it_tool : public itype
     itype_id revert_to;
     void (iuse::*use)(game *, player *, item *, bool);
 
-    virtual bool is_tool()          {
+    virtual bool is_tool()
+    {
         return true;
     }
-    virtual bool is_artifact()      {
+    virtual bool is_artifact()
+    {
         return false;
     }
-    virtual std::string save_data() {
+    virtual std::string save_data()
+    {
         return std::string();
     }
 
@@ -920,7 +972,8 @@ struct it_tool : public itype
             ammotype pammo, itype_id prevert_to,
             void (iuse::*puse)(game *, player *, item *, bool))
         :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+    {
         max_charges = pmax_charges;
         def_charges = pdef_charges;
         ammo = pammo;
@@ -936,7 +989,8 @@ struct it_bionic : public itype
     std::vector<bionic_id> options;
     int difficulty;
 
-    virtual bool is_bionic()    {
+    virtual bool is_bionic()
+    {
         return true;
     }
 
@@ -949,7 +1003,8 @@ struct it_bionic : public itype
 
               int pdifficulty, ...)
         :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+    {
         difficulty = pdifficulty;
         va_list ap;
         va_start(ap, pdifficulty);
@@ -965,7 +1020,8 @@ struct it_macguffin : public itype
     bool readable; // If true, activated with 'R'
     void (iuse::*use)(game *, player *, item *, bool);
 
-    virtual bool is_macguffin() {
+    virtual bool is_macguffin()
+    {
         return true;
     }
 
@@ -979,7 +1035,8 @@ struct it_macguffin : public itype
                  bool preadable,
                  void (iuse::*puse)(game *, player *, item *, bool))
         :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+    {
         readable = preadable;
         use = puse;
     }
@@ -990,7 +1047,8 @@ struct it_software : public itype
     software_type swtype;
     int power;
 
-    virtual bool is_software()      {
+    virtual bool is_software()
+    {
         return true;
     }
 
@@ -1003,7 +1061,8 @@ struct it_software : public itype
 
                 software_type pswtype, int ppower)
         :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+    {
         swtype = pswtype;
         power = ppower;
     }
@@ -1011,7 +1070,8 @@ struct it_software : public itype
 
 struct it_style : public itype
 {
-    virtual bool is_style()         {
+    virtual bool is_style()
+    {
         return true;
     }
 
@@ -1035,7 +1095,8 @@ struct it_artifact_tool : public it_tool
     std::vector<art_effect_active>  effects_activated;
     std::vector<art_effect_passive> effects_carried;
 
-    virtual bool is_artifact()  {
+    virtual bool is_artifact()
+    {
         return true;
     }
     virtual std::string save_data()
@@ -1061,16 +1122,19 @@ struct it_artifact_tool : public it_tool
         data << " " << name << " - ";
         std::string desctmp = description;
         size_t endline;
-        do {
+        do
+        {
             endline = desctmp.find("\n");
             if (endline != std::string::npos)
                 desctmp.replace(endline, 1, " = ");
-        } while (endline != std::string::npos);
+        }
+        while (endline != std::string::npos);
         data << desctmp << " -";
         return data.str();
     }
 
-    it_artifact_tool() {
+    it_artifact_tool()
+    {
         ammo = AT_NULL;
         price = 0;
         def_charges = 0;
@@ -1095,7 +1159,8 @@ struct it_artifact_armor : public it_armor
 {
     std::vector<art_effect_passive> effects_worn;
 
-    virtual bool is_artifact()  {
+    virtual bool is_artifact()
+    {
         return true;
     }
 
@@ -1115,11 +1180,13 @@ struct it_artifact_armor : public it_armor
         data << " " << name << " - ";
         std::string desctmp = description;
         size_t endline;
-        do {
+        do
+        {
             endline = desctmp.find("\n");
             if (endline != std::string::npos)
                 desctmp.replace(endline, 1, " = ");
-        } while (endline != std::string::npos);
+        }
+        while (endline != std::string::npos);
 
         data << desctmp << " -";
 

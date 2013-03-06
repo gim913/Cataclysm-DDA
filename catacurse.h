@@ -40,7 +40,8 @@ typedef struct
 //} cursechar;
 
 //Individual lines, so that we can track changed lines
-typedef struct {
+typedef struct
+{
     bool touched;
     char *chars;
     char *FG;
@@ -48,7 +49,8 @@ typedef struct {
 //cursechar chars [80];
 } curseline;
 //The curses window struct
-typedef struct {
+typedef struct
+{
     int x;//left side of window
     int y;//top side of window
     int width;//width of the curses window

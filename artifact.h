@@ -4,7 +4,8 @@
 #include <string>
 #include <vector>
 
-enum art_effect_passive {
+enum art_effect_passive
+{
     AEP_NULL = 0,
 // Good
     AEP_STR_UP, // Strength + 4
@@ -49,7 +50,8 @@ enum art_effect_passive {
     NUM_AEPS
 };
 
-enum art_effect_active {
+enum art_effect_active
+{
     AEA_NULL = 0,
 
     AEA_STORM, // Emits shock fields

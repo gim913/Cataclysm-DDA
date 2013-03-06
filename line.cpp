@@ -26,35 +26,48 @@ std::vector <point> line_to(int x1, int y1, int x2, int y2, int t)
     xmax += abs(dx);
     ymax += abs(dy);
 
-    if (ax == ay) {
-        do {
+    if (ax == ay)
+    {
+        do
+        {
             cur.y += sy;
             cur.x += sx;
             ret.push_back(cur);
-        } while ((cur.x != x2 || cur.y != y2) &&
-                 (cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax));
-    } else if (ax > ay) {
-        do {
-            if (t > 0) {
+        }
+        while ((cur.x != x2 || cur.y != y2) &&
+                (cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax));
+    }
+    else if (ax > ay)
+    {
+        do
+        {
+            if (t > 0)
+            {
                 cur.y += sy;
                 t -= ax;
             }
             cur.x += sx;
             t += ay;
             ret.push_back(cur);
-        } while ((cur.x != x2 || cur.y != y2) &&
-                 (cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax));
-    } else {
-        do {
-            if (t > 0) {
+        }
+        while ((cur.x != x2 || cur.y != y2) &&
+                (cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax));
+    }
+    else
+    {
+        do
+        {
+            if (t > 0)
+            {
                 cur.x += sx;
                 t -= ay;
             }
             cur.y += sy;
             t += ax;
             ret.push_back(cur);
-        } while ((cur.x != x2 || cur.y != y2) &&
-                 (cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax));
+        }
+        while ((cur.x != x2 || cur.y != y2) &&
+                (cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax));
     }
     return ret;
 }
@@ -94,13 +107,18 @@ std::vector<point> continue_line(std::vector<point> line, int distance)
     double slope = slope_of(line);
     int sX = (line.front().x < line.back().x ? 1 : -1),
         sY = (line.front().y < line.back().y ? 1 : -1);
-    if (abs(slope) == 1) {
+    if (abs(slope) == 1)
+    {
         end.x += distance * sX;
         end.y += distance * sY;
-    } else if (abs(slope) < 1) {
+    }
+    else if (abs(slope) < 1)
+    {
         end.x += distance * sX;
         end.y += int(distance * abs(slope) * sY);
-    } else {
+    }
+    else
+    {
         end.y += distance * sY;
         if (slope != SLOPE_VERTICAL)
             end.x += int(distance / abs(slope)) * sX;
@@ -112,29 +130,42 @@ direction direction_from(int x1, int y1, int x2, int y2)
 {
     int dx = x2 - x1;
     int dy = y2 - y1;
-    if (dx < 0) {
-        if (abs(dx) / 2 > abs(dy) || dy == 0) {
+    if (dx < 0)
+    {
+        if (abs(dx) / 2 > abs(dy) || dy == 0)
+        {
             return WEST;
-        } else if (abs(dy) / 2 > abs(dx)) {
+        }
+        else if (abs(dy) / 2 > abs(dx))
+        {
             if (dy < 0)
                 return NORTH;
             else
                 return SOUTH;
-        } else {
+        }
+        else
+        {
             if (dy < 0)
                 return NORTHWEST;
             else
                 return SOUTHWEST;
         }
-    } else {
-        if (dx / 2 > abs(dy) || dy == 0) {
+    }
+    else
+    {
+        if (dx / 2 > abs(dy) || dy == 0)
+        {
             return EAST;
-        } else if (abs(dy) / 2 > dx || dx == 0) {
+        }
+        else if (abs(dy) / 2 > dx || dx == 0)
+        {
             if (dy < 0)
                 return NORTH;
             else
                 return SOUTH;
-        } else {
+        }
+        else
+        {
             if (dy < 0)
                 return NORTHEAST;
             else
@@ -145,7 +176,8 @@ direction direction_from(int x1, int y1, int x2, int y2)
 
 std::string direction_name(direction dir)
 {
-    switch (dir) {
+    switch (dir)
+    {
     case NORTH:
         return "north";
     case NORTHEAST:
@@ -168,7 +200,8 @@ std::string direction_name(direction dir)
 
 std::string direction_name_short(direction dir)
 {
-    switch (dir) {
+    switch (dir)
+    {
     case NORTH:
         return "N ";
     case NORTHEAST:
@@ -190,15 +223,18 @@ std::string direction_name_short(direction dir)
 }
 
 
-float rl_vec2d::norm() {
+float rl_vec2d::norm()
+{
     if (fabs(x) > fabs(y))
         return fabs(x);
     return fabs(y);
 }
 
-rl_vec2d rl_vec2d::normalized() {
+rl_vec2d rl_vec2d::normalized()
+{
     rl_vec2d ret;
-    if (is_null()) { // shouldn't happen?
+    if (is_null())   // shouldn't happen?
+    {
         ret.x = ret.y = 1;
         return ret;
     }
@@ -207,40 +243,47 @@ rl_vec2d rl_vec2d::normalized() {
     ret.y = y/n;
     return ret;
 }
-float rl_vec2d::dot_product (rl_vec2d &v) {
+float rl_vec2d::dot_product (rl_vec2d &v)
+{
     return x*v.x + y*v.y;
 }
-bool rl_vec2d::is_null() {
+bool rl_vec2d::is_null()
+{
     return !(x || y);
 }
 // scale.
-rl_vec2d rl_vec2d::operator* (const float rhs) {
+rl_vec2d rl_vec2d::operator* (const float rhs)
+{
     rl_vec2d ret;
     ret.x = x * rhs;
     ret.y = y * rhs;
     return ret;
 }
 // subtract
-rl_vec2d rl_vec2d::operator- (const rl_vec2d &rhs) {
+rl_vec2d rl_vec2d::operator- (const rl_vec2d &rhs)
+{
     rl_vec2d ret;
     ret.x = x - rhs.x;
     ret.y = y - rhs.y;
     return ret;
 }
 // unary negation
-rl_vec2d rl_vec2d::operator- () {
+rl_vec2d rl_vec2d::operator- ()
+{
     rl_vec2d ret;
     ret.x = -x;
     ret.y = -y;
     return ret;
 }
-rl_vec2d rl_vec2d::operator+ (const rl_vec2d &rhs) {
+rl_vec2d rl_vec2d::operator+ (const rl_vec2d &rhs)
+{
     rl_vec2d ret;
     ret.x = x + rhs.x;
     ret.y = y + rhs.y;
     return ret;
 }
-rl_vec2d rl_vec2d::operator/ (const float rhs) {
+rl_vec2d rl_vec2d::operator/ (const float rhs)
+{
     rl_vec2d ret;
     ret.x = x / rhs;
     ret.y = y / rhs;

@@ -3,7 +3,8 @@
 
 bool text_hash::add(std::string key, std::string value)
 {
-    for (int i = 0; i < keys.size(); i++) {
+    for (int i = 0; i < keys.size(); i++)
+    {
         if (keys[i] == key)
             return false;	// Fail if key exists
     }
@@ -14,7 +15,8 @@ bool text_hash::add(std::string key, std::string value)
 
 std::string text_hash::value(std::string key)
 {
-    for (int i = 0; i < keys.size(); i++) {
+    for (int i = 0; i < keys.size(); i++)
+    {
         if (keys[i] == key)
             return values[i];
     }

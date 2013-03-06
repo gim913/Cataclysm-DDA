@@ -3,7 +3,8 @@
 
 #include <string>
 
-enum body_part {
+enum body_part
+{
     bp_torso = 0,
     bp_head,
     bp_eyes,

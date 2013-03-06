@@ -4,7 +4,8 @@
 #include "mtype.h"
 #include <vector>
 
-enum moncat_id {
+enum moncat_id
+{
     mcat_null = 0,
     mcat_forest,
     mcat_ant,
@@ -28,7 +29,8 @@ enum moncat_id {
 
 bool moncat_is_safe(moncat_id id);
 
-struct mongroup {
+struct mongroup
+{
     moncat_id type;
     int posx, posy;
     unsigned char radius;
@@ -36,7 +38,8 @@ struct mongroup {
     bool dying;
     bool diffuse;   // group size ind. of dist. from center and radius invariant
     mongroup(moncat_id ptype, int pposx, int pposy, unsigned char prad,
-             unsigned int ppop) {
+             unsigned int ppop)
+    {
         type = ptype;
         posx = pposx;
         posy = pposy;
@@ -45,7 +48,8 @@ struct mongroup {
         dying = false;
         diffuse = false;
     }
-    bool is_safe() {
+    bool is_safe()
+    {
         return moncat_is_safe(type);
     };
 };

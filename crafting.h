@@ -9,7 +9,8 @@
 
 #define MAX_DISPLAYED_RECIPES 18
 
-enum craft_cat {
+enum craft_cat
+{
     CC_NULL = 0,
     CC_WEAPON,
     CC_AMMO,
@@ -27,14 +28,16 @@ struct component
 {
     itype_id type;
     int count;
-    component() {
+    component()
+    {
         type = itm_null;
         count = 0;
     }
     component(itype_id TYPE, int COUNT) : type (TYPE), count (COUNT) {}
 };
 
-struct recipe {
+struct recipe
+{
     int id;
     itype_id result;
     craft_cat category;
@@ -47,7 +50,8 @@ struct recipe {
     std::vector<component> tools[5];
     std::vector<component> components[10];
 
-    recipe() {
+    recipe()
+    {
         id = 0;
         result = itm_null;
         category = CC_NULL;

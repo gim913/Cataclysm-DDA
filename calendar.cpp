@@ -108,7 +108,8 @@ calendar& calendar::operator -=(calendar &rhs)
     hour   -= tmp.hour;
     day    -= tmp.day;
     int tmpseason = int(season) - int(tmp.season);
-    while (tmpseason < 0) {
+    while (tmpseason < 0)
+    {
         year--;
         tmpseason += 4;
     }
@@ -132,7 +133,8 @@ calendar& calendar::operator +=(calendar &rhs)
     hour   += rhs.hour;
     day    += rhs.day;
     int tmpseason = int(season) + int(rhs.season);
-    while (tmpseason >= 4) {
+    while (tmpseason >= 4)
+    {
         year++;
         tmpseason -= 4;
     }
@@ -200,24 +202,29 @@ void calendar::increment()
 
 void calendar::standardize()
 {
-    if (second >= 60) {
+    if (second >= 60)
+    {
         minute += second / 60;
         second %= 60;
     }
-    if (minute >= 60) {
+    if (minute >= 60)
+    {
         hour += minute / 60;
         minute %= 60;
     }
-    if (hour >= 24) {
+    if (hour >= 24)
+    {
         day += hour / 24;
         hour %= 24;
     }
     int tmpseason = int(season);
-    if (day >= DAYS_IN_SEASON) {
+    if (day >= DAYS_IN_SEASON)
+    {
         tmpseason += day / DAYS_IN_SEASON;
         day %= DAYS_IN_SEASON;
     }
-    if (tmpseason >= 4) {
+    if (tmpseason >= 4)
+    {
         year += tmpseason / 4;
         tmpseason %= 4;
     }
@@ -245,7 +252,8 @@ calendar calendar::sunrise()
 {
     calendar ret;
     int start_hour = 0, end_hour = 0;
-    switch (season) {
+    switch (season)
+    {
     case SPRING:
         start_hour = SUNRISE_SOLSTICE;
         end_hour   = SUNRISE_SUMMER;
@@ -277,7 +285,8 @@ calendar calendar::sunset()
 {
     calendar ret;
     int start_hour = 0, end_hour = 0;
-    switch (season) {
+    switch (season)
+    {
     case SPRING:
         start_hour = SUNSET_SOLSTICE;
         end_hour   = SUNSET_SUMMER;
@@ -330,40 +339,52 @@ int calendar::sunlight()
     if (mins > sunset_mins + TWILIGHT_MINUTES || mins < sunrise_mins) // Night
         return moonlight;
 
-    else if (mins >= sunrise_mins && mins <= sunrise_mins + TWILIGHT_MINUTES) {
+    else if (mins >= sunrise_mins && mins <= sunrise_mins + TWILIGHT_MINUTES)
+    {
 
         double percent = double(mins - sunrise_mins) / TWILIGHT_MINUTES;
         return int( double(moonlight)      * (1. - percent) +
                     double(DAYLIGHT_LEVEL) * percent         );
 
-    } else if (mins >= sunset_mins && mins <= sunset_mins + TWILIGHT_MINUTES) {
+    }
+    else if (mins >= sunset_mins && mins <= sunset_mins + TWILIGHT_MINUTES)
+    {
 
         double percent = double(mins - sunset_mins) / TWILIGHT_MINUTES;
         return int( double(DAYLIGHT_LEVEL) * (1. - percent) +
                     double(moonlight)      * percent         );
 
-    } else
+    }
+    else
         return DAYLIGHT_LEVEL;
 }
 
 std::string calendar::print_time(bool twentyfour)
 {
     std::stringstream ret;
-    if (twentyfour) {
+    if (twentyfour)
+    {
         ret << hour << ":";
         if (minute < 10)
             ret << "0";
         ret << minute;
-    } else {
-        if (OPTIONS[OPT_24_HOUR] == 1) {
+    }
+    else
+    {
+        if (OPTIONS[OPT_24_HOUR] == 1)
+        {
             int hours = hour % 24;
             if (hours < 10)
                 ret << "0";
             ret << hours;
-        } else if (OPTIONS[OPT_24_HOUR] == 2) {
+        }
+        else if (OPTIONS[OPT_24_HOUR] == 2)
+        {
             int hours = hour % 24;
             ret << hours << ":";
-        } else {
+        }
+        else
+        {
             int hours = hour % 12;
             if (hours == 0)
                 hours = 12;
@@ -372,7 +393,8 @@ std::string calendar::print_time(bool twentyfour)
         if (minute < 10)
             ret << "0";
         ret << minute;
-        if (OPTIONS[OPT_24_HOUR] == 0) {
+        if (OPTIONS[OPT_24_HOUR] == 0)
+        {
             if (hour < 12)
                 ret << " AM";
             else
@@ -390,22 +412,33 @@ std::string calendar::textify_period()
     int am;
     std::string tx;
 // Describe the biggest time period, as "<am> <tx>s", am = amount, tx = name
-    if (year > 0) {
+    if (year > 0)
+    {
         am = year;
         tx = "year";
-    } else if (season > 0) {
+    }
+    else if (season > 0)
+    {
         am = season;
         tx = "season";
-    } else if (day > 0) {
+    }
+    else if (day > 0)
+    {
         am = day;
         tx = "day";
-    } else if (hour > 0) {
+    }
+    else if (hour > 0)
+    {
         am = hour;
         tx = "hour";
-    } else if (minute >= 5) {
+    }
+    else if (minute >= 5)
+    {
         am = minute;
         tx = "minute";
-    } else {
+    }
+    else
+    {
         am = second / 6 + minute * 10;
         tx = "turn";
     }

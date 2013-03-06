@@ -19,7 +19,8 @@
 void game::help()
 {
     char ch;
-    do {
+    do
+    {
         erase();
         mvprintz(0, 38, c_red, "HELP");
         mvprintz(1, 0, c_white, "\
@@ -45,7 +46,8 @@ h: Radioactivity and Mutation\n\
 q: Return to game");
 
         ch = getch();
-        switch (ch) {
+        switch (ch)
+        {
         case 'a':
         case 'A':
             erase();
@@ -440,14 +442,17 @@ from frostbite and to keep your distance from large fires.");
             getch();
             break;
 
-        case '1': {
+        case '1':
+        {
             erase();
             int offset = 1;
             char ch = ' ';
             bool changed_keymap = false;
             bool needs_refresh = true;
-            do {
-                if (needs_refresh) {
+            do
+            {
+                if (needs_refresh)
+                {
                     erase();
                     mvprintz(0, 40, c_white, "Use the arrow keys (or movement keys)");
                     mvprintz(1, 40, c_white, "to scroll.");
@@ -462,14 +467,17 @@ from frostbite and to keep your distance from large fires.");
                 for (int i = 0; i < 25; i++)
                     mvprintz(i, 0, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
-                for (int i = 0; i < 25 && offset + i < NUM_ACTIONS; i++) {
+                for (int i = 0; i < 25 && offset + i < NUM_ACTIONS; i++)
+                {
                     std::vector<char> keys = keys_bound_to( action_id(offset + i) );
                     nc_color col = (keys.empty() ? c_ltred : c_white);
                     mvprintz(i, 3, col, "%s: ", action_name( action_id(offset + i) ).c_str());
                     if (keys.empty())
                         printz(c_red, "Unbound!");
-                    else {
-                        for (int j = 0; j < keys.size(); j++) {
+                    else
+                    {
+                        for (int j = 0; j < keys.size(); j++)
+                        {
                             printz(c_yellow, "%c", keys[j]);
                             if (j < keys.size() - 1)
                                 printz(c_white, " or ");
@@ -484,48 +492,60 @@ from frostbite and to keep your distance from large fires.");
                     offset--;
                 if (sy == 1 && offset + 20 < NUM_ACTIONS)
                     offset++;
-                if (ch == '-' || ch == '+') {
+                if (ch == '-' || ch == '+')
+                {
                     needs_refresh = true;
-                    for (int i = 0; i < 25 && i + offset < NUM_ACTIONS; i++) {
+                    for (int i = 0; i < 25 && i + offset < NUM_ACTIONS; i++)
+                    {
                         mvprintz(i, 0, c_ltblue, "%c", 'a' + i);
                         mvprintz(i, 1, c_white, ":");
                     }
                     refresh();
                     char actch = getch();
                     if (actch >= 'a' && actch <= 'a' + 24 &&
-                            actch - 'a' + offset < NUM_ACTIONS) {
+                            actch - 'a' + offset < NUM_ACTIONS)
+                    {
                         action_id act = action_id(actch - 'a' + offset);
-                        if (ch == '-' && query_yn("Clear keys for %s?",action_name(act).c_str())) {
+                        if (ch == '-' && query_yn("Clear keys for %s?",action_name(act).c_str()))
+                        {
                             clear_bindings(act);
                             changed_keymap = true;
-                        } else if (ch == '+') {
+                        }
+                        else if (ch == '+')
+                        {
                             char newbind = popup_getkey("New key for %s:", action_name(act).c_str());
-                            if (keymap.find(newbind) == keymap.end()) { // It's not in use!  Good.
+                            if (keymap.find(newbind) == keymap.end())   // It's not in use!  Good.
+                            {
                                 keymap[ newbind ] = act;
                                 changed_keymap = true;
-                            } else
+                            }
+                            else
                                 popup("%c is used for %s.", newbind,
                                       action_name( keymap[newbind] ).c_str());
                         }
                     }
                 }
-            } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+            }
+            while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
             if (changed_keymap && query_yn("Save changes?"))
                 save_keymap();
             erase();
         }
         break;
 
-        case '2': {
+        case '2':
+        {
             erase();
             int offset = 1;
             int line = 0;
             char ch = ' ';
             bool changed_options = false;
             bool needs_refresh = true;
-            do {
+            do
+            {
 // TODO: change instructions
-                if (needs_refresh) {
+                if (needs_refresh)
+                {
                     erase();
                     mvprintz(0, 40, c_white, "Use up/down keys to scroll through");
                     mvprintz(1, 40, c_white, "available options.");
@@ -536,13 +556,15 @@ from frostbite and to keep your distance from large fires.");
                     std::string out;
                     size_t pos;
                     int displayline = 5;
-                    do {
+                    do
+                    {
                         pos = tmp.find_first_of('\n');
                         out = tmp.substr(0, pos);
                         mvprintz(displayline, 40, c_white, out.c_str());
                         tmp = tmp.substr(pos + 1);
                         displayline++;
-                    } while (pos != std::string::npos && displayline < 12);
+                    }
+                    while (pos != std::string::npos && displayline < 12);
                     needs_refresh = false;
                 }
 
@@ -565,7 +587,8 @@ from frostbite and to keep your distance from large fires.");
                             mvprintz(i, 30, hilite(c_ltcyan), (on ? "True" : "False"));
                         else
                             mvprintz(i, 30, (on ? c_ltgreen : c_ltred), (on ? "True" : "False"));
-                    } else
+                    }
+                    else
                     {
                         char option_val = OPTIONS[ option_key(offset + i) ];
                         if (i == line)
@@ -579,7 +602,8 @@ from frostbite and to keep your distance from large fires.");
                 needs_refresh = true;
                 refresh();
 
-                switch (ch) {
+                switch (ch)
+                {
 // move up and down
                 case 'j':
                     line++;
@@ -615,7 +639,8 @@ from frostbite and to keep your distance from large fires.");
                     changed_options = true;
                     break;
                 }
-            } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+            }
+            while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
             if (changed_options && query_yn("Save changes?"))
                 save_options();
@@ -912,5 +937,6 @@ A: Email your question to TheDarklingWolf@Gmail.com.  I'll answer it for you,\n\
             break;
 
         }
-    } while (ch != 'q' && ch != KEY_ESCAPE);
+    }
+    while (ch != 'q' && ch != KEY_ESCAPE);
 }
