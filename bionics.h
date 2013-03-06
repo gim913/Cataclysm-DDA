@@ -14,13 +14,13 @@ enum bionic_id
     bio_memory, bio_ears,
     bio_eye_enhancer, bio_membrane, bio_targeting,
     bio_gills, bio_purifier,
-    bio_climate, bio_storage, bio_recycler, bio_digestion,	// TODO: Ynnn
+    bio_climate, bio_storage, bio_recycler, bio_digestion,  // TODO: Ynnn
     bio_tools, bio_shock, bio_heat_absorb,
     bio_carbon, bio_armor_head, bio_armor_torso, bio_armor_arms, bio_armor_legs,
 // Player Activated
     bio_flashlight, bio_night_vision, bio_infrared,
-    bio_face_mask,	// TODO
-    bio_ads, bio_ods, bio_scent_mask,bio_scent_vision, bio_cloak, bio_painkiller,
+    bio_face_mask,  // TODO
+    bio_ads, bio_ods, bio_scent_mask, bio_scent_vision, bio_cloak, bio_painkiller,
     bio_nanobots, bio_heatsink, bio_resonator, bio_time_freeze, bio_teleport,
     bio_blood_anal, bio_blood_filter, bio_alarm,
     bio_evap, bio_lighter, bio_claws, bio_blaster, bio_laser, bio_emp,
@@ -42,10 +42,10 @@ struct bionic_data
 {
     std::string name;
     bool power_source;
-    bool activated;	// If true, then the below function only happens when
+    bool activated; // If true, then the below function only happens when
     // activated; otherwise, it happens every turn
     int power_cost;
-    int charge_time;	// How long, when activated, between drawing power_cost
+    int charge_time;    // How long, when activated, between drawing power_cost
     // If 0, it draws power once
     std::string description;
 };

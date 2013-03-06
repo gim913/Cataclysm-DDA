@@ -3,8 +3,8 @@
 
 #include <string>
 
-#define MIN_MORALE_READ		(-40)
-#define MIN_MORALE_CRAFT	(-50)
+#define MIN_MORALE_READ     (-40)
+#define MIN_MORALE_CRAFT    (-50)
 
 enum morale_type
 {
@@ -47,7 +47,7 @@ struct morale_point
     int bonus;
 
     morale_point(morale_type T = MORALE_NULL, itype* I = NULL, int B = 0) :
-        type (T), item_type (I), bonus (B) {};
+        type(T), item_type(I), bonus(B) {};
 
     std::string name(std::string morale_data[])
     {

@@ -80,7 +80,7 @@ void computer::use(game *g)
         w_terminal = newwin(25, 80, 0, 0);
     }
     wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
 
     print_line("Logging into %s...", name.c_str());
 
@@ -307,7 +307,7 @@ void computer::activate_function(game *g, computer_action action)
                 {
                     for (int x1 = x - 1; x1 <= x + 1; x1++)
                     {
-                        for (int y1 = y - 1; y1 <= y + 1; y1++ )
+                        for (int y1 = y - 1; y1 <= y + 1; y1++)
                         {
                             if (g->m.ter(x1, y1) == t_counter)
                             {
@@ -317,7 +317,7 @@ void computer::activate_function(game *g, computer_action action)
                                     item *it = &(g->m.i_at(x1, y1)[i]);
                                     if (it->is_container() && it->contents.empty())
                                     {
-                                        it->put_in( item(g->itypes[itm_sewage], g->turn) );
+                                        it->put_in(item(g->itypes[itm_sewage], g->turn));
                                         found_item = true;
                                     }
                                 }
@@ -465,7 +465,7 @@ void computer::activate_function(game *g, computer_action action)
                     log.append("\n");
                 }
             }
-            while(tmp.find_first_of('%') != 0 && getline(fin, tmp));
+            while (tmp.find_first_of('%') != 0 && getline(fin, tmp));
         }
         print_line(" %s", log.c_str());
         print_line("Press any key...");
@@ -756,7 +756,7 @@ INITIATING STANDARD TREMOR TEST...");
         g->u.add_disease(DI_STEMCELL_TREATMENT, 120, g);
         print_line("The machine injects your eyeball with the solution \n\
 of pureed bone & LSD.");
-        g->u.pain += rng(40,90);
+        g->u.pain += rng(40, 90);
         break;
 
     case COMPACT_DOWNLOAD_SOFTWARE:
@@ -863,7 +863,7 @@ void computer::activate_failure(game *g, computer_failure fail)
     {
 
     case COMPFAIL_NULL:
-        break;	// Do nothing.  Why was this even called >:|
+        break;  // Do nothing.  Why was this even called >:|
 
     case COMPFAIL_SHUTDOWN:
         for (int x = 0; x < SEEX * MAPSIZE; x++)
@@ -969,19 +969,19 @@ void computer::activate_failure(game *g, computer_failure fail)
                         std::vector<point> next_move;
                         if (g->m.move_cost(p.x, p.y - 1) > 0)
                         {
-                            next_move.push_back( point(p.x, p.y - 1) );
+                            next_move.push_back(point(p.x, p.y - 1));
                         }
                         if (g->m.move_cost(p.x + 1, p.y) > 0)
                         {
-                            next_move.push_back( point(p.x + 1, p.y) );
+                            next_move.push_back(point(p.x + 1, p.y));
                         }
                         if (g->m.move_cost(p.x, p.y + 1) > 0)
                         {
-                            next_move.push_back( point(p.x, p.y + 1) );
+                            next_move.push_back(point(p.x, p.y + 1));
                         }
                         if (g->m.move_cost(p.x - 1, p.y) > 0)
                         {
-                            next_move.push_back( point(p.x - 1, p.y) );
+                            next_move.push_back(point(p.x - 1, p.y));
                         }
 
                         if (next_move.empty())
@@ -1120,7 +1120,7 @@ void computer::print_line(const char *mes, ...)
     wprintz(w_terminal, c_green, " %s\n", message.c_str());
 // Reprint the border, in case we pushed a line over it
     wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     wrefresh(w_terminal);
 }
 
@@ -1136,7 +1136,7 @@ void computer::print_error(const char *mes, ...)
     wprintz(w_terminal, c_red, " %s%s", buff, "\n");
 // Reprint the border, in case we pushed a line over it
     wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     wrefresh(w_terminal);
 }
 
@@ -1163,7 +1163,7 @@ void computer::print_gibberish_line()
     }
     wprintz(w_terminal, c_yellow, gibberish.c_str());
     wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     wrefresh(w_terminal);
 }
 
@@ -1171,7 +1171,7 @@ void computer::reset_terminal()
 {
     werase(w_terminal);
     wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     wmove(w_terminal, 1, 1);
     wrefresh(w_terminal);
 }

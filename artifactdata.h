@@ -7,46 +7,46 @@
 
 int passive_effect_cost[NUM_AEPS] =
 {
-    0,	// AEP_NULL
+    0,  // AEP_NULL
 
-    3,	// AEP_STR_UP
-    3,	// AEP_DEX_UP
-    3,	// AEP_PER_UP
-    3,	// AEP_INT_UP
-    5,	// AEP_ALL_UP
-    4,	// AEP_SPEED_UP
-    2,	// AEP_IODINE
-    4,	// AEP_SNAKES
-    7,	// AEP_INVISIBLE
-    5,	// AEP_CLAIRVOYANCE
-    2,	// AEP_STEALTH
-    2,	// AEP_EXTINGUISH
-    1,	// AEP_GLOW
-    1,	// AEP_PSYSHIELD
-    3,	// AEP_RESIST_ELECTRICITY
-    3,	// AEP_CARRY_MORE
-    5,	// AEP_SAP_LIFE
+    3,  // AEP_STR_UP
+    3,  // AEP_DEX_UP
+    3,  // AEP_PER_UP
+    3,  // AEP_INT_UP
+    5,  // AEP_ALL_UP
+    4,  // AEP_SPEED_UP
+    2,  // AEP_IODINE
+    4,  // AEP_SNAKES
+    7,  // AEP_INVISIBLE
+    5,  // AEP_CLAIRVOYANCE
+    2,  // AEP_STEALTH
+    2,  // AEP_EXTINGUISH
+    1,  // AEP_GLOW
+    1,  // AEP_PSYSHIELD
+    3,  // AEP_RESIST_ELECTRICITY
+    3,  // AEP_CARRY_MORE
+    5,  // AEP_SAP_LIFE
 
-    0,	// AEP_SPLIT
+    0,  // AEP_SPLIT
 
-    -2,	// AEP_HUNGER
-    -2,	// AEP_THIRST
-    -1,	// AEP_SMOKE
-    -5,	// AEP_EVIL
-    -3,	// AEP_SCHIZO
-    -5,	// AEP_RADIOACTIVE
-    -3,	// AEP_MUTAGENIC
-    -5,	// AEP_ATTENTION
-    -2,	// AEP_STR_DOWN
-    -2,	// AEP_DEX_DOWN
-    -2,	// AEP_PER_DOWN
-    -2,	// AEP_INT_DOWN
-    -5,	// AEP_ALL_DOWN
-    -4,	// AEP_SPEED_DOWN
-    -5,	// AEP_FORCE_TELEPORT
-    -3,	// AEP_MOVEMENT_NOISE
-    -2,	// AEP_BAD_WEATHER
-    -1	// AEP_SICK
+    -2, // AEP_HUNGER
+    -2, // AEP_THIRST
+    -1, // AEP_SMOKE
+    -5, // AEP_EVIL
+    -3, // AEP_SCHIZO
+    -5, // AEP_RADIOACTIVE
+    -3, // AEP_MUTAGENIC
+    -5, // AEP_ATTENTION
+    -2, // AEP_STR_DOWN
+    -2, // AEP_DEX_DOWN
+    -2, // AEP_PER_DOWN
+    -2, // AEP_INT_DOWN
+    -5, // AEP_ALL_DOWN
+    -4, // AEP_SPEED_DOWN
+    -5, // AEP_FORCE_TELEPORT
+    -3, // AEP_MOVEMENT_NOISE
+    -2, // AEP_BAD_WEATHER
+    -1  // AEP_SICK
 };
 
 int active_effect_cost[NUM_AEAS] =
@@ -352,25 +352,25 @@ unsigned flags :
 artifact_weapon_datum artifact_weapon_data[NUM_ARTWEAPS] =
 {
     {"", 0, 0, 0, 0, 0, 0, 0, 0, 0},
-// Adjective	Vol,wgt		Bash		Cut		To-Hit
+// Adjective    Vol,wgt     Bash        Cut     To-Hit
     {
-        "Heavy",	 0, 12,		10, 20,		 0,  0,		-2,  0,
+        "Heavy",     0, 12,     10, 20,      0,  0,     -2,  0,
         0
     },
     {
-        "Knobbed",	 1,  2,		14, 30,		 0,  0,		-1,  1,
+        "Knobbed",   1,  2,     14, 30,      0,  0,     -1,  1,
         0
     },
     {
-        "Spiked",	 1,  1,		 0,  0,		20, 40,		-1,  1,
+        "Spiked",    1,  1,      0,  0,     20, 40,     -1,  1,
         mfb(IF_SPEAR)
     },
     {
-        "Edged",	 2,  4,		 0,  0,		20, 50,		-1,  2,
+        "Edged",     2,  4,      0,  0,     20, 50,     -1,  2,
         0
     },
     {
-        "Bladed",	 1,  2,		 0,  0,		12, 30,		-1,  1,
+        "Bladed",    1,  2,      0,  0,     12, 30,     -1,  1,
         mfb(IF_STAB)
     }
 };
@@ -444,7 +444,7 @@ artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] =
 // Name    color  Materials      Vol Wgt Enc Dmg Cut Env Wrm Sto Bsh Cut Hit
     {
         "Robe",   c_red, WOOL, MNULL,     6,  6,  1,  3,  1,  0,  2,  0, -8,  0, -3,
-        mfb(bp_torso)|mfb(bp_legs), false,
+        mfb(bp_torso) | mfb(bp_legs), false,
         {
             ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
             ARMORMOD_PADDED
@@ -452,7 +452,7 @@ artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] =
     },
 
     {
-        "Coat",   c_brown,LEATHER,MNULL, 14, 14,  2,  4, 12,  1,  4,  4, -6,  0, -3,
+        "Coat",   c_brown, LEATHER, MNULL, 14, 14,  2,  4, 12,  1,  4,  4, -6,  0, -3,
         mfb(bp_torso), false,
         {
             ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
@@ -462,7 +462,7 @@ artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] =
 
     {
         "Mask",   c_white, WOOD, MNULL,   4,  1,  2,  2, 16,  1,  2,  0,  2,  0, -2,
-        mfb(bp_eyes)|mfb(bp_mouth), false,
+        mfb(bp_eyes) | mfb(bp_mouth), false,
         {
             ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
             ARMORMOD_NULL
@@ -471,7 +471,7 @@ artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] =
 
 // Name    color  Materials      Vol Wgt Enc Dmg Cut Env Wrm Sto Bsh Cut Hit
     {
-        "Helm",   c_dkgray,SILVER, MNULL, 6,  6,  2,  4, 18,  0,  1,  0,  8,  0, -2,
+        "Helm",   c_dkgray, SILVER, MNULL, 6,  6,  2,  4, 18,  0,  1,  0,  8,  0, -2,
         mfb(bp_head), false,
         {
             ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -480,7 +480,7 @@ artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] =
     },
 
     {
-        "Gloves", c_ltblue,LEATHER,MNULL, 2,  1,  1,  6,  6,  1,  2,  0, -4,  0, -2,
+        "Gloves", c_ltblue, LEATHER, MNULL, 2,  1,  1,  6,  6,  1,  2,  0, -4,  0, -2,
         mfb(bp_hands), true,
         {
             ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,

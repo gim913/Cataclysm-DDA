@@ -46,7 +46,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                 debugmsg("Whoooooa density of %d", cur->density);
             }
 
-            if (cur->age == 0)	// Don't process "newborn" fields
+            if (cur->age == 0)  // Don't process "newborn" fields
             {
                 curtype = fd_null;
             }
@@ -57,18 +57,18 @@ bool map::process_fields_in_submap(game *g, int gridn)
             {
 
             case fd_null:
-                break;	// Do nothing, obviously.  OBVIOUSLY.
+                break;  // Do nothing, obviously.  OBVIOUSLY.
 
             case fd_blood:
             case fd_bile:
-                if (has_flag(swimmable, x, y))	// Dissipate faster in water
+                if (has_flag(swimmable, x, y))  // Dissipate faster in water
                 {
                     cur->age += 250;
                 }
                 break;
 
             case fd_acid:
-                if (has_flag(swimmable, x, y))	// Dissipate faster in water
+                if (has_flag(swimmable, x, y))  // Dissipate faster in water
                 {
                     cur->age += 20;
                 }
@@ -89,7 +89,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                             cur->age += melting->volume();
                             for (int m = 0; m < i_at(x, y)[i].contents.size(); m++)
                             {
-                                i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
+                                i_at(x, y).push_back(i_at(x, y)[i].contents[m]);
                             }
                             i_at(x, y).erase(i_at(x, y).begin() + i);
                             i--;
@@ -228,7 +228,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                     {
                         for (int m = 0; m < i_at(x, y)[i].contents.size(); m++)
                         {
-                            i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
+                            i_at(x, y).push_back(i_at(x, y)[i].contents[m]);
                         }
                         i_at(x, y).erase(i_at(x, y).begin() + i);
                         i--;
@@ -238,10 +238,10 @@ bool map::process_fields_in_submap(game *g, int gridn)
                 veh = veh_at(x, y, part);
                 if (veh)
                 {
-                    veh->damage (part, cur->density * 10, false);
+                    veh->damage(part, cur->density * 10, false);
                 }
                 // If the flames are in a brazier, they're fully contained, so skip consuming terrain
-                if(tr_brazier != tr_at(x, y))
+                if (tr_brazier != tr_at(x, y))
                 {
                     // Consume the terrain we're on
                     if (has_flag(explodes, x, y))
@@ -367,12 +367,12 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 {
                                     for (int jj = -1; jj <= 1; jj++)
                                     {
-                                        if (field_at(x+ii, y+jj).type == fd_fire &&
-                                                field_at(x+ii, y+jj).density == 3)
+                                        if (field_at(x + ii, y + jj).type == fd_fire &&
+                                                field_at(x + ii, y + jj).density == 3)
                                         {
                                             smoke++;
                                         }
-                                        else if (field_at(x+ii, y+jj).type == fd_smoke)
+                                        else if (field_at(x + ii, y + jj).type == fd_smoke)
                                         {
                                             nosmoke = false;
                                         }
@@ -398,7 +398,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                 {
                     for (int j = -1; j <= 1; j++)
                     {
-                        g->scent(x+i, y+j) = 0;
+                        g->scent(x + i, y + j) = 0;
                     }
                 }
                 if (is_outside(x, y))
@@ -412,11 +412,11 @@ bool map::process_fields_in_submap(game *g, int gridn)
                     {
                         for (int b = -1; b <= 1; b++)
                         {
-                            if ((field_at(x+a, y+b).type == fd_smoke &&
-                                    field_at(x+a, y+b).density < 3       ) ||
-                                    (field_at(x+a, y+b).is_null() && move_cost(x+a, y+b) > 0))
+                            if ((field_at(x + a, y + b).type == fd_smoke &&
+                                    field_at(x + a, y + b).density < 3) ||
+                                    (field_at(x + a, y + b).is_null() && move_cost(x + a, y + b) > 0))
                             {
-                                spread.push_back(point(x+a, y+b));
+                                spread.push_back(point(x + a, y + b));
                             }
                         }
                     }
@@ -445,7 +445,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                 {
                     for (int j = -1; j <= 1; j++)
                     {
-                        g->scent(x+i, y+j) = 0;
+                        g->scent(x + i, y + j) = 0;
                     }
                 }
                 if (is_outside(x, y))
@@ -461,12 +461,12 @@ bool map::process_fields_in_submap(game *g, int gridn)
                     {
                         for (int b = -1; b <= 1; b++)
                         {
-                            if (((field_at(x+a, y+b).type == fd_smoke ||
-                                    field_at(x+a, y+b).type == fd_tear_gas) &&
-                                    field_at(x+a, y+b).density < 3            )      ||
-                                    (field_at(x+a, y+b).is_null() && move_cost(x+a, y+b) > 0))
+                            if (((field_at(x + a, y + b).type == fd_smoke ||
+                                    field_at(x + a, y + b).type == fd_tear_gas) &&
+                                    field_at(x + a, y + b).density < 3)      ||
+                                    (field_at(x + a, y + b).is_null() && move_cost(x + a, y + b) > 0))
                             {
-                                spread.push_back(point(x+a, y+b));
+                                spread.push_back(point(x + a, y + b));
                             }
                         }
                     }
@@ -503,7 +503,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                 {
                     for (int j = -1; j <= 1; j++)
                     {
-                        g->scent(x+i, y+j) = 0;
+                        g->scent(x + i, y + j) = 0;
                     }
                 }
                 if (is_outside(x, y))
@@ -518,14 +518,14 @@ bool map::process_fields_in_submap(game *g, int gridn)
                     {
                         for (int b = -1; b <= 1; b++)
                         {
-                            if (((field_at(x+a, y+b).type == fd_smoke ||
-                                    field_at(x+a, y+b).type == fd_tear_gas ||
-                                    field_at(x+a, y+b).type == fd_toxic_gas ||
-                                    field_at(x+a, y+b).type == fd_nuke_gas   ) &&
-                                    field_at(x+a, y+b).density < 3            )      ||
-                                    (field_at(x+a, y+b).is_null() && move_cost(x+a, y+b) > 0))
+                            if (((field_at(x + a, y + b).type == fd_smoke ||
+                                    field_at(x + a, y + b).type == fd_tear_gas ||
+                                    field_at(x + a, y + b).type == fd_toxic_gas ||
+                                    field_at(x + a, y + b).type == fd_nuke_gas) &&
+                                    field_at(x + a, y + b).density < 3)      ||
+                                    (field_at(x + a, y + b).is_null() && move_cost(x + a, y + b) > 0))
                             {
-                                spread.push_back(point(x+a, y+b));
+                                spread.push_back(point(x + a, y + b));
                             }
                         }
                     }
@@ -564,7 +564,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                 {
                     for (int j = -1; j <= 1; j++)
                     {
-                        g->scent(x+i, y+j) = 0;
+                        g->scent(x + i, y + j) = 0;
                     }
                 }
                 if (is_outside(x, y))
@@ -581,14 +581,14 @@ bool map::process_fields_in_submap(game *g, int gridn)
                     {
                         for (int b = -1; b <= 1; b++)
                         {
-                            if (((field_at(x+a, y+b).type == fd_smoke ||
-                                    field_at(x+a, y+b).type == fd_tear_gas ||
-                                    field_at(x+a, y+b).type == fd_toxic_gas ||
-                                    field_at(x+a, y+b).type == fd_nuke_gas   ) &&
-                                    field_at(x+a, y+b).density < 3            )      ||
-                                    (field_at(x+a, y+b).is_null() && move_cost(x+a, y+b) > 0))
+                            if (((field_at(x + a, y + b).type == fd_smoke ||
+                                    field_at(x + a, y + b).type == fd_tear_gas ||
+                                    field_at(x + a, y + b).type == fd_toxic_gas ||
+                                    field_at(x + a, y + b).type == fd_nuke_gas) &&
+                                    field_at(x + a, y + b).density < 3)      ||
+                                    (field_at(x + a, y + b).is_null() && move_cost(x + a, y + b) > 0))
                             {
-                                spread.push_back(point(x+a, y+b));
+                                spread.push_back(point(x + a, y + b));
                             }
                         }
                     }
@@ -666,7 +666,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                 break;
 
             case fd_electricity:
-                if (!one_in(5))  	// 4 in 5 chance to spread
+                if (!one_in(5))     // 4 in 5 chance to spread
                 {
                     std::vector<point> valid;
                     if (move_cost(x, y) == 0 && cur->density > 1)   // We're grounded
@@ -687,7 +687,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                             }
                         }
                     }
-                    else  	// We're not grounded; attempt to ground
+                    else    // We're not grounded; attempt to ground
                     {
                         for (int a = -1; a <= 1; a++)
                         {
@@ -700,7 +700,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 }
                             }
                         }
-                        if (valid.size() == 0)  	// Spread to adjacent space, then
+                        if (valid.size() == 0)      // Spread to adjacent space, then
                         {
                             int px = x + rng(-1, 1), py = y + rng(-1, 1);
                             if (move_cost(px, py) > 0 && field_at(px, py).type == fd_electricity &&
@@ -761,7 +761,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                             {
                                 if (field_at(xx, yy).type == fd_push_items)
                                 {
-                                    valid.push_back( point(xx, yy) );
+                                    valid.push_back(point(xx, yy));
                                 }
                             }
                         }
@@ -929,8 +929,8 @@ void map::step_in_field(int x, int y, game *g)
     switch (cur->type)
     {
     case fd_null:
-    case fd_blood:	// It doesn't actually do anything
-    case fd_bile:		// Ditto
+    case fd_blood:  // It doesn't actually do anything
+    case fd_bile:       // Ditto
         return;
 
     case fd_web:
@@ -959,7 +959,7 @@ void map::step_in_field(int x, int y, game *g)
         break;
 
     case fd_sap:
-        if( g->u.in_vehicle )
+        if (g->u.in_vehicle)
         {
             break;
         }
@@ -977,8 +977,8 @@ void map::step_in_field(int x, int y, game *g)
 
     case fd_fire:
         adjusted_intensity = cur->density;
-        if( g->u.in_vehicle )
-            if( inside )
+        if (g->u.in_vehicle)
+            if (inside)
             {
                 adjusted_intensity -= 2;
             }
@@ -1041,7 +1041,7 @@ void map::step_in_field(int x, int y, game *g)
         break;
 
     case fd_toxic_gas:
-        if (cur->density == 2 && !inside || cur->density == 3 && inside )
+        if (cur->density == 2 && !inside || cur->density == 3 && inside)
         {
             g->u.infect(DI_POISON, bp_mouth, 5, 30, g);
         }
@@ -1122,8 +1122,8 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     switch (cur->type)
     {
     case fd_null:
-    case fd_blood:	// It doesn't actually do anything
-    case fd_bile:		// Ditto
+    case fd_blood:  // It doesn't actually do anything
+    case fd_bile:       // Ditto
         break;
 
     case fd_web:
@@ -1221,7 +1221,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
         {
             z->speed -= rng(10, 20);
         }
-        if (z->made_of(VEGGY))	// Plants suffer from smoke even worse
+        if (z->made_of(VEGGY))  // Plants suffer from smoke even worse
         {
             z->speed -= rng(1, cur->density * 12);
         }

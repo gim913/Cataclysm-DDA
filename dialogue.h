@@ -30,41 +30,41 @@ struct dialogue
 
 struct talk_function
 {
-    void nothing			(game *g, npc *p) {};
-    void assign_mission		(game *g, npc *p);
-    void mission_success		(game *g, npc *p);
-    void mission_failure		(game *g, npc *p);
-    void clear_mission		(game *g, npc *p);
-    void mission_reward		(game *g, npc *p);
-    void mission_favor		(game *g, npc *p);
-    void give_equipment		(game *g, npc *p);
-    void start_trade		(game *g, npc *p);
-    void follow			(game *g, npc *p); // p follows u
-    void deny_follow		(game *g, npc *p); // p gets DI_ASKED_TO_FOLLOW
-    void deny_lead			(game *g, npc *p); // p gets DI_ASKED_TO_LEAD
-    void deny_equipment		(game *g, npc *p); // p gets DI_ASKED_FOR_ITEM
-    void enslave			(game *g, npc *p) {}; // p becomes slave of u
-    void hostile			(game *g, npc *p); // p turns hostile to u
-    void flee			(game *g, npc *p);
-    void leave			(game *g, npc *p); // p becomes indifferant
+    void nothing(game *g, npc *p) {};
+    void assign_mission(game *g, npc *p);
+    void mission_success(game *g, npc *p);
+    void mission_failure(game *g, npc *p);
+    void clear_mission(game *g, npc *p);
+    void mission_reward(game *g, npc *p);
+    void mission_favor(game *g, npc *p);
+    void give_equipment(game *g, npc *p);
+    void start_trade(game *g, npc *p);
+    void follow(game *g, npc *p);          // p follows u
+    void deny_follow(game *g, npc *p);         // p gets DI_ASKED_TO_FOLLOW
+    void deny_lead(game *g, npc *p);           // p gets DI_ASKED_TO_LEAD
+    void deny_equipment(game *g, npc *p);      // p gets DI_ASKED_FOR_ITEM
+    void enslave(game *g, npc *p) {};             // p becomes slave of u
+    void hostile(game *g, npc *p);             // p turns hostile to u
+    void flee(game *g, npc *p);
+    void leave(game *g, npc *p);           // p becomes indifferant
 
-    void start_mugging		(game *g, npc *p);
-    void player_leaving		(game *g, npc *p);
+    void start_mugging(game *g, npc *p);
+    void player_leaving(game *g, npc *p);
 
-    void drop_weapon		(game *g, npc *p);
-    void player_weapon_away	(game *g, npc *p);
-    void player_weapon_drop	(game *g, npc *p);
+    void drop_weapon(game *g, npc *p);
+    void player_weapon_away(game *g, npc *p);
+    void player_weapon_drop(game *g, npc *p);
 
-    void lead_to_safety		(game *g, npc *p);
-    void start_training		(game *g, npc *p);
+    void lead_to_safety(game *g, npc *p);
+    void start_training(game *g, npc *p);
 
-    void toggle_use_guns		(game *g, npc *p);
-    void toggle_use_grenades	(game *g, npc *p);
-    void set_engagement_none	(game *g, npc *p);
-    void set_engagement_close	(game *g, npc *p);
-    void set_engagement_weak	(game *g, npc *p);
-    void set_engagement_hit	(game *g, npc *p);
-    void set_engagement_all	(game *g, npc *p);
+    void toggle_use_guns(game *g, npc *p);
+    void toggle_use_grenades(game *g, npc *p);
+    void set_engagement_none(game *g, npc *p);
+    void set_engagement_close(game *g, npc *p);
+    void set_engagement_weak(game *g, npc *p);
+    void set_engagement_hit(game *g, npc *p);
+    void set_engagement_all(game *g, npc *p);
 };
 
 enum talk_trial
@@ -87,8 +87,8 @@ struct talk_response
     talk_trial trial;
     int difficulty;
     int mission_index;
-    mission_id miss;	// If it generates a new mission
-    int tempvalue;		// Used for various stuff
+    mission_id miss;    // If it generates a new mission
+    int tempvalue;      // Used for various stuff
     npc_opinion opinion_success;
     npc_opinion opinion_failure;
     void (talk_function::*effect_success)(game *, npc *);
@@ -145,7 +145,7 @@ struct talk_response_list
 struct tag_data
 {
     std::string tag;
-    std::string (*replacement)[10];
+    std::string(*replacement)[10];
 };
 
 std::string talk_needs[num_needs][5] =
@@ -202,14 +202,14 @@ std::string talk_no[10] =
 
 std::string talk_bad_names[10] =
 {
-    "punk",		"bitch",	"dickhead",	"asshole",	"fucker",
-    "sucker",	"fuckwad",	"cocksucker",	"motherfucker",	"shithead"
+    "punk",     "bitch",    "dickhead", "asshole",  "fucker",
+    "sucker",   "fuckwad",  "cocksucker",   "motherfucker", "shithead"
 };
 
 std::string talk_good_names[10] =
 {
-    "stranger",	"friend",	"pilgrim",	"traveler",	"pal",
-    "fella",	"you",		"dude",		"buddy",	"man"
+    "stranger", "friend",   "pilgrim",  "traveler", "pal",
+    "fella",    "you",      "dude",     "buddy",    "man"
 };
 
 std::string talk_swear[10] =   // e.g. "drop the <swear> weapon"
@@ -438,32 +438,32 @@ std::string talk_catch_up[10] =
 
 tag_data talk_tags[NUM_STATIC_TAGS] =
 {
-    {"<okay>",		&talk_okay},
-    {"<no>",		&talk_no},
-    {"<name_b>",		&talk_bad_names},
-    {"<name_g>",		&talk_good_names},
-    {"<swear>",		&talk_swear},
-    {"<swear!>",		&talk_swear_interjection},
-    {"<fuck_you>",		&talk_fuck_you},
-    {"<very>",		&talk_very},
-    {"<really>",		&talk_really},
-    {"<happy>",		&talk_happy},
-    {"<sad>",		&talk_sad},
-    {"<greet>",		&talk_greeting_gen},
-    {"<ill_die>",		&talk_ill_die},
-    {"<ill_kill_you>",	&talk_ill_kill_you},
-    {"<drop_it>",		&talk_drop_weapon},
-    {"<hands_up>",		&talk_hands_up},
-    {"<no_faction>",	&talk_no_faction},
-    {"<come_here>",		&talk_come_here},
-    {"<keep_up>",		&talk_keep_up},
-    {"<lets_talk>",		&talk_come_here},
-    {"<wait>",		&talk_wait},
-    {"<let_me_pass>",	&talk_let_me_pass},
-    {"<move>",		&talk_move},
-    {"<done_mugging>",	&talk_done_mugging},
-    {"<catch_up>",		&talk_catch_up},
-    {"<im_leaving_you>",	&talk_leaving}
+    {"<okay>",      &talk_okay},
+    {"<no>",        &talk_no},
+    {"<name_b>",        &talk_bad_names},
+    {"<name_g>",        &talk_good_names},
+    {"<swear>",     &talk_swear},
+    {"<swear!>",        &talk_swear_interjection},
+    {"<fuck_you>",      &talk_fuck_you},
+    {"<very>",      &talk_very},
+    {"<really>",        &talk_really},
+    {"<happy>",     &talk_happy},
+    {"<sad>",       &talk_sad},
+    {"<greet>",     &talk_greeting_gen},
+    {"<ill_die>",       &talk_ill_die},
+    {"<ill_kill_you>",  &talk_ill_kill_you},
+    {"<drop_it>",       &talk_drop_weapon},
+    {"<hands_up>",      &talk_hands_up},
+    {"<no_faction>",    &talk_no_faction},
+    {"<come_here>",     &talk_come_here},
+    {"<keep_up>",       &talk_keep_up},
+    {"<lets_talk>",     &talk_come_here},
+    {"<wait>",      &talk_wait},
+    {"<let_me_pass>",   &talk_let_me_pass},
+    {"<move>",      &talk_move},
+    {"<done_mugging>",  &talk_done_mugging},
+    {"<catch_up>",      &talk_catch_up},
+    {"<im_leaving_you>",    &talk_leaving}
 };
 
 #endif

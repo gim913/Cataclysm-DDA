@@ -11,7 +11,7 @@ class map;
 class inventory
 {
 public:
-    item& operator[] (int i);
+    item& operator[](int i);
     std::vector<item>& stack_at(int i);
     std::vector<item> const_stack(int i) const;
     std::vector<item> as_vector();
@@ -20,19 +20,19 @@ public:
     int size() const;
     int num_items() const;
 
-    inventory& operator=  (inventory &rhs);
-    inventory& operator=  (const inventory &rhs);
+    inventory& operator= (inventory &rhs);
+    inventory& operator= (const inventory &rhs);
     inventory& operator+= (const inventory &rhs);
     inventory& operator+= (const item &rhs);
     inventory& operator+= (const std::vector<item> &rhs);
-    inventory  operator+  (const inventory &rhs);
-    inventory  operator+  (const item &rhs);
-    inventory  operator+  (const std::vector<item> &rhs);
+    inventory  operator+ (const inventory &rhs);
+    inventory  operator+ (const item &rhs);
+    inventory  operator+ (const std::vector<item> &rhs);
 
     void clear();
     void add_stack(std::vector<item> newits);
     void push_back(std::vector<item> newits);
-    void add_item (item newit, bool keep_invlet = false);
+    void add_item(item newit, bool keep_invlet = false);
     void add_item_keep_invlet(item newit);
     void push_back(item newit);
 
@@ -54,13 +54,13 @@ public:
 
 // Below, "amount" refers to quantity
 //        "charges" refers to charges
-    int  amount_of (itype_id it);
+    int  amount_of(itype_id it);
     int  charges_of(itype_id it);
 
-    void use_amount (itype_id it, int quantity, bool use_container = false);
+    void use_amount(itype_id it, int quantity, bool use_container = false);
     void use_charges(itype_id it, int quantity);
 
-    bool has_amount (itype_id it, int quantity);
+    bool has_amount(itype_id it, int quantity);
     bool has_charges(itype_id it, int quantity);
     bool has_item(item *it); // Looks for a specific item
 

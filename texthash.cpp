@@ -12,7 +12,7 @@ bool text_hash::add(std::string key, std::string value)
     }
     keys.push_back(key);
     values.push_back(value);
-    return true;		// Success
+    return true;        // Success
 }
 
 std::string text_hash::value(std::string key)

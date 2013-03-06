@@ -152,7 +152,7 @@ It may have unknown powers; use 'a' to activate them.";
 // If we have charges, pick a recharge mechanism
         if (art->max_charges > 0)
         {
-            art->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
+            art->charge_type = art_charge(rng(ARTC_NULL + 1, NUM_ARTCS - 1));
         }
         if (one_in(8) && num_bad + num_good >= 4)
         {
@@ -434,7 +434,7 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
     {
         art->max_charges = rng(1, 4);
         art->def_charges = art->max_charges;
-        art->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
+        art->charge_type = art_charge(rng(ARTC_NULL + 1, NUM_ARTCS - 1));
     }
 
     art->id = itypes.size();
@@ -447,7 +447,7 @@ std::vector<art_effect_passive> fill_good_passive()
     std::vector<art_effect_passive> ret;
     for (int i = AEP_NULL + 1; i < AEP_SPLIT; i++)
     {
-        ret.push_back( art_effect_passive(i) );
+        ret.push_back(art_effect_passive(i));
     }
     return ret;
 }
@@ -457,7 +457,7 @@ std::vector<art_effect_passive> fill_bad_passive()
     std::vector<art_effect_passive> ret;
     for (int i = AEP_SPLIT + 1; i < NUM_AEPS; i++)
     {
-        ret.push_back( art_effect_passive(i) );
+        ret.push_back(art_effect_passive(i));
     }
     return ret;
 }
@@ -467,7 +467,7 @@ std::vector<art_effect_active> fill_good_active()
     std::vector<art_effect_active> ret;
     for (int i = AEA_NULL + 1; i < AEA_SPLIT; i++)
     {
-        ret.push_back( art_effect_active(i) );
+        ret.push_back(art_effect_active(i));
     }
     return ret;
 }
@@ -477,7 +477,7 @@ std::vector<art_effect_active> fill_bad_active()
     std::vector<art_effect_active> ret;
     for (int i = AEA_SPLIT + 1; i < NUM_AEAS; i++)
     {
-        ret.push_back( art_effect_active(i) );
+        ret.push_back(art_effect_active(i));
     }
     return ret;
 }

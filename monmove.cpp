@@ -80,7 +80,7 @@ void monster::plan(game *g)
     int dist = 1000;
     int tc, stc;
     bool fleeing = false;
-    if (friendly != 0)  	// Target monsters, not the player!
+    if (friendly != 0)      // Target monsters, not the player!
     {
         for (int i = 0; i < g->z.size(); i++)
         {
@@ -101,7 +101,7 @@ void monster::plan(game *g)
         {
             set_dest(g->z[closest].posx, g->z[closest].posy, stc);
         }
-        else if (friendly > 0 && one_in(3))	// Grow restless with no targets
+        else if (friendly > 0 && one_in(3)) // Grow restless with no targets
         {
             friendly--;
         }
@@ -325,7 +325,7 @@ void monster::move(game *g)
 
 // Finished logic section.  By this point, we should have chosen a square to
 //  move to (moved = true).
-    if (moved)  	// Actual effects of moving to the square we've chosen
+    if (moved)      // Actual effects of moving to the square we've chosen
     {
         mondex = g->mon_at(next.x, next.y);
         int npcdex = g->npc_at(next.x, next.y);
@@ -492,7 +492,7 @@ point monster::scent_move(game *g)
                      (g->m.has_flag(bashable, posx + x, posy + y) && has_flag(MF_BASHES))))
             {
                 if ((!is_fleeing(g->u) && smell > maxsmell) ||
-                        ( is_fleeing(g->u) && smell < minsmell)   )
+                        (is_fleeing(g->u) && smell < minsmell))
                 {
                     smoves.clear();
                     pbuff.x = posx + x;
@@ -502,7 +502,7 @@ point monster::scent_move(game *g)
                     minsmell = smell;
                 }
                 else if ((!is_fleeing(g->u) && smell == maxsmell) ||
-                         ( is_fleeing(g->u) && smell == minsmell)   )
+                         (is_fleeing(g->u) && smell == minsmell))
                 {
                     pbuff.x = posx + x;
                     pbuff.y = posy + y;
@@ -745,7 +745,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
         if (tech == TEC_COUNTER && !is_npc)
         {
             g->add_msg("Counter-attack!");
-            hurt( p.hit_mon(g, this) );
+            hurt(p.hit_mon(g, this));
         }
     } // if dam > 0
     if (is_npc)
@@ -866,12 +866,12 @@ void monster::move_to(game *g, int x, int y)
 void monster::stumble(game *g, bool moved)
 {
 // don't stumble every turn. every 3rd turn, or 8th when walking.
-    if(moved)
-        if(!one_in(8))
+    if (moved)
+        if (!one_in(8))
         {
             return;
         }
-        else if(!one_in(3))
+        else if (!one_in(3))
         {
             return;
         }

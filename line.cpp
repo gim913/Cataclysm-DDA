@@ -8,8 +8,8 @@ std::vector <point> line_to(int x1, int y1, int x2, int y2, int t)
     std::vector<point> ret;
     int dx = x2 - x1;
     int dy = y2 - y1;
-    int ax = abs(dx)<<1;
-    int ay = abs(dy)<<1;
+    int ax = abs(dx) << 1;
+    int ay = abs(dy) << 1;
     int sx = SGN(dx);
     int sy = SGN(dy);
     if (dy == 0)
@@ -271,13 +271,13 @@ rl_vec2d rl_vec2d::normalized()
         return ret;
     }
     float n = norm();
-    ret.x = x/n;
-    ret.y = y/n;
+    ret.x = x / n;
+    ret.y = y / n;
     return ret;
 }
-float rl_vec2d::dot_product (rl_vec2d &v)
+float rl_vec2d::dot_product(rl_vec2d &v)
 {
-    return x*v.x + y*v.y;
+    return x * v.x + y * v.y;
 }
 bool rl_vec2d::is_null()
 {

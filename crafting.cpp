@@ -468,8 +468,8 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
     TOOL(itm_hotplate, 6, itm_toolset, 1, itm_fire, -1, NULL);
     TOOL(itm_pot, -1, NULL);
     COMP(itm_meat, 1, NULL);
-    COMP(itm_veggy,1, itm_veggy_wild, 1,NULL);
-    COMP(itm_water,1, NULL);
+    COMP(itm_veggy, 1, itm_veggy_wild, 1, NULL);
+    COMP(itm_water, 1, NULL);
 
     RECIPE(itm_veggy_cooked, CC_FOOD, "cooking", NULL, 0, 4000, false);
     TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
@@ -583,7 +583,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
     COMP(itm_aspirin, 40, NULL);
     COMP(itm_caffeine, 20, itm_adderall, 5, itm_energy_drink, 2, NULL);
 
-    RECIPE(itm_crack,        CC_CHEM, "cooking", NULL,     4, 30000,false);
+    RECIPE(itm_crack,        CC_CHEM, "cooking", NULL,     4, 30000, false);
     TOOL(itm_pot, -1, NULL);
     TOOL(itm_fire, -1, itm_hotplate, 8, itm_toolset, 1, NULL);
     COMP(itm_water, 1, itm_water_clean, 1, NULL);
@@ -688,7 +688,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
     COMP(itm_scrap, 5, NULL);
     COMP(itm_cable, 7, NULL);
 
-    RECIPE(itm_water_purifier, CC_ELECTRONIC, "mechanics","electronics",3,25000, true);
+    RECIPE(itm_water_purifier, CC_ELECTRONIC, "mechanics", "electronics", 3, 25000, true);
     TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
     COMP(itm_element, 2, NULL);
     COMP(itm_bottle_glass, 2, itm_bottle_plastic, 5, NULL);
@@ -955,7 +955,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
     TOOL(itm_welder, 50, itm_toolset, 2, NULL);
     COMP(itm_steel_lump, 3, NULL);
 
-    RECIPE(itm_steel_plate, CC_MISC, "mechanics", NULL,4, 12000, true);
+    RECIPE(itm_steel_plate, CC_MISC, "mechanics", NULL, 4, 12000, true);
     TOOL(itm_welder, 100, itm_toolset, 4, NULL);
     COMP(itm_steel_lump, 8, NULL);
 
@@ -1006,10 +1006,10 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
     COMP(itm_machete, 1, NULL);
     COMP(itm_string_36, 1, NULL);
 
-    RECIPE(itm_boobytrap, CC_MISC, "mechanics", "traps",3,5000, false);
-    COMP(itm_grenade,1,NULL);
-    COMP(itm_string_6,1,NULL);
-    COMP(itm_can_food,1,NULL);
+    RECIPE(itm_boobytrap, CC_MISC, "mechanics", "traps", 3, 5000, false);
+    COMP(itm_grenade, 1, NULL);
+    COMP(itm_string_6, 1, NULL);
+    COMP(itm_can_food, 1, NULL);
 
     RECIPE(itm_landmine, CC_WEAPON, "traps", "mechanics", 5, 10000, false);
     TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
@@ -1063,12 +1063,12 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
 
 void game::craft()
 {
-    if (u.morale_level() < MIN_MORALE_CRAFT)  	// See morale.h
+    if (u.morale_level() < MIN_MORALE_CRAFT)    // See morale.h
     {
         add_msg("Your morale is too low to craft...");
         return;
     }
-    WINDOW *w_head = newwin( 3, 80, 0, 0);
+    WINDOW *w_head = newwin(3, 80, 0, 0);
     WINDOW *w_data = newwin(22, 80, 3, 0);
     craft_cat tab = CC_WEAPON;
     std::vector<recipe*> current;
@@ -1100,7 +1100,7 @@ void game::craft()
 Press ? to describe object.  Press <ENTER> to attempt to craft object.");
         wrefresh(w_data);
         int recmin = 0, recmax = current.size();
-        if(recmax > MAX_DISPLAYED_RECIPES)
+        if (recmax > MAX_DISPLAYED_RECIPES)
         {
             if (line <= recmin + 9)
             {
@@ -1571,9 +1571,9 @@ void game::pick_recipes(std::vector<recipe*> &current,
                 for (int k = 0; k < current[i]->tools[j].size(); k++)
                 {
                     itype_id type = current[i]->tools[j][k].type;
-                    int req = current[i]->tools[j][k].count;	// -1 => 1
-                    if ((req <= 0 && crafting_inv.has_amount (type,   1)) ||
-                            (req >  0 && crafting_inv.has_charges(type, req))   )
+                    int req = current[i]->tools[j][k].count;    // -1 => 1
+                    if ((req <= 0 && crafting_inv.has_amount(type,   1)) ||
+                            (req >  0 && crafting_inv.has_charges(type, req)))
                     {
                         have_tool[j] = true;
                         k = current[i]->tools[j].size();
@@ -1639,7 +1639,7 @@ void game::complete_craft()
     int skill_sides = 16 + u.int_cur;
 
     int diff_dice = making->difficulty * 4; // Since skill level is * 4 also
-    int diff_sides = 24;	// 16 + 8 (default intelligence)
+    int diff_sides = 24;    // 16 + 8 (default intelligence)
 
     int skill_roll = dice(skill_dice, skill_sides);
     int diff_roll  = dice(diff_dice,  diff_sides);
@@ -1728,7 +1728,7 @@ void game::complete_craft()
     else
     {
 // We might not have space for the item
-        if (iter == 52 || u.volume_carried()+newit.volume() > u.volume_capacity())
+        if (iter == 52 || u.volume_carried() + newit.volume() > u.volume_capacity())
         {
             add_msg("There's no room in your inventory for the %s, so you drop it.",
                     newit.tname().c_str());
@@ -1838,7 +1838,7 @@ void game::consume_items(std::vector<component> components)
         }
         for (int i = 0; i < mixed.size(); i++)
         {
-            std::string tmpStr = itypes[mixed[i].type]->name +" (on person & nearby)";
+            std::string tmpStr = itypes[mixed[i].type]->name + " (on person & nearby)";
             options.push_back(tmpStr);
         }
 
@@ -2024,9 +2024,9 @@ void game::disassemble()
                     for (int k = 0; k < recipes[i]->tools[j].size(); k++)
                     {
                         itype_id type = recipes[i]->tools[j][k].type;
-                        int req = recipes[i]->tools[j][k].count;	// -1 => 1
+                        int req = recipes[i]->tools[j][k].count;    // -1 => 1
 
-                        if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
+                        if ((req <= 0 && crafting_inv.has_amount(type, 1)) ||
                                 (req >  0 && crafting_inv.has_charges(type, req)))
                         {
                             have_tool[j] = true;
@@ -2152,7 +2152,7 @@ void game::complete_disassemble()
     int skill_sides = 16 + u.int_cur;
 
     int diff_dice = dis->difficulty;
-    int diff_sides = 24;	// 16 + 8 (default intelligence)
+    int diff_sides = 24;    // 16 + 8 (default intelligence)
 
     // disassembly only nets a bit of practice
     if (dis->sk_primary)

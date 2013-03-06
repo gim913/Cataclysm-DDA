@@ -33,7 +33,7 @@ void mission_start::infect_npc(game *g, mission *miss)
 
 void mission_start::place_dog(game *g, mission *miss)
 {
-    int city_id = g->cur_om.closest_city( g->om_location() );
+    int city_id = g->cur_om.closest_city(g->om_location());
     point house = g->cur_om.random_house_in_city(city_id);
     npc* dev = g->find_npc(miss->npc_id);
     if (dev == NULL)
@@ -41,7 +41,7 @@ void mission_start::place_dog(game *g, mission *miss)
         debugmsg("Couldn't find NPC! %d", miss->npc_id);
         return;
     }
-    g->u.i_add( item(g->itypes[itm_dog_whistle], 0) );
+    g->u.i_add(item(g->itypes[itm_dog_whistle], 0));
     g->add_msg("%s gave you a dog whistle.", dev->name.c_str());
 
     miss->target = house;
@@ -62,7 +62,7 @@ void mission_start::place_dog(game *g, mission *miss)
 
 void mission_start::place_zombie_mom(game *g, mission *miss)
 {
-    int city_id = g->cur_om.closest_city( g->om_location() );
+    int city_id = g->cur_om.closest_city(g->om_location());
     point house = g->cur_om.random_house_in_city(city_id);
 
     miss->target = house;
@@ -89,7 +89,7 @@ void mission_start::place_npc_software(game *g, mission *miss)
         debugmsg("Couldn't find NPC! %d", miss->npc_id);
         return;
     }
-    g->u.i_add( item(g->itypes[itm_usb_drive], 0) );
+    g->u.i_add(item(g->itypes[itm_usb_drive], 0));
     g->add_msg("%s gave you a USB drive.", dev->name.c_str());
 
     oter_id ter = ot_house_north;
@@ -115,7 +115,7 @@ void mission_start::place_npc_software(game *g, mission *miss)
     point place;
     if (ter == ot_house_north)
     {
-        int city_id = g->cur_om.closest_city( g->om_location() );
+        int city_id = g->cur_om.closest_city(g->om_location());
         place = g->cur_om.random_house_in_city(city_id);
     }
     else
@@ -157,7 +157,7 @@ void mission_start::place_npc_software(game *g, mission *miss)
                             if (compmap.ter(x2, y2) == t_bed || compmap.ter(x2, y2) == t_dresser)
                             {
                                 okay = true;
-                                valid.push_back( point(x, y) );
+                                valid.push_back(point(x, y));
                             }
                         }
                     }
@@ -166,7 +166,7 @@ void mission_start::place_npc_software(game *g, mission *miss)
         }
         if (valid.empty())
         {
-            comppoint = point( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7) );
+            comppoint = point(rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7));
         }
         else
         {
@@ -256,7 +256,7 @@ void mission_start::reveal_hospital(game *g, mission *miss)
     npc* dev = g->find_npc(miss->npc_id);
     if (dev != NULL)
     {
-        g->u.i_add( item(g->itypes[itm_vacutainer], 0) );
+        g->u.i_add(item(g->itypes[itm_vacutainer], 0));
         g->add_msg("%s gave you a vacutainer.", dev->name.c_str());
     }
     int dist = 0;
@@ -284,7 +284,7 @@ void mission_start::find_safety(game *g, mission *miss)
             for (int i = 0; i <= 3 && !done; i++)   // Which direction?
             {
                 point check = place;
-                switch ( (offset + i) % 4 )
+                switch ((offset + i) % 4)
                 {
                 case 0:
                     check.x += dist;
@@ -313,7 +313,7 @@ void mission_start::find_safety(game *g, mission *miss)
     }
     if (!done)   // Couldn't find safety; so just set the target to far away
     {
-        switch ( rng(0, 3) )
+        switch (rng(0, 3))
         {
         case 0:
             miss->target = point(place.x - 20, place.y - 20);

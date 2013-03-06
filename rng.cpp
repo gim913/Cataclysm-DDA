@@ -16,7 +16,7 @@ bool one_in(int chance)
 }
 bool x_in_y(double x, double y)
 {
-    if( ((double)rand() / RAND_MAX) <= ((double)x/y) )
+    if (((double)rand() / RAND_MAX) <= ((double)x / y))
     {
         return true;
     }

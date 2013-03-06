@@ -85,7 +85,7 @@ void player::mutate(game *g)
             {
                 if (g->mutation_data[i].valid)
                 {
-                    valid.push_back( pl_flag(i) );
+                    valid.push_back(pl_flag(i));
                 }
             }
         }
@@ -138,7 +138,7 @@ void player::mutate_towards(game *g, pl_flag mut)
 
     for (int i = 0; i < cancel.size(); i++)
     {
-        if (!has_trait( cancel[i] ))
+        if (!has_trait(cancel[i]))
         {
             cancel.erase(cancel.begin() + i);
             i--;

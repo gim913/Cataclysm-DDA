@@ -219,7 +219,7 @@ void game::init_mapitems()
         mapitems[mi_camping],
         itm_rope_30, itm_hatchet, itm_pot, itm_pan, itm_binoculars,
         itm_hotplate, itm_knife_combat, itm_machete, itm_vest, itm_backpack,
-        itm_bb, itm_bolt_steel, itm_bbgun, itm_crossbow, itm_manual_knives,itm_manual_survival,
+        itm_bb, itm_bolt_steel, itm_bbgun, itm_crossbow, itm_manual_knives, itm_manual_survival,
         itm_manual_first_aid, itm_manual_traps, itm_lighter, itm_sewing_kit, itm_thread,
         itm_hammer, itm_flashlight, itm_water_purifier, itm_radio, itm_beartrap,
         itm_UPS_off, itm_string_36, itm_longbow, itm_compbow, itm_arrow_wood,
@@ -311,7 +311,7 @@ void game::init_mapitems()
         itm_barrel_big, itm_barrel_small, itm_barrel_rifled, itm_clip, itm_spare_mag,
         itm_clip2, itm_stablizer, itm_blowback, itm_autofire, itm_retool_45,
         itm_retool_9mm, itm_retool_22, itm_retool_57, itm_retool_46,
-        itm_retool_308, itm_retool_223, itm_tazer,itm_shot_hull,
+        itm_retool_308, itm_retool_223, itm_tazer, itm_shot_hull,
         itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing,
         itm_57mm_casing, itm_46mm_casing, itm_762_casing, itm_223_casing,
         itm_3006_casing, itm_308_casing, itm_gunpowder,
@@ -739,7 +739,7 @@ void game::init_mapitems()
 
     setvector(
         mapitems[mi_ant_egg],
-        itm_ant_egg, NULL);	//TODO: More items here?
+        itm_ant_egg, NULL); //TODO: More items here?
 
     setvector(
         mapitems[mi_biollante],

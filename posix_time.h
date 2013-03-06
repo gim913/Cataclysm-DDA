@@ -35,8 +35,8 @@ extern "C" {
    we use the QueryPerformanceCounter() function.  */
 
 int
-nanosleep (const struct timespec *requested_delay,
-           struct timespec *remaining_delay);
+nanosleep(const struct timespec *requested_delay,
+          struct timespec *remaining_delay);
 
 #endif
 #endif

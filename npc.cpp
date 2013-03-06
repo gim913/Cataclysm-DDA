@@ -366,8 +366,8 @@ void npc::randomize(game *g, npc_class type)
     weapon   = item(g->itypes[0], 0);
     inv.clear();
     personality.aggression = rng(-10, 10);
-    personality.bravery =    rng( -3, 10);
-    personality.collector =  rng( -1, 10);
+    personality.bravery =    rng(-3, 10);
+    personality.collector =  rng(-1, 10);
     personality.altruism =   rng(-10, 10);
 //cash = 100 * rng(0, 20) + 10 * rng(0, 30) + rng(0, 50);
     cash = 0;
@@ -393,9 +393,9 @@ void npc::randomize(game *g, npc_class type)
     }
 
     myclass = type;
-    switch (type)  	// Type of character
+    switch (type)   // Type of character
     {
-    case NC_NONE:	// Untyped; no particular specialization
+    case NC_NONE:   // Untyped; no particular specialization
         for (int i = 1; i < num_skill_types; i++)
         {
             sklevel[i] = dice(4, 2) - rng(1, 4);
@@ -485,7 +485,7 @@ void npc::randomize(game *g, npc_class type)
         personality.collector -= rng(1, 6);
         do
         {
-            styles.push_back( itype_id( rng(itm_style_karate, itm_style_zui_quan) ) );
+            styles.push_back(itype_id(rng(itm_style_karate, itm_style_zui_quan)));
         }
         while (one_in(2));
         break;
@@ -546,7 +546,7 @@ void npc::randomize(game *g, npc_class type)
         int_max += rng(2, 5);
         personality.aggression -= rng(1, 5);
         personality.bravery -= rng(2, 8);
-        personality.collector += rng (0, 2);
+        personality.collector += rng(0, 2);
         break;
 
     case NC_BOUNTY_HUNTER:
@@ -865,7 +865,7 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
              gloves = itm_null, coat = itm_null, mask = itm_null,
              glasses = itm_null, hat = itm_null;
 
-    switch(rng(0, (male ? 3 : 4)))
+    switch (rng(0, (male ? 3 : 4)))
     {
     case 0:
         pants = itm_jeans;
@@ -898,7 +898,7 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
         shirt = itm_tank_top;
         break;
     }
-    switch(rng(0, 10))
+    switch (rng(0, 10))
     {
     case  8:
         gloves = itm_gloves_leather;
@@ -936,7 +936,7 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
     mask = itm_null;
     if (one_in(8))
     {
-        switch(rng(0, 2))
+        switch (rng(0, 2))
         {
         case 0:
             mask = itm_mask_dust;
@@ -957,7 +957,7 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
     hat = itm_null;
     if (one_in(6))
     {
-        switch(rng(0, 5))
+        switch (rng(0, 5))
         {
         case 0:
             hat = itm_hat_ball;
@@ -1197,7 +1197,7 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
 {
     int total_space = me->volume_capacity() - 2;
     std::vector<item> ret;
-    ret.push_back( item(g->itypes[itm_lighter], 0) );
+    ret.push_back(item(g->itypes[itm_lighter], 0));
     itype_id tmp;
 
 // First, if we're wielding a gun, get some ammo for it
@@ -1217,7 +1217,7 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
             total_space -= ret[ret.size() - 1].volume();
         }
     }
-    if (type == NC_TRADER)  	// Traders just have tons of random junk
+    if (type == NC_TRADER)      // Traders just have tons of random junk
     {
         while (total_space > 0 && !one_in(50))
         {
@@ -1235,7 +1235,7 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
     if (type == NC_HACKER)
     {
         from = mi_npc_hacker;
-        while(total_space > 0 && !one_in(10))
+        while (total_space > 0 && !one_in(10))
         {
             index = rng(0, g->mapitems[from].size() - 1);
             tmp = g->mapitems[from][index];
@@ -1250,7 +1250,7 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
     }
     if (type == NC_DOCTOR)
     {
-        while(total_space > 0 && !one_in(10))
+        while (total_space > 0 && !one_in(10))
         {
             if (one_in(3))
             {
@@ -1499,7 +1499,7 @@ bool npc::wield(game *g, int index)
             g->m.add_item(posx, posy, remove_weapon());
         }
         moves -= 15;
-        weapon.make( g->itypes[styles[index]] );
+        weapon.make(g->itypes[styles[index]]);
         int linet;
         if (g->u_see(posx, posy, linet))
         {
@@ -1560,8 +1560,8 @@ void npc::perform_mission(game *g)
         }
         break;
     case NPC_MISSION_SHOPKEEP:
-        break;	// Just stay where we are
-    default:	// Random Walk
+        break;  // Just stay where we are
+    default:    // Random Walk
         if (int(g->turn) % 24 == 0)
         {
             mapx += rng(-1, 1);
@@ -1588,7 +1588,7 @@ void npc::form_opinion(player *u)
     {
         op_of_u.fear += 2;
     }
-    else if (u->unarmed_attack())	// Unarmed
+    else if (u->unarmed_attack())   // Unarmed
     {
         op_of_u.fear -= 3;
     }
@@ -1768,12 +1768,12 @@ int npc::player_danger(player *u)
     {
         ret++;
     }
-    else if (u->weapon.type->id == 0)	// Unarmed
+    else if (u->weapon.type->id == 0)   // Unarmed
     {
         ret -= 3;
     }
 
-    if (u->str_cur > 20)	// Superhuman strength!
+    if (u->str_cur > 20)    // Superhuman strength!
     {
         ret += 4;
     }
@@ -1876,7 +1876,7 @@ std::vector<skill> npc::skills_offered_to(player *p)
     {
         if (p->skillLevel(Skill::skill(i)) < sklevel[i])
         {
-            ret.push_back( skill(i) );
+            ret.push_back(skill(i));
         }
     }
     return ret;
@@ -1901,7 +1901,7 @@ std::vector<itype_id> npc::styles_offered_to(player *p)
         }
         if (!found)
         {
-            ret.push_back( styles[i] );
+            ret.push_back(styles[i]);
         }
     }
     return ret;
@@ -1917,7 +1917,7 @@ int npc::minutes_to_u(game *g)
     }
     ret *= 24;
     ret /= 10;
-    while (ret % 5 != 0)	// Round up to nearest five-minute interval
+    while (ret % 5 != 0)    // Round up to nearest five-minute interval
     {
         ret++;
     }
@@ -2472,8 +2472,8 @@ int npc::speed_estimate(int speed)
 
 void npc::draw(WINDOW* w, int ux, int uy, bool inv)
 {
-    int x = getmaxx(w)/2 + posx - ux;
-    int y = getmaxy(w)/2 + posy - uy;
+    int x = getmaxx(w) / 2 + posx - ux;
+    int y = getmaxy(w) / 2 + posy - uy;
     nc_color col = c_pink;
     if (attitude == NPCATT_KILL)
     {
@@ -2493,7 +2493,7 @@ void npc::draw(WINDOW* w, int ux, int uy, bool inv)
     }
     else
     {
-        mvwputch    (w, y, x, col, '@');
+        mvwputch(w, y, x, col, '@');
     }
 }
 
@@ -2742,7 +2742,7 @@ void npc::die(game *g, bool your_fault)
     {
         if (g->active_missions[i].npc_id == id)
         {
-            g->fail_mission( g->active_missions[i].uid );
+            g->fail_mission(g->active_missions[i].uid);
         }
     }
 }
@@ -2751,38 +2751,38 @@ std::string npc_attitude_name(npc_attitude att)
 {
     switch (att)
     {
-    case NPCATT_NULL:	// Don't care/ignoring player
+    case NPCATT_NULL:   // Don't care/ignoring player
         return "Ignoring";
-    case NPCATT_TALK:		// Move to and talk to player
+    case NPCATT_TALK:       // Move to and talk to player
         return "Wants to talk";
-    case NPCATT_TRADE:		// Move to and trade with player
+    case NPCATT_TRADE:      // Move to and trade with player
         return "Wants to trade";
-    case NPCATT_FOLLOW:		// Follow the player
+    case NPCATT_FOLLOW:     // Follow the player
         return "Following";
-    case NPCATT_FOLLOW_RUN:	// Follow the player, don't shoot monsters
+    case NPCATT_FOLLOW_RUN: // Follow the player, don't shoot monsters
         return "Following & ignoring monsters";
-    case NPCATT_LEAD:		// Lead the player, wait for them if they're behind
+    case NPCATT_LEAD:       // Lead the player, wait for them if they're behind
         return "Leading";
-    case NPCATT_WAIT:		// Waiting for the player
+    case NPCATT_WAIT:       // Waiting for the player
         return "Waiting for you";
-    case NPCATT_DEFEND:		// Kill monsters that threaten the player
+    case NPCATT_DEFEND:     // Kill monsters that threaten the player
         return "Defending you";
-    case NPCATT_MUG:		// Mug the player
+    case NPCATT_MUG:        // Mug the player
         return "Mugging you";
-    case NPCATT_WAIT_FOR_LEAVE:	// Attack the player if our patience runs out
+    case NPCATT_WAIT_FOR_LEAVE: // Attack the player if our patience runs out
         return "Waiting for you to leave";
-    case NPCATT_KILL:		// Kill the player
+    case NPCATT_KILL:       // Kill the player
         return "Attacking to kill";
-    case NPCATT_FLEE:		// Get away from the player
+    case NPCATT_FLEE:       // Get away from the player
         return "Fleeing";
-    case NPCATT_SLAVE:		// Following the player under duress
+    case NPCATT_SLAVE:      // Following the player under duress
         return "Enslaved";
-    case NPCATT_HEAL:		// Get to the player and heal them
+    case NPCATT_HEAL:       // Get to the player and heal them
         return "Healing you";
 
-    case NPCATT_MISSING:	// Special; missing NPC as part of mission
+    case NPCATT_MISSING:    // Special; missing NPC as part of mission
         return "Missing NPC";
-    case NPCATT_KIDNAPPED:	// Special; kidnapped NPC as part of mission
+    case NPCATT_KIDNAPPED:  // Special; kidnapped NPC as part of mission
         return "Kidnapped";
     default:
         return "Unknown";
@@ -2792,23 +2792,23 @@ std::string npc_attitude_name(npc_attitude att)
 
 std::string npc_class_name(npc_class classtype)
 {
-    switch(classtype)
+    switch (classtype)
     {
     case NC_NONE:
         return "No class";
-    case NC_SHOPKEEP:	// Found in towns.  Stays in his shop mostly.
+    case NC_SHOPKEEP:   // Found in towns.  Stays in his shop mostly.
         return "Shopkeep";
-    case NC_HACKER:	// Weak in combat but has hacking skills and equipment
+    case NC_HACKER: // Weak in combat but has hacking skills and equipment
         return "Hacker";
-    case NC_DOCTOR:	// Found in towns, or roaming.  Stays in the clinic.
+    case NC_DOCTOR: // Found in towns, or roaming.  Stays in the clinic.
         return "Doctor";
-    case NC_TRADER:	// Roaming trader, journeying between towns.
+    case NC_TRADER: // Roaming trader, journeying between towns.
         return "Trader";
-    case NC_NINJA:	// Specializes in unarmed combat, carries few items
+    case NC_NINJA:  // Specializes in unarmed combat, carries few items
         return "Ninja";
-    case NC_COWBOY:	// Gunslinger and survivalist
+    case NC_COWBOY: // Gunslinger and survivalist
         return "Cowboy";
-    case NC_SCIENTIST:	// Uses intelligence-based skills and high-tech items
+    case NC_SCIENTIST:  // Uses intelligence-based skills and high-tech items
         return "Scientist";
     case NC_BOUNTY_HUNTER: // Resourceful and well-armored
         return "Bounty Hunter";

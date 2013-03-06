@@ -36,7 +36,7 @@ struct option_table
     {
         for (int i = 0; i < NUM_OPTION_KEYS; i++)
         {
-            if(i == OPT_VIEWPORT_X || i == OPT_VIEWPORT_Y)
+            if (i == OPT_VIEWPORT_X || i == OPT_VIEWPORT_Y)
             {
                 options[i] = 12;
             }
@@ -47,11 +47,11 @@ struct option_table
         }
     };
 
-    double& operator[] (option_key i)
+    double& operator[](option_key i)
     {
         return options[i];
     };
-    double& operator[] (int i)
+    double& operator[](int i)
     {
         return options[i];
     };

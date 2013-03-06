@@ -39,7 +39,7 @@ public:
     item();
     item(itype* it, unsigned int turn);
     item(itype* it, unsigned int turn, char let);
-    void make_corpse(itype* it, mtype* mt, unsigned int turn);	// Corpse
+    void make_corpse(itype* it, mtype* mt, unsigned int turn);  // Corpse
     item(std::string itemdata, game *g);
     ~item();
     void make(itype* it);
@@ -67,9 +67,9 @@ public:
     bool reload(player &u, int index);
     void next_mode();
 
-    std::string save_info();	// Formatted for save files
+    std::string save_info();    // Formatted for save files
     void load_info(std::string data, game *g);
-//std::string info(bool showtext = false);	// Formatted for human viewing
+//std::string info(bool showtext = false);  // Formatted for human viewing
     std::string info(bool showtext = false);
     std::string info(bool showtext, std::vector<iteminfo> *dump);
     char symbol();
@@ -100,7 +100,7 @@ public:
 // Our value as a weapon, given particular skills
     int  weapon_value(int skills[num_skill_types]);
 // As above, but discounts its use as a ranged weapon
-    int  melee_value (int skills[num_skill_types]);
+    int  melee_value(int skills[num_skill_types]);
 // Returns the data associated with tech, if we are an it_style
     style_move style_data(technique_id tech);
     bool is_two_handed(player *u);
@@ -146,18 +146,18 @@ public:
     int charges;
     bool active;           // If true, it has active effects to be processed
     signed char damage;    // How much damage it's sustained; generally, max is 5
-    char burnt;	         // How badly we're burnt
+    char burnt;          // How badly we're burnt
     unsigned int bday;     // The turn on which it was created
-    int owned;	            // UID of NPC owner; 0 = player, -1 = unowned
+    int owned;              // UID of NPC owner; 0 = player, -1 = unowned
     union
     {
-        int poison;	         // How badly poisoned is it?
+        int poison;          // How badly poisoned is it?
         int bigness;         // engine power, wheel size
     };
     int mode;              // Mode of operation, can be changed by the player.
 
     int mission_id;// Refers to a mission in game's master list
-    int player_id;	// Only give a mission to the right player!
+    int player_id;  // Only give a mission to the right player!
 
     static itype * nullitem();
 

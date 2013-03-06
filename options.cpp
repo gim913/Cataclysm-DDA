@@ -69,7 +69,7 @@ void load_options()
 
                 if (check == "T" || check == "F")
                 {
-                    val = (check == "T") ? 1.: 0.;
+                    val = (check == "T") ? 1. : 0.;
                 }
                 else
                 {

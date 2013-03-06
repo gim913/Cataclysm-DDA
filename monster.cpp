@@ -115,7 +115,7 @@ std::string monster::name()
 {
     if (!type)
     {
-        debugmsg ("monster::name empty type!");
+        debugmsg("monster::name empty type!");
         return std::string();
     }
     if (unique_name != "")
@@ -247,8 +247,8 @@ char monster::symbol()
 
 void monster::draw(WINDOW *w, int plx, int ply, bool inv)
 {
-    int x = getmaxx(w)/2 + posx - plx;
-    int y = getmaxy(w)/2 + posy - ply;
+    int x = getmaxx(w) / 2 + posx - plx;
+    int y = getmaxy(w) / 2 + posy - ply;
     nc_color color = type->color;
     if (friendly != 0 && !inv)
     {
@@ -346,7 +346,7 @@ void monster::debug(player &u)
 {
     char buff[2];
     debugmsg("%s has %d steps planned.", name().c_str(), plans.size());
-    debugmsg("%s Moves %d Speed %d HP %d",name().c_str(), moves, speed, hp);
+    debugmsg("%s Moves %d Speed %d HP %d", name().c_str(), moves, speed, hp);
     for (int i = 0; i < plans.size(); i++)
     {
         sprintf(buff, "%d", i);
@@ -400,7 +400,7 @@ monster_attitude monster::attitude(player *u)
     {
 
         if (((type->species == species_mammal && u->has_trait(PF_PHEROMONE_MAMMAL)) ||
-                (type->species == species_insect && u->has_trait(PF_PHEROMONE_INSECT)))&&
+                (type->species == species_insect && u->has_trait(PF_PHEROMONE_INSECT))) &&
                 effective_anger >= 10)
         {
             effective_anger -= 20;
@@ -594,7 +594,7 @@ int monster::hit(game *g, player &p, body_part &bp_hit)
         {
             p.practice("dodge", 10);
         }
-        return 0;	// We missed!
+        return 0;   // We missed!
     }
     p.practice("dodge", 5);
     int ret = 0;

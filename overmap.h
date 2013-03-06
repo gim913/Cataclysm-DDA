@@ -18,7 +18,7 @@ struct city
     int x;
     int y;
     int s;
-    city(int X = -1, int Y = -1, int S = -1) : x (X), y (Y), s (S) {}
+    city(int X = -1, int Y = -1, int S = -1) : x(X), y(Y), s(S) {}
 };
 
 struct om_note
@@ -28,7 +28,7 @@ struct om_note
     int num;
     std::string text;
     om_note(int X = -1, int Y = -1, int N = -1, std::string T = "") :
-        x (X), y (Y), num (N), text (T) {}
+        x(X), y(Y), num(N), text(T) {}
 };
 
 struct radio_tower
@@ -38,7 +38,7 @@ struct radio_tower
     int strength;
     std::string message;
     radio_tower(int X = -1, int Y = -1, int S = -1, std::string M = "") :
-        x (X), y (Y), strength (S), message (M) {}
+        x(X), y(Y), strength(S), message(M) {}
 };
 
 class overmap

@@ -169,71 +169,71 @@ const vpart_info vpart_list[num_vparts] =
     },
     {
         "frame",      'h', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner)
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
     },
     {
         "frame",      'j', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner)
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
     },
     {
         "frame",      'c', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner)
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
     },
     {
         "frame",      'y', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner)
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
     },
     {
         "frame",      'u', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner)
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
     },
     {
         "frame",      'n', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner)
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
     },
     {
         "frame",      'b', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner)
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
     },
     {
         "frame",      '=', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner)
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
     },
     {
         "frame",      'H', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner)
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
     },
     {
         "frame",      '^', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner)
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
     },
     {
         "handle",     '^', c_ltcyan,  '#', c_ltcyan,  100, 300, 0, 0, itm_frame, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner)
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner)
     },
     {
         "board",      'h', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
     },
     {
         "board",      'j', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
     },
     {
         "board",      'y', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
     },
     {
         "board",      'u', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
     },
     {
         "board",      'n', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
     },
     {
         "board",      'b', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
-        mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
+        mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle)
     },
     {
         "roof",       '#', c_ltgray,  '#', c_dkgray,  100, 1000, 0, 0, itm_steel_plate, 1,
@@ -244,7 +244,7 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_openable)
     },
     {
-        "opaque door",'+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, itm_frame, 2,
+        "opaque door", '+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, itm_frame, 2,
         mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_opaque) | mfb(vpf_openable)
     },
     {
@@ -271,23 +271,23 @@ const vpart_info vpart_list[num_vparts] =
 //                                                           wheel_width(inches)
     {
         "wheel",      '0',    c_dkgray,  'x', c_ltgray,  50,  200, 9, 0, itm_wheel, 4,
-        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size)
+        mfb(vpf_external) | mfb(vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size)
     },
     {
         "wide wheel", 'O',     c_dkgray,   'x', c_ltgray,  50,  400, 14, 0, itm_wheel_wide, 5,
-        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size)
+        mfb(vpf_external) | mfb(vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size)
     },
     {
-        "bicycle wheel",'|',  c_dkgray, 'x', c_ltgray,  50,  40, 2, 0, itm_wheel_bicycle, 1,
-        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size)
+        "bicycle wheel", '|',  c_dkgray, 'x', c_ltgray,  50,  40, 2, 0, itm_wheel_bicycle, 1,
+        mfb(vpf_external) | mfb(vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size)
     },
     {
-        "motorbike wheel",'o',c_dkgray, 'x', c_ltgray,  50,  90, 4, 0, itm_wheel_motorbike, 2,
-        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size)
+        "motorbike wheel", 'o', c_dkgray, 'x', c_ltgray,  50,  90, 4, 0, itm_wheel_motorbike, 2,
+        mfb(vpf_external) | mfb(vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size)
     },
     {
-        "small wheel",    'o',c_dkgray, 'x', c_ltgray,  50,  70, 6, 0, itm_wheel_small, 2,
-        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size)
+        "small wheel",    'o', c_dkgray, 'x', c_ltgray,  50,  70, 6, 0, itm_wheel_small, 2,
+        mfb(vpf_external) | mfb(vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size)
     },
 //
     {
@@ -388,7 +388,7 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_internal) | mfb(vpf_armor)
     },
     {
-        "superalloy plating",')', c_dkgray, ')', c_dkgray, 100, 900, 0, 0, itm_alloy_plate, 4,
+        "superalloy plating", ')', c_dkgray, ')', c_dkgray, 100, 900, 0, 0, itm_alloy_plate, 4,
         mfb(vpf_internal) | mfb(vpf_armor)
     },
     {

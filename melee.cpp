@@ -143,7 +143,7 @@ int player::hit_roll()
 
 int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 {
-    bool is_u = (this == &(g->u));	// Affects how we'll display messages
+    bool is_u = (this == &(g->u));  // Affects how we'll display messages
     if (is_u)
     {
         z->add_effect(ME_HIT_BY_PLAYER, 100);    // Flag as attacked by us
@@ -166,7 +166,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
     if (missed)
     {
         int stumble_pen = stumble(*this);
-        if (is_u)  	// Only display messages if this is the player
+        if (is_u)   // Only display messages if this is the player
         {
             if (weapon.has_technique(TEC_FEINT, this))
             {
@@ -260,14 +260,14 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
     if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE))
     {
-        healall( rng(dam / 10, dam / 5) );
+        healall(rng(dam / 10, dam / 5));
     }
     return dam;
 }
 
 void player::hit_player(game *g, player &p, bool allow_grab)
 {
-    bool is_u = (this == &(g->u));	// Affects how we'll display messages
+    bool is_u = (this == &(g->u));  // Affects how we'll display messages
 
     if (is_u && p.is_npc())
     {
@@ -290,7 +290,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
     if (missed)
     {
         int stumble_pen = stumble(*this);
-        if (is_u)  	// Only display messages if this is the player
+        if (is_u)   // Only display messages if this is the player
         {
             if (weapon.has_technique(TEC_FEINT, this))
             {
@@ -410,7 +410,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 
     if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE))
     {
-        healall( rng(dam / 10, dam / 5) );
+        healall(rng(dam / 10, dam / 5));
     }
 
     if (allow_grab && technique == TEC_GRAB)
@@ -649,7 +649,7 @@ int player::dodge(game *g)
 // If we're over our cap, average it with our cap
     if (ret > int(dex_cur / 2) + skillLevel("dodge").level() * 2)
     {
-        ret = ( ret + int(dex_cur / 2) + skillLevel("dodge").level() * 2 ) / 2;
+        ret = (ret + int(dex_cur / 2) + skillLevel("dodge").level() * 2) / 2;
     }
     return ret;
 }
@@ -821,16 +821,16 @@ int player::roll_cut_damage(monster *z, bool crit)
 // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
     if (skillLevel("cutting").level() <= 5)
     {
-        ret *= double( 0.8 + 0.08 * skillLevel("cutting").level() );
+        ret *= double(0.8 + 0.08 * skillLevel("cutting").level());
     }
     else
     {
-        ret *= double( 0.92 + 0.04 * skillLevel("cutting").level() );
+        ret *= double(0.92 + 0.04 * skillLevel("cutting").level());
     }
 
     if (crit)
     {
-        ret *= double( 1.0 + double(skillLevel("cutting").level() / 12) );
+        ret *= double(1.0 + double(skillLevel("cutting").level() / 12));
     }
 
     return ret;
@@ -896,7 +896,7 @@ int player::roll_stab_damage(monster *z, bool crit)
 
     if (crit)
     {
-        int multiplier = double( 1.0 + double(skillLevel("stabbing").level() / 5) );
+        int multiplier = double(1.0 + double(skillLevel("stabbing").level() / 5));
         if (multiplier > 2.5)
         {
             multiplier = 2.5;
@@ -936,7 +936,7 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
 
     std::vector<technique_id> possible;
     bool downed = ((z && !z->has_effect(ME_DOWNED)) ||
-                   (p && !p->has_disease(DI_DOWNED))  );
+                   (p && !p->has_disease(DI_DOWNED)));
     int base_str_req = 0;
 
     if (z)
@@ -983,7 +983,7 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
 
         if (weapon.has_technique(TEC_DISARM, this) && !z &&
                 p->weapon.typeId() != 0 && !p->weapon.has_flag(IF_UNARMED_WEAPON) &&
-                dice(   dex_cur +    skillLevel("unarmed").level(),  8) >
+                dice(dex_cur +    skillLevel("unarmed").level(),  8) >
                 dice(p->dex_cur + p->skillLevel("melee").level(),   10))
         {
             possible.push_back(TEC_DISARM);
@@ -1071,7 +1071,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
 
     if (technique == TEC_RAPID)
     {
-        moves += int( attack_speed(*this, false) / 2);
+        moves += int(attack_speed(*this, false) / 2);
         return;
     }
     if (technique == TEC_BLOCK)
@@ -1153,7 +1153,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
                     {
                         count_hit++;
                         int dam = roll_bash_damage(&(g->z[mondex]), false) +
-                                  roll_cut_damage (&(g->z[mondex]), false);
+                                  roll_cut_damage(&(g->z[mondex]), false);
                         g->z[mondex].hurt(dam);
                         if (u_see)
                             g->add_msg("%s hit%s %s for %d damage!", You.c_str(), s.c_str(),
@@ -1165,7 +1165,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
                     {
                         count_hit++;
                         int dam = roll_bash_damage(NULL, false);
-                        int cut = roll_cut_damage (NULL, false);
+                        int cut = roll_cut_damage(NULL, false);
                         g->active_npc[npcdex].hit(g, bp_legs, 3, dam, cut);
                         if (u_see)
                             g->add_msg("%s hit%s %s for %d damage!", You.c_str(), s.c_str(),
@@ -1259,7 +1259,7 @@ technique_id player::pick_defensive_technique(game *g, monster *z, player *p)
     if (weapon.has_technique(TEC_DEF_DISARM, this) &&
             z == NULL && p->weapon.typeId() != 0 &&
             !p->weapon.has_flag(IF_UNARMED_WEAPON) &&
-            dice(   dex_cur +    skillLevel("unarmed").level(), 8) >
+            dice(dex_cur +    skillLevel("unarmed").level(), 8) >
             dice(p->dex_cur + p->skillLevel("melee").level(),  10))
     {
         return TEC_DEF_DISARM;
@@ -1449,7 +1449,7 @@ void player::perform_special_attacks(game *g, monster *z, player *p,
 
         if (did_damage)
         {
-            g->add_msg( special_attacks[i].text.c_str() );
+            g->add_msg(special_attacks[i].text.c_str());
         }
     }
 
@@ -1568,7 +1568,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
     {
         power_level--;
     }
-    drain_them &= one_in(2);	// Only works half the time
+    drain_them &= one_in(2);    // Only works half the time
 
     if (shock_them)
     {
@@ -1576,7 +1576,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
         int shock = rng(2, 5);
         if (mon)
         {
-            z->hurt( shock * rng(1, 3) );
+            z->hurt(shock * rng(1, 3));
             z->moves -= shock * 180;
             if (can_see)
                 g->add_msg("%s shock%s %s!", You.c_str(), (is_u ? "" : "s"),
@@ -1755,7 +1755,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
             else if (disease_intensity(DI_VIPER_COMBO) == 2)
             {
                 if (hp_cur[hp_arm_l] >= hp_max[hp_arm_l] * .75 &&
-                        hp_cur[hp_arm_r] >= hp_max[hp_arm_r] * .75   )
+                        hp_cur[hp_arm_r] >= hp_max[hp_arm_r] * .75)
                 {
                     if (is_u)
                     {

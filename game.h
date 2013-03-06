@@ -62,7 +62,7 @@ struct monster_and_count
 {
     monster mon;
     int count;
-    monster_and_count(monster M, int C) : mon (M), count (C) {};
+    monster_and_count(monster M, int C) : mon(M), count(C) {};
 };
 
 struct game_message
@@ -76,7 +76,7 @@ struct game_message
         count = 1;
         message = "";
     };
-    game_message(calendar T, std::string M) : turn (T), message (M)
+    game_message(calendar T, std::string M) : turn(T), message(M)
     {
         count = 1;
     };
@@ -103,9 +103,9 @@ public:
     bool do_turn();
     void draw();
     void draw_ter(int posx = -999, int posy = -999);
-    void advance_nextinv();	// Increment the next inventory letter
-    void decrease_nextinv();	// Decrement the next inventory letter
-    void vadd_msg(const char* msg, va_list ap );
+    void advance_nextinv(); // Increment the next inventory letter
+    void decrease_nextinv();    // Decrement the next inventory letter
+    void vadd_msg(const char* msg, va_list ap);
     void add_msg(const char* msg, ...);
     void add_msg_if_player(player *p, const char* msg, ...);
     void add_event(event_type type, int on_turn, int faction_id = -1,
@@ -125,23 +125,23 @@ public:
 // Move the player vertically, if (force) then they fell
     void vertical_move(int z, bool force);
     void use_computer(int x, int y);
-    bool pl_refill_vehicle (vehicle &veh, int part, bool test=false);
+    bool pl_refill_vehicle(vehicle &veh, int part, bool test = false);
     void resonance_cascade(int x, int y);
     void scrambler_blast(int x, int y);
     void emp_blast(int x, int y);
-    int  npc_at(int x, int y);	// Index of the npc at (x, y); -1 for none
-    int  npc_by_id(int id);	// Index of the npc at (x, y); -1 for none
-// void build_monmap();		// Caches data for mon_at()
-    int  mon_at(int x, int y);	// Index of the monster at (x, y); -1 for none
-    bool is_empty(int x, int y);	// True if no PC, no monster, move cost > 0
+    int  npc_at(int x, int y);  // Index of the npc at (x, y); -1 for none
+    int  npc_by_id(int id); // Index of the npc at (x, y); -1 for none
+// void build_monmap();     // Caches data for mon_at()
+    int  mon_at(int x, int y);  // Index of the monster at (x, y); -1 for none
+    bool is_empty(int x, int y);    // True if no PC, no monster, move cost > 0
     bool isBetween(int test, int down, int up);
     bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
 // Kill that monster; fixes any pointers etc
     void kill_mon(int index, bool player_did_it = false);
-    void explode_mon(int index);	// Explode a monster; like kill_mon but messier
+    void explode_mon(int index);    // Explode a monster; like kill_mon but messier
 // hit_monster_with_flags processes ammo flags (e.g. incendiary, etc)
     void hit_monster_with_flags(monster &z, unsigned int flags);
-    void plfire(bool burst);	// Player fires a gun (target selection)...
+    void plfire(bool burst);    // Player fires a gun (target selection)...
 // ... a gun is fired, maybe by an NPC (actual damage, etc.).
     void fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
               bool burst);
@@ -183,8 +183,8 @@ public:
     int assign_faction_id();
     faction* faction_by_id(int it);
     bool sees_u(int x, int y, int &t);
-    bool u_see (int x, int y, int &t);
-    bool u_see (monster *mon, int &t);
+    bool u_see(int x, int y, int &t);
+    bool u_see(monster *mon, int &t);
     bool pl_sees(player *p, monster *mon, int &t);
     void refresh_all();
     void update_map(int &x, int &y);  // Called by plmove when the map updates
@@ -200,7 +200,7 @@ public:
     void add_artifact_messages(std::vector<art_effect_passive> effects);
 
     void peek();
-    point look_around();// Look at nearby terrain	';'
+    point look_around();// Look at nearby terrain   ';'
     void list_items(); //List all items around the player
     bool list_items_match(std::string sText, std::string sPattern);
     std::string sFilter;
@@ -219,7 +219,7 @@ public:
     std::vector <mtype*> mtypes;
     std::vector <vehicle*> vtypes;
     std::vector <trap*> traps;
-    std::vector<recipe*> recipes;	// The list of valid recipes
+    std::vector<recipe*> recipes;   // The list of valid recipes
     std::vector<constructable*> constructions; // The list of constructions
 
     std::vector <itype_id> mapitems[num_itloc]; // Items at various map types
@@ -230,12 +230,12 @@ public:
 
     calendar turn;
     signed char temperature;              // The air temperature
-    weather_type weather;			// Weather pattern--SEE weather.h
-    char nextinv;	// Determines which letter the next inv item will have
+    weather_type weather;           // Weather pattern--SEE weather.h
+    char nextinv;   // Determines which letter the next inv item will have
     overmap cur_om;
     map m;
     light_map lm;
-    int levx, levy, levz;	// Placement inside the overmap
+    int levx, levy, levz;   // Placement inside the overmap
     player u;
     std::vector<monster> z;
     std::vector<monster_and_count> coming_to_stairs;
@@ -268,9 +268,9 @@ public:
 private:
 // Game-start procedures
     bool opening_screen();// Warn about screen size, then present the main menu
-    bool load_master();	// Load the master data file, with factions &c
-    void load(std::string name);	// Load a player-specific save file
-    void start_game();	// Starts a new game
+    bool load_master(); // Load the master data file, with factions &c
+    void load(std::string name);    // Load a player-specific save file
+    void start_game();  // Starts a new game
     void start_special_game(special_game_id gametype); // See gamemode.cpp
 
 // Data Initialization
@@ -288,7 +288,7 @@ private:
     void init_autosave();     // Initializes autosave parameters
 
     void load_keyboard_settings(); // Load keybindings from disk
-    void save_keymap();		// Save keybindings to disk
+    void save_keymap();     // Save keybindings to disk
     std::vector<char> keys_bound_to(action_id act); // All keys bound to act
     void clear_bindings(action_id act); // Deletes all keys bound to act
 
@@ -296,16 +296,16 @@ private:
     void create_starting_npcs(); // Creates NPCs that start near you
 
 // Player actions
-    void wish();	// Cheat by wishing for an item 'Z'
+    void wish();    // Cheat by wishing for an item 'Z'
     void monster_wish(); // Create a monster
     void mutation_wish(); // Mutate
 
     void pldrive(int x, int y); // drive vehicle
     void plmove(int x, int y); // Standard movement; handles attacks, traps, &c
-    void wait();	// Long wait (player action)	'^'
-    void open();	// Open a door			'o'
-    void close();	// Close a door			'c'
-    void smash();	// Smash terrain
+    void wait();    // Long wait (player action)    '^'
+    void open();    // Open a door          'o'
+    void close();   // Close a door         'c'
+    void smash();   // Smash terrain
     void craft();                    // See crafting.cpp
     void make_craft(recipe *making); // See crafting.cpp
     void complete_craft();           // See crafting.cpp
@@ -317,39 +317,39 @@ private:
     void construction_menu();                   // See construction.cpp
     bool player_can_build(player &p, inventory inv, constructable* con,
                           const int level = -1, bool cont = false,
-                          bool exact_level=false);
+                          bool exact_level = false);
     void place_construction(constructable *con); // See construction.cpp
     void complete_construction();               // See construction.cpp
-    bool pl_choose_vehicle (int &x, int &y);
-    bool vehicle_near ();
-    void handbrake ();
-    void examine();// Examine nearby terrain	'e'
+    bool pl_choose_vehicle(int &x, int &y);
+    bool vehicle_near();
+    void handbrake();
+    void examine();// Examine nearby terrain    'e'
     // open vehicle interaction screen
-    void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);
+    void exam_vehicle(vehicle &veh, int examx, int examy, int cx = 0, int cy = 0);
     void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
 // Pick where to put liquid; false if it's left where it was
     bool handle_liquid(item &liquid, bool from_ground, bool infinite);
-    void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items	'I'
-    void drop(char chInput = '.');	  // Drop an item		'd'
+    void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items  'I'
+    void drop(char chInput = '.');    // Drop an item       'd'
     void drop_in_direction(); // Drop w/ direction 'D'
     void reassign_item(); // Reassign the letter of an item   '='
-    void butcher(); // Butcher a corpse		'B'
-    void complete_butcher(int index);	// Finish the butchering process
-    void forage();	// Foraging ('a' on underbrush)
-    void eat(char chInput = '.');	  // Eat food or fuel		'E' (or 'a')
-    void use_item(char chInput = '.');// Use item; also tries E,R,W	'a'
+    void butcher(); // Butcher a corpse     'B'
+    void complete_butcher(int index);   // Finish the butchering process
+    void forage();  // Foraging ('a' on underbrush)
+    void eat(char chInput = '.');     // Eat food or fuel       'E' (or 'a')
+    void use_item(char chInput = '.');// Use item; also tries E,R,W 'a'
     void use_wielded_item();
-    void wear(char chInput = '.');	  // Wear armor			'W' (or 'a')
-    void takeoff(char chInput = '.'); // Remove armor		'T'
-    void reload();  // Reload a wielded gun/tool	'r'
+    void wear(char chInput = '.');    // Wear armor         'W' (or 'a')
+    void takeoff(char chInput = '.'); // Remove armor       'T'
+    void reload();  // Reload a wielded gun/tool    'r'
     void reload(char chInput);
-    void unload();  // Unload a wielded gun/tool	'U'
+    void unload();  // Unload a wielded gun/tool    'U'
     void unload(char chInput);
-    void wield(char chInput = '.');   // Wield a weapon		'w'
-    void read();    // Read a book		'R' (or 'a')
-    void chat();    // Talk to a nearby NPC	'C'
-    void plthrow(char chInput = '.'); // Throw an item		't'
-    void help();    // Help screen		'?'
+    void wield(char chInput = '.');   // Wield a weapon     'w'
+    void read();    // Read a book      'R' (or 'a')
+    void chat();    // Talk to a nearby NPC 'C'
+    void plthrow(char chInput = '.'); // Throw an item      't'
+    void help();    // Help screen      '?'
 
 // Target is an interactive function which allows the player to choose a nearby
 // square.  It display information on any monster/NPC on that square, and also
@@ -413,7 +413,7 @@ private:
     signed char last_target;// The last monster targeted
     char run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new
     //  monsters spawns, go to 2 - No movement allowed
-    int mostseen;	 // # of mons seen last turn; if this increases, run_mode++
+    int mostseen;    // # of mons seen last turn; if this increases, run_mode++
     bool autosafemode; // is autosafemode enabled?
     int turnssincelastmon; // needed for auto run mode
 //  quit_status uquit;    // Set to true if the player quits ('Q')
@@ -422,13 +422,13 @@ private:
     calendar nextweather; // The turn on which weather will shift next.
     int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
     std::vector <game_message> messages;   // Messages to be printed
-    int curmes;	  // The last-seen message.
-    int grscent[SEEX * MAPSIZE][SEEY * MAPSIZE];	// The scent map
+    int curmes;   // The last-seen message.
+    int grscent[SEEX * MAPSIZE][SEEY * MAPSIZE];    // The scent map
     //int monmap[SEEX * MAPSIZE][SEEY * MAPSIZE]; // Temp monster map, for mon_at()
-    int nulscent;				// Returned for OOB scent checks
-    std::vector<event> events;	        // Game events to be processed
-    int kills[num_monsters];	        // Player's kill count
-    std::string last_action;		// The keypresses of last turn
+    int nulscent;               // Returned for OOB scent checks
+    std::vector<event> events;          // Game events to be processed
+    int kills[num_monsters];            // Player's kill count
+    std::string last_action;        // The keypresses of last turn
 
     int moves_since_last_save;
     int item_exchanges_since_save;

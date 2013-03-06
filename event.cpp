@@ -201,7 +201,7 @@ void event::actualize(game *g)
     {
         bool flooded = false;
 
-        ter_id flood_buf[SEEX*MAPSIZE][SEEY*MAPSIZE];
+        ter_id flood_buf[SEEX * MAPSIZE][SEEY * MAPSIZE];
         for (int x = 0; x < SEEX * MAPSIZE; x++)
         {
             for (int y = 0; y < SEEY * MAPSIZE; y++)
@@ -300,7 +300,7 @@ void event::actualize(game *g)
             montype = mon_spider_widow;
             break;
         }
-        monster spawned( g->mtypes[montype] );
+        monster spawned(g->mtypes[montype]);
         int tries = 0, x, y;
         do
         {

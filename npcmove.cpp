@@ -39,7 +39,7 @@ struct ratio_index
 {
     double ratio;
     int index;
-    ratio_index(double R, int I) : ratio (R), index (I) {};
+    ratio_index(double R, int I) : ratio(R), index(I) {};
 };
 
 // class npc functions!
@@ -56,7 +56,7 @@ void npc::move(game *g)
 
     if (is_enemy())
     {
-        int pl_danger = player_danger( &(g->u) );
+        int pl_danger = player_danger(&(g->u));
         if (pl_danger > danger || target == -1)
         {
             target = TARGET_PLAYER;
@@ -79,7 +79,7 @@ void npc::move(game *g)
         action = method_of_attack(g, target, danger);
     }
 
-    else  	// No present danger
+    else    // No present danger
     {
         action = address_needs(g, danger);
         if (g->debugmon)
@@ -112,15 +112,15 @@ void npc::move(game *g)
             {
                 debugmsg("find_item %s", npc_action_name(action).c_str());
             }
-            if (fetching_item)		// Set to true if find_item() found something
+            if (fetching_item)      // Set to true if find_item() found something
             {
                 action = npc_pickup;
             }
-            else if (is_following())	// No items, so follow the player?
+            else if (is_following())    // No items, so follow the player?
             {
                 action = npc_follow_player;
             }
-            else				// Do our long-term action
+            else                // Do our long-term action
             {
                 action = long_term_goal_action(g);
             }
@@ -258,7 +258,7 @@ void npc::execute_action(game *g, npc_action action, int target)
         for (int i = 0; i < inv.size(); i++)
         {
             bool am = (inv[i].is_gun() &&
-                       has_ammo( (dynamic_cast<it_gun*>(inv[i].type))->ammo ).size() > 0);
+                       has_ammo((dynamic_cast<it_gun*>(inv[i].type))->ammo).size() > 0);
             if (inv[i].is_gun() && (!ammo_found || am))
             {
                 index = i;
@@ -352,7 +352,7 @@ void npc::execute_action(game *g, npc_action action, int target)
 
     case npc_heal_player:
         update_path(g, g->u.posx, g->u.posy);
-        if (path.size() == 1)	// We're adjacent to u, and thus can heal u
+        if (path.size() == 1)   // We're adjacent to u, and thus can heal u
         {
             heal_player(g, g->u);
         }
@@ -368,7 +368,7 @@ void npc::execute_action(game *g, npc_action action, int target)
 
     case npc_follow_player:
         update_path(g, g->u.posx, g->u.posy);
-        if (path.size() <= follow_distance())	// We're close enough to u.
+        if (path.size() <= follow_distance())   // We're close enough to u.
         {
             move_pause();
         }
@@ -389,7 +389,7 @@ void npc::execute_action(game *g, npc_action action, int target)
 
     case npc_mug_player:
         update_path(g, g->u.posx, g->u.posy);
-        if (path.size() == 1)	// We're adjacent to u, and thus can mug u
+        if (path.size() == 1)   // We're adjacent to u, and thus can mug u
         {
             mug_player(g, g->u);
         }
@@ -739,7 +739,7 @@ npc_action npc::address_player(game *g)
         {
             patience = 0;
             attitude = NPCATT_KILL;
-            return method_of_attack(g, TARGET_PLAYER, player_danger( &(g->u) ));
+            return method_of_attack(g, TARGET_PLAYER, player_danger(&(g->u)));
         }
         return npc_undecided;
     }
@@ -947,7 +947,7 @@ int npc::confident_range(int index)
 
         deviation += .5 * encumb(bp_torso) + 2 * encumb(bp_eyes);
 
-        if (weapon.curammo == NULL)	// This shouldn't happen, but it does sometimes
+        if (weapon.curammo == NULL) // This shouldn't happen, but it does sometimes
         {
             debugmsg("%s has NULL curammo!", name.c_str());    // TODO: investigate this bug
         }
@@ -1069,7 +1069,7 @@ bool npc::can_reload()
     {
         return false;
     }
-    it_gun* gun = dynamic_cast<it_gun*> (weapon.type);
+    it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
     return (weapon.charges < gun->clip && has_ammo(gun->ammo).size() > 0);
 }
 
@@ -1079,7 +1079,7 @@ bool npc::need_to_reload()
     {
         return false;
     }
-    it_gun* gun = dynamic_cast<it_gun*> (weapon.type);
+    it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
 
     return (weapon.charges < gun->clip * .1);
 }
@@ -1150,7 +1150,7 @@ void npc::move_to(game *g, int x, int y)
         moves -= 100;
         return;
     }
-    if (recoil > 0)  	// Start by dropping recoil a little
+    if (recoil > 0)     // Start by dropping recoil a little
     {
         if (int(str_cur / 2) + sklevel[sk_gun] >= recoil)
         {
@@ -1183,11 +1183,11 @@ void npc::move_to(game *g, int x, int y)
         x = newpath[0].x;
         y = newpath[0].y;
     }
-    if (x == posx && y == posy)	// We're just pausing!
+    if (x == posx && y == posy) // We're just pausing!
     {
         moves -= 100;
     }
-    else if (g->mon_at(x, y) != -1)  	// Shouldn't happen, but it might.
+    else if (g->mon_at(x, y) != -1)     // Shouldn't happen, but it might.
     {
         //monster *m = &(g->z[g->mon_at(x, y)]);
         //debugmsg("Bumped into a monster, %d, a %s",g->mon_at(x, y),m->name().c_str());
@@ -1295,9 +1295,9 @@ void npc::avoid_friendly_fire(game *g, int target)
     case NORTHEAST:
         valid_moves.push_back(point(posx + 1, posy + 1));
         valid_moves.push_back(point(posx - 1, posy - 1));
-        valid_moves.push_back(point(posx - 1, posy    ));
+        valid_moves.push_back(point(posx - 1, posy));
         valid_moves.push_back(point(posx    , posy + 1));
-        valid_moves.push_back(point(posx + 1, posy    ));
+        valid_moves.push_back(point(posx + 1, posy));
         valid_moves.push_back(point(posx    , posy - 1));
         break;
     case EAST:
@@ -1311,9 +1311,9 @@ void npc::avoid_friendly_fire(game *g, int target)
     case SOUTHEAST:
         valid_moves.push_back(point(posx + 1, posy - 1));
         valid_moves.push_back(point(posx - 1, posy + 1));
-        valid_moves.push_back(point(posx + 1, posy    ));
+        valid_moves.push_back(point(posx + 1, posy));
         valid_moves.push_back(point(posx    , posy + 1));
-        valid_moves.push_back(point(posx - 1, posy    ));
+        valid_moves.push_back(point(posx - 1, posy));
         valid_moves.push_back(point(posx    , posy - 1));
         break;
     case SOUTH:
@@ -1327,9 +1327,9 @@ void npc::avoid_friendly_fire(game *g, int target)
     case SOUTHWEST:
         valid_moves.push_back(point(posx + 1, posy + 1));
         valid_moves.push_back(point(posx - 1, posy - 1));
-        valid_moves.push_back(point(posx + 1, posy    ));
+        valid_moves.push_back(point(posx + 1, posy));
         valid_moves.push_back(point(posx    , posy - 1));
-        valid_moves.push_back(point(posx - 1, posy    ));
+        valid_moves.push_back(point(posx - 1, posy));
         valid_moves.push_back(point(posx    , posy + 1));
         break;
     case WEST:
@@ -1343,9 +1343,9 @@ void npc::avoid_friendly_fire(game *g, int target)
     case NORTHWEST:
         valid_moves.push_back(point(posx + 1, posy - 1));
         valid_moves.push_back(point(posx - 1, posy + 1));
-        valid_moves.push_back(point(posx - 1, posy    ));
+        valid_moves.push_back(point(posx - 1, posy));
         valid_moves.push_back(point(posx    , posy - 1));
-        valid_moves.push_back(point(posx + 1, posy    ));
+        valid_moves.push_back(point(posx + 1, posy));
         valid_moves.push_back(point(posx    , posy + 1));
         break;
     }
@@ -1393,18 +1393,18 @@ void npc::move_away_from(game *g, int x, int y)
         dy = -1;
     }
 
-    options.push_back( point(posx + dx, posy + dy) );
+    options.push_back(point(posx + dx, posy + dy));
     if (abs(x - posx) > abs(y - posy))
     {
-        options.push_back( point(posx + dx, posy) );
-        options.push_back( point(posx, posy + dy) );
-        options.push_back( point(posx + dx, posy - dy) );
+        options.push_back(point(posx + dx, posy));
+        options.push_back(point(posx, posy + dy));
+        options.push_back(point(posx + dx, posy - dy));
     }
     else
     {
-        options.push_back( point(posx, posy + dy) );
-        options.push_back( point(posx + dx, posy) );
-        options.push_back( point(posx - dx, posy + dy) );
+        options.push_back(point(posx, posy + dy));
+        options.push_back(point(posx + dx, posy));
+        options.push_back(point(posx - dx, posy + dy));
     }
 
     for (int i = 0; i < options.size(); i++)
@@ -1476,7 +1476,7 @@ void npc::find_item(game *g)
                     if (itval > best_value &&
                             //(itval > worst_item_value ||
                             (weight_carried() + wgt <= weight_capacity() / 4 &&
-                             volume_carried() + vol <= volume_capacity()       ))
+                             volume_carried() + vol <= volume_capacity()))
                     {
                         itx = x;
                         ity = y;
@@ -1740,7 +1740,7 @@ void npc::drop_items(game *g, int weight, int volume)
 
 npc_action npc::scan_new_items(game *g, int target)
 {
-    bool can_use_gun =      (!is_following() || combat_rules.use_guns);
+    bool can_use_gun = (!is_following() || combat_rules.use_guns);
 // Check if there's something better to wield
     bool has_empty_gun = false, has_better_melee = false;
     std::vector<int> empty_guns;
@@ -2145,7 +2145,7 @@ void npc::heal_player(game *g, player &patient)
 // Test if we want to heal the player further
             if (op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 +
                     (fac_has_value(FACVAL_CHARITABLE) ?  5 : 0) +
-                    (fac_has_job  (FACJOB_DOCTORS)    ? 15 : 0) - op_of_u.fear * 3 <  25)
+                    (fac_has_job(FACJOB_DOCTORS)    ? 15 : 0) - op_of_u.fear * 3 <  25)
             {
                 attitude = NPCATT_FOLLOW;
                 say(g, "That's all the healing I can do.");
@@ -2300,7 +2300,7 @@ void npc::pick_and_eat(game *g)
             if ((thirst_more_important && eaten_thirst < best_thirst) ||
                     (!thirst_more_important && eaten_hunger < best_hunger) ||
                     (eaten_thirst == best_thirst && eaten_hunger < best_hunger) ||
-                    (eaten_hunger == best_hunger && eaten_thirst < best_thirst)   )
+                    (eaten_hunger == best_hunger && eaten_thirst < best_thirst))
             {
                 if (eaten_hunger < best_hunger)
                 {
@@ -2391,7 +2391,7 @@ void npc::mug_player(game *g, player &mark)
             {
                 if (value(mark.inv[i]) >= best_value &&
                         volume_carried() + mark.inv[i].volume() <= volume_capacity() &&
-                        weight_carried() + mark.inv[i].weight() <= weight_capacity()   )
+                        weight_carried() + mark.inv[i].weight() <= weight_capacity())
                 {
                     best_value = value(mark.inv[i]);
                     index = i;
@@ -2537,7 +2537,7 @@ void npc::set_destination(game *g)
 
 // all of the following luxuries are at ground level.
 // so please wallow in hunger & fear if below ground.
-    if(g->cur_om.posz != 0)
+    if (g->cur_om.posz != 0)
     {
         goalx = -1;
         goaly = -1;
@@ -2550,7 +2550,7 @@ void npc::set_destination(game *g)
         needs.push_back(need_none);
     }
     std::vector<oter_id> options;
-    switch(needs[0])
+    switch (needs[0])
     {
     case need_ammo:
         options.push_back(ot_house_north);
@@ -2586,7 +2586,7 @@ void npc::set_destination(game *g)
     oter_id dest_type = options[rng(0, options.size() - 1)];
 
     int dist = 0;
-    point p = g->cur_om.find_closest(point(mapx, mapy),dest_type,4, dist, false);
+    point p = g->cur_om.find_closest(point(mapx, mapy), dest_type, 4, dist, false);
     goalx = p.x;
     goaly = p.y;
 }
@@ -2594,7 +2594,7 @@ void npc::set_destination(game *g)
 void npc::go_to_destination(game *g)
 {
     int sx = (goalx > mapx ? 1 : -1), sy = (goaly > mapy ? 1 : -1);
-    if (goalx == mapx && goaly == mapy)  	// We're at our desired map square!
+    if (goalx == mapx && goaly == mapy)     // We're at our desired map square!
     {
         move_pause();
         reach_destination(g);

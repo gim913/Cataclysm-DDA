@@ -36,7 +36,7 @@ void setupDebug()
     level |= D_PEDANTIC_INFO;
 #endif
 
-    if( level != 0 )
+    if (level != 0)
     {
         limitDebugLevel(level);
     }
@@ -59,19 +59,19 @@ void setupDebug()
     cl |= D_GAME;
 #endif
 
-    if( cl != 0 )
+    if (cl != 0)
     {
         limitDebugClass(cl);
     }
 }
 
-void limitDebugLevel( int i )
+void limitDebugLevel(int i)
 {
     dout() << "Set debug level to: " << (DebugLevel)i;
     debugLevel = i;
 }
 
-void limitDebugClass( int i )
+void limitDebugClass(int i)
 {
     dout() << "Set debug class to: " << (DebugClass)i;
     debugClass = i;
@@ -123,7 +123,7 @@ static DebugFile debugFile;
 
 DebugFile::DebugFile()
 {
-    file.open("data/debug.txt", std::ios::out | std::ios::app );
+    file.open("data/debug.txt", std::ios::out | std::ios::app);
     file << "\n\n-----------------------------------------\n";
     currentTime() << " : Starting log.";
 }
@@ -141,21 +141,21 @@ DebugFile::~DebugFile()
 
 std::ostream & operator<<(std::ostream & out, DebugLevel lev)
 {
-    if( lev != DL_ALL )
+    if (lev != DL_ALL)
     {
-        if( lev & D_INFO )
+        if (lev & D_INFO)
         {
             out << "INFO ";
         }
-        if( lev & D_WARNING )
+        if (lev & D_WARNING)
         {
             out << "WARNING ";
         }
-        if( lev & D_ERROR )
+        if (lev & D_ERROR)
         {
             out << "ERROR ";
         }
-        if( lev & D_PEDANTIC_INFO )
+        if (lev & D_PEDANTIC_INFO)
         {
             out << "PEDANTIC ";
         }
@@ -165,13 +165,13 @@ std::ostream & operator<<(std::ostream & out, DebugLevel lev)
 
 std::ostream & operator<<(std::ostream & out, DebugClass cl)
 {
-    if( cl != DC_ALL )
+    if (cl != DC_ALL)
     {
-        if( cl & D_MAIN )
+        if (cl & D_MAIN)
         {
             out << "MAIN ";
         }
-        if( cl & D_MAP )
+        if (cl & D_MAP)
         {
             out << "MAP ";
         }
@@ -192,17 +192,17 @@ std::ofstream & DebugFile::currentTime()
     return file;
 }
 
-std::ostream & dout(DebugLevel lev,DebugClass cl)
+std::ostream & dout(DebugLevel lev, DebugClass cl)
 {
-    if( (lev & debugLevel) && (cl & debugClass) )
+    if ((lev & debugLevel) && (cl & debugClass))
     {
         debugFile.file << std::endl;
         debugFile.currentTime() << " ";
-        if( lev != debugLevel )
+        if (lev != debugLevel)
         {
             debugFile.file << lev;
         }
-        if( cl != debugClass )
+        if (cl != debugClass)
         {
             debugFile.file << cl;
         }
@@ -210,11 +210,11 @@ std::ostream & dout(DebugLevel lev,DebugClass cl)
 
         // Backtrace on error.
 #if !(defined _WIN32 || defined WINDOWS)
-        if( lev == D_ERROR )
+        if (lev == D_ERROR)
         {
-            int count = backtrace( tracePtrs, TRACE_SIZE );
-            char** funcNames = backtrace_symbols( tracePtrs, count );
-            for(int i = 0; i < count; ++i)
+            int count = backtrace(tracePtrs, TRACE_SIZE);
+            char** funcNames = backtrace_symbols(tracePtrs, count);
+            for (int i = 0; i < count; ++i)
             {
                 debugFile.file << "\n\t(" << funcNames[i] << "), ";
             }
@@ -234,7 +234,7 @@ std::ostream & dout(DebugLevel lev,DebugClass cl)
 #else // If NOT defined ENABLE_LOGGING
 
 
-DebugVoid dout(DebugLevel,DebugClass)
+DebugVoid dout(DebugLevel, DebugClass)
 {
     return DebugVoid();
 }

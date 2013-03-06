@@ -130,17 +130,17 @@ void defense_game::pre_action(game *g, action_id &act)
             g->levy <= 93) ||
             (act == ACTION_MOVE_NE && ((g->u.posy == SEEY * int(MAPSIZE / 2) &&
                                         g->levy <=  93) ||
-                                       (g->u.posx == SEEX * (1 + int(MAPSIZE / 2))-1 &&
+                                       (g->u.posx == SEEX * (1 + int(MAPSIZE / 2)) - 1 &&
                                         g->levx >= 98))) ||
             (act == ACTION_MOVE_E && g->u.posx == SEEX * (1 + int(MAPSIZE / 2)) - 1 &&
              g->levx >= 98) ||
-            (act == ACTION_MOVE_SE && ((g->u.posy == SEEY * (1 + int(MAPSIZE / 2))-1 &&
+            (act == ACTION_MOVE_SE && ((g->u.posy == SEEY * (1 + int(MAPSIZE / 2)) - 1 &&
                                         g->levy >= 98) ||
-                                       (g->u.posx == SEEX * (1 + int(MAPSIZE / 2))-1 &&
+                                       (g->u.posx == SEEX * (1 + int(MAPSIZE / 2)) - 1 &&
                                         g->levx >= 98))) ||
-            (act == ACTION_MOVE_S && g->u.posy == SEEY * (1 + int(MAPSIZE / 2))-1 &&
+            (act == ACTION_MOVE_S && g->u.posy == SEEY * (1 + int(MAPSIZE / 2)) - 1 &&
              g->levy >= 98) ||
-            (act == ACTION_MOVE_SW && ((g->u.posy == SEEY * (1 + int(MAPSIZE / 2))-1 &&
+            (act == ACTION_MOVE_SW && ((g->u.posy == SEEY * (1 + int(MAPSIZE / 2)) - 1 &&
                                         g->levy >= 98) ||
                                        (g->u.posx == SEEX * int(MAPSIZE / 2) &&
                                         g->levx <=  93))) ||
@@ -302,7 +302,7 @@ void defense_game::init_map(game *g)
         {
             if (generator.can_move_to(g->m, x, y) && g->is_empty(x, y))
             {
-                valid.push_back( point(x, y) );
+                valid.push_back(point(x, y));
             }
         }
     }
@@ -529,7 +529,7 @@ void defense_game::setup()
         {
             switch (selection)
             {
-            case 1:	// Scenario selection
+            case 1: // Scenario selection
                 if (ch == 'l')
                 {
                     if (style == defense_style(NUM_DEFENSE_STYLES - 1))
@@ -555,7 +555,7 @@ void defense_game::setup()
                 init_to_style(style);
                 break;
 
-            case 2:	// Location selection
+            case 2: // Location selection
                 if (ch == 'l')
                 {
                     if (location == defense_location(NUM_DEFENSE_LOCATIONS - 1))
@@ -585,7 +585,7 @@ void defense_game::setup()
                           defense_location_description(location).c_str());
                 break;
 
-            case 3:	// Difficulty of the first wave
+            case 3: // Difficulty of the first wave
                 if (ch == 'h' && initial_difficulty > 10)
                 {
                     initial_difficulty -= 5;
@@ -599,7 +599,7 @@ void defense_game::setup()
                           initial_difficulty);
                 break;
 
-            case 4:	// Wave Difficulty
+            case 4: // Wave Difficulty
                 if (ch == 'h' && wave_difficulty > 10)
                 {
                     wave_difficulty -= 5;
@@ -934,7 +934,7 @@ void defense_game::caravan(game *g)
 // Init the items for each category
     for (int i = 0; i < NUM_CARAVAN_CATEGORIES; i++)
     {
-        items[i] = caravan_items( caravan_category(i) );
+        items[i] = caravan_items(caravan_category(i));
         for (int j = 0; j < items[i].size(); j++)
         {
             if (current_wave == 0 || !one_in(4))
@@ -943,7 +943,7 @@ void defense_game::caravan(game *g)
             }
             else   // Remove the item
             {
-                items[i].erase( items[i].begin() + j);
+                items[i].erase(items[i].begin() + j);
                 j--;
             }
         }
@@ -1390,7 +1390,7 @@ void draw_caravan_categories(WINDOW *w, int category_selected, int total_price,
 
     for (int i = 0; i < NUM_CARAVAN_CATEGORIES; i++)
         mvwprintz(w, i + 3, 1, (i == category_selected ? h_white : c_white),
-                  caravan_category_name( caravan_category(i) ).c_str());
+                  caravan_category_name(caravan_category(i)).c_str());
     wrefresh(w);
 }
 
@@ -1409,7 +1409,7 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
 // THEN print it--if item_selected is valid
     if (item_selected < items->size())
     {
-        item tmp(g->itypes[ (*items)[item_selected] ], 0); // Dummy item to get info
+        item tmp(g->itypes[(*items)[item_selected] ], 0);  // Dummy item to get info
         mvwprintz(w, 12, 0, c_white, tmp.info().c_str());
     }
 // Next, clear the item list on the right
@@ -1421,11 +1421,11 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
     for (int i = offset; i <= offset + 23 && i < items->size(); i++)
     {
         mvwprintz(w, i - offset + 1, 40, (item_selected == i ? h_white : c_white),
-                  g->itypes[ (*items)[i] ]->name.c_str());
+                  g->itypes[(*items)[i] ]->name.c_str());
         wprintz(w, c_white, " x %s%d", ((*counts)[i] >= 10 ? "" : " "), (*counts)[i]);
         if ((*counts)[i] > 0)
         {
-            int price = caravan_price(g->u, g->itypes[(*items)[i]]->price *(*counts)[i]);
+            int price = caravan_price(g->u, g->itypes[(*items)[i]]->price * (*counts)[i]);
             wprintz(w, (price > g->u.cash ? c_red : c_green),
                     "($%s%d)", (price >= 100000 ? "" : (price >= 10000 ? " " :
                                 (price >= 1000 ? "  " : (price >= 100 ? "   " :
@@ -1439,9 +1439,9 @@ int caravan_price(player &u, int price)
 {
     if (u.skillLevel("barter") > 10)
     {
-        return int( double(price) * .5);
+        return int(double(price) * .5);
     }
-    return int( double(price) * (1.0 - double(u.skillLevel("barter").level()) * .05));
+    return int(double(price) * (1.0 - double(u.skillLevel("barter").level()) * .05));
 }
 
 void defense_game::spawn_wave(game *g)
@@ -1481,7 +1481,7 @@ void defense_game::spawn_wave(game *g)
                 {
                     spawn_wave_monster(g, type);
                 }
-                g->add_msg( special_wave_message(type->name).c_str() );
+                g->add_msg(special_wave_message(type->name).c_str());
                 g->add_msg("********");
                 return;
             }

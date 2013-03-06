@@ -7,7 +7,7 @@ class game;
 
 struct pointcomp
 {
-    bool operator() (const tripoint &lhs, const tripoint &rhs) const
+    bool operator()(const tripoint &lhs, const tripoint &rhs) const
     {
         if (lhs.x < rhs.x)
         {

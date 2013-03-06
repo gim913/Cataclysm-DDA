@@ -161,7 +161,7 @@ void faction::randomize()
             tries++;
         }
     }
-    while((one_in(num_values) || one_in(num_values)) && tries < 15);
+    while ((one_in(num_values) || one_in(num_values)) && tries < 15);
 
     std::string noun;
     int sel = 1, best = strength;
@@ -237,7 +237,7 @@ void faction::randomize()
             {
                 adj = faction_adj_pos[rng(0, 14)];
             }
-            else if  (good <= -3)
+            else if (good <= -3)
             {
                 adj = faction_adj_bad[rng(0, 14)];
             }
@@ -326,7 +326,7 @@ bool faction::matches_us(faction_value v)
             numvals++;
         }
     }
-    if (has_job(FACJOB_DRUGS) && v == FACVAL_STRAIGHTEDGE)	// Mutually exclusive
+    if (has_job(FACJOB_DRUGS) && v == FACVAL_STRAIGHTEDGE)  // Mutually exclusive
     {
         return false;
     }
@@ -407,11 +407,11 @@ int faction::response_time(game *g)
     {
         base = abs(mapy - g->levy);
     }
-    if (base > size)	// Out of our sphere of influence
+    if (base > size)    // Out of our sphere of influence
     {
         base *= 2.5;
     }
-    base *= 24;	// 24 turns to move one overmap square
+    base *= 24; // 24 turns to move one overmap square
     int maxdiv = 10;
     if (goal == FACGOAL_DOMINANCE)
     {
@@ -447,7 +447,7 @@ int faction::response_time(game *g)
     }
     int mindiv = (maxdiv > 9 ? maxdiv - 9 : 1);
     base /= rng(mindiv, maxdiv);// We might be in the field
-    base -= likes_u;	// We'll hurry, if we like you
+    base -= likes_u;    // We'll hurry, if we like you
     if (base < 100)
     {
         base = 100;

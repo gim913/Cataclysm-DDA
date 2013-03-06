@@ -471,9 +471,9 @@ from frostbite and to keep your distance from large fires.");
 
                 for (int i = 0; i < 25 && offset + i < NUM_ACTIONS; i++)
                 {
-                    std::vector<char> keys = keys_bound_to( action_id(offset + i) );
+                    std::vector<char> keys = keys_bound_to(action_id(offset + i));
                     nc_color col = (keys.empty() ? c_ltred : c_white);
-                    mvprintz(i, 3, col, "%s: ", action_name( action_id(offset + i) ).c_str());
+                    mvprintz(i, 3, col, "%s: ", action_name(action_id(offset + i)).c_str());
                     if (keys.empty())
                     {
                         printz(c_red, "Unbound!");
@@ -516,7 +516,7 @@ from frostbite and to keep your distance from large fires.");
                             actch - 'a' + offset < NUM_ACTIONS)
                     {
                         action_id act = action_id(actch - 'a' + offset);
-                        if (ch == '-' && query_yn("Clear keys for %s?",action_name(act).c_str()))
+                        if (ch == '-' && query_yn("Clear keys for %s?", action_name(act).c_str()))
                         {
                             clear_bindings(act);
                             changed_keymap = true;
@@ -531,7 +531,7 @@ from frostbite and to keep your distance from large fires.");
                             }
                             else
                                 popup("%c is used for %s.", newbind,
-                                      action_name( keymap[newbind] ).c_str());
+                                      action_name(keymap[newbind]).c_str());
                         }
                     }
                 }
@@ -592,7 +592,7 @@ from frostbite and to keep your distance from large fires.");
                 {
                     valid_option_count++;
                     mvprintz(i, 0, c_white, "%s: ",
-                             option_name( option_key(offset + i) ).c_str());
+                             option_name(option_key(offset + i)).c_str());
 
                     if (option_is_bool(option_key(offset + i)))
                     {
@@ -611,11 +611,11 @@ from frostbite and to keep your distance from large fires.");
                         char option_val = OPTIONS[ option_key(offset + i) ];
                         if (i == line)
                         {
-                            mvprintz(i, 30, hilite(c_ltcyan), "%d", option_val );
+                            mvprintz(i, 30, hilite(c_ltcyan), "%d", option_val);
                         }
                         else
                         {
-                            mvprintz(i, 30, c_ltgreen, "%d", option_val );
+                            mvprintz(i, 30, c_ltgreen, "%d", option_val);
                         }
                     }
                 }
@@ -650,7 +650,7 @@ from frostbite and to keep your distance from large fires.");
                     else
                     {
                         OPTIONS[ option_key(offset + line) ]--;
-                        if ((OPTIONS[ option_key(offset + line) ]) < 0 )
+                        if ((OPTIONS[ option_key(offset + line) ]) < 0)
                         {
                             OPTIONS[ option_key(offset + line) ] = option_max_options(option_key(offset + line)) - 1;
                         }
@@ -752,10 +752,10 @@ ITEM TYPES:\n\
 
         case '4':
             erase();
-            mvprintz( 0, 0, c_ltgray,  "MAP SYMBOLS:");
-            mvprintz( 1, 0, c_brown,   "\
+            mvprintz(0, 0, c_ltgray,  "MAP SYMBOLS:");
+            mvprintz(1, 0, c_brown,   "\
 .           Field - Empty grassland, occasional wild fruit.");
-            mvprintz( 2, 0, c_green,   "\
+            mvprintz(2, 0, c_green,   "\
 F           Forest - May be dense or sparse.  Slow moving; foragable food.");
             mvputch(3,  0, c_dkgray, LINE_XOXO);
             mvputch(3,  1, c_dkgray, LINE_OXOX);
@@ -769,19 +769,19 @@ F           Forest - May be dense or sparse.  Slow moving; foragable food.");
             mvputch(3,  9, c_dkgray, LINE_OXXX);
             mvputch(3, 10, c_dkgray, LINE_XXXX);
 
-            mvprintz( 3, 12, c_dkgray,  "\
+            mvprintz(3, 12, c_dkgray,  "\
 Road - Safe from burrowing animals.");
-            mvprintz( 4, 0, c_dkgray,  "\
+            mvprintz(4, 0, c_dkgray,  "\
 H=          Highway - Like roads, but lined with guard rails.");
-            mvprintz( 5, 0, c_dkgray,  "\
+            mvprintz(5, 0, c_dkgray,  "\
 |-          Bridge - Helps you cross rivers.");
-            mvprintz( 6, 0, c_blue,    "\
+            mvprintz(6, 0, c_blue,    "\
 R           River - Most creatures can not swim across them, but you may.");
-            mvprintz( 7, 0, c_dkgray,  "\
+            mvprintz(7, 0, c_dkgray,  "\
 O           Parking lot - Empty lot, few items.  Mostly useless.");
-            mvprintz( 8, 0, c_ltgreen, "\
+            mvprintz(8, 0, c_ltgreen, "\
 ^>v<        House - Filled with a variety of items.  Good place to sleep.");
-            mvprintz( 9, 0, c_ltblue,  "\
+            mvprintz(9, 0, c_ltblue,  "\
 ^>v<        Gas station - Good place to collect gasoline.  Risk of explosion.");
             mvprintz(10, 0, c_ltred,   "\
 ^>v<        Pharmacy - The best source for vital medications.");

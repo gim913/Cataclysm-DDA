@@ -86,7 +86,7 @@ void player::activate_bionic(int b, game *g)
             for (int j = posy - 1; j <= posy + 1; j++)
             {
                 g->m.bash(i, j, 40, junk);
-                g->m.bash(i, j, 40, junk);	// Multibash effect, so that doors &c will fall
+                g->m.bash(i, j, 40, junk);  // Multibash effect, so that doors &c will fall
                 g->m.bash(i, j, 40, junk);
                 if (g->m.is_destructable(i, j) && rng(1, 10) >= 4)
                 {
@@ -124,7 +124,7 @@ void player::activate_bionic(int b, game *g)
     case bio_blood_anal:
         w = newwin(20, 40, 3, 10);
         wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+                LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
         if (has_disease(DI_FUNGUS))
         {
             bad.push_back("Fungal Parasite");
@@ -284,7 +284,7 @@ void player::activate_bionic(int b, game *g)
         }
         dirx += posx;
         diry += posy;
-        if (!g->m.add_field(g, dirx, diry, fd_fire, 1))	// Unsuccessful.
+        if (!g->m.add_field(g, dirx, diry, fd_fire, 1)) // Unsuccessful.
         {
             g->add_msg("You can't light a fire there.");
         }
@@ -359,7 +359,7 @@ void player::activate_bionic(int b, game *g)
             if (tmp.type->id == itm_corpse && query_yn("Extract water from the %s",
                     tmp.tname().c_str()))
             {
-                i = g->m.i_at(posx, posy).size() + 1;	// Loop is finished
+                i = g->m.i_at(posx, posy).size() + 1;   // Loop is finished
                 t = g->inv("Choose a container:");
                 if (i_at(t).type == 0)
                 {
@@ -386,7 +386,7 @@ void player::activate_bionic(int b, game *g)
                     }
                 }
             }
-            if (i == g->m.i_at(posx, posy).size() - 1)	// We never chose a corpse
+            if (i == g->m.i_at(posx, posy).size() - 1)  // We never chose a corpse
             {
                 power_level += bionics[bio_water_extractor].power_cost;
             }
@@ -484,7 +484,7 @@ bool player::install_bionics(game *g, it_bionic* type)
         debugmsg("Tried to install NULL bionic");
         return false;
     }
-    std::string bio_name = type->name.substr(5);	// Strip off "CBM: "
+    std::string bio_name = type->name.substr(5);    // Strip off "CBM: "
     WINDOW* w = newwin(25, 80, 0, 0);
 
     int pl_skill = int_cur +
@@ -555,7 +555,7 @@ bool player::install_bionics(game *g, it_bionic* type)
     mvwprintz(w, 12, 40, c_white,       "or faulty installation.");
     wrefresh(w);
 
-    if (type->id == itm_bionics_battery)  	// No selection list; just confirm
+    if (type->id == itm_bionics_battery)    // No selection list; just confirm
     {
         mvwprintz(w,  2, 0, h_ltblue, "Battery Level +%d", BATTERY_AMOUNT);
         mvwprintz(w, 22, 0, c_ltblue, "\
@@ -755,7 +755,7 @@ void bionics_install_failure(game *g, player *u, int success)
             u->mutate(g);
             failure_level -= rng(1, failure_level + 2);
         }
-        return;	// So the failure text doesn't show up twice
+        return; // So the failure text doesn't show up twice
         break;
 
     case 5:
@@ -770,7 +770,7 @@ void bionics_install_failure(game *g, player *u, int success)
                 valid.push_back(id);
             }
         }
-        if (valid.size() == 0)  	// We've got all the bad bionics!
+        if (valid.size() == 0)      // We've got all the bad bionics!
         {
             if (u->max_power_level > 0)
             {

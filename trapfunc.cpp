@@ -809,7 +809,7 @@ void trapfuncm::glow(game *g, monster *z, int x, int y)
 {
     if (one_in(3))
     {
-        z->hurt( rng(5, 10) );
+        z->hurt(rng(5, 10));
         z->speed *= .9;
     }
 }

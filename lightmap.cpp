@@ -29,9 +29,9 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
     if (natural_light > LIGHT_SOURCE_BRIGHT)
     {
         // Apply sunlight, first light source so just assign
-        for(int sx = x - SEEX; sx <= x + SEEX; ++sx)
+        for (int sx = x - SEEX; sx <= x + SEEX; ++sx)
         {
-            for(int sy = y - SEEY; sy <= y + SEEY; ++sy)
+            for (int sy = y - SEEY; sy <= y + SEEY; ++sy)
             {
                 // In bright light indoor light exists to some degree
                 if (!is_outside(sx - x + LIGHTMAP_RANGE_X, sy - y + LIGHTMAP_RANGE_Y))
@@ -48,9 +48,9 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
         apply_light_source(g->u.posx, g->u.posy, x, y, luminance);
     }
 
-    for(int sx = x - LIGHTMAP_RANGE_X; sx <= x + LIGHTMAP_RANGE_X; ++sx)
+    for (int sx = x - LIGHTMAP_RANGE_X; sx <= x + LIGHTMAP_RANGE_X; ++sx)
     {
-        for(int sy = y - LIGHTMAP_RANGE_Y; sy <= y + LIGHTMAP_RANGE_Y; ++sy)
+        for (int sy = y - LIGHTMAP_RANGE_Y; sy <= y + LIGHTMAP_RANGE_Y; ++sy)
         {
             const ter_id terrain = g->m.ter(sx, sy);
             const std::vector<item> items = g->m.i_at(sx, sy);
@@ -61,7 +61,7 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
                 if (!is_outside(sx - x + LIGHTMAP_RANGE_X, sy - y + LIGHTMAP_RANGE_Y))
                 {
                     // Apply light sources for external/internal divide
-                    for(int i = 0; i < 4; ++i)
+                    for (int i = 0; i < 4; ++i)
                     {
                         if (INBOUNDS_LARGE(sx - x + dir_x[i], sy - y + dir_y[i]) &&
                                 is_outside(sx - x + LIGHTMAP_RANGE_X + dir_x[i], sy - y + LIGHTMAP_RANGE_Y + dir_y[i]))
@@ -86,12 +86,12 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
                 apply_light_source(sx, sy, x, y, 20);
             }
 
-            if(terrain == t_lava)
+            if (terrain == t_lava)
             {
                 apply_light_source(sx, sy, x, y, 50);
             }
 
-            if(terrain == t_console)
+            if (terrain == t_console)
             {
                 apply_light_source(sx, sy, x, y, 3);
             }
@@ -102,13 +102,13 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
                 apply_light_source(sx, sy, x, y, 4);
             }
 
-            if(terrain == t_emergency_light)
+            if (terrain == t_emergency_light)
             {
                 apply_light_source(sx, sy, x, y, 3);
             }
 
             // TODO: [lightmap] Attach light brightness to fields
-            switch(current_field.type)
+            switch (current_field.type)
             {
             case fd_fire:
                 if (3 == current_field.density)
@@ -166,7 +166,7 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
                 // TODO: [lightmap] Attach natural light brightness to creatures
                 // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
                 // TODO: [lightmap] Allow creatures to have facing and arc lights
-                switch(g->z[c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].mon].type->id)
+                switch (g->z[c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].mon].type->id)
                 {
                 case mon_zombie_electric:
                     apply_light_source(sx, sy, x, y, 1);
@@ -234,7 +234,7 @@ bool light_map::is_outside(int dx, int dy)
 
 bool light_map::sees(int fx, int fy, int tx, int ty, int max_range)
 {
-    if(!INBOUNDS_LARGE(fx, fy) || !INBOUNDS_LARGE(tx, ty))
+    if (!INBOUNDS_LARGE(fx, fy) || !INBOUNDS_LARGE(tx, ty))
     {
         return false;
     }
@@ -257,7 +257,7 @@ bool light_map::sees(int fx, int fy, int tx, int ty, int max_range)
         int t = ay - (ax >> 1);
         do
         {
-            if(t >= 0 && ((y + dy != ty) || (x + dx == tx)))
+            if (t >= 0 && ((y + dy != ty) || (x + dx == tx)))
             {
                 y += dy;
                 t -= ax;
@@ -266,20 +266,20 @@ bool light_map::sees(int fx, int fy, int tx, int ty, int max_range)
             x += dx;
             t += ay;
 
-            if(c[x + LIGHTMAP_RANGE_X][y + LIGHTMAP_RANGE_Y].transparency == LIGHT_TRANSPARENCY_SOLID)
+            if (c[x + LIGHTMAP_RANGE_X][y + LIGHTMAP_RANGE_Y].transparency == LIGHT_TRANSPARENCY_SOLID)
             {
                 break;
             }
 
         }
-        while(!(x == tx && y == ty));
+        while (!(x == tx && y == ty));
     }
     else
     {
         int t = ax - (ay >> 1);
         do
         {
-            if(t >= 0 && ((x + dx != tx) || (y + dy == ty)))
+            if (t >= 0 && ((x + dx != tx) || (y + dy == ty)))
             {
                 x += dx;
                 t -= ay;
@@ -288,13 +288,13 @@ bool light_map::sees(int fx, int fy, int tx, int ty, int max_range)
             y += dy;
             t += ax;
 
-            if(c[x + LIGHTMAP_RANGE_X][y + LIGHTMAP_RANGE_Y].transparency == LIGHT_TRANSPARENCY_SOLID)
+            if (c[x + LIGHTMAP_RANGE_X][y + LIGHTMAP_RANGE_Y].transparency == LIGHT_TRANSPARENCY_SOLID)
             {
                 break;
             }
 
         }
-        while(!(x == tx && y == ty));
+        while (!(x == tx && y == ty));
     }
 
     return (x == tx && y == ty);
@@ -320,14 +320,14 @@ void light_map::apply_light_source(int x, int y, int cx, int cy, float luminance
         int sy = y - cy - range;
         int ey = y - cy + range;
 
-        for(int off = sx; off <= ex; ++off)
+        for (int off = sx; off <= ex; ++off)
         {
             apply_light_ray(lit, x, y, cx + off, cy + sy, cx, cy, luminance);
             apply_light_ray(lit, x, y, cx + off, cy + ey, cx, cy, luminance);
         }
 
         // Skip corners with + 1 and < as they were done
-        for(int off = sy + 1; off < ey; ++off)
+        for (int off = sy + 1; off < ey; ++off)
         {
             apply_light_ray(lit, x, y, cx + sx, cy + off, cx, cy, luminance);
             apply_light_ray(lit, x, y, cx + ex, cy + off, cx, cy, luminance);
@@ -354,11 +354,11 @@ void light_map::apply_light_arc(int x, int y, int angle, int cx, int cy, float l
 // East side
     if (angle < 90 || angle > 270)
     {
-        int sy = y - cy - ((angle <  90) ? range * (( 45 - angle) / 45.0f) : range);
+        int sy = y - cy - ((angle <  90) ? range * ((45 - angle) / 45.0f) : range);
         int ey = y - cy + ((angle > 270) ? range * ((angle - 315) / 45.0f) : range);
 
         int ox = x - cx + range;
-        for(int oy = sy; oy <= ey; ++oy)
+        for (int oy = sy; oy <= ey; ++oy)
         {
             apply_light_ray(lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
         }
@@ -367,11 +367,11 @@ void light_map::apply_light_arc(int x, int y, int angle, int cx, int cy, float l
 // South side
     if (angle < 180)
     {
-        int sx = x - cx - ((angle < 90) ? range * (( angle - 45) / 45.0f) : range);
+        int sx = x - cx - ((angle < 90) ? range * ((angle - 45) / 45.0f) : range);
         int ex = x - cx + ((angle > 90) ? range * ((135 - angle) / 45.0f) : range);
 
         int oy = y - cy + range;
-        for(int ox = sx; ox <= ex; ++ox)
+        for (int ox = sx; ox <= ex; ++ox)
         {
             apply_light_ray(lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
         }
@@ -384,7 +384,7 @@ void light_map::apply_light_arc(int x, int y, int angle, int cx, int cy, float l
         int ey = y - cy + ((angle > 180) ? range * ((225 - angle) / 45.0f) : range);
 
         int ox = x - cx - range;
-        for(int oy = sy; oy <= ey; ++oy)
+        for (int oy = sy; oy <= ey; ++oy)
         {
             apply_light_ray(lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
         }
@@ -397,7 +397,7 @@ void light_map::apply_light_arc(int x, int y, int angle, int cx, int cy, float l
         int ex = x - cx + ((angle < 270) ? range * ((angle - 225) / 45.0f) : range);
 
         int oy = y - cy - range;
-        for(int ox = sx; ox <= ex; ++ox)
+        for (int ox = sx; ox <= ex; ++ox)
         {
             apply_light_ray(lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
         }
@@ -422,7 +422,7 @@ void light_map::apply_light_ray(bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy
         int t = ay - (ax >> 1);
         do
         {
-            if(t >= 0)
+            if (t >= 0)
             {
                 y += dy;
                 t -= ax;
@@ -452,14 +452,14 @@ void light_map::apply_light_ray(bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy
             }
 
         }
-        while(!(x == ex && y == ey));
+        while (!(x == ex && y == ey));
     }
     else
     {
         int t = ax - (ay >> 1);
         do
         {
-            if(t >= 0)
+            if (t >= 0)
             {
                 x += dx;
                 t -= ay;
@@ -489,7 +489,7 @@ void light_map::apply_light_ray(bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy
             }
 
         }
-        while(!(x == ex && y == ey));
+        while (!(x == ex && y == ey));
     }
 }
 
@@ -497,20 +497,20 @@ void light_map::build_outside_cache(map *m, const int x, const int y, const int 
 {
     const ter_id terrain = m->ter(sx, sy);
 
-    if( terrain == t_floor || terrain == t_rock_floor || terrain == t_floor_wax)
+    if (terrain == t_floor || terrain == t_rock_floor || terrain == t_floor_wax)
     {
-        for( int dx = -1; dx <=1; dx++ )
+        for (int dx = -1; dx <= 1; dx++)
         {
-            for( int dy = -1; dy <=1; dy++ )
+            for (int dy = -1; dy <= 1; dy++)
             {
-                if( INBOUNDS(x + dx, x + dy) )
+                if (INBOUNDS(x + dx, x + dy))
                 {
                     outside_cache[x + dx][y + dy] = false;
                 }
             }
         }
     }
-    else if(terrain == t_bed || terrain == t_groundsheet)
+    else if (terrain == t_bed || terrain == t_groundsheet)
     {
         outside_cache[x][y] = false;
     }
@@ -523,9 +523,9 @@ void light_map::build_light_cache(game* g, int cx, int cy)
 // Clear cache
 // Initialize cache of outside tiles
     memset(outside_cache, true, sizeof(outside_cache));
-    for(int sx = cx - LIGHTMAP_RANGE_X; sx <= cx + LIGHTMAP_RANGE_X; ++sx)
+    for (int sx = cx - LIGHTMAP_RANGE_X; sx <= cx + LIGHTMAP_RANGE_X; ++sx)
     {
-        for(int sy = cy - LIGHTMAP_RANGE_Y; sy <= cy + LIGHTMAP_RANGE_Y; ++sy)
+        for (int sy = cy - LIGHTMAP_RANGE_Y; sy <= cy + LIGHTMAP_RANGE_Y; ++sy)
         {
             int x = sx - cx + LIGHTMAP_RANGE_X;
             int y = sy - cy + LIGHTMAP_RANGE_Y;
@@ -548,9 +548,9 @@ void light_map::build_light_cache(game* g, int cx, int cy)
 
 // Check for vehicles and cache
     VehicleList vehs = g->m.get_vehicles(cx - LIGHTMAP_RANGE_X, cy - LIGHTMAP_RANGE_Y, cx + LIGHTMAP_RANGE_X, cy + LIGHTMAP_RANGE_Y);
-    for(int v = 0; v < vehs.size(); ++v)
+    for (int v = 0; v < vehs.size(); ++v)
     {
-        for(int p = 0; p < vehs[v].v->parts.size(); ++p)
+        for (int p = 0; p < vehs[v].v->parts.size(); ++p)
         {
             int px = vehs[v].x + vehs[v].v->parts[p].precalc_dx[0] - cx;
             int py = vehs[v].y + vehs[v].v->parts[p].precalc_dy[0] - cy;
@@ -581,9 +581,9 @@ void light_map::build_light_cache(game* g, int cx, int cy)
         }
     }
 
-    for(int sx = cx - LIGHTMAP_RANGE_X; sx <= cx + LIGHTMAP_RANGE_X; ++sx)
+    for (int sx = cx - LIGHTMAP_RANGE_X; sx <= cx + LIGHTMAP_RANGE_X; ++sx)
     {
-        for(int sy = cy - LIGHTMAP_RANGE_Y; sy <= cy + LIGHTMAP_RANGE_Y; ++sy)
+        for (int sy = cy - LIGHTMAP_RANGE_Y; sy <= cy + LIGHTMAP_RANGE_Y; ++sy)
         {
             int x = sx - cx + LIGHTMAP_RANGE_X;
             int y = sy - cy + LIGHTMAP_RANGE_Y;
@@ -608,21 +608,21 @@ void light_map::build_light_cache(game* g, int cx, int cy)
             }
 
             field& f = g->m.field_at(sx, sy);
-            if(f.type > 0)
+            if (f.type > 0)
             {
-                if(!fieldlist[f.type].transparent[f.density - 1])
+                if (!fieldlist[f.type].transparent[f.density - 1])
                 {
                     // Fields are either transparent or not, however we want some to be translucent
-                    switch(f.type)
+                    switch (f.type)
                     {
                     case fd_smoke:
                     case fd_toxic_gas:
                     case fd_tear_gas:
-                        if(f.density == 3)
+                        if (f.density == 3)
                         {
                             c[x][y].transparency = LIGHT_TRANSPARENCY_SOLID;
                         }
-                        if(f.density == 2)
+                        if (f.density == 2)
                         {
                             c[x][y].transparency *= 0.5;
                         }

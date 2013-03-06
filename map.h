@@ -92,16 +92,16 @@ public:
     void clear_vehicle_cache();
     void update_vehicle_list(const int to);
 
-    void destroy_vehicle (vehicle *veh);
+    void destroy_vehicle(vehicle *veh);
 // Change vehicle coords and move vehicle's driver along.
 // Returns true, if there was a submap change.
 // If test is true, function only checks for submap change, no displacement
 // WARNING: not checking collisions!
-    bool displace_vehicle (game *g, int &x, int &y, const int dx, const int dy, bool test);
+    bool displace_vehicle(game *g, int &x, int &y, const int dx, const int dy, bool test);
     void vehmove(game* g);          // Vehicle movement
     bool vehproceed(game* g);
 // move water under wheels. true if moved
-    bool displace_water (const int x, const int y);
+    bool displace_water(const int x, const int y);
 
 // Terrain
     ter_id& ter(const int x, const int y); // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
@@ -130,7 +130,7 @@ public:
     void mop_spills(const int x, const int y);
 
 // Radiation
-    int& radiation(const int x, const int y);	// Amount of radiation at (x, y);
+    int& radiation(const int x, const int y);   // Amount of radiation at (x, y);
 
 // Items
     std::vector<item>& i_at(int x, int y);
@@ -151,16 +151,16 @@ public:
 // Traps
     trap_id& tr_at(const int x, const int y);
     void add_trap(const int x, const int y, const trap_id t);
-    void disarm_trap( game *g, const int x, const int y);
+    void disarm_trap(game *g, const int x, const int y);
 
 // Fields
     field& field_at(const int x, const int y);
     bool add_field(game *g, const int x, const int y, const field_id t, const unsigned char density);
     void remove_field(const int x, const int y);
-    bool process_fields(game *g);				// See fields.cpp
-    bool process_fields_in_submap(game *g, const int gridn);	// See fields.cpp
-    void step_in_field(const int x, const int y, game *g);		// See fields.cpp
-    void mon_in_field(const int x, const int y, game *g, monster *z);	// See fields.cpp
+    bool process_fields(game *g);               // See fields.cpp
+    bool process_fields_in_submap(game *g, const int gridn);    // See fields.cpp
+    void step_in_field(const int x, const int y, game *g);      // See fields.cpp
+    void mon_in_field(const int x, const int y, game *g, monster *z);   // See fields.cpp
 
 // Computers
     computer* computer_at(const int x, const int y);
@@ -188,7 +188,7 @@ public:
 
     std::vector <itype*> *itypes;
     std::set<vehicle*> vehicle_list;
-    std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
+    std::map< std::pair<int, int>, std::pair<vehicle*, int> > veh_cached_parts;
     bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
 
 protected:
@@ -212,11 +212,11 @@ protected:
     };
 
     std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
-    ter_id nulter;	// Returned when &ter() is asked for an OOB value
+    ter_id nulter;  // Returned when &ter() is asked for an OOB value
     trap_id nultrap; // Returned when &tr_at() is asked for an OOB value
     field nulfield; // Returned when &field_at() is asked for an OOB value
     vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
-    int nulrad;	// OOB &radiation()
+    int nulrad; // OOB &radiation()
 
     std::vector <trap*> *traps;
     std::vector <itype_id> (*mapitems)[num_itloc];

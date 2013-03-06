@@ -37,7 +37,7 @@ struct special_attack
 
 class player
 {
-    std::map<Skill*,SkillLevel> _skills;
+    std::map<Skill*, SkillLevel> _skills;
 
 public:
     player();
@@ -49,8 +49,8 @@ public:
 // newcharacter.cpp
     bool create(game *g, character_type type, std::string tempname = "");
     int  random_good_trait();
-    int  random_bad_trait ();
-    void normalize(game *g);	// Starting set up of HP and inventory
+    int  random_bad_trait();
+    void normalize(game *g);    // Starting set up of HP and inventory
 // </newcharacter.cpp>
 
     void pick_name(); // Picks a name from NAMES_*
@@ -59,20 +59,20 @@ public:
     {
         return false;    // Overloaded for NPCs in npc.h
     }
-    nc_color color();				// What color to draw us as
+    nc_color color();               // What color to draw us as
 
     virtual void load_info(game *g, std::string data);// Load from file 'name.sav'
-    virtual std::string save_info();		// Save to file matching name
+    virtual std::string save_info();        // Save to file matching name
 
-    void disp_info(game *g);	// '@' key; extended character info
-    void disp_morale();		// '%' key; morale info
+    void disp_info(game *g);    // '@' key; extended character info
+    void disp_morale();     // '%' key; morale info
     void disp_status(WINDOW* w, game *g = NULL);// On-screen data
 
     void reset(game *g = NULL);// Resets movement points, stats, applies effects
-    void update_morale();	// Ticks down morale counters and removes them
+    void update_morale();   // Ticks down morale counters and removes them
     int  current_speed(game *g = NULL); // Number of movement points we get a turn
     int  run_cost(int base_cost); // Adjust base_cost
-    int  swim_speed();	// Our speed when swimming
+    int  swim_speed();  // Our speed when swimming
 
     bool has_trait(int flag);
     bool has_mutation(int flag);
@@ -99,7 +99,7 @@ public:
     bool sight_impaired(); // vision impaired between sight_range and max_range
     bool has_two_arms();
     bool can_wear_boots();
-    bool is_armed();	// True if we're wielding something; true for bionics
+    bool is_armed();    // True if we're wielding something; true for bionics
     bool unarmed_attack(); // False if we're wielding something; true for bionics
     bool avoid_trap(trap *tr);
 
@@ -143,23 +143,23 @@ public:
 
 // ranged.cpp
     int throw_range(int index); // Range of throwing item; -1:ERR 0:Can't throw
-    int ranged_dex_mod	(bool real_life = true);
-    int ranged_per_mod	(bool real_life = true);
-    int throw_dex_mod	(bool real_life = true);
+    int ranged_dex_mod(bool real_life = true);
+    int ranged_per_mod(bool real_life = true);
+    int throw_dex_mod(bool real_life = true);
 
 // Mental skills and stats
     int comprehension_percent(skill s, bool real_life = true);
-    int read_speed		(bool real_life = true);
+    int read_speed(bool real_life = true);
     int talk_skill(); // Skill at convincing NPCs of stuff
     int intimidation(); // Physical intimidation
 
 // Converts bphurt to a hp_part (if side == 0, the left), then does/heals dam
 // hit() processes damage through armor
-    void hit   (game *g, body_part bphurt, int side, int  dam, int  cut);
+    void hit(game *g, body_part bphurt, int side, int  dam, int  cut);
 // absorb() reduces dam and cut by your armor (and bionics, traits, etc)
     void absorb(game *g, body_part bp,               int &dam, int &cut);
 // hurt() doesn't--effects of disease, what have you
-    void hurt  (game *g, body_part bphurt, int side, int  dam);
+    void hurt(game *g, body_part bphurt, int side, int  dam);
 
     void heal(body_part healed, int side, int dam);
     void heal(hp_part healed, int dam);
@@ -170,9 +170,9 @@ public:
 // Sends us flying one tile
     void knock_back_from(game *g, int x, int y);
 
-    int hp_percentage();	// % of HP remaining, overall
+    int hp_percentage();    // % of HP remaining, overall
 
-    void get_sick(game *g);	// Process diseases
+    void get_sick(game *g); // Process diseases
 // infect() gives us a chance to save (mostly from armor)
     void infect(dis_type type, body_part vector, int strength, int duration,
                 game *g);
@@ -193,25 +193,25 @@ public:
     void vomit(game *g);
 
     int  lookup_item(char let);
-    bool eat(game *g, int index);	// Eat item; returns false on fail
+    bool eat(game *g, int index);   // Eat item; returns false on fail
     virtual bool wield(game *g, int index);// Wield item; returns false on fail
     void pick_style(game *g); // Pick a style
-    bool wear(game *g, char let);	// Wear item; returns false on fail
+    bool wear(game *g, char let);   // Wear item; returns false on fail
     bool wear_item(game *g, item *to_wear);
     bool takeoff(game *g, char let);// Take off item; returns false on fail
-    void use(game *g, char let);	// Use a tool
+    void use(game *g, char let);    // Use a tool
     void use_wielded(game *g);
-    bool install_bionics(game *g, it_bionic* type);	// Install bionics
-    void read(game *g, char let);	// Read a book
-    void try_to_sleep(game *g);	// '$' command; adds DIS_LYING_DOWN
-    bool can_sleep(game *g);	// Checked each turn during DIS_LYING_DOWN
+    bool install_bionics(game *g, it_bionic* type); // Install bionics
+    void read(game *g, char let);   // Read a book
+    void try_to_sleep(game *g); // '$' command; adds DIS_LYING_DOWN
+    bool can_sleep(game *g);    // Checked each turn during DIS_LYING_DOWN
 
-    int warmth(body_part bp);	// Warmth provided by armor &c
-    int encumb(body_part bp);	// Encumberance from armor &c
+    int warmth(body_part bp);   // Warmth provided by armor &c
+    int encumb(body_part bp);   // Encumberance from armor &c
     int encumb(body_part bp, int &layers, int &armorenc, int &warmth);
-    int armor_bash(body_part bp);	// Bashing resistance
-    int armor_cut(body_part bp);	// Cutting  resistance
-    int resist(body_part bp);	// Infection &c resistance
+    int armor_bash(body_part bp);   // Bashing resistance
+    int armor_cut(body_part bp);    // Cutting  resistance
+    int resist(body_part bp);   // Infection &c resistance
     bool wearing_something_on(body_part bp); // True if wearing something on bp
 
     void practice(Skill *s, int amount);
@@ -224,28 +224,28 @@ public:
     int volume_carried();
     int weight_capacity(bool real_life = true);
     int volume_capacity();
-    int morale_level();	// Modified by traits, &c
+    int morale_level(); // Modified by traits, &c
     void add_morale(morale_type type, int bonus, int max_bonus = 0,
                     itype* item_type = NULL);
 
-    void sort_inv();	// Sort inventory by type
+    void sort_inv();    // Sort inventory by type
     std::string weapname(bool charges = true);
 
     void i_add(item it, game *g = NULL);
     bool has_active_item(itype_id id);
     int  active_item_charges(itype_id id);
     void process_active_items(game *g);
-    item i_rem(char let);	// Remove item from inventory; returns ret_null on fail
+    item i_rem(char let);   // Remove item from inventory; returns ret_null on fail
     item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
     item remove_weapon();
     void remove_mission_items(int mission_id);
     item i_remn(int index);// Remove item from inventory; returns ret_null on fail
-    item &i_at(char let);	// Returns the item with inventory letter let
+    item &i_at(char let);   // Returns the item with inventory letter let
     item &i_of_type(itype_id type); // Returns the first item with this type
     std::vector<item> inv_dump(); // Inventory + weapon + worn (for death, etc)
-    int  butcher_factor();	// Automatically picks our best butchering tool
+    int  butcher_factor();  // Automatically picks our best butchering tool
     int  pick_usb(); // Pick a usb drive, interactively if it matters
-    bool is_wearing(itype_id it);	// Are we wearing a specific itype?
+    bool is_wearing(itype_id it);   // Are we wearing a specific itype?
     bool has_artifact_with(art_effect_passive effect);
 
 // has_amount works ONLY for quantity.
@@ -259,14 +259,14 @@ public:
 
     bool has_watertight_container();
     bool has_matching_liquid(int it);
-    bool has_weapon_or_armor(char let);	// Has an item with invlet let
-    bool has_item(char let);		// Has an item with invlet let
-    bool has_item(item *it);		// Has a specific item
-    bool has_mission_item(int mission_id);	// Has item with mission_id
+    bool has_weapon_or_armor(char let); // Has an item with invlet let
+    bool has_item(char let);        // Has an item with invlet let
+    bool has_item(item *it);        // Has a specific item
+    bool has_mission_item(int mission_id);  // Has item with mission_id
     std::vector<int> has_ammo(ammotype at);// Returns a list of indices of the ammo
 
 // ---------------VALUES-----------------
-    int id;	// A unique ID number, assigned by the game class
+    int id; // A unique ID number, assigned by the game class
     int posx, posy;
     int view_offset_x, view_offset_y;
     bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
@@ -323,7 +323,7 @@ public:
     std::vector<itype_id> styles;
     itype_id style_selected;
     item weapon;
-    item ret_null;	// Null item, sometimes returns by weapon() etc
+    item ret_null;  // Null item, sometimes returns by weapon() etc
 
     std::vector <disease> illness;
     std::vector <addiction> addictions;

@@ -72,7 +72,7 @@ void game::save_keymap()
     std::map<char, action_id>::iterator it;
     for (it = keymap.begin(); it != keymap.end(); it++)
     {
-        fout << action_ident( (*it).second ) << " " << (*it).first << std::endl;
+        fout << action_ident((*it).second) << " " << (*it).first << std::endl;
     }
 
     fout.close();
@@ -84,9 +84,9 @@ std::vector<char> game::keys_bound_to(action_id act)
     std::map<char, action_id>::iterator it;
     for (it = keymap.begin(); it != keymap.end(); it++)
     {
-        if ( (*it).second == act )
+        if ((*it).second == act)
         {
-            ret.push_back( (*it).first );
+            ret.push_back((*it).first);
         }
     }
 
@@ -98,7 +98,7 @@ void game::clear_bindings(action_id act)
     std::map<char, action_id>::iterator it;
     for (it = keymap.begin(); it != keymap.end(); it++)
     {
-        if ( (*it).second == act )
+        if ((*it).second == act)
         {
             keymap.erase(it);
             it = keymap.begin();
@@ -260,7 +260,7 @@ action_id look_up_action(std::string ident)
 {
     for (int i = 0; i < NUM_ACTIONS; i++)
     {
-        if (action_ident( action_id(i) ) == ident)
+        if (action_ident(action_id(i)) == ident)
         {
             return action_id(i);
         }

@@ -24,7 +24,7 @@ long input()
 
 bool input_wait(char & ret_ch, int delay_ms)
 {
-    while(true)
+    while (true)
     {
         ret_ch = '\0';
         timeout(delay_ms);
@@ -47,7 +47,7 @@ bool input_wait(char & ret_ch, int delay_ms)
             ret_ch = '\n';
             break;
         case ERR:
-            if(errno == EINTR)
+            if (errno == EINTR)
             {
                 return input_wait(ret_ch, delay_ms);
             }
@@ -57,7 +57,7 @@ bool input_wait(char & ret_ch, int delay_ms)
             break;
         }
         timeout(-1);
-        if( ret_ch != '\0' )
+        if (ret_ch != '\0')
         {
             return true;
         }

@@ -221,7 +221,7 @@ enum itype_id
     itm_bionics_toolset,      itm_bionics_storage, itm_bionics_flashlight,
     itm_bionics_lighter,      itm_bionics_magnet,
 // neuro
-    itm_bionics_memory,       itm_bionics_painkiller,itm_bionics_alarm,
+    itm_bionics_memory,       itm_bionics_painkiller, itm_bionics_alarm,
 // sensory
     itm_bionics_ears,          itm_bionics_eye_enhancer, itm_bionics_night_vision,
     itm_bionics_infrared,      itm_bionics_scent_vision,
@@ -311,23 +311,23 @@ enum item_flag
 {
     IF_NULL,
 
-    IF_LIGHT_4,	// Provides 4 tiles of light
-    IF_LIGHT_8,	// Provides 8 tiles of light
+    IF_LIGHT_4, // Provides 4 tiles of light
+    IF_LIGHT_8, // Provides 8 tiles of light
 
     IF_FIRE,        // Chance to set fire to tiles/enemies
-    IF_SPEAR,	// Cutting damage is actually a piercing attack
-    IF_STAB,	// This weapon *can* pierce, but also has normal cutting
-    IF_WRAP,	// Can wrap around your target, costing you and them movement
-    IF_MESSY,	// Splatters blood, etc.
-    IF_RELOAD_ONE,	// Reload cartridge by cartridge (e.g. most shotguns)
+    IF_SPEAR,   // Cutting damage is actually a piercing attack
+    IF_STAB,    // This weapon *can* pierce, but also has normal cutting
+    IF_WRAP,    // Can wrap around your target, costing you and them movement
+    IF_MESSY,   // Splatters blood, etc.
+    IF_RELOAD_ONE,  // Reload cartridge by cartridge (e.g. most shotguns)
     IF_STR_RELOAD,  // Reloading time is reduced by Strength * 20
     IF_STR8_DRAW,   // Requires strength 8 to draw
     IF_STR10_DRAW,  // Requires strength 10 to draw
-    IF_USE_UPS,	// Draws power from a UPS
+    IF_USE_UPS, // Draws power from a UPS
     IF_RELOAD_AND_SHOOT, // Reloading and shooting is one action
-    IF_FIRE_100,	// Fires 100 rounds at once! (e.g. flamethrower)
-    IF_GRENADE,	// NPCs treat this as a grenade
-    IF_CHARGE,	// For guns; charges up slowly
+    IF_FIRE_100,    // Fires 100 rounds at once! (e.g. flamethrower)
+    IF_GRENADE, // NPCs treat this as a grenade
+    IF_CHARGE,  // For guns; charges up slowly
     IF_SHOCK,   // Stuns and damages enemies, powers up shockers.
 
     IF_UNARMED_WEAPON, // Counts as an unarmed weapon
@@ -342,17 +342,17 @@ enum item_flag
 
 enum ammo_effect
 {
-    AMMO_FLAME,		// Sets fire to terrain and monsters
-    AMMO_INCENDIARY,	// Sparks explosive terrain
-    AMMO_EXPLOSIVE,		// Small explosion
-    AMMO_FRAG,		// Frag explosion
-    AMMO_NAPALM,		// Firey explosion
-    AMMO_EXPLOSIVE_BIG,	// Big explosion!
-    AMMO_TEARGAS,		// Teargas burst
-    AMMO_SMOKE,  		// Smoke burst
-    AMMO_TRAIL,		// Leaves a trail of smoke
-    AMMO_FLASHBANG,		// Disorients and blinds
-    AMMO_STREAM,		// Doesn't stop once it hits a monster
+    AMMO_FLAME,     // Sets fire to terrain and monsters
+    AMMO_INCENDIARY,    // Sparks explosive terrain
+    AMMO_EXPLOSIVE,     // Small explosion
+    AMMO_FRAG,      // Frag explosion
+    AMMO_NAPALM,        // Firey explosion
+    AMMO_EXPLOSIVE_BIG, // Big explosion!
+    AMMO_TEARGAS,       // Teargas burst
+    AMMO_SMOKE,         // Smoke burst
+    AMMO_TRAIL,     // Leaves a trail of smoke
+    AMMO_FLASHBANG,     // Disorients and blinds
+    AMMO_STREAM,        // Doesn't stop once it hits a monster
     NUM_AMMO_EFFECTS
 };
 
@@ -361,24 +361,24 @@ enum technique_id
 {
     TEC_NULL,
 // Offensive Techniques
-    TEC_SWEEP,	// Crits may make your enemy fall & miss a turn
-    TEC_PRECISE,	// Crits are painful and stun
-    TEC_BRUTAL,	// Crits knock the target back
-    TEC_GRAB,	// Hit may allow a second unarmed attack attempt
-    TEC_WIDE,	// Attacks adjacent oppoents
-    TEC_RAPID,	// Hits faster
-    TEC_FEINT,	// Misses take less time
-    TEC_THROW,	// Attacks may throw your opponent
-    TEC_DISARM,	// Remove an NPC's weapon
+    TEC_SWEEP,  // Crits may make your enemy fall & miss a turn
+    TEC_PRECISE,    // Crits are painful and stun
+    TEC_BRUTAL, // Crits knock the target back
+    TEC_GRAB,   // Hit may allow a second unarmed attack attempt
+    TEC_WIDE,   // Attacks adjacent oppoents
+    TEC_RAPID,  // Hits faster
+    TEC_FEINT,  // Misses take less time
+    TEC_THROW,  // Attacks may throw your opponent
+    TEC_DISARM, // Remove an NPC's weapon
 // Defensive Techniques
-    TEC_BLOCK,	// Block attacks, reducing them to 25% damage
+    TEC_BLOCK,  // Block attacks, reducing them to 25% damage
     TEC_BLOCK_LEGS, // Block attacks, but with your legs
-    TEC_WBLOCK_1,	// Weapon block, poor chance -- e.g. pole
-    TEC_WBLOCK_2,	// Weapon block, moderate chance -- weapon made for blocking
-    TEC_WBLOCK_3,	// Weapon block, good chance -- shield
-    TEC_COUNTER,	// Counter-attack on a block or dodge
-    TEC_BREAK,	// Break from a grab
-    TEC_DEF_THROW,	// Throw an enemy that attacks you
+    TEC_WBLOCK_1,   // Weapon block, poor chance -- e.g. pole
+    TEC_WBLOCK_2,   // Weapon block, moderate chance -- weapon made for blocking
+    TEC_WBLOCK_3,   // Weapon block, good chance -- shield
+    TEC_COUNTER,    // Counter-attack on a block or dodge
+    TEC_BREAK,  // Break from a grab
+    TEC_DEF_THROW,  // Throw an enemy that attacks you
     TEC_DEF_DISARM, // Disarm an enemy
 
     NUM_TECHNIQUES
@@ -401,7 +401,7 @@ struct style_move
     int level;
 
     style_move(std::string N, technique_id T, int L) :
-        name (N), tech (T), level (L) { };
+        name(N), tech(T), level(L) { };
 
     style_move()
     {
@@ -418,28 +418,28 @@ itype_id default_ammo(ammotype guntype);
 
 struct itype
 {
-    int id;		// ID # that matches its place in master itype list
+    int id;     // ID # that matches its place in master itype list
     // Used for save files; aligns to itype_id above.
-    unsigned char rarity;	// How often it's found
-    unsigned int  price;	// Its value
+    unsigned char rarity;   // How often it's found
+    unsigned int  price;    // Its value
 
-    std::string name;	// Proper name
+    std::string name;   // Proper name
     std::string description;// Flavor text
 
-    char sym;		// Symbol on the map
-    nc_color color;	// Color on the map (color.h)
+    char sym;       // Symbol on the map
+    nc_color color; // Color on the map (color.h)
 
-    material m1;		// Main material
-    material m2;		// Secondary material -- MNULL if made of just 1 thing
+    material m1;        // Main material
+    material m2;        // Secondary material -- MNULL if made of just 1 thing
 
-    unsigned int volume;	// Space taken up by this item
-    unsigned int weight;	// Weight in quarter-pounds; is 64 lbs max ok?
+    unsigned int volume;    // Space taken up by this item
+    unsigned int weight;    // Weight in quarter-pounds; is 64 lbs max ok?
     // Also assumes positive weight.  No helium, guys!
     bigness_property_aspect bigness_aspect;
 
-    signed char melee_dam;	// Bonus for melee damage; may be a penalty
-    signed char melee_cut;	// Cutting damage in melee
-    signed char m_to_hit;	// To-hit bonus for melee combat; -5 to 5 is reasonable
+    signed char melee_dam;  // Bonus for melee damage; may be a penalty
+    signed char melee_cut;  // Cutting damage in melee
+    signed char m_to_hit;   // To-hit bonus for melee combat; -5 to 5 is reasonable
 
 unsigned item_flags :
     NUM_ITEM_FLAGS;
@@ -565,18 +565,18 @@ unsigned techniques :
 // Includes food drink and drugs
 struct it_comest : public itype
 {
-    signed char quench;	// Many things make you thirstier!
-    unsigned char nutr;	// Nutrition imparted
-    unsigned char spoils;	// How long it takes to spoil (hours / 600 turns)
-    unsigned char addict;	// Addictiveness potential
-    unsigned char charges;	// Defaults # of charges (drugs, loaf of bread? etc)
+    signed char quench; // Many things make you thirstier!
+    unsigned char nutr; // Nutrition imparted
+    unsigned char spoils;   // How long it takes to spoil (hours / 600 turns)
+    unsigned char addict;   // Addictiveness potential
+    unsigned char charges;  // Defaults # of charges (drugs, loaf of bread? etc)
     signed char stim;
     signed char healthy;
 
-    signed char fun;	// How fun its use is
+    signed char fun;    // How fun its use is
 
-    itype_id container;	// The container it comes in
-    itype_id tool;		// Tool needed to consume (e.g. lighter for cigarettes)
+    itype_id container; // The container it comes in
+    itype_id tool;      // Tool needed to consume (e.g. lighter for cigarettes)
 
     virtual bool is_food()
     {
@@ -598,7 +598,7 @@ struct it_comest : public itype
 
 
     void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
-    add_type add;				// Effects of addiction
+    add_type add;               // Effects of addiction
 
     it_comest(int pid, unsigned char prarity, unsigned int pprice,
               std::string pname, std::string pdes,
@@ -612,8 +612,8 @@ struct it_comest : public itype
               unsigned char pcharges, signed char pfun, itype_id pcontainer,
               itype_id ptool, void (iuse::*puse)(game *, player *, item *, bool),
               add_type padd)
-        :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+        : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL,
+                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
     {
         quench = pquench;
         nutr = pnutr;
@@ -647,8 +647,8 @@ struct it_var_veh_part: public itype
                     unsigned int big_min,
                     unsigned int big_max,
                     bigness_property_aspect big_aspect)
-        :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0)
+        : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0)
     {
         min_bigness = big_min;
         max_bigness = big_max;
@@ -679,13 +679,13 @@ struct it_var_veh_part: public itype
 
 struct it_ammo : public itype
 {
-    ammotype type;		// Enum of varieties (e.g. 9mm, shot, etc)
-    unsigned char damage;	// Average damage done
-    unsigned char pierce;	// Armor piercing; static reduction in armor
-    unsigned char range;	// Maximum range
-    signed char accuracy;	// Accuracy (low is good)
-    unsigned char recoil;	// Recoil; modified by strength
-    unsigned char count;	// Default charges
+    ammotype type;      // Enum of varieties (e.g. 9mm, shot, etc)
+    unsigned char damage;   // Average damage done
+    unsigned char pierce;   // Armor piercing; static reduction in armor
+    unsigned char range;    // Maximum range
+    signed char accuracy;   // Accuracy (low is good)
+    unsigned char recoil;   // Recoil; modified by strength
+    unsigned char count;    // Default charges
 
 unsigned ammo_effects :
     NUM_AMMO_EFFECTS;
@@ -710,8 +710,8 @@ unsigned ammo_effects :
             ammotype ptype, unsigned char pdamage, unsigned char ppierce,
             signed char paccuracy, unsigned char precoil, unsigned char prange,
             unsigned char pcount)
-        :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0)
+        : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL,
+                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0)
     {
         type = ptype;
         damage = pdamage;
@@ -751,10 +751,10 @@ struct it_gun : public itype
            const char *pskill_used, ammotype pammo, signed char pdmg_bonus,
            signed char paccuracy, signed char precoil, unsigned char pdurability,
            unsigned char pburst, int pclip, int preload_time)
-        :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+        : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
     {
-        skill_used = pskill_used?Skill::skill(pskill_used):NULL;
+        skill_used = pskill_used ? Skill::skill(pskill_used) : NULL;
         ammo = pammo;
         dmg_bonus = pdmg_bonus;
         accuracy = paccuracy;
@@ -794,8 +794,8 @@ unsigned acceptible_ammo_types :
               ammotype pnewtype, long a_a_t, bool pistol,
               bool shotgun, bool smg, bool rifle)
 
-        :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+        : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
     {
         accuracy = paccuracy;
         damage = pdamage;
@@ -857,8 +857,8 @@ struct it_armor : public itype
              unsigned char pdmg_resist, unsigned char pcut_resist,
              unsigned char penv_resist, signed char pwarmth,
              unsigned char pstorage)
-        :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+        : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
     {
         covers = pcovers;
         encumber = pencumber;
@@ -872,12 +872,12 @@ struct it_armor : public itype
 
 struct it_book : public itype
 {
-    Skill *type;		// Which skill it upgrades
-    unsigned char level;	// The value it takes the skill to
-    unsigned char req;	// The skill level required to understand it
-    signed char fun;	// How fun reading this is
-    unsigned char intel;	// Intelligence required to read, at all
-    unsigned char time;	// How long, in 10-turns (aka minutes), it takes to read
+    Skill *type;        // Which skill it upgrades
+    unsigned char level;    // The value it takes the skill to
+    unsigned char req;  // The skill level required to understand it
+    signed char fun;    // How fun reading this is
+    unsigned char intel;    // Intelligence required to read, at all
+    unsigned char time; // How long, in 10-turns (aka minutes), it takes to read
     // "To read" means getting 1 skill point, not all of em
     virtual bool is_book()
     {
@@ -892,10 +892,10 @@ struct it_book : public itype
 
             const char *ptype, unsigned char plevel, unsigned char preq,
             signed char pfun, unsigned char pintel, unsigned char ptime)
-        :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+        : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
     {
-        type = ptype?Skill::skill(ptype):NULL;
+        type = ptype ? Skill::skill(ptype) : NULL;
         level = plevel;
         req = preq;
         fun = pfun;
@@ -914,7 +914,7 @@ enum container_flags
 
 struct it_container : public itype
 {
-    unsigned char contains;	// Internal volume
+    unsigned char contains; // Internal volume
 unsigned flags :
     num_con_flags;
     virtual bool is_container()
@@ -929,8 +929,8 @@ unsigned flags :
                  signed char pm_to_hit, unsigned pitem_flags,
 
                  unsigned char pcontains, unsigned pflags)
-        :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+        : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
     {
         contains = pcontains;
         flags = pflags;
@@ -982,8 +982,8 @@ struct it_tool : public itype
             unsigned char pcharges_per_use, unsigned char pturns_per_charge,
             ammotype pammo, itype_id prevert_to,
             void (iuse::*puse)(game *, player *, item *, bool))
-        :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+        : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
     {
         max_charges = pmax_charges;
         def_charges = pdef_charges;
@@ -1013,8 +1013,8 @@ struct it_bionic : public itype
               signed char pm_to_hit, unsigned pitem_flags,
 
               int pdifficulty, ...)
-        :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+        : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
     {
         difficulty = pdifficulty;
         va_list ap;
@@ -1047,8 +1047,8 @@ struct it_macguffin : public itype
 
                  bool preadable,
                  void (iuse::*puse)(game *, player *, item *, bool))
-        :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+        : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
     {
         readable = preadable;
         use = puse;
@@ -1073,8 +1073,8 @@ struct it_software : public itype
                 signed char pm_to_hit, unsigned pitem_flags,
 
                 software_type pswtype, int ppower)
-        :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+        : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
     {
         swtype = pswtype;
         power = ppower;
@@ -1097,8 +1097,8 @@ struct it_style : public itype
              signed char pmelee_dam, signed char pmelee_cut,
              signed char pm_to_hit, unsigned pitem_flags)
 
-        :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-               pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) { }
+        : itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) { }
 };
 
 struct it_artifact_tool : public it_tool
@@ -1171,9 +1171,9 @@ struct it_artifact_tool : public it_tool
                      signed char pmelee_dam, signed char pmelee_cut,
                      signed char pm_to_hit, unsigned pitem_flags)
 
-        :it_tool(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-                 pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags,
-                 0, 0, 1, 0, AT_NULL, itm_null, &iuse::artifact) { };
+        : it_tool(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+                  pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags,
+                  0, 0, 1, 0, AT_NULL, itm_null, &iuse::artifact) { };
 };
 
 struct it_artifact_armor : public it_armor
@@ -1233,10 +1233,10 @@ struct it_artifact_armor : public it_armor
                       unsigned char pdmg_resist, unsigned char pcut_resist,
                       unsigned char penv_resist, signed char pwarmth,
                       unsigned char pstorage)
-        :it_armor(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-                  pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags,
-                  pcovers, pencumber, pdmg_resist, pcut_resist, penv_resist, pwarmth,
-                  pstorage) { };
+        : it_armor(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+                   pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags,
+                   pcovers, pencumber, pdmg_resist, pcut_resist, penv_resist, pwarmth,
+                   pstorage) { };
 };
 
 #endif

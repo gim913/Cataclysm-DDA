@@ -4,7 +4,7 @@
 #include "keypress.h"
 #include "mapdata.h"
 
-item& inventory::operator[] (int i)
+item& inventory::operator[](int i)
 {
     if (i < 0 || i > items.size())
     {

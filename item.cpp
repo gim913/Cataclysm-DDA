@@ -31,7 +31,7 @@ item::item()
 
 item::item(itype* it, unsigned int turn)
 {
-    if(!it)
+    if (!it)
     {
         type = nullitem();
     }
@@ -97,16 +97,16 @@ item::item(itype* it, unsigned int turn)
     {
         charges = -1;
     }
-    if(it->is_var_veh_part())
+    if (it->is_var_veh_part())
     {
         it_var_veh_part* varcarpart = dynamic_cast<it_var_veh_part*>(it);
-        bigness= rng( varcarpart->min_bigness, varcarpart->max_bigness);
+        bigness = rng(varcarpart->min_bigness, varcarpart->max_bigness);
     }
 }
 
 item::item(itype *it, unsigned int turn, char let)
 {
-    if(!it)
+    if (!it)
     {
         type = nullitem();
     }
@@ -162,10 +162,10 @@ item::item(itype *it, unsigned int turn, char let)
     {
         charges = -1;
     }
-    if(it->is_var_veh_part())
+    if (it->is_var_veh_part())
     {
         it_var_veh_part* engine = dynamic_cast<it_var_veh_part*>(it);
-        bigness= rng( engine->min_bigness, engine->max_bigness);
+        bigness = rng(engine->min_bigness, engine->max_bigness);
     }
     curammo = NULL;
     corpse = NULL;
@@ -186,7 +186,7 @@ void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
     mode = IF_NULL;
     curammo = NULL;
     active = false;
-    if(!it)
+    if (!it)
     {
         type = nullitem();
     }
@@ -215,7 +215,7 @@ item::~item()
 
 void item::make(itype* it)
 {
-    if(!it)
+    if (!it)
     {
         type = nullitem();
     }
@@ -236,7 +236,7 @@ item item::in_its_container(std::vector<itype*> *itypes)
 
     if (is_software())
     {
-        item ret( (*itypes)[itm_usb_drive], 0);
+        item ret((*itypes)[itm_usb_drive], 0);
         ret.contents.push_back(*this);
         ret.invlet = invlet;
         return ret;
@@ -280,7 +280,7 @@ bool item::stacks_with(item rhs)
                    (!goes_bad() || bday == rhs.bday));
 
     if ((corpse == NULL && rhs.corpse != NULL) ||
-            (corpse != NULL && rhs.corpse == NULL)   )
+            (corpse != NULL && rhs.corpse == NULL))
     {
         return false;
     }
@@ -296,8 +296,8 @@ bool item::stacks_with(item rhs)
         return false;
     }
 
-    if(is_var_veh_part())
-        if(bigness != rhs.bigness)
+    if (is_var_veh_part())
+        if (bigness != rhs.bigness)
         {
             return false;
         }
@@ -425,7 +425,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
 {
     std::stringstream temp1, temp2;
 
-    if( !is_null() )
+    if (!is_null())
     {
         dump->push_back(iteminfo("BASE", " Volume: ", "", int(volume()), "", false, true));
         dump->push_back(iteminfo("BASE", "    Weight: ", "", int(weight()), "", true, true));
@@ -545,7 +545,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
             temp1 << ammo_dam;    //dump << ammo_dam;
         }
 
-        temp1 << (gun_damage(false) >= 0 ? "+" : "" );
+        temp1 << (gun_damage(false) >= 0 ? "+" : "");
         //dump << (gun_damage(false) >= 0 ? "+" : "" ) << gun_damage(false);
 
         temp2.str("");
@@ -565,7 +565,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
             temp1 << ammo_dam;    //dump << ammo_recoil;
         }
 
-        temp1 << (recoil(false) >= 0 ? "+" : "" );
+        temp1 << (recoil(false) >= 0 ? "+" : "");
         //dump << (recoil(false) >= 0 ? "+" : "" ) << recoil(false);
 
         temp2.str("");
@@ -574,7 +574,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
             temp2 << " = " << recoil();    //dump << " = " << recoil();
         }
 
-        dump->push_back(iteminfo("GUN"," Recoil: ", temp1.str(), int(recoil(false)), temp2.str(), true, true));
+        dump->push_back(iteminfo("GUN", " Recoil: ", temp1.str(), int(recoil(false)), temp2.str(), true, true));
 
         //dump << "\n Reload time: " << int(gun->reload_time);
         //if (has_flag(IF_RELOAD_ONE))
@@ -713,12 +713,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
         dump->push_back(iteminfo("ARMOR", " Storage: ", "", int(armor->storage)));
 
         /*
-        dump << "\n Encumberment: "			<< int(armor->encumber) <<
-                "\n Bashing protection: "		<< int(armor->dmg_resist) <<
-                "\n Cut protection: "			<< int(armor->cut_resist) <<
-                "\n Environmental protection: "	<< int(armor->env_resist) <<
-                "\n Warmth: "				<< int(armor->warmth) <<
-                "\n Storage: "			<< int(armor->storage);
+        dump << "\n Encumberment: "         << int(armor->encumber) <<
+                "\n Bashing protection: "       << int(armor->dmg_resist) <<
+                "\n Cut protection: "           << int(armor->cut_resist) <<
+                "\n Environmental protection: " << int(armor->env_resist) <<
+                "\n Warmth: "               << int(armor->warmth) <<
+                "\n Storage: "          << int(armor->storage);
         */
 
     }
@@ -788,7 +788,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
         {
             if (type->techniques & mfb(i))
             {
-                temp1 << default_technique_name( technique_id(i) ) + "; ";    //dump << default_technique_name( technique_id(i) ) << "; ";
+                temp1 << default_technique_name(technique_id(i)) + "; ";      //dump << default_technique_name( technique_id(i) ) << "; ";
             }
         }
 
@@ -798,7 +798,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
         }
     }
 
-    if ( showtext && !is_null() )
+    if (showtext && !is_null())
     {
         //dump << "\n\n" << type->description << "\n";
         dump->push_back(iteminfo("DESCRIPTION", type->description));
@@ -847,7 +847,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
 
 char item::symbol()
 {
-    if( is_null() )
+    if (is_null())
     {
         return ' ';
     }
@@ -1085,12 +1085,12 @@ std::string item::tname(game *g)
     if (is_var_veh_part())
     {
         //if(is_engine()){
-        if(type->bigness_aspect == BIGNESS_ENGINE_DISPLACEMENT)   //liters, e.g. "3.21-Liter V8 engine"
+        if (type->bigness_aspect == BIGNESS_ENGINE_DISPLACEMENT)  //liters, e.g. "3.21-Liter V8 engine"
         {
             ret.precision(4);
-            ret << (float)bigness/100 << "-Liter ";
+            ret << (float)bigness / 100 << "-Liter ";
         }
-        else if(type->bigness_aspect == BIGNESS_WHEEL_DIAMETER)   //inches, e.g. "20" wheel"
+        else if (type->bigness_aspect == BIGNESS_WHEEL_DIAMETER)  //inches, e.g. "20" wheel"
         {
             ret << bigness << "\" ";
         }
@@ -1127,7 +1127,7 @@ std::string item::tname(game *g)
         return ret.str();
     }
 
-    if (is_gun() && contents.size() > 0 )
+    if (is_gun() && contents.size() > 0)
     {
         ret << type->name;
         for (int i = 0; i < contents.size(); i++)
@@ -1181,7 +1181,7 @@ nc_color item::color()
     {
         return corpse->color;
     }
-    if( is_null() )
+    if (is_null())
     {
         return c_black;
     }
@@ -1190,7 +1190,7 @@ nc_color item::color()
 
 int item::price()
 {
-    if( is_null() )
+    if (is_null())
     {
         return 0;
     }
@@ -1237,7 +1237,7 @@ int item::weight()
         return ret;
     }
 
-    if( is_null() )
+    if (is_null())
     {
         return 0;
     }
@@ -1295,7 +1295,7 @@ int item::volume()
         }
     }
 
-    if( is_null() )
+    if (is_null())
     {
         return 0;
     }
@@ -1336,7 +1336,7 @@ int item::attack_time()
 
 int item::damage_bash()
 {
-    if( is_null() )
+    if (is_null())
     {
         return 0;
     }
@@ -1355,7 +1355,7 @@ int item::damage_cut()
             }
         }
     }
-    if( is_null() )
+    if (is_null())
     {
         return 0;
     }
@@ -1369,7 +1369,7 @@ bool item::has_flag(item_flag f)
         if (mode == IF_MODE_AUX)
         {
             item* gunmod = active_gunmod();
-            if( gunmod != NULL )
+            if (gunmod != NULL)
             {
                 return gunmod->has_flag(f);
             }
@@ -1386,7 +1386,7 @@ bool item::has_flag(item_flag f)
             }
         }
     }
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1407,7 +1407,7 @@ bool item::has_technique(technique_id tech, player *p)
             }
         }
     }
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1433,9 +1433,9 @@ std::vector<technique_id> item::techniques()
     std::vector<technique_id> ret;
     for (int i = 0; i < NUM_TECHNIQUES; i++)
     {
-        if (has_technique( technique_id(i) ))
+        if (has_technique(technique_id(i)))
         {
-            ret.push_back( technique_id(i) );
+            ret.push_back(technique_id(i));
         }
     }
     return ret;
@@ -1515,7 +1515,7 @@ int item::num_charges()
 
 int item::weapon_value(int skills[num_skill_types])
 {
-    if( is_null() )
+    if (is_null())
     {
         return 0;
     }
@@ -1535,11 +1535,11 @@ int item::weapon_value(int skills[num_skill_types])
     }
 
     my_value += int(type->melee_dam * (1   + .3 * skills[sk_bashing] +
-                                       .1 * skills[sk_melee]    ));
+                                       .1 * skills[sk_melee]));
 //debugmsg("My value: (+bash) %d", my_value);
 
     my_value += int(type->melee_cut * (1   + .4 * skills[sk_cutting] +
-                                       .1 * skills[sk_melee]    ));
+                                       .1 * skills[sk_melee]));
 //debugmsg("My value: (+cut) %d", my_value);
 
     my_value += int(type->m_to_hit  * (1.2 + .3 * skills[sk_melee]));
@@ -1550,18 +1550,18 @@ int item::weapon_value(int skills[num_skill_types])
 
 int item::melee_value(int skills[num_skill_types])
 {
-    if( is_null() )
+    if (is_null())
     {
         return 0;
     }
 
     int my_value = 0;
     my_value += int(type->melee_dam * (1   + .3 * skills[sk_bashing] +
-                                       .1 * skills[sk_melee]    ));
+                                       .1 * skills[sk_melee]));
 //debugmsg("My value: (+bash) %d", my_value);
 
     my_value += int(type->melee_cut * (1   + .4 * skills[sk_cutting] +
-                                       .1 * skills[sk_melee]    ));
+                                       .1 * skills[sk_melee]));
 //debugmsg("My value: (+cut) %d", my_value);
 
     my_value += int(type->m_to_hit  * (1.2 + .3 * skills[sk_melee]));
@@ -1608,7 +1608,7 @@ bool item::is_two_handed(player *u)
 
 bool item::made_of(material mat)
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1623,7 +1623,7 @@ bool item::made_of(material mat)
 
 bool item::conductive()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1649,7 +1649,7 @@ bool item::destroyed_at_zero_charges()
 
 bool item::is_var_veh_part()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1659,7 +1659,7 @@ bool item::is_var_veh_part()
 
 bool item::is_gun()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1669,7 +1669,7 @@ bool item::is_gun()
 
 bool item::is_gunmod()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1679,7 +1679,7 @@ bool item::is_gunmod()
 
 bool item::is_bionic()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1689,7 +1689,7 @@ bool item::is_bionic()
 
 bool item::is_ammo()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1704,7 +1704,7 @@ bool item::is_food(player *u)
         return is_food();
     }
 
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1734,7 +1734,7 @@ bool item::is_food_container(player *u)
 
 bool item::is_food()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1758,7 +1758,7 @@ bool item::is_ammo_container()
 
 bool item::is_drink()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1768,7 +1768,7 @@ bool item::is_drink()
 
 bool item::is_weap()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1783,7 +1783,7 @@ bool item::is_weap()
 
 bool item::is_bashing_weapon()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1793,7 +1793,7 @@ bool item::is_bashing_weapon()
 
 bool item::is_cutting_weapon()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1803,7 +1803,7 @@ bool item::is_cutting_weapon()
 
 bool item::is_armor()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1813,7 +1813,7 @@ bool item::is_armor()
 
 bool item::is_book()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1829,7 +1829,7 @@ bool item::is_book()
 
 bool item::is_container()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1839,7 +1839,7 @@ bool item::is_container()
 
 bool item::is_tool()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1849,7 +1849,7 @@ bool item::is_tool()
 
 bool item::is_software()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1859,7 +1859,7 @@ bool item::is_software()
 
 bool item::is_macguffin()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1869,7 +1869,7 @@ bool item::is_macguffin()
 
 bool item::is_style()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1879,7 +1879,7 @@ bool item::is_style()
 
 bool item::is_other()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1891,7 +1891,7 @@ bool item::is_other()
 
 bool item::is_artifact()
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -1941,7 +1941,7 @@ int item::reload_time(player &u)
 
 item* item::active_gunmod()
 {
-    if( mode == IF_MODE_AUX )
+    if (mode == IF_MODE_AUX)
         for (int i = 0; i < contents.size(); i++)
             if (contents[i].is_gunmod() && contents[i].mode == IF_MODE_AUX)
             {
@@ -1952,10 +1952,10 @@ item* item::active_gunmod()
 
 void item::next_mode()
 {
-    switch(mode)
+    switch (mode)
     {
     case IF_NULL:
-        if( has_flag(IF_MODE_BURST) )
+        if (has_flag(IF_MODE_BURST))
         {
             mode = IF_MODE_BURST;
         }
@@ -2011,7 +2011,7 @@ void item::next_mode()
 
 int item::clip_size()
 {
-    if(is_gunmod() && has_flag(IF_MODE_AUX))
+    if (is_gunmod() && has_flag(IF_MODE_AUX))
     {
         return (dynamic_cast<it_gunmod*>(type))->clip;
     }
@@ -2062,10 +2062,10 @@ int item::gun_damage(bool with_ammo)
     {
         return 0;
     }
-    if(mode == IF_MODE_AUX)
+    if (mode == IF_MODE_AUX)
     {
         item* gunmod = active_gunmod();
-        if(gunmod != NULL && gunmod->curammo != NULL)
+        if (gunmod != NULL && gunmod->curammo != NULL)
         {
             return gunmod->curammo->damage;
         }
@@ -2098,7 +2098,7 @@ int item::noise()
         return 0;
     }
     int ret = 0;
-    if(mode == IF_MODE_AUX)
+    if (mode == IF_MODE_AUX)
     {
         item* gunmod = active_gunmod();
         if (gunmod && gunmod->curammo)
@@ -2115,7 +2115,7 @@ int item::noise()
     {
         ret += 20;
     }
-    if(mode == IF_MODE_AUX)
+    if (mode == IF_MODE_AUX)
     {
         return ret;
     }
@@ -2136,7 +2136,7 @@ int item::burst_size()
         return 0;
     }
 // No burst fire for gunmods right now.
-    if(mode == IF_MODE_AUX)
+    if (mode == IF_MODE_AUX)
     {
         return 1;
     }
@@ -2163,7 +2163,7 @@ int item::recoil(bool with_ammo)
         return 0;
     }
 // Just use the raw ammo recoil for now.
-    if(mode == IF_MODE_AUX)
+    if (mode == IF_MODE_AUX)
     {
         item* gunmod = active_gunmod();
         if (gunmod && gunmod->curammo)
@@ -2198,10 +2198,10 @@ int item::range(player *p)
         return 0;
     }
 // Just use the raw ammo range for now.
-    if(mode == IF_MODE_AUX)
+    if (mode == IF_MODE_AUX)
     {
         item* gunmod = active_gunmod();
-        if(gunmod && gunmod->curammo)
+        if (gunmod && gunmod->curammo)
         {
             return gunmod->curammo->range;
         }
@@ -2211,7 +2211,7 @@ int item::range(player *p)
         }
     }
 
-    int ret = (curammo?curammo->range:0);
+    int ret = (curammo ? curammo->range : 0);
 
     if (has_flag(IF_STR8_DRAW) && p)
     {
@@ -2279,7 +2279,7 @@ ammotype item::ammo_type()
 
 int item::pick_reload_ammo(player &u, bool interactive)
 {
-    if( is_null() )
+    if (is_null())
     {
         return false;
     }
@@ -2289,13 +2289,13 @@ int item::pick_reload_ammo(player &u, bool interactive)
         debugmsg("RELOADING NON-GUN NON-TOOL");
         return false;
     }
-    int has_spare_mag = has_gunmod (itm_spare_mag);
+    int has_spare_mag = has_gunmod(itm_spare_mag);
 
-    std::vector<int> am;	// List of indicies of valid ammo
+    std::vector<int> am;    // List of indicies of valid ammo
 
     if (type->is_gun())
     {
-        if(charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0)
+        if (charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0)
         {
             // Special return to use magazine for reloading.
             return -2;
@@ -2324,7 +2324,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
                     contents[i].charges < (dynamic_cast<it_gunmod*>(contents[i].type))->clip)
             {
                 std::vector<int> tmpammo = u.has_ammo((dynamic_cast<it_gunmod*>(contents[i].type))->newtype);
-                for(int j = 0; j < tmpammo.size(); j++)
+                for (int j = 0; j < tmpammo.size(); j++)
                     if (contents[i].charges <= 0 ||
                             u.inv[tmpammo[j]].typeId() == contents[i].curammo->id)
                     {
@@ -2393,7 +2393,7 @@ bool item::reload(player &u, int index)
     item *ammo_to_use = index != -2 ? &u.inv[index] : NULL;
 
 // Handle ammo in containers, currently only gasoline
-    if(ammo_to_use && ammo_to_use->is_container())
+    if (ammo_to_use && ammo_to_use->is_container())
     {
         ammo_to_use = &ammo_to_use->contents[0];
     }
@@ -2502,7 +2502,7 @@ bool item::reload(player &u, int index)
             }
             reload_target->curammo = dynamic_cast<it_ammo*>((ammo_to_use->type));
         }
-        if (single_load || max_load == 1)  	// Only insert one cartridge!
+        if (single_load || max_load == 1)   // Only insert one cartridge!
         {
             reload_target->charges++;
             ammo_to_use->charges--;
@@ -2603,7 +2603,7 @@ std::string default_technique_name(technique_id tech)
 std::ostream & operator<<(std::ostream & out, const item * it)
 {
     out << "item(";
-    if(!it)
+    if (!it)
     {
         out << "NULL)";
         return out;

@@ -198,14 +198,14 @@ inline value& value::operator=(const value& x)
     if (this != &x)
     {
         this->~value();
-        new (this) value(x);
+        new(this) value(x);
     }
     return *this;
 }
 
-#define IS(ctype, jtype)			     \
+#define IS(ctype, jtype)                 \
   template <> inline bool value::is<ctype>() const { \
-    return type_ == jtype##_type;		     \
+    return type_ == jtype##_type;            \
   }
 IS(null, null)
 IS(bool, boolean)
@@ -216,16 +216,16 @@ IS(array, array)
 IS(object, object)
 #undef IS
 
-#define GET(ctype, var)						\
-  template <> inline const ctype& value::get<ctype>() const {	\
+#define GET(ctype, var)                     \
+  template <> inline const ctype& value::get<ctype>() const {   \
     assert("type mismatch! call vis<type>() before get<type>()" \
-	   && is<ctype>());				        \
-    return var;							\
-  }								\
-  template <> inline ctype& value::get<ctype>() {		\
-    assert("type mismatch! call is<type>() before get<type>()"	\
-	   && is<ctype>());					\
-    return var;							\
+       && is<ctype>());                     \
+    return var;                         \
+  }                             \
+  template <> inline ctype& value::get<ctype>() {       \
+    assert("type mismatch! call is<type>() before get<type>()"  \
+       && is<ctype>());                 \
+    return var;                         \
   }
 GET(bool, boolean_)
 GET(double, number_)
@@ -448,7 +448,7 @@ public:
         while (1)
         {
             int ch = getc();
-            if (! (ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r'))
+            if (!(ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r'))
             {
                 ungetc();
                 break;
@@ -533,7 +533,7 @@ template<typename String, typename Iter> inline bool _parse_codepoint(String& ou
             return false;
         }
         int second = _parse_quadhex(in);
-        if (! (0xdc00 <= second && second <= 0xdfff))
+        if (!(0xdc00 <= second && second <= 0xdfff))
         {
             return false;
         }
@@ -699,9 +699,9 @@ template <typename Context, typename Iter> inline bool _parse(Context& ctx, inpu
     {
 #define IS(ch, text, op) case ch: \
       if (in.match(text) && op) { \
-	return true; \
+    return true; \
       } else { \
-	return false; \
+    return false; \
       }
         IS('n', "ull", ctx.set_null());
         IS('f', "alse", ctx.set_bool(false));
@@ -940,8 +940,8 @@ inline bool operator==(const value& x, const value& y)
     {
         return y.is<null>();
     }
-#define PICOJSON_CMP(type)					\
-    if (x.is<type>())						\
+#define PICOJSON_CMP(type)                  \
+    if (x.is<type>())                       \
       return y.is<type>() && x.get<type>() == y.get<type>()
     PICOJSON_CMP(bool);
     PICOJSON_CMP(double);
@@ -958,7 +958,7 @@ inline bool operator==(const value& x, const value& y)
 
 inline bool operator!=(const value& x, const value& y)
 {
-    return ! (x == y);
+    return !(x == y);
 }
 }
 
@@ -1032,12 +1032,12 @@ int main(void)
 #define TEST(expr, expected) \
     is(picojson::value expr .serialize(), string(expected), "picojson::value" #expr)
 
-    TEST( (true),  "true");
-    TEST( (false), "false");
-    TEST( (42.0),   "42");
-    TEST( (string("hello")), "\"hello\"");
-    TEST( ("hello"), "\"hello\"");
-    TEST( ("hello", 4), "\"hell\"");
+    TEST((true),  "true");
+    TEST((false), "false");
+    TEST((42.0),   "42");
+    TEST((string("hello")), "\"hello\"");
+    TEST(("hello"), "\"hello\"");
+    TEST(("hello", 4), "\"hell\"");
 
     {
         double a = 1;
@@ -1059,17 +1059,17 @@ int main(void)
 
 #undef TEST
 
-#define TEST(in, type, cmp, serialize_test) {				\
-    picojson::value v;							\
-    const char* s = in;							\
-    string err = picojson::parse(v, s, s + strlen(s));			\
-    ok(err.empty(), in " no error");					\
-    ok(v.is<type>(), in " check type");					\
-    is<type>(v.get<type>(), cmp, in " correct output");			\
-    is(*s, '\0', in " read to eof");					\
-    if (serialize_test) {						\
-      is(v.serialize(), string(in), in " serialize");			\
-    }									\
+#define TEST(in, type, cmp, serialize_test) {               \
+    picojson::value v;                          \
+    const char* s = in;                         \
+    string err = picojson::parse(v, s, s + strlen(s));          \
+    ok(err.empty(), in " no error");                    \
+    ok(v.is<type>(), in " check type");                 \
+    is<type>(v.get<type>(), cmp, in " correct output");         \
+    is(*s, '\0', in " read to eof");                    \
+    if (serialize_test) {                       \
+      is(v.serialize(), string(in), in " serialize");           \
+    }                                   \
   }
     TEST("false", bool, false, true);
     TEST("true", bool, true, true);
@@ -1083,12 +1083,12 @@ int main(void)
     TEST("\"\\ud840\\udc0b\"", string, string("\xf0\xa0\x80\x8b"), false);
 #undef TEST
 
-#define TEST(type, expr) {					       \
-    picojson::value v;						       \
-    const char *s = expr;					       \
-    string err = picojson::parse(v, s, s + strlen(s));		       \
-    ok(err.empty(), "empty " #type " no error");		       \
-    ok(v.is<picojson::type>(), "empty " #type " check type");	       \
+#define TEST(type, expr) {                         \
+    picojson::value v;                             \
+    const char *s = expr;                          \
+    string err = picojson::parse(v, s, s + strlen(s));             \
+    ok(err.empty(), "empty " #type " no error");               \
+    ok(v.is<picojson::type>(), "empty " #type " check type");          \
     ok(v.get<picojson::type>().empty(), "check " #type " array size"); \
   }
     TEST(array, "[]");
@@ -1128,11 +1128,11 @@ int main(void)
         ok(!v.contains("z"), "check not contains property");
     }
 
-#define TEST(json, msg) do {				\
-    picojson::value v;					\
-    const char *s = json;				\
-    string err = picojson::parse(v, s, s + strlen(s));	\
-    is(err, string("syntax error at line " msg), msg);	\
+#define TEST(json, msg) do {                \
+    picojson::value v;                  \
+    const char *s = json;               \
+    string err = picojson::parse(v, s, s + strlen(s));  \
+    is(err, string("syntax error at line " msg), msg);  \
   } while (0)
     TEST("falsoa", "1 near: oa");
     TEST("{]", "1 near: ]");

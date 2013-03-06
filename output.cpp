@@ -281,7 +281,7 @@ void mvwprintz(WINDOW* w, int y, int x, nc_color FG, const char *mes, ...)
 void printz(nc_color FG, const char *mes, ...)
 {
     va_list ap;
-    va_start(ap,mes);
+    va_start(ap, mes);
     char buff[6000];
     vsprintf(buff, mes, ap);
     va_end(ap);
@@ -293,7 +293,7 @@ void printz(nc_color FG, const char *mes, ...)
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
 {
     va_list ap;
-    va_start(ap,mes);
+    va_start(ap, mes);
     char buff[6000];
     vsprintf(buff, mes, ap);
     va_end(ap);
@@ -396,7 +396,7 @@ void realDebugmsg(const char* filename, const char* line, const char *mes, ...)
     fout.open("debug.log", std::ios_base::app | std::ios_base::out);
     fout << filename << "[" << line << "]: " << buff << "\n";
     fout.close();
-    while(getch() != ' ') ;
+    while (getch() != ' ') ;
     ;
     attroff(c_red);
 }
@@ -412,7 +412,7 @@ bool query_yn(const char *mes, ...)
     int win_width = strlen(buff) + 26;
     WINDOW* w = newwin(3, win_width, 11, 0);
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     mvwprintz(w, 1, 1, c_ltred, "%s (%s)", buff,
               (force_uc ? "Y/N - Case Sensitive" : "y/n"));
     wrefresh(w);
@@ -443,7 +443,7 @@ int query_int(const char *mes, ...)
     int win_width = strlen(buff) + 10;
     WINDOW* w = newwin(3, win_width, 11, 0);
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     mvwprintz(w, 1, 1, c_ltred, "%s (0-9)", buff);
     wrefresh(w);
 
@@ -452,13 +452,13 @@ int query_int(const char *mes, ...)
     {
         temp = getch();
     }
-    while ((temp-48)<0 || (temp-48)>9);
+    while ((temp - 48) < 0 || (temp - 48) > 9);
     werase(w);
     wrefresh(w);
     delwin(w);
     refresh();
 
-    return temp-48;
+    return temp - 48;
 }
 
 std::string string_input_popup(std::string title, int max_length, std::string input)
@@ -468,7 +468,7 @@ std::string string_input_popup(std::string title, int max_length, std::string in
     int startx = title.size() + 2;
     WINDOW* w = newwin(3, 80, 11, 0);
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     for (int i = startx + 1; i < 79; i++)
     {
         mvwputch(w, 1, i, c_ltgray, '_');
@@ -487,7 +487,7 @@ std::string string_input_popup(std::string title, int max_length, std::string in
     {
         wrefresh(w);
         long ch = getch();
-        if (ch == 27)  	// Escape
+        if (ch == 27)   // Escape
         {
             werase(w);
             wrefresh(w);
@@ -511,7 +511,7 @@ std::string string_input_popup(std::string title, int max_length, std::string in
             posx--;
             mvwputch(w, 1, posx, h_ltgray, '_');
         }
-        else if(ret.size() < max_length || max_length == 0)
+        else if (ret.size() < max_length || max_length == 0)
         {
             ret += ch;
             mvwputch(w, 1, posx, c_magenta, ch);
@@ -555,7 +555,7 @@ char popup_getkey(const char *mes, ...)
     WINDOW* w = newwin(height + 1, width, int((25 - height) / 2),
                        int((80 - width) / 2));
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     tmp = buff;
     pos = tmp.find_first_of('\n');
     int line_num = 0;
@@ -595,14 +595,14 @@ int menu_vec(const char *mes, std::vector<std::string> options)
             width = options[i].length() + 6;
         }
     }
-    WINDOW* w = newwin(height, width, 12-height/2, 40-width/2);
+    WINDOW* w = newwin(height, width, 12 - height / 2, 40 - width / 2);
     wattron(w, c_white);
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     mvwprintw(w, 1, 1, title.c_str());
     for (int i = 0; i < options.size(); i++)
-        mvwprintw(w, i + 2, 1, "%c: %s", (i < 9? i + '1' :
-                                          (i == 9? '0' : 'a' + i - 10)),
+        mvwprintw(w, i + 2, 1, "%c: %s", (i < 9 ? i + '1' :
+                                          (i == 9 ? '0' : 'a' + i - 10)),
                   options[i].c_str());
     long ch;
     wrefresh(w);
@@ -689,7 +689,7 @@ void popup_top(const char *mes, ...)
     width += 2;
     WINDOW* w = newwin(height + 1, width, 0, int((80 - width) / 2));
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     tmp = buff;
     pos = tmp.find_first_of('\n');
     int line_num = 0;
@@ -710,7 +710,7 @@ void popup_top(const char *mes, ...)
     {
         ch = getch();
     }
-    while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+    while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
     werase(w);
     wrefresh(w);
     delwin(w);
@@ -750,7 +750,7 @@ void popup(const char *mes, ...)
     WINDOW* w = newwin(height + 1, width, int((25 - height) / 2),
                        int((80 - width) / 2));
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     tmp = buff;
     pos = tmp.find_first_of('\n');
     int line_num = 0;
@@ -771,7 +771,7 @@ void popup(const char *mes, ...)
     {
         ch = getch();
     }
-    while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+    while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
     werase(w);
     wrefresh(w);
     delwin(w);
@@ -811,7 +811,7 @@ void popup_nowait(const char *mes, ...)
     WINDOW* w = newwin(height + 1, width, int((25 - height) / 2),
                        int((80 - width) / 2));
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     tmp = buff;
     pos = tmp.find_first_of('\n');
     int line_num = 0;
@@ -840,7 +840,7 @@ void full_screen_popup(const char* mes, ...)
     std::string tmp = buff;
     WINDOW* w = newwin(25, 80, 0, 0);
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     size_t pos = tmp.find_first_of('\n');
     int line_num = 0;
     while (pos != std::string::npos)
@@ -859,7 +859,7 @@ void full_screen_popup(const char* mes, ...)
     {
         ch = getch();
     }
-    while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+    while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
     werase(w);
     wrefresh(w);
     delwin(w);
@@ -906,7 +906,7 @@ char compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
                 {
                     int iPos = sText.find_last_of(' ', 36);
                     mvwprintz(w, line_num, 2, c_white, (sText.substr(0, iPos)).c_str());
-                    sText = sText.substr(iPos+1, sText.size());
+                    sText = sText.substr(iPos + 1, sText.size());
                 }
                 else
                 {
@@ -929,9 +929,9 @@ char compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
 
             sPlus = "";
             std::string sPre = vItemDisplay[i].sPre;
-            if (sPre.size() > 1 && sPre.substr(sPre.size()-1, 1) == "+")
+            if (sPre.size() > 1 && sPre.substr(sPre.size() - 1, 1) == "+")
             {
-                wprintz(w, c_white, "%s", (sPre.substr(0, sPre.size()-1)).c_str());
+                wprintz(w, c_white, "%s", (sPre.substr(0, sPre.size() - 1)).c_str());
                 sPlus = "+";
             }
             else if (sPre != "+")
@@ -983,7 +983,7 @@ char compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
                     }
                 }
 
-                if (sPlus == "+" )
+                if (sPlus == "+")
                 {
                     wprintz(w, thisColor, "%s", (sPlus).c_str());
                 }
@@ -1000,7 +1000,7 @@ char compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
     }
 
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
 
     char ch = ' ';
 
@@ -1047,7 +1047,7 @@ char rand_char()
 
 // this translates symbol y, u, n, b to NW, NE, SE, SW lines correspondingly
 // h, j, c to horizontal, vertical, cross correspondingly
-long special_symbol (char sym)
+long special_symbol(char sym)
 {
     switch (sym)
     {
@@ -1071,7 +1071,7 @@ long special_symbol (char sym)
 }
 
 // crawl through string, probing each word while treating spaces & newlines the same.
-std::string word_rewrap (const std::string &in, int width)
+std::string word_rewrap(const std::string &in, int width)
 {
     std::ostringstream o;
     int i_ok = 0; // pos in string of next char probe
@@ -1079,15 +1079,15 @@ std::string word_rewrap (const std::string &in, int width)
     while (i_ok <= in.size())
     {
         bool fit = false;
-        int j=0; // j = word probe counter.
-        while(x_ok + j <= width)
+        int j = 0; // j = word probe counter.
+        while (x_ok + j <= width)
         {
             if (i_ok + j >= in.size())
             {
                 fit = true;
                 break;
             }
-            char c = in[i_ok+j];
+            char c = in[i_ok + j];
             if (c == '\n' || c == ' ')   //whitespace detected. copy word.
             {
                 fit = true;
@@ -1095,7 +1095,7 @@ std::string word_rewrap (const std::string &in, int width)
             }
             j++;
         }
-        if(fit == false)
+        if (fit == false)
         {
             o << '\n';
             x_ok = 0;
@@ -1103,12 +1103,12 @@ std::string word_rewrap (const std::string &in, int width)
         else
         {
             o << ' ';
-            for (int k=i_ok; k < i_ok+j; k++)
+            for (int k = i_ok; k < i_ok + j; k++)
             {
                 o << in[k];
             }
-            i_ok += j+1;
-            x_ok += j+1;
+            i_ok += j + 1;
+            x_ok += j + 1;
         }
     }
     return o.str();

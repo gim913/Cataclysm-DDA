@@ -22,14 +22,14 @@
 #define LINE_XXXX 4194414
 
 // Colors used in this file: (Most else defaults to c_ltgray)
-#define COL_STAT_ACT		c_ltred    // Selected stat
-#define COL_TR_GOOD		c_green    // Good trait descriptive text
-#define COL_TR_GOOD_OFF		c_ltgray  // A toggled-off good trait
-#define COL_TR_GOOD_ON		c_green    // A toggled-on good trait
-#define COL_TR_BAD		c_red      // Bad trait descriptive text
-#define COL_TR_BAD_OFF		c_ltgray    // A toggled-off bad trait
-#define COL_TR_BAD_ON		c_red      // A toggled-on bad trait
-#define COL_SKILL_USED		c_green    // A skill with at least one point
+#define COL_STAT_ACT        c_ltred    // Selected stat
+#define COL_TR_GOOD     c_green    // Good trait descriptive text
+#define COL_TR_GOOD_OFF     c_ltgray  // A toggled-off good trait
+#define COL_TR_GOOD_ON      c_green    // A toggled-on good trait
+#define COL_TR_BAD      c_red      // Bad trait descriptive text
+#define COL_TR_BAD_OFF      c_ltgray    // A toggled-off bad trait
+#define COL_TR_BAD_ON       c_red      // A toggled-on bad trait
+#define COL_SKILL_USED      c_green    // A skill with at least one point
 
 #define HIGH_STAT 14 // The point after which stats cost double
 #define MAX_TRAIT_POINTS 12 // How many points from traits
@@ -237,13 +237,13 @@ bool player::create(game *g, character_type type, std::string tempname)
         switch (tab)
         {
         case 0:
-            tab += set_stats      (w, this, points);
+            tab += set_stats(w, this, points);
             break;
         case 1:
-            tab += set_traits     (w, this, points);
+            tab += set_traits(w, this, points);
             break;
         case 2:
-            tab += set_skills     (w, this, points);
+            tab += set_skills(w, this, points);
             break;
         case 3:
             tab += set_description(w, this, points);
@@ -278,7 +278,7 @@ bool player::create(game *g, character_type type, std::string tempname)
         add_bionic(bionic_id(rng(bio_memory, max_bio_start - 1)));// Other
         if (bionics[my_bionics[0].id].power_cost > 0)
         {
-            add_bionic(bionic_id(rng(1, bio_ethanol)));	// Power Source
+            add_bionic(bionic_id(rng(1, bio_ethanol))); // Power Source
             max_power_level = 10;
             power_level = 10;
         }
@@ -297,7 +297,7 @@ bool player::create(game *g, character_type type, std::string tempname)
 
         /* CHEATER'S STUFF
 
-          add_bionic(bionic_id(rng(0, bio_ethanol)));	// Power Source
+          add_bionic(bionic_id(rng(0, bio_ethanol)));   // Power Source
           for (int i = 0; i < 5; i++)
            add_bionic(bionic_id(rng(bio_memory, max_bio_start - 1)));// Other
           max_power_level = 80;
@@ -391,26 +391,26 @@ void draw_tabs(WINDOW* w)
         mvwputch(w, 0, i + 57, c_ltgray, LINE_OXOX);
     }
     mvwputch(w, 0, 4, c_ltgray, LINE_OXXO);
-    mvwputch(w, 0,21, c_ltgray, LINE_OXXO);
-    mvwputch(w, 0,39, c_ltgray, LINE_OXXO);
-    mvwputch(w, 0,57, c_ltgray, LINE_OXXO);
+    mvwputch(w, 0, 21, c_ltgray, LINE_OXXO);
+    mvwputch(w, 0, 39, c_ltgray, LINE_OXXO);
+    mvwputch(w, 0, 57, c_ltgray, LINE_OXXO);
 
-    mvwputch(w, 0,14, c_ltgray, LINE_OOXX);
-    mvwputch(w, 0,32, c_ltgray, LINE_OOXX);
-    mvwputch(w, 0,50, c_ltgray, LINE_OOXX);
-    mvwputch(w, 0,73, c_ltgray, LINE_OOXX);
+    mvwputch(w, 0, 14, c_ltgray, LINE_OOXX);
+    mvwputch(w, 0, 32, c_ltgray, LINE_OOXX);
+    mvwputch(w, 0, 50, c_ltgray, LINE_OOXX);
+    mvwputch(w, 0, 73, c_ltgray, LINE_OOXX);
 
     mvwprintz(w, 1, 4, c_ltgray, "\
    STATS            TRAITS            SKILLS            DESCRIPTION   ");
 
     mvwputch(w, 1, 4, c_ltgray, LINE_XOXO);
-    mvwputch(w, 1,14, c_ltgray, LINE_XOXO);
-    mvwputch(w, 1,21, c_ltgray, LINE_XOXO);
-    mvwputch(w, 1,32, c_ltgray, LINE_XOXO);
-    mvwputch(w, 1,39, c_ltgray, LINE_XOXO);
-    mvwputch(w, 1,50, c_ltgray, LINE_XOXO);
-    mvwputch(w, 1,57, c_ltgray, LINE_XOXO);
-    mvwputch(w, 1,73, c_ltgray, LINE_XOXO);
+    mvwputch(w, 1, 14, c_ltgray, LINE_XOXO);
+    mvwputch(w, 1, 21, c_ltgray, LINE_XOXO);
+    mvwputch(w, 1, 32, c_ltgray, LINE_XOXO);
+    mvwputch(w, 1, 39, c_ltgray, LINE_XOXO);
+    mvwputch(w, 1, 50, c_ltgray, LINE_XOXO);
+    mvwputch(w, 1, 57, c_ltgray, LINE_XOXO);
+    mvwputch(w, 1, 73, c_ltgray, LINE_XOXO);
 }
 
 int set_stats(WINDOW* w, player *u, int &points)
@@ -476,8 +476,8 @@ int set_stats(WINDOW* w, player *u, int &points)
             mvwprintz(w, 8, 33, COL_STAT_ACT, "Melee damage: %d                            ",
                       u->base_damage(false));
             mvwprintz(w, 9, 33, COL_STAT_ACT, "  Strength also makes you more resistant to ");
-            mvwprintz(w,10, 33, COL_STAT_ACT, "many diseases and poisons, and makes actions");
-            mvwprintz(w,11, 33, COL_STAT_ACT, "which require brute force more effective.   ");
+            mvwprintz(w, 10, 33, COL_STAT_ACT, "many diseases and poisons, and makes actions");
+            mvwprintz(w, 11, 33, COL_STAT_ACT, "which require brute force more effective.   ");
             break;
 
         case 2:
@@ -506,8 +506,8 @@ int set_stats(WINDOW* w, player *u, int &points)
                       (u->throw_dex_mod(false) <= 0 ? "+" : "-"),
                       abs(u->throw_dex_mod(false)));
             mvwprintz(w, 9, 33, COL_STAT_ACT, "  Dexterity also enhances many actions which");
-            mvwprintz(w,10, 33, COL_STAT_ACT, "require finesse.                            ");
-            mvwprintz(w,11, 33, COL_STAT_ACT, "                                            ");
+            mvwprintz(w, 10, 33, COL_STAT_ACT, "require finesse.                            ");
+            mvwprintz(w, 11, 33, COL_STAT_ACT, "                                            ");
             break;
 
         case 3:
@@ -529,8 +529,8 @@ int set_stats(WINDOW* w, player *u, int &points)
                       u->read_speed(false));
             mvwprintz(w, 8, 33, COL_STAT_ACT, "  Intelligence is also used when crafting,  ");
             mvwprintz(w, 9, 33, COL_STAT_ACT, "installing bionics, and interacting with    ");
-            mvwprintz(w,10, 33, COL_STAT_ACT, "NPCs.                                       ");
-            mvwprintz(w,11, 33, COL_STAT_ACT, "                                            ");
+            mvwprintz(w, 10, 33, COL_STAT_ACT, "NPCs.                                       ");
+            mvwprintz(w, 11, 33, COL_STAT_ACT, "                                            ");
             break;
 
         case 4:
@@ -554,8 +554,8 @@ int set_stats(WINDOW* w, player *u, int &points)
             mvwprintz(w, 7, 33, COL_STAT_ACT, "  Perception is also used for detecting     ");
             mvwprintz(w, 8, 33, COL_STAT_ACT, "traps and other things of interest.         ");
             mvwprintz(w, 9, 33, COL_STAT_ACT, "                                            ");
-            mvwprintz(w,10, 33, COL_STAT_ACT, "                                            ");
-            mvwprintz(w,11, 33, COL_STAT_ACT, "                                            ");
+            mvwprintz(w, 10, 33, COL_STAT_ACT, "                                            ");
+            mvwprintz(w, 11, 33, COL_STAT_ACT, "                                            ");
             break;
         }
 
@@ -691,17 +691,17 @@ int set_traits(WINDOW* w, player *u, int &points)
         mvwputch(w, 21, i, c_ltgray, LINE_OXOX);
     }
 // Attaching lines for tabs
-    mvwputch(w, 1,19, h_ltgray, '<');
-    mvwputch(w, 1,34, h_ltgray, '>');
+    mvwputch(w, 1, 19, h_ltgray, '<');
+    mvwputch(w, 1, 34, h_ltgray, '>');
     mvwputch(w, 2, 4, c_ltgray, LINE_XXOX);
-    mvwputch(w, 2,14, c_ltgray, LINE_XXOX);
-    mvwputch(w, 2,21, c_ltgray, LINE_XOOX);
-    mvwputch(w, 2,32, c_ltgray, LINE_XXOO);
-    mvwputch(w, 2,39, c_ltgray, LINE_XXOX);
-    mvwputch(w, 2,50, c_ltgray, LINE_XXOX);
-    mvwputch(w, 2,57, c_ltgray, LINE_XXOX);
-    mvwputch(w, 2,73, c_ltgray, LINE_XXOX);
-    mvwprintz(w, 1,22, h_ltgray, "  TRAITS  ");
+    mvwputch(w, 2, 14, c_ltgray, LINE_XXOX);
+    mvwputch(w, 2, 21, c_ltgray, LINE_XOOX);
+    mvwputch(w, 2, 32, c_ltgray, LINE_XXOO);
+    mvwputch(w, 2, 39, c_ltgray, LINE_XXOX);
+    mvwputch(w, 2, 50, c_ltgray, LINE_XXOX);
+    mvwputch(w, 2, 57, c_ltgray, LINE_XXOX);
+    mvwputch(w, 2, 73, c_ltgray, LINE_XXOX);
+    mvwprintz(w, 1, 22, h_ltgray, "  TRAITS  ");
 
     for (int i = 0; i < 16; i++)
     {
@@ -709,23 +709,23 @@ int set_traits(WINDOW* w, player *u, int &points)
                                    ");
         mvwprintz(w, 5 + i, 40, c_dkgray, traits[PF_SPLIT + 1 + i].name.c_str());
     }
-    mvwprintz(w,11,32, c_ltgray, "h   l");
-    mvwprintz(w,12,32, c_ltgray, "<   >");
-    mvwprintz(w,13,32, c_ltgray, "4   6");
-    mvwprintz(w,15,32, c_ltgray, "Space");
-    mvwprintz(w,16,31, c_ltgray,"Toggles");
+    mvwprintz(w, 11, 32, c_ltgray, "h   l");
+    mvwprintz(w, 12, 32, c_ltgray, "<   >");
+    mvwprintz(w, 13, 32, c_ltgray, "4   6");
+    mvwprintz(w, 15, 32, c_ltgray, "Space");
+    mvwprintz(w, 16, 31, c_ltgray, "Toggles");
 
     int cur_adv = 1, cur_dis = PF_SPLIT + 1, cur_trait, traitmin, traitmax, xoff;
     nc_color col_on, col_off, hi_on, hi_off;
-    bool using_adv = true;	// True if we're selecting advantages, false if we're
+    bool using_adv = true;  // True if we're selecting advantages, false if we're
     // selecting disadvantages
 
     do
     {
         mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
-        mvwprintz(w,  3,20, c_ltgreen, "%s%d/%d", (num_good < 10 ? " " : ""),
+        mvwprintz(w,  3, 20, c_ltgreen, "%s%d/%d", (num_good < 10 ? " " : ""),
                   num_good, MAX_TRAIT_POINTS);
-        mvwprintz(w,  3,33, c_ltred, "%s%d/%d", (num_bad < 10 ? " " : ""),
+        mvwprintz(w,  3, 33, c_ltred, "%s%d/%d", (num_bad < 10 ? " " : ""),
                   num_bad, MAX_TRAIT_POINTS);
 // Clear the bottom of the screen.
         mvwprintz(w, 22, 0, c_ltgray, "\
@@ -980,17 +980,17 @@ int set_skills(WINDOW* w, player *u, int &points)
         mvwputch(w, 21, i, c_ltgray, LINE_OXOX);
     }
 // Attaching lines for tabs
-    mvwputch(w, 1,37, h_ltgray, '<');
-    mvwputch(w, 1,52, h_ltgray, '>');
+    mvwputch(w, 1, 37, h_ltgray, '<');
+    mvwputch(w, 1, 52, h_ltgray, '>');
     mvwputch(w, 2, 4, c_ltgray, LINE_XXOX);
-    mvwputch(w, 2,14, c_ltgray, LINE_XXOX);
-    mvwputch(w, 2,21, c_ltgray, LINE_XXOX);
-    mvwputch(w, 2,32, c_ltgray, LINE_XXOX);
-    mvwputch(w, 2,39, c_ltgray, LINE_XOOX);
-    mvwputch(w, 2,50, c_ltgray, LINE_XXOO);
-    mvwputch(w, 2,57, c_ltgray, LINE_XXOX);
-    mvwputch(w, 2,73, c_ltgray, LINE_XXOX);
-    mvwprintz(w,1,40, h_ltgray, "  SKILLS  ");
+    mvwputch(w, 2, 14, c_ltgray, LINE_XXOX);
+    mvwputch(w, 2, 21, c_ltgray, LINE_XXOX);
+    mvwputch(w, 2, 32, c_ltgray, LINE_XXOX);
+    mvwputch(w, 2, 39, c_ltgray, LINE_XOOX);
+    mvwputch(w, 2, 50, c_ltgray, LINE_XXOO);
+    mvwputch(w, 2, 57, c_ltgray, LINE_XXOX);
+    mvwputch(w, 2, 73, c_ltgray, LINE_XXOX);
+    mvwprintz(w, 1, 40, h_ltgray, "  SKILLS  ");
 
     int cur_sk = 1;
     Skill *currentSkill = Skill::skill(cur_sk);
@@ -1140,26 +1140,26 @@ int set_description(WINDOW* w, player *u, int &points)
         mvwputch(w, 21, i, c_ltgray, LINE_OXOX);
     }
 // Attaching lines for tabs
-    mvwputch(w, 1,55, h_ltgray, '<');
-    mvwputch(w, 1,75, h_ltgray, '>');
+    mvwputch(w, 1, 55, h_ltgray, '<');
+    mvwputch(w, 1, 75, h_ltgray, '>');
     mvwputch(w, 2, 4, c_ltgray, LINE_XXOX);
-    mvwputch(w, 2,14, c_ltgray, LINE_XXOX);
-    mvwputch(w, 2,21, c_ltgray, LINE_XXOX);
-    mvwputch(w, 2,32, c_ltgray, LINE_XXOX);
-    mvwputch(w, 2,39, c_ltgray, LINE_XXOX);
-    mvwputch(w, 2,50, c_ltgray, LINE_XXOX);
-    mvwputch(w, 2,57, c_ltgray, LINE_XOOX);
-    mvwputch(w, 2,73, c_ltgray, LINE_XXOO);
-    mvwprintz(w,1,58, h_ltgray, "  DESCRIPTION  ");
+    mvwputch(w, 2, 14, c_ltgray, LINE_XXOX);
+    mvwputch(w, 2, 21, c_ltgray, LINE_XXOX);
+    mvwputch(w, 2, 32, c_ltgray, LINE_XXOX);
+    mvwputch(w, 2, 39, c_ltgray, LINE_XXOX);
+    mvwputch(w, 2, 50, c_ltgray, LINE_XXOX);
+    mvwputch(w, 2, 57, c_ltgray, LINE_XOOX);
+    mvwputch(w, 2, 73, c_ltgray, LINE_XXOO);
+    mvwprintz(w, 1, 58, h_ltgray, "  DESCRIPTION  ");
     mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
 
     mvwprintz(w, 6, 2, c_ltgray, "\
 Name: ______________________________     (Press TAB to move off this line)");
     mvwprintz(w, 8, 2, c_ltgray, "\
 Gender: Male Female                      (Press spacebar to toggle)");
-    mvwprintz(w,10, 2, c_ltgray, "\
+    mvwprintz(w, 10, 2, c_ltgray, "\
 When your character is finished and you're ready to start playing, press >");
-    mvwprintz(w,12, 2, c_ltgray, "\
+    mvwprintz(w, 12, 2, c_ltgray, "\
 To go back and review your character, press <");
     mvwprintz(w, 14, 2, c_green, "\
 To pick a random name for your character, press ?.");
@@ -1248,7 +1248,7 @@ Points left: %d    You must use the rest of your points!", points);
             {
                 save_template(u);
             }
-            mvwprintz(w,12, 2, c_ltgray,"To go back and review your character, press <");
+            mvwprintz(w, 12, 2, c_ltgray, "To go back and review your character, press <");
             wrefresh(w);
         }
         else if (ch == '?')

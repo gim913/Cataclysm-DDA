@@ -98,11 +98,11 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
     }
 
 // Print items carried
-    for(int ch='a'; ch <= 'z'; ++ch)
+    for (int ch = 'a'; ch <= 'z'; ++ch)
     {
         n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
     }
-    for(int ch='A'; ch <= 'Z'; ++ch)
+    for (int ch = 'A'; ch <= 'Z'; ++ch)
     {
         n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
     }
@@ -161,8 +161,8 @@ std::vector<int> find_firsts(inventory &inv)
 // Display current inventory.
 char game::inv(std::string title)
 {
-    WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), 0, 0);
-    const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
+    WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY * 2 + 1), ((VIEWX < 12) ? 80 : VIEWX * 2 + 56), 0, 0);
+    const int maxitems = (VIEWY < 12) ? 20 : VIEWY * 2 - 4; // Number of items to show at one time.
     char ch = '.';
     int start = 0, cur_it;
     u.sort_inv();
@@ -176,7 +176,7 @@ char game::inv(std::string title)
     {
         if (ch == '<' && start > 0)   // Clear lines and shift
         {
-            for (int i = 1; i < maxitems+4; i++)
+            for (int i = 1; i < maxitems + 4; i++)
             {
                 mvwprintz(w_inv, i, 0, c_black, "                                             ");
             }
@@ -191,20 +191,20 @@ char game::inv(std::string title)
         {
             start = cur_it;
             mvwprintw(w_inv, maxitems + 4, 12, "            ");
-            for (int i = 1; i < maxitems+4; i++)
+            for (int i = 1; i < maxitems + 4; i++)
             {
                 mvwprintz(w_inv, i, 0, c_black, "                                             ");
             }
         }
         int cur_line = 2;
-        for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++)
+        for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems + 3; cur_it++)
         {
 // Clear the current line;
             mvwprintw(w_inv, cur_line, 0, "                                             ");
 // Print category header
             for (int i = 1; i < 9; i++)
             {
-                if (cur_it == firsts[i-1])
+                if (cur_it == firsts[i - 1])
                 {
                     mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
                     cur_line++;
@@ -212,7 +212,7 @@ char game::inv(std::string title)
             }
             if (cur_it < u.inv.size())
             {
-                mvwputch (w_inv, cur_line, 0, c_white, u.inv[cur_it].invlet);
+                mvwputch(w_inv, cur_line, 0, c_white, u.inv[cur_it].invlet);
                 mvwprintz(w_inv, cur_line, 1, u.inv[cur_it].color_in_inventory(&u), " %s",
                           u.inv[cur_it].tname(this).c_str());
                 if (u.inv.stack_at(cur_it).size() > 1)
@@ -255,8 +255,8 @@ char game::inv_type(std::string title, int inv_item_type)
 // this function lists inventory objects by type
 // refer to enum item_cat in itype.h for list of categories
 
-    WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), 0, 0);
-    const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
+    WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY * 2 + 1), ((VIEWX < 12) ? 80 : VIEWX * 2 + 56), 0, 0);
+    const int maxitems = (VIEWY < 12) ? 20 : VIEWY * 2 - 4; // Number of items to show at one time.
     char ch = '.';
     int start = 0, cur_it;
     u.sort_inv();
@@ -334,7 +334,7 @@ char game::inv_type(std::string title, int inv_item_type)
     {
         if (ch == '<' && start > 0)   // Clear lines and shift
         {
-            for (int i = 1; i < maxitems+4; i++)
+            for (int i = 1; i < maxitems + 4; i++)
             {
                 mvwprintz(w_inv, i, 0, c_black, "                                             ");
             }
@@ -349,20 +349,20 @@ char game::inv_type(std::string title, int inv_item_type)
         {
             start = cur_it;
             mvwprintw(w_inv, maxitems + 4, 12, "            ");
-            for (int i = 1; i < maxitems+4; i++)
+            for (int i = 1; i < maxitems + 4; i++)
             {
                 mvwprintz(w_inv, i, 0, c_black, "                                             ");
             }
         }
         int cur_line = 2;
-        for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++)
+        for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems + 3; cur_it++)
         {
 // Clear the current line;
             mvwprintw(w_inv, cur_line, 0, "                                             ");
 
             for (int i = 1; i < 9; i++)
             {
-                if (cur_it == firsts[i-1])
+                if (cur_it == firsts[i - 1])
                 {
                     mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
                     cur_line++;
@@ -371,7 +371,7 @@ char game::inv_type(std::string title, int inv_item_type)
 
             if (cur_it < reduced_inv.size())
             {
-                mvwputch (w_inv, cur_line, 0, c_white, reduced_inv[cur_it].invlet);
+                mvwputch(w_inv, cur_line, 0, c_white, reduced_inv[cur_it].invlet);
                 mvwprintz(w_inv, cur_line, 1, reduced_inv[cur_it].color_in_inventory(&u), " %s",
                           reduced_inv[cur_it].tname(this).c_str());
                 if (reduced_inv.stack_at(cur_it).size() > 1)
@@ -414,8 +414,8 @@ std::vector<item> game::multidrop()
 {
     u.sort_inv();
     u.inv.restack(&u);
-    WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), 0, 0);
-    const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
+    WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY * 2 + 1), ((VIEWX < 12) ? 80 : VIEWX * 2 + 56), 0, 0);
+    const int maxitems = (VIEWY < 12) ? 20 : VIEWY * 2 - 4; // Number of items to show at one time.
     int dropping[u.inv.size()]; // Count of how many we'll drop from each stack
     for (int i = 0; i < u.inv.size(); i++)
     {
@@ -434,7 +434,7 @@ std::vector<item> game::multidrop()
     {
         if (ch == '<' && start > 0)
         {
-            for (int i = 1; i < maxitems+4; i++)
+            for (int i = 1; i < maxitems + 4; i++)
             {
                 mvwprintz(w_inv, i, 0, c_black, "                                             ");
             }
@@ -449,20 +449,20 @@ std::vector<item> game::multidrop()
         {
             start = cur_it;
             mvwprintw(w_inv, maxitems + 4, 12, "            ");
-            for (int i = 1; i < maxitems+4; i++)
+            for (int i = 1; i < maxitems + 4; i++)
             {
                 mvwprintz(w_inv, i, 0, c_black, "                                             ");
             }
         }
         int cur_line = 2;
-        for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++)
+        for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems + 3; cur_it++)
         {
 // Clear the current line;
             mvwprintw(w_inv, cur_line, 0, "                                             ");
 // Print category header
             for (int i = 1; i < 9; i++)
             {
-                if (cur_it == firsts[i-1])
+                if (cur_it == firsts[i - 1])
                 {
                     mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
                     cur_line++;
@@ -470,7 +470,7 @@ std::vector<item> game::multidrop()
             }
             if (cur_it < u.inv.size())
             {
-                mvwputch (w_inv, cur_line, 0, c_white, u.inv[cur_it].invlet);
+                mvwputch(w_inv, cur_line, 0, c_white, u.inv[cur_it].invlet);
                 char icon = '-';
                 if (dropping[cur_it] >= u.inv.stack_at(cur_it).size())
                 {
@@ -708,8 +708,8 @@ void game::compare(int iCompareX, int iCompareY)
     const int groundsize = (grounditems.size() > 10 ? 10 : grounditems.size());
     u.sort_inv();
     u.inv.restack(&u);
-    WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), 0, 0);
-    int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
+    WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY * 2 + 1), ((VIEWX < 12) ? 80 : VIEWX * 2 + 56), 0, 0);
+    int maxitems = (VIEWY < 12) ? 20 : VIEWY * 2 - 4; // Number of items to show at one time.
     int compare[u.inv.size() + groundsize]; // Count of how many we'll drop from each stack
     bool bFirst = false; // First Item selected
     bool bShowCompare = false;
@@ -729,7 +729,7 @@ void game::compare(int iCompareX, int iCompareY)
     }
     for (int i = 0; i < first.size(); i++)
     {
-        firsts.push_back((first[i] >= 0) ? first[i]+groundsize : -1);
+        firsts.push_back((first[i] >= 0) ? first[i] + groundsize : -1);
     }
     ch = '.';
     int start = 0, cur_it;
@@ -737,7 +737,7 @@ void game::compare(int iCompareX, int iCompareY)
     {
         if (ch == '<' && start > 0)
         {
-            for (int i = 1; i < maxitems+4; i++)
+            for (int i = 1; i < maxitems + 4; i++)
             {
                 mvwprintz(w_inv, i, 0, c_black, "                                             ");
             }
@@ -752,7 +752,7 @@ void game::compare(int iCompareX, int iCompareY)
         {
             start = cur_it;
             mvwprintw(w_inv, maxitems + 4, 12, "            ");
-            for (int i = 1; i < maxitems+4; i++)
+            for (int i = 1; i < maxitems + 4; i++)
             {
                 mvwprintz(w_inv, i, 0, c_black, "                                             ");
             }
@@ -760,14 +760,14 @@ void game::compare(int iCompareX, int iCompareY)
         int cur_line = 2;
         int iHeaderOffset = (groundsize > 0) ? 0 : 1;
 
-        for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++)
+        for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems + 3; cur_it++)
         {
 // Clear the current line;
             mvwprintw(w_inv, cur_line, 0, "                                             ");
 // Print category header
             for (int i = iHeaderOffset; i < 9; i++)
             {
-                if (cur_it == firsts[i-iHeaderOffset])
+                if (cur_it == firsts[i - iHeaderOffset])
                 {
                     mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
                     cur_line++;
@@ -782,29 +782,29 @@ void game::compare(int iCompareX, int iCompareY)
                 }
                 if (cur_it < groundsize)
                 {
-                    mvwputch (w_inv, cur_line, 0, c_white, '1'+((cur_it<9) ? cur_it: -1));
+                    mvwputch(w_inv, cur_line, 0, c_white, '1' + ((cur_it < 9) ? cur_it : -1));
                     nc_color col = (compare[cur_it] == 0 ? c_ltgray : c_white);
                     mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
                               grounditems[cur_it].tname(this).c_str());
                 }
                 else
                 {
-                    mvwputch (w_inv, cur_line, 0, c_white, u.inv[cur_it-groundsize].invlet);
+                    mvwputch(w_inv, cur_line, 0, c_white, u.inv[cur_it - groundsize].invlet);
                     nc_color col = (compare[cur_it] == 0 ? c_ltgray : c_white);
                     mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
-                              u.inv[cur_it-groundsize].tname(this).c_str());
-                    if (u.inv.stack_at(cur_it-groundsize).size() > 1)
+                              u.inv[cur_it - groundsize].tname(this).c_str());
+                    if (u.inv.stack_at(cur_it - groundsize).size() > 1)
                     {
-                        wprintz(w_inv, col, " [%d]", u.inv.stack_at(cur_it-groundsize).size());
+                        wprintz(w_inv, col, " [%d]", u.inv.stack_at(cur_it - groundsize).size());
                     }
-                    if (u.inv[cur_it-groundsize].charges > 0)
+                    if (u.inv[cur_it - groundsize].charges > 0)
                     {
-                        wprintz(w_inv, col, " (%d)", u.inv[cur_it-groundsize].charges);
+                        wprintz(w_inv, col, " (%d)", u.inv[cur_it - groundsize].charges);
                     }
-                    else if (u.inv[cur_it-groundsize].contents.size() == 1 &&
-                             u.inv[cur_it-groundsize].contents[0].charges > 0)
+                    else if (u.inv[cur_it - groundsize].contents.size() == 1 &&
+                             u.inv[cur_it - groundsize].contents[0].charges > 0)
                     {
-                        wprintw(w_inv, " (%d)", u.inv[cur_it-groundsize].contents[0].charges);
+                        wprintw(w_inv, " (%d)", u.inv[cur_it - groundsize].contents[0].charges);
                     }
                 }
             }
@@ -861,16 +861,16 @@ void game::compare(int iCompareX, int iCompareY)
             }
             else
             {
-                if (compare[index+groundsize] == 1)
+                if (compare[index + groundsize] == 1)
                 {
-                    compare[index+groundsize] = 0;
+                    compare[index + groundsize] = 0;
                     bFirst = false;
                 }
                 else
                 {
                     if (!bFirst)
                     {
-                        compare[index+groundsize] = 1;
+                        compare[index + groundsize] = 1;
                         bFirst = true;
                         cLastCh = ch;
                     }
@@ -881,7 +881,7 @@ void game::compare(int iCompareX, int iCompareY)
                 }
             }
         }
-        else if ((ch >= '1' && ch <= '9' && ch-'1' < groundsize) || (ch == '0' && groundsize == 10))
+        else if ((ch >= '1' && ch <= '9' && ch - '1' < groundsize) || (ch == '0' && groundsize == 10))
         {
             //Ground Items
             int iZero = 0;
@@ -889,16 +889,16 @@ void game::compare(int iCompareX, int iCompareY)
             {
                 iZero = 10;
             }
-            if (compare[ch-'1'+iZero] == 1)
+            if (compare[ch - '1' + iZero] == 1)
             {
-                compare[ch-'1'+iZero] = 0;
+                compare[ch - '1' + iZero] = 0;
                 bFirst = false;
             }
             else
             {
                 if (!bFirst)
                 {
-                    compare[ch-'1'+iZero] = 1;
+                    compare[ch - '1' + iZero] = 1;
                     bFirst = true;
                     cLastCh = ch;
                 }
@@ -920,8 +920,8 @@ void game::compare(int iCompareX, int iCompareY)
                     iZero = 10;
                 }
 
-                grounditems[cLastCh-'1'+iZero].info(true, &vItemLastCh);
-                sItemLastCh = grounditems[cLastCh-'1'+iZero].tname(this);
+                grounditems[cLastCh - '1' + iZero].info(true, &vItemLastCh);
+                sItemLastCh = grounditems[cLastCh - '1' + iZero].tname(this);
             }
             else
             {
@@ -937,8 +937,8 @@ void game::compare(int iCompareX, int iCompareY)
                     iZero = 10;
                 }
 
-                grounditems[ch-'1'+iZero].info(true, &vItemCh);
-                sItemCh = grounditems[ch-'1'+iZero].tname(this);
+                grounditems[ch - '1' + iZero].info(true, &vItemCh);
+                sItemCh = grounditems[ch - '1' + iZero].tname(this);
             }
             else
             {

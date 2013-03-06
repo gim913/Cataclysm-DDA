@@ -603,7 +603,7 @@ void dis_effect(game *g, player &p, disease &dis)
         p.moves -= 10;
         p.str_cur -= 1;
         p.dex_cur -= 1;
-        if (dis.duration > -600)  	// First hour symptoms
+        if (dis.duration > -600)    // First hour symptoms
         {
             if (one_in(160 + bonus))
             {
@@ -633,7 +633,7 @@ void dis_effect(game *g, player &p, disease &dis)
                 }
             }
         }
-        else if (dis.duration > -3600)  	// One to six hours
+        else if (dis.duration > -3600)      // One to six hours
         {
             if (one_in(600 + bonus * 3))
             {
@@ -661,7 +661,7 @@ void dis_effect(game *g, player &p, disease &dis)
                 p.thirst += 68;
             }
         }
-        else  	// Full symptoms
+        else    // Full symptoms
         {
             if (one_in(1000 + bonus * 8))
             {
@@ -684,7 +684,7 @@ void dis_effect(game *g, player &p, disease &dis)
                         sporey = p.posy + j;
                         if (g->m.move_cost(sporex, sporey) > 0 && one_in(5))
                         {
-                            if (g->mon_at(sporex, sporey) >= 0)  	// Spores hit a monster
+                            if (g->mon_at(sporex, sporey) >= 0)     // Spores hit a monster
                             {
                                 if (g->u_see(sporex, sporey, junk))
                                     g->add_msg("The %s is covered in tiny spores!",
@@ -779,8 +779,8 @@ void dis_effect(game *g, player &p, disease &dis)
         }
         // Cold may wake you up.
         // Player gets desperate for sleep
-        if (p.temp_cur[bp_torso] < BODYTEMP_VERY_COLD - p.fatigue/2 ||
-                (one_in(p.temp_cur[bp_torso]) && p.temp_cur[bp_torso] < BODYTEMP_NORM - p.fatigue/2))
+        if (p.temp_cur[bp_torso] < BODYTEMP_VERY_COLD - p.fatigue / 2 ||
+                (one_in(p.temp_cur[bp_torso]) && p.temp_cur[bp_torso] < BODYTEMP_NORM - p.fatigue / 2))
         {
             g->add_msg("The cold wakes you up.");
             dis.duration = 1;
@@ -792,17 +792,17 @@ void dis_effect(game *g, player &p, disease &dis)
         //slightly repair broken limbs. (also nonbroken limbs (unless they're too healthy))
         for (int i = 0; i < num_hp_parts; i++)
         {
-            if(one_in(6))
+            if (one_in(6))
             {
-                if (p.hp_cur[i] < rng(0,40))
+                if (p.hp_cur[i] < rng(0, 40))
                 {
                     g->add_msg("You feel your skeleton melt and mend.");
-                    p.hp_cur[i]+= rng(1,8);
+                    p.hp_cur[i] += rng(1, 8);
                 }
-                else if (p.hp_cur[i] > rng(10,2000))
+                else if (p.hp_cur[i] > rng(10, 2000))
                 {
                     g->add_msg("You feel your skeleton melt");
-                    p.hp_cur[i] -= rng(0,8);
+                    p.hp_cur[i] -= rng(0, 8);
                 }
             }
         }
@@ -818,7 +818,7 @@ void dis_effect(game *g, player &p, disease &dis)
     case DI_PKILL2:
         if (dis.duration % 7 == 0 &&
                 (one_in(p.addiction_level(ADD_PKILLER)) ||
-                 one_in(p.addiction_level(ADD_PKILLER))   ))
+                 one_in(p.addiction_level(ADD_PKILLER))))
         {
             p.pkill += 2;
         }
@@ -827,7 +827,7 @@ void dis_effect(game *g, player &p, disease &dis)
     case DI_PKILL3:
         if (dis.duration % 2 == 0 &&
                 (one_in(p.addiction_level(ADD_PKILLER)) ||
-                 one_in(p.addiction_level(ADD_PKILLER))   ))
+                 one_in(p.addiction_level(ADD_PKILLER))))
         {
             p.pkill++;
         }
@@ -836,7 +836,7 @@ void dis_effect(game *g, player &p, disease &dis)
     case DI_PKILL_L:
         if (dis.duration % 20 == 0 && p.pkill < 40 &&
                 (one_in(p.addiction_level(ADD_PKILLER)) ||
-                 one_in(p.addiction_level(ADD_PKILLER))   ))
+                 one_in(p.addiction_level(ADD_PKILLER))))
         {
             p.pkill++;
         }
@@ -885,7 +885,7 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_CIG:
-        if (dis.duration >= 600)  	// Smoked too much
+        if (dis.duration >= 600)    // Smoked too much
         {
             p.str_cur--;
             p.dex_cur--;
@@ -911,7 +911,7 @@ void dis_effect(game *g, player &p, disease &dis)
 
     case DI_POISON:
         if ((!p.has_trait(PF_POISRESIST) && one_in(150)) ||
-                ( p.has_trait(PF_POISRESIST) && one_in(900))   )
+                (p.has_trait(PF_POISRESIST) && one_in(900)))
         {
             if (!p.is_npc())
             {
@@ -942,7 +942,7 @@ void dis_effect(game *g, player &p, disease &dis)
 
     case DI_BADPOISON:
         if ((!p.has_trait(PF_POISRESIST) && one_in(100)) ||
-                ( p.has_trait(PF_POISRESIST) && one_in(500))   )
+                (p.has_trait(PF_POISRESIST) && one_in(500)))
         {
             if (!p.is_npc())
             {
@@ -1126,7 +1126,7 @@ void dis_effect(game *g, player &p, disease &dis)
 
     case DI_HALLU:
 // This assumes that we were given DI_HALLU with a 3600 (6-hour) lifespan
-        if (dis.duration > 3000)  	// First hour symptoms
+        if (dis.duration > 3000)    // First hour symptoms
         {
             if (one_in(300))
             {
@@ -1136,7 +1136,7 @@ void dis_effect(game *g, player &p, disease &dis)
                 }
             }
         }
-        else if (dis.duration > 2400)  	// Coming up
+        else if (dis.duration > 2400)   // Coming up
         {
             if (one_in(100) || (p.has_trait(PF_WEAKSTOMACH) && one_in(100)))
             {
@@ -1162,17 +1162,17 @@ void dis_effect(game *g, player &p, disease &dis)
                 }
             }
         }
-        else if (dis.duration == 2400)	// Visuals start
+        else if (dis.duration == 2400)  // Visuals start
         {
             p.add_disease(DI_VISUALS, 2400, g);
         }
-        else  	// Full symptoms
+        else    // Full symptoms
         {
             p.per_cur -= 2;
             p.int_cur -= 1;
             p.dex_cur -= 2;
             p.str_cur -= 1;
-            if (one_in(50))  	// Generate phantasm
+            if (one_in(50))     // Generate phantasm
             {
                 monster phantasm(g->mtypes[mon_hallu_zom + rng(0, 3)]);
                 phantasm.spawn(p.posx + rng(-10, 10), p.posy + rng(-10, 10));
@@ -1182,14 +1182,14 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_ADRENALINE:
-        if (dis.duration > 150)  	// 5 minutes positive effects
+        if (dis.duration > 150)     // 5 minutes positive effects
         {
             p.str_cur += 5;
             p.dex_cur += 3;
             p.int_cur -= 8;
             p.per_cur += 1;
         }
-        else if (dis.duration == 150)  	// 15 minutes come-down
+        else if (dis.duration == 150)   // 15 minutes come-down
         {
             if (!p.is_npc())
             {
@@ -1257,7 +1257,7 @@ void dis_effect(game *g, player &p, disease &dis)
 // Default we get around 300 duration points per teleport (possibly more
 // depending on the source).
 // TODO: Include a chance to teleport to the nether realm.
-        if (dis.duration > 6000)  	// 20 teles (no decay; in practice at least 21)
+        if (dis.duration > 6000)    // 20 teles (no decay; in practice at least 21)
         {
             if (one_in(1000 - ((dis.duration - 6000) / 10)))
             {
@@ -1332,7 +1332,7 @@ void dis_effect(game *g, player &p, disease &dis)
                 }
             }
         }
-        if (dis.duration > 2400)  	// 8 teleports
+        if (dis.duration > 2400)    // 8 teleports
         {
             if (one_in(10000 - dis.duration))
             {
@@ -1379,7 +1379,7 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_ATTENTION:
-        if (one_in( 100000 / dis.duration ) && one_in( 100000 / dis.duration ) &&
+        if (one_in(100000 / dis.duration) && one_in(100000 / dis.duration) &&
                 one_in(250))
         {
             int range = g->moncats[mcat_nether].size();
@@ -2231,8 +2231,8 @@ Speed +80;   Strength + 5;   Dexterity + 3;   Intelligence - 8;   Perception + 1
 Strength - 2;     Dexterity - 1;     Intelligence - 1;     Perception - 1";
 
     case DI_ASTHMA:
-        stream<< "Speed - " << int(dis.duration / 5) << "%;     Strength - 2;     " <<
-              "Dexterity - 3";
+        stream << "Speed - " << int(dis.duration / 5) << "%;     Strength - 2;     " <<
+               "Dexterity - 3";
         return stream.str();
 
     case DI_GRACK:

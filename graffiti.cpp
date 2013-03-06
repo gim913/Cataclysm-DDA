@@ -18,7 +18,7 @@ graffiti::~graffiti()
 
 graffiti graffiti::operator=(graffiti rhs)
 {
-    if(rhs.contents)
+    if (rhs.contents)
     {
         this->contents = new std::string(*rhs.contents);
     }

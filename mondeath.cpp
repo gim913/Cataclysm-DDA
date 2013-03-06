@@ -63,7 +63,7 @@ void mdeath::boomer(game *g, monster *z)
             {
                 g->m.add_field(g, z->posx + i, z->posy + j, fd_bile, 1);
             }
-            int mondex = g->mon_at(z->posx + i, z->posy +j);
+            int mondex = g->mon_at(z->posx + i, z->posy + j);
             if (mondex != -1)
             {
                 g->z[mondex].stumble(g, false);
@@ -145,7 +145,7 @@ void mdeath::vine_cut(game *g, monster *z)
                 {
                     int mondex = g->mon_at(x, y);
                     if (mondex != -1 && (g->z[mondex].type->id == mon_creeper_hub ||
-                                         g->z[mondex].type->id == mon_creeper_vine  ))
+                                         g->z[mondex].type->id == mon_creeper_vine))
                     {
                         found_neighbor = true;
                     }
@@ -178,7 +178,7 @@ void mdeath::fungus(game *g, monster *z)
             sporey = z->posy + j;
             if (g->m.move_cost(sporex, sporey) > 0 && one_in(5))
             {
-                if (g->mon_at(sporex, sporey) >= 0)  	// Spores hit a monster
+                if (g->mon_at(sporex, sporey) >= 0)     // Spores hit a monster
                 {
                     if (g->u_see(sporex, sporey, j))
                         g->add_msg("The %s is covered in tiny spores!",
@@ -272,11 +272,11 @@ void mdeath::guilt(game *g, monster *z)
         return;    // It probably didn't die from damage
     }
     g->add_msg("You feel terrible for killing %s!", z->name().c_str());
-    if(z->type->id == mon_hallu_mom)
+    if (z->type->id == mon_hallu_mom)
     {
         g->u.add_morale(MORALE_KILLED_MONSTER, -50, -250);
     }
-    else if(z->type->id == mon_zombie_child)
+    else if (z->type->id == mon_zombie_child)
     {
         g->u.add_morale(MORALE_KILLED_MONSTER, -5, -250);
     }
@@ -311,11 +311,11 @@ void mdeath::blobsplit(game *g, monster *z)
     {
         for (int j = -1; j <= 1; j++)
         {
-            if (g->m.move_cost(z->posx+i, z->posy+j) > 0 &&
-                    g->mon_at(z->posx+i, z->posy+j) == -1 &&
-                    (g->u.posx != z->posx+i || g->u.posy != z->posy + j))
+            if (g->m.move_cost(z->posx + i, z->posy + j) > 0 &&
+                    g->mon_at(z->posx + i, z->posy + j) == -1 &&
+                    (g->u.posx != z->posx + i || g->u.posy != z->posy + j))
             {
-                valid.push_back(point(z->posx+i, z->posy+j));
+                valid.push_back(point(z->posx + i, z->posy + j));
             }
         }
     }

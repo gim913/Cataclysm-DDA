@@ -51,7 +51,7 @@ void mapbuffer::make_volatile()
 
 bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
 {
-    dbg(D_INFO) << "mapbuffer::add_submap( x["<< x <<"], y["<< y <<"], z["<< z <<"], submap["<< sm <<"])";
+    dbg(D_INFO) << "mapbuffer::add_submap( x[" << x << "], y[" << y << "], z[" << z << "], submap[" << sm << "])";
 
     tripoint p(x, y, z);
     if (submaps.count(p) != 0)
@@ -71,7 +71,7 @@ bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
 
 submap* mapbuffer::lookup_submap(int x, int y, int z)
 {
-    dbg(D_INFO) << "mapbuffer::lookup_submap( x["<< x <<"], y["<< y <<"], z["<< z <<"])";
+    dbg(D_INFO) << "mapbuffer::lookup_submap( x[" << x << "], y[" << y << "], z[" << z << "])";
 
     tripoint p(x, y, z);
 
@@ -80,14 +80,14 @@ submap* mapbuffer::lookup_submap(int x, int y, int z)
         return NULL;
     }
 
-    dbg(D_INFO) << "mapbuffer::lookup_submap success: "<< submaps[p];
+    dbg(D_INFO) << "mapbuffer::lookup_submap success: " << submaps[p];
 
     return submaps[p];
 }
 
 void mapbuffer::save_if_dirty()
 {
-    if(dirty)
+    if (dirty)
     {
         save();
     }
@@ -190,7 +190,7 @@ void mapbuffer::save()
         for (int i = 0; i < sm->vehicles.size(); i++)
         {
             fout << "V ";
-            sm->vehicles[i]->save (fout);
+            sm->vehicles[i]->save(fout);
         }
 // Output the computer
         if (sm->comp.name != "")
@@ -232,7 +232,7 @@ void mapbuffer::load()
         return;
     }
 
-    int itx, ity, t, d, a, num_submaps, num_loaded=0;
+    int itx, ity, t, d, a, num_submaps, num_loaded = 0;
     bool fields_here = false;
     item it_tmp;
     std::string databuff;
@@ -273,7 +273,7 @@ void mapbuffer::load()
             {
                 int radtmp;
                 fin >> radtmp;
-                radtmp -= int(turndif / 100);	// Radiation slowly decays
+                radtmp -= int(turndif / 100);   // Radiation slowly decays
                 if (radtmp < 0)
                 {
                     radtmp = 0;
@@ -336,7 +336,7 @@ void mapbuffer::load()
             else if (string_identifier == "V")
             {
                 vehicle * veh = new vehicle(master_game);
-                veh->load (fin);
+                veh->load(fin);
                 //veh.smx = gridx;
                 //veh.smy = gridy;
                 master_game->m.vehicle_list.insert(veh);
@@ -353,7 +353,7 @@ void mapbuffer::load()
                 int j;
                 int i;
                 fin >> j >> i;
-                getline(fin,s);
+                getline(fin, s);
                 sm->graf[j][i] = graffiti(s);
             }
         }

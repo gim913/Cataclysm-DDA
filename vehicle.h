@@ -56,15 +56,15 @@ struct vehicle_part
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
     }
-    bool has_flag( int flag )
+    bool has_flag(int flag)
     {
         return flag & flags;
     }
-    int set_flag( int flag )
+    int set_flag(int flag)
     {
         return flags |= flag;
     }
-    int remove_flag( int flag )
+    int remove_flag(int flag)
     {
         return flags &= ~flag;
     }
@@ -161,187 +161,187 @@ private:
     game *g;
 
 public:
-    vehicle (game *ag=0, vhtype_id type_id = veh_null);
-    ~vehicle ();
+    vehicle(game *ag = 0, vhtype_id type_id = veh_null);
+    ~vehicle();
 
 // check if given player controls this vehicle
-    bool player_in_control (player *p);
+    bool player_in_control(player *p);
 
 // init parts state for randomly generated vehicle
     void init_state(game* g);
 
 // load and init vehicle data from stream. This implies valid save data!
-    void load (std::ifstream &stin);
+    void load(std::ifstream &stin);
 
 // Save vehicle data to stream
-    void save (std::ofstream &stout);
+    void save(std::ofstream &stout);
 
 // Operate vehicle
     std::string use_controls();
 
 // get vpart type info for part number (part at given vector index)
-    const vpart_info& part_info (int index);
+    const vpart_info& part_info(int index);
 
 // get vpart powerinfo for part number, accounting for variable-sized parts.
-    int part_power (int index);
+    int part_power(int index);
 
 // check if certain part can be mounted at certain position (not accounting frame direction)
-    bool can_mount (int dx, int dy, vpart_id id);
+    bool can_mount(int dx, int dy, vpart_id id);
 
 // check if certain external part can be unmounted
-    bool can_unmount (int p);
+    bool can_unmount(int p);
 
 // install a new part to vehicle (force to skip possibility check)
-    int install_part (int dx, int dy, vpart_id id, int hp = -1, bool force = false);
+    int install_part(int dx, int dy, vpart_id id, int hp = -1, bool force = false);
 
-    void remove_part (int p);
+    void remove_part(int p);
 
 // translate item health to part health
-    void get_part_properties_from_item (game* g, int partnum, item& i);
+    void get_part_properties_from_item(game* g, int partnum, item& i);
 // translate part health to item health (very lossy.)
-    void give_part_properties_to_item (game* g, int partnum, item& i);
+    void give_part_properties_to_item(game* g, int partnum, item& i);
 
 // returns the list of indeces of parts at certain position (not accounting frame direction)
-    std::vector<int> parts_at_relative (int dx, int dy);
+    std::vector<int> parts_at_relative(int dx, int dy);
 
 // returns the list of indeces of parts inside (or over) given
-    std::vector<int> internal_parts (int p);
+    std::vector<int> internal_parts(int p);
 
 // returns index of part, inner to given, with certain flag (WARNING: without mfb!), or -1
-    int part_with_feature (int p, unsigned int f, bool unbroken = true);
+    int part_with_feature(int p, unsigned int f, bool unbroken = true);
 
 // returns true if given flag is present for given part index (WARNING: without mfb!)
-    bool part_flag (int p, unsigned int f);
+    bool part_flag(int p, unsigned int f);
 
 // Translate seat-relative mount coords into tile coords
-    void coord_translate (int reldx, int reldy, int &dx, int &dy);
+    void coord_translate(int reldx, int reldy, int &dx, int &dy);
 
 // Translate seat-relative mount coords into tile coords using given face direction
-    void coord_translate (int dir, int reldx, int reldy, int &dx, int &dy);
+    void coord_translate(int dir, int reldx, int reldy, int &dx, int &dy);
 
 // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
-    int part_at (int dx, int dy);
-    int global_part_at (int x, int y);
+    int part_at(int dx, int dy);
+    int global_part_at(int x, int y);
 
 // get symbol for map
-    char part_sym (int p);
+    char part_sym(int p);
 
 // get color for map
-    nc_color part_color (int p);
+    nc_color part_color(int p);
 
 // Vehicle parts description
-    void print_part_desc (void *w, int y1, int width, int p, int hl = -1);
+    void print_part_desc(void *w, int y1, int width, int p, int hl = -1);
 
 // Vehicle fuel indicator
-    void print_fuel_indicator (void *w, int y, int x);
+    void print_fuel_indicator(void *w, int y, int x);
 
 // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
-    void precalc_mounts (int idir, int dir);
+    void precalc_mounts(int idir, int dir);
 
 // get a list of part indeces where is a passenger inside
     std::vector<int> boarded_parts();
 
 // get passenger at part p
-    player *get_passenger (int p);
+    player *get_passenger(int p);
 
 // get global coords for vehicle
-    int global_x ();
-    int global_y ();
+    int global_x();
+    int global_y();
 
 // Checks how much certain fuel left in tanks. If for_engine == true that means
 // ftype == AT_BATT is also takes in account AT_PLUT fuel (electric motors can use both)
-    int fuel_left (int ftype, bool for_engine = false);
-    int fuel_capacity (int ftype);
+    int fuel_left(int ftype, bool for_engine = false);
+    int fuel_capacity(int ftype);
 
     // refill fuel tank(s) with given type of fuel
     // returns amount of leftover fuel
-    int refill (int ftype, int amount);
+    int refill(int ftype, int amount);
 
 // vehicle's fuel type name
     std::string fuel_name(int ftype);
 
 // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
-    int basic_consumption (int ftype);
+    int basic_consumption(int ftype);
 
-    void consume_fuel ();
+    void consume_fuel();
 
 // get the total mass of vehicle, including cargo and passengers
-    int total_mass ();
+    int total_mass();
 
 // Get combined power of all engines. If fueled == true, then only engines which
 // vehicle have fuel for are accounted
-    int total_power (bool fueled = true);
+    int total_power(bool fueled = true);
 
 // Get combined power of solar panels
-    int solar_power ();
+    int solar_power();
 
 // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
 // vehicle have fuel for are accounted
-    int acceleration (bool fueled = true);
+    int acceleration(bool fueled = true);
 
 // Get maximum velocity gained by combined power of all engines. If fueled == true, then only engines which
 // vehicle have fuel for are accounted
-    int max_velocity (bool fueled = true);
+    int max_velocity(bool fueled = true);
 
 // Get safe velocity gained by combined power of all engines. If fueled == true, then only engines which
 // vehicle have fuel for are accounted
-    int safe_velocity (bool fueled = true);
+    int safe_velocity(bool fueled = true);
 
-    int noise (bool fueled = true, bool gas_only = false);
+    int noise(bool fueled = true, bool gas_only = false);
 
 // Calculate area covered by wheels and, optionally count number of wheels
-    float wheels_area (int *cnt = 0);
+    float wheels_area(int *cnt = 0);
 
 // Combined coefficient of aerodynamic and wheel friction resistance of vehicle, 0-1.0.
 // 1.0 means it's ideal form and have no resistance at all. 0 -- it won't move
-    float k_dynamics ();
+    float k_dynamics();
 
 // Coefficient of mass, 0-1.0.
 // 1.0 means mass won't slow vehicle at all, 0 - it won't move
-    float k_mass ();
+    float k_mass();
 
 // strain of engine(s) if it works higher that safe speed (0-1.0)
-    float strain ();
+    float strain();
 
 // calculate if it can move using its wheels configuration
-    bool valid_wheel_config ();
+    bool valid_wheel_config();
 
 // thrust (1) or brake (-1) vehicle
-    void thrust (int thd);
+    void thrust(int thd);
 
 // cruise control
-    void cruise_thrust (int amount);
+    void cruise_thrust(int amount);
 
 // turn vehicle left (negative) or right (positive), degrees
-    void turn (int deg);
+    void turn(int deg);
 
 // handle given part collision with vehicle, monster/NPC/player or terrain obstacle
 // return collision, which has type, impulse, part, & target.
-    veh_collision part_collision (int vx, int vy, int part, int x, int y);
+    veh_collision part_collision(int vx, int vy, int part, int x, int y);
 
 // Process the trap beneath
-    void handle_trap (int x, int y, int part);
+    void handle_trap(int x, int y, int part);
 
 // add item to part's cargo. if false, then there's no cargo at this part or cargo is full
-    bool add_item (int part, item itm);
+    bool add_item(int part, item itm);
 
 // remove item from part's cargo
-    void remove_item (int part, int itemdex);
+    void remove_item(int part, int itemdex);
 
-    void gain_moves (int mp);
+    void gain_moves(int mp);
 
 // reduces velocity to 0
-    void stop ();
+    void stop();
 
-    void find_external_parts ();
+    void find_external_parts();
 
-    void find_exhaust ();
+    void find_exhaust();
 
-    void refresh_insides ();
+    void refresh_insides();
 
-    bool is_inside (int p);
+    bool is_inside(int p);
 
-    void unboard_all ();
+    void unboard_all();
 
     // damage types:
     // 0 - piercing
@@ -351,25 +351,25 @@ public:
     // must exceed certain threshold to be substracted from hp
     // (a lot light collisions will not destroy parts)
     // returns damage bypassed
-    int damage (int p, int dmg, int type = 1, bool aimed = true);
+    int damage(int p, int dmg, int type = 1, bool aimed = true);
 
     // damage all parts (like shake from strong collision), range from dmg1 to dmg2
-    void damage_all (int dmg1, int dmg2, int type = 1);
+    void damage_all(int dmg1, int dmg2, int type = 1);
 
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
-    int damage_direct (int p, int dmg, int type = 1);
+    int damage_direct(int p, int dmg, int type = 1);
 
-    void leak_fuel (int p);
+    void leak_fuel(int p);
 
     // fire the turret which is part p
-    void fire_turret (int p, bool burst = true);
+    void fire_turret(int p, bool burst = true);
 
     // internal procedure of turret firing
-    bool fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges);
+    bool fire_turret_internal(int p, it_gun &gun, it_ammo &ammo, int charges);
 
     // upgrades/refilling/etc. see veh_interact.cpp
-    void interact ();
+    void interact();
 
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
     rl_vec2d velo_vec();

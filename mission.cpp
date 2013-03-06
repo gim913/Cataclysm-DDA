@@ -45,7 +45,7 @@ std::string mission::save_info()
     }
     ret << description << " <> " << (failed ? 1 : 0) << " " << value <<
         " " << reward.type << " " << reward.value << " " << reward.item_id <<
-        " " << (reward.skill?reward.skill->id():0) << " " << uid << " " << target.x << " " <<
+        " " << (reward.skill ? reward.skill->id() : 0) << " " << uid << " " << target.x << " " <<
         target.y << " " << item_id << " " << count << " " << deadline << " " <<
         npc_id << " " << good_fac_id << " " << bad_fac_id << " " << step <<
         " " << follow_up;
@@ -68,18 +68,18 @@ void mission::load_info(game *g, std::ifstream &data)
         }
     }
     while (tmpdesc != "<>");
-    description = description.substr( 0, description.size() - 1 ); // Ending ' '
+    description = description.substr(0, description.size() - 1);   // Ending ' '
     data >> failed >> value >> rewtype >> reward_id >> rew_item >> rew_skill >>
          uid >> target.x >> target.y >> itemid >> count >> deadline >> npc_id >>
          good_fac_id >> bad_fac_id >> step >> tmpfollow;
     follow_up = mission_id(tmpfollow);
     reward.type = npc_favor_type(reward_id);
-    reward.item_id = itype_id( rew_item );
-    reward.skill = Skill::skill( rew_skill );
+    reward.item_id = itype_id(rew_item);
+    reward.skill = Skill::skill(rew_skill);
     item_id = itype_id(itemid);
 }
 
-std::string mission_dialogue (mission_id id, talk_topic state)
+std::string mission_dialogue(mission_id id, talk_topic state)
 {
     switch (id)
     {

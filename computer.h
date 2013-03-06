@@ -61,7 +61,7 @@ struct computer_option
         name = "Unknown", action = COMPACT_NULL, security = 0;
     };
     computer_option(std::string N, computer_action A, int S) :
-        name (N), action (A), security (S) {};
+        name(N), action(A), security(S) {};
 };
 
 class computer
@@ -94,11 +94,11 @@ private:
     WINDOW *w_terminal; // Output window
 
 // Called by use()
-    void activate_function      (game *g, computer_action action);
+    void activate_function(game *g, computer_action action);
 // Generally called when we fail a hack attempt
     void activate_random_failure(game *g);
 // ...but we can also choose a specific failure.
-    void activate_failure       (game *g, computer_failure fail);
+    void activate_failure(game *g, computer_failure fail);
 
 // OUTPUT/INPUT
 // Reset to a blank terminal (e.g. at start of usage loop)

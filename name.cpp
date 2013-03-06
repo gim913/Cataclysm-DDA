@@ -20,7 +20,7 @@ NameGenerator::NameGenerator()
     const picojson::array& rawNames = rawData.get<picojson::array>();
     for (picojson::array::const_iterator i = rawNames.begin(); i != rawNames.end(); ++i)
     {
-        std::map<std::string,picojson::value> aNameData = i->get<std::map<std::string,picojson::value> >();
+        std::map<std::string, picojson::value> aNameData = i->get<std::map<std::string, picojson::value> >();
 
         std::string name, gender, usage;
         uint32_t flags = 0;

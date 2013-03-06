@@ -29,11 +29,11 @@ int main(int argc, char *argv[])
     argv++;
     while (argc)
     {
-        if(std::string(argv[0]) == "--seed")
+        if (std::string(argv[0]) == "--seed")
         {
             argc--;
             argv++;
-            if(argc)
+            if (argc)
             {
                 seed = djb2_hash((unsigned char*)argv[0]);
                 argc--;

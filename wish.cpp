@@ -108,7 +108,7 @@ void game::wish()
             }
 
         }
-        else  	// Not searching; scroll by keys
+        else    // Not searching; scroll by keys
         {
             if (ch == 'j')
             {
@@ -162,7 +162,7 @@ void game::wish()
         }
         else if (pattern.length() > 0)
         {
-            mvwprintz(w_list, 0, 11, c_red, "%s not found!            ",pattern.c_str());
+            mvwprintz(w_list, 0, 11, c_red, "%s not found!            ", pattern.c_str());
         }
         if (a < 0)
         {
@@ -182,15 +182,15 @@ void game::wish()
                 shift = itypes.size() - 23;
             }
         }
-        for (int i = 1; i < 24 && i-1+shift < itypes.size(); i++)
+        for (int i = 1; i < 24 && i - 1 + shift < itypes.size(); i++)
         {
             nc_color col = c_white;
             if (i == a + 1)
             {
                 col = h_white;
             }
-            mvwprintz(w_list, i, 0, col, itypes[i-1+shift]->name.c_str());
-            wprintz(w_list, itypes[i-1+shift]->color, "%c%", itypes[i-1+shift]->sym);
+            mvwprintz(w_list, i, 0, col, itypes[i - 1 + shift]->name.c_str());
+            wprintz(w_list, itypes[i - 1 + shift]->color, "%c%", itypes[i - 1 + shift]->sym);
         }
         tmp.make(itypes[a + shift]);
         tmp.bday = turn;
@@ -336,7 +336,7 @@ void game::monster_wish()
             }
 
         }
-        else  	// Not searching; scroll by keys
+        else    // Not searching; scroll by keys
         {
             if (ch == 'j')
             {
@@ -394,7 +394,7 @@ void game::monster_wish()
         }
         else if (pattern.length() > 0)
         {
-            mvwprintz(w_list, 0, 11, c_red, "%s not found!            ",pattern.c_str());
+            mvwprintz(w_list, 0, 11, c_red, "%s not found!            ", pattern.c_str());
         }
         if (a < 0)
         {
@@ -421,8 +421,8 @@ void game::monster_wish()
             {
                 col = h_white;
             }
-            mvwprintz(w_list, i, 0, col, mtypes[i-1+shift]->name.c_str());
-            wprintz(w_list, mtypes[i-1+shift]->color, " %c%", mtypes[i-1+shift]->sym);
+            mvwprintz(w_list, i, 0, col, mtypes[i - 1 + shift]->name.c_str());
+            wprintz(w_list, mtypes[i - 1 + shift]->color, " %c%", mtypes[i - 1 + shift]->sym);
         }
         tmp = monster(mtypes[a + shift]);
         if (friendly)
@@ -557,7 +557,7 @@ void game::mutation_wish()
             }
 
         }
-        else  	// Not searching; scroll by keys
+        else    // Not searching; scroll by keys
         {
             if (ch == 'j')
             {
@@ -611,7 +611,7 @@ void game::mutation_wish()
         }
         else if (pattern.length() > 0)
         {
-            mvwprintz(w_list, 0, 11, c_red, "%s not found!            ",pattern.c_str());
+            mvwprintz(w_list, 0, 11, c_red, "%s not found!            ", pattern.c_str());
         }
         if (a < 0)
         {
@@ -638,32 +638,32 @@ void game::mutation_wish()
             {
                 col = h_white;
             }
-            mvwprintz(w_list, i, 0, col, traits[i-1+shift].name.c_str());
+            mvwprintz(w_list, i, 0, col, traits[i - 1 + shift].name.c_str());
         }
-        mvwprintw(w_info, 1, 0, mutation_data[a+shift].valid ? "Valid" : "Nonvalid");
+        mvwprintw(w_info, 1, 0, mutation_data[a + shift].valid ? "Valid" : "Nonvalid");
         int line2 = 2;
         mvwprintw(w_info, line2, 0, "Prereqs:");
-        for (int j = 0; j < mutation_data[a+shift].prereqs.size(); j++)
+        for (int j = 0; j < mutation_data[a + shift].prereqs.size(); j++)
         {
-            mvwprintw(w_info, line2, 9, traits[ mutation_data[a+shift].prereqs[j] ].name.c_str());
+            mvwprintw(w_info, line2, 9, traits[ mutation_data[a + shift].prereqs[j] ].name.c_str());
             line2++;
         }
         mvwprintw(w_info, line2, 0, "Cancels:");
-        for (int j = 0; j < mutation_data[a+shift].cancels.size(); j++)
+        for (int j = 0; j < mutation_data[a + shift].cancels.size(); j++)
         {
-            mvwprintw(w_info, line2, 9, traits[ mutation_data[a+shift].cancels[j] ].name.c_str());
+            mvwprintw(w_info, line2, 9, traits[ mutation_data[a + shift].cancels[j] ].name.c_str());
             line2++;
         }
         mvwprintw(w_info, line2, 0, "Becomes:");
-        for (int j = 0; j < mutation_data[a+shift].replacements.size(); j++)
+        for (int j = 0; j < mutation_data[a + shift].replacements.size(); j++)
         {
-            mvwprintw(w_info, line2, 9, traits[ mutation_data[a+shift].replacements[j] ].name.c_str());
+            mvwprintw(w_info, line2, 9, traits[ mutation_data[a + shift].replacements[j] ].name.c_str());
             line2++;
         }
         mvwprintw(w_info, line2, 0, "Add-ons:");
-        for (int j = 0; j < mutation_data[a+shift].additions.size(); j++)
+        for (int j = 0; j < mutation_data[a + shift].additions.size(); j++)
         {
-            mvwprintw(w_info, line2, 9, traits[ mutation_data[a+shift].additions[j] ].name.c_str());
+            mvwprintw(w_info, line2, 9, traits[ mutation_data[a + shift].additions[j] ].name.c_str());
             line2++;
         }
         wrefresh(w_info);
@@ -679,7 +679,7 @@ void game::mutation_wish()
     }
     while (ch != '\n');
     clear();
-    if (a+shift == 0)
+    if (a + shift == 0)
     {
         u.mutate(this);
     }

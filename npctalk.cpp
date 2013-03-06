@@ -14,7 +14,7 @@
 #define OWED_VAL 250
 
 // Some aliases to help with gen_responses
-#define RESPONSE(txt)	   ret.push_back(talk_response());\
+#define RESPONSE(txt)      ret.push_back(talk_response());\
                            ret.back().text = txt
 
 #define SELECT_MISS(txt, index)  ret.push_back(talk_response());\
@@ -101,7 +101,7 @@ void npc::talk_to_u(game *g)
         mission_type *type = g->find_mission_type(chatbin.missions_assigned[i]);
         if ((type->urgent && !chosen_urgent) ||
                 (type->difficulty > most_difficult_mission &&
-                 (type->urgent || !chosen_urgent)            ))
+                 (type->urgent || !chosen_urgent)))
         {
             chosen_urgent = type->urgent;
             d.topic_stack.push_back(TALK_MISSION_INQUIRE);
@@ -120,7 +120,7 @@ void npc::talk_to_u(game *g)
 
     d.win = newwin(25, 80, 0, 0);
     wborder(d.win, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     for (int i = 1; i < 24; i++)
     {
         mvwputch(d.win, i, 41, c_ltgray, LINE_XOXO);
@@ -301,8 +301,8 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
         {
             return "Shall we resume?";
         }
-        std::vector<skill> trainable = p->skills_offered_to( &(g->u) );
-        std::vector<itype_id> styles = p->styles_offered_to( &(g->u) );
+        std::vector<skill> trainable = p->skills_offered_to(&(g->u));
+        std::vector<itype_id> styles = p->styles_offered_to(&(g->u));
         if (trainable.empty() && styles.empty())
         {
             return "Sorry, but it doesn't seem I have anything to teach you.";
@@ -581,7 +581,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
     mission *miss = NULL;
     if (selected != -1 && selected < p->chatbin.missions_assigned.size())
     {
-        miss = g->find_mission( p->chatbin.missions_assigned[selected] );
+        miss = g->find_mission(p->chatbin.missions_assigned[selected]);
     }
 
     switch (topic)
@@ -603,7 +603,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
         {
             for (int i = 0; i < p->chatbin.missions.size(); i++)
             {
-                SELECT_MISS(g->find_mission_type( p->chatbin.missions[i] )->name, i);
+                SELECT_MISS(g->find_mission_type(p->chatbin.missions[i])->name, i);
                 SUCCESS(TALK_MISSION_OFFER);
             }
             RESPONSE("Never mind, I'm not interested.");
@@ -628,7 +628,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
         {
             for (int i = 0; i < p->chatbin.missions_assigned.size(); i++)
             {
-                SELECT_MISS(g->find_mission_type( p->chatbin.missions_assigned[i] )->name,
+                SELECT_MISS(g->find_mission_type(p->chatbin.missions_assigned[i])->name,
                             i);
                 SUCCESS(TALK_MISSION_INQUIRE);
             }
@@ -897,11 +897,11 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
                    (g->u.backlog.index > 0 ?
                     skill_name(g->u.backlog.index) :
                     g->itypes[ 0 - g->u.backlog.index ]->name);
-            SELECT_TEMP( resume.str(), g->u.backlog.index);
+            SELECT_TEMP(resume.str(), g->u.backlog.index);
             SUCCESS(TALK_TRAIN_START);
         }
-        std::vector<skill> trainable = p->skills_offered_to( &(g->u) );
-        std::vector<itype_id> styles = p->styles_offered_to( &(g->u) );
+        std::vector<skill> trainable = p->skills_offered_to(&(g->u));
+        std::vector<itype_id> styles = p->styles_offered_to(&(g->u));
         if (trainable.empty() && styles.empty())
         {
             RESPONSE("Oh, okay."); // Nothing to learn here
@@ -920,7 +920,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
             skilltext << skill_name(trained) << ": " << g->u.sklevel[trained] <<
                       " -> " << g->u.sklevel[trained] + 1 << "(cost " <<
                       200 * (g->u.sklevel[trained] + 1) << ")";
-            SELECT_TEMP( skilltext.str(), trainable[i] );
+            SELECT_TEMP(skilltext.str(), trainable[i]);
             SUCCESS(TALK_TRAIN_START);
         }
         if (shift < 0)
@@ -930,8 +930,8 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
         for (int i = 0; i < styles.size() && printed < 9; i++)
         {
             printed++;
-            SELECT_TEMP( g->itypes[styles[i]]->name + " (cost 800)",
-                         0 - styles[i] );
+            SELECT_TEMP(g->itypes[styles[i]]->name + " (cost 800)",
+                        0 - styles[i]);
             SUCCESS(TALK_TRAIN_START);
         }
         if (more)
@@ -1464,11 +1464,11 @@ void talk_function::assign_mission(game *g, npc *p)
                  selected, p->chatbin.missions.size());
         return;
     }
-    mission *miss = g->find_mission( p->chatbin.missions[selected] );
+    mission *miss = g->find_mission(p->chatbin.missions[selected]);
     g->assign_mission(p->chatbin.missions[selected]);
     miss->npc_id = p->id;
     g->u.active_mission = g->u.active_missions.size() - 1;
-    p->chatbin.missions_assigned.push_back( p->chatbin.missions[selected] );
+    p->chatbin.missions_assigned.push_back(p->chatbin.missions[selected]);
     p->chatbin.missions.erase(p->chatbin.missions.begin() + selected);
 }
 
@@ -1483,7 +1483,7 @@ void talk_function::mission_success(game *g, npc *p)
     }
     int index = p->chatbin.missions_assigned[selected];
     mission *miss = g->find_mission(index);
-    npc_opinion tmp( 0, 0, 1 + (miss->value / 1000), -1, miss->value);
+    npc_opinion tmp(0, 0, 1 + (miss->value / 1000), -1, miss->value);
     p->op_of_u += tmp;
     g->wrap_up_mission(index);
 }
@@ -1497,7 +1497,7 @@ void talk_function::mission_failure(game *g, npc *p)
                  selected, p->chatbin.missions_assigned.size());
         return;
     }
-    npc_opinion tmp( -1, 0, -1, 1, 0);
+    npc_opinion tmp(-1, 0, -1, 1, 0);
     p->op_of_u += tmp;
     g->mission_failed(p->chatbin.missions_assigned[selected]);
 }
@@ -1512,12 +1512,12 @@ void talk_function::clear_mission(game *g, npc *p)
                  selected, p->chatbin.missions_assigned.size());
         return;
     }
-    mission *miss = g->find_mission( p->chatbin.missions_assigned[selected] );
-    p->chatbin.missions_assigned.erase( p->chatbin.missions_assigned.begin() +
-                                        selected);
+    mission *miss = g->find_mission(p->chatbin.missions_assigned[selected]);
+    p->chatbin.missions_assigned.erase(p->chatbin.missions_assigned.begin() +
+                                       selected);
     if (miss->follow_up != MISSION_NULL)
     {
-        p->chatbin.missions.push_back( g->reserve_mission(miss->follow_up, p->id) );
+        p->chatbin.missions.push_back(g->reserve_mission(miss->follow_up, p->id));
     }
 }
 
@@ -1571,7 +1571,7 @@ void talk_function::give_equipment(game *g, npc *p)
     int item_index = giving[chosen];
     popup("%s gives you a %s.", p->name.c_str(),
           p->inv[item_index].tname().c_str());
-    g->u.i_add( p->i_remn(item_index) );
+    g->u.i_add(p->i_remn(item_index));
     p->op_of_u.owed -= prices[chosen];
     p->add_disease(DI_ASKED_FOR_ITEM, 1800, g);
 }
@@ -1646,7 +1646,7 @@ void talk_function::lead_to_safety(game *g, npc *p)
 {
     g->give_mission(MISSION_REACH_SAFETY);
     int missid = g->u.active_missions[g->u.active_mission];
-    point target = g->find_mission( missid )->target;
+    point target = g->find_mission(missid)->target;
     p->goalx = target.x;
     p->goaly = target.y;
     p->attitude = NPCATT_LEAD;
@@ -2035,7 +2035,7 @@ talk_topic special_talk(char ch)
 
 bool trade(game *g, npc *p, int cost, std::string deal)
 {
-    WINDOW* w_head = newwin( 4, 80,  0,  0);
+    WINDOW* w_head = newwin(4, 80,  0,  0);
     WINDOW* w_them = newwin(21, 40,  4,  0);
     WINDOW* w_you  = newwin(21, 40,  4, 40);
     WINDOW* w_tmp;
@@ -2076,14 +2076,14 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
     }
 
     int  cash = cost;// How much cash you get in the deal (negative = losing money)
-    bool focus_them = true;	// Is the focus on them?
-    bool update = true;		// Re-draw the screen?
+    bool focus_them = true; // Is the focus on them?
+    bool update = true;     // Re-draw the screen?
     int  them_off = 0, you_off = 0;// Offset from the start of the list
     char ch, help;
 
     do
     {
-        if (update)  	// Time to re-draw
+        if (update)     // Time to re-draw
         {
             update = false;
 // Draw borders, one of which is highlighted
@@ -2110,21 +2110,21 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
                 wattron(w_you,  c_yellow);
             }
             wborder(w_them, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                    LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+                    LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
             wborder(w_you,  LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                    LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+                    LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
             wattroff(w_them, c_yellow);
             wattroff(w_you,  c_yellow);
             mvwprintz(w_them, 0, 1, (cash < 0 || p->cash >= cash ? c_green : c_red),
                       "%s: $%d", p->name.c_str(), p->cash);
-            mvwprintz(w_you,  0, 2, (cash > 0 || g->u.cash>=cash*-1 ? c_green:c_red),
+            mvwprintz(w_you,  0, 2, (cash > 0 || g->u.cash >= cash * -1 ? c_green : c_red),
                       "You: $%d", g->u.cash);
 // Draw their list of items, starting from them_off
             for (int i = them_off; i < theirs.size() && i < 17; i++)
                 mvwprintz(w_them, i - them_off + 1, 1,
                           (getting_theirs[i] ? c_white : c_ltgray), "%c %c %s - $%d",
                           char(i + 'a'), (getting_theirs[i] ? '+' : '-'),
-                          p->inv[theirs[i + them_off]].tname().substr( 0,25).c_str(),
+                          p->inv[theirs[i + them_off]].tname().substr(0, 25).c_str(),
                           their_price[i + them_off]);
             if (them_off > 0)
             {
@@ -2139,7 +2139,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
                 mvwprintz(w_you, i - you_off + 1, 1,
                           (getting_yours[i] ? c_white : c_ltgray), "%c %c %s - $%d",
                           char(i + 'a'), (getting_yours[i] ? '+' : '-'),
-                          g->u.inv[yours[i + you_off]].tname().substr( 0,25).c_str(),
+                          g->u.inv[yours[i + you_off]].tname().substr(0, 25).c_str(),
                           your_price[i + you_off]);
             if (you_off > 0)
             {
@@ -2152,7 +2152,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
             wrefresh(w_head);
             wrefresh(w_them);
             wrefresh(w_you);
-        }	// Done updating the screen
+        }   // Done updating the screen
         ch = getch();
         switch (ch)
         {
@@ -2201,7 +2201,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
             w_tmp = newwin(3, 21, 1, 30);
             mvwprintz(w_tmp, 1, 1, c_red, "Examine which item?");
             wborder(w_tmp, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                    LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+                    LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
             wrefresh(w_tmp);
             help = getch();
             help -= 'a';
@@ -2223,7 +2223,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
                 }
             }
             break;
-        case '\n':	// Check if we have enough cash...
+        case '\n':  // Check if we have enough cash...
             if (cash < 0 && g->u.cash < cash * -1)
             {
                 popup("Not enough cash!  You have $%d, price is $%d.", g->u.cash, cash);
@@ -2235,7 +2235,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
                 p->op_of_u.owed += cash;
             }
             break;
-        default:	// Letters & such
+        default:    // Letters & such
             if (ch >= 'a' && ch <= 'z')
             {
                 ch -= 'a';
@@ -2255,7 +2255,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
                         update = true;
                     }
                 }
-                else  	// Focus is on the player's inventory
+                else    // Focus is on the player's inventory
                 {
                     if (ch < yours.size())
                     {

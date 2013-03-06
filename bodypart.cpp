@@ -1,7 +1,7 @@
 #include "bodypart.h"
 #include "rng.h"
 
-std::string body_part_name (body_part bp, int side)
+std::string body_part_name(body_part bp, int side)
 {
     switch (bp)
     {

@@ -12,7 +12,7 @@ struct construction_stage
     std::vector<component> components[3];
 
     construction_stage(ter_id Terrain, int Time) :
-        terrain (Terrain), time (Time) { };
+        terrain(Terrain), time(Time) { };
 };
 
 struct constructable
@@ -21,13 +21,13 @@ struct constructable
     std::string name; // Name as displayed
     int difficulty; // Carpentry skill level required
     std::vector<construction_stage> stages;
-    bool (construct::*able)  (game *, point);
-    void (construct::*done)  (game *, point);
+    bool (construct::*able)(game *, point);
+    void (construct::*done)(game *, point);
 
     constructable(int Id, std::string Name, int Diff,
-                  bool (construct::*Able) (game *, point),
-                  void (construct::*Done) (game *, point)) :
-        id (Id), name (Name), difficulty (Diff), able (Able), done (Done) {};
+                  bool (construct::*Able)(game *, point),
+                  void (construct::*Done)(game *, point)) :
+        id(Id), name(Name), difficulty(Diff), able(Able), done(Done) {};
 };
 
 struct construct // Construction functions.
@@ -37,12 +37,12 @@ struct construct // Construction functions.
     {
         return true;
     }
-    bool able_never (game *, point)
+    bool able_never(game *, point)
     {
         return false;
     }
 
-    bool able_empty (game *, point); // Able if tile is empty
+    bool able_empty(game *, point);  // Able if tile is empty
 
     bool able_window(game *, point); // Any window tile
     bool able_empty_window(game *, point); // Empty window tiles
@@ -52,7 +52,7 @@ struct construct // Construction functions.
     bool able_door(game *, point); // Any door tile
     bool able_door_broken(game *, point); // Broken door
 
-    bool able_wall  (game *, point); // Able if tile is wall
+    bool able_wall(game *, point);   // Able if tile is wall
     bool able_wall_wood(game *g, point); // Only player-built walls
     bool able_indoors(game *g, point); // Able on floors
 

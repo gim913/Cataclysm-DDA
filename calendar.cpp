@@ -280,7 +280,7 @@ calendar calendar::sunrise()
         break;
     }
     double percent = double(double(day) / DAYS_IN_SEASON);
-    double time = double(start_hour) * (1.- percent) + double(end_hour) * percent;
+    double time = double(start_hour) * (1. - percent) + double(end_hour) * percent;
 
     ret.hour = int(time);
     time -= int(time);
@@ -313,7 +313,7 @@ calendar calendar::sunset()
         break;
     }
     double percent = double(double(day) / DAYS_IN_SEASON);
-    double time = double(start_hour) * (1.- percent) + double(end_hour) * percent;
+    double time = double(start_hour) * (1. - percent) + double(end_hour) * percent;
 
     ret.hour = int(time);
     time -= int(time);
@@ -353,16 +353,16 @@ int calendar::sunlight()
     {
 
         double percent = double(mins - sunrise_mins) / TWILIGHT_MINUTES;
-        return int( double(moonlight)      * (1. - percent) +
-                    double(DAYLIGHT_LEVEL) * percent         );
+        return int(double(moonlight)      * (1. - percent) +
+                   double(DAYLIGHT_LEVEL) * percent);
 
     }
     else if (mins >= sunset_mins && mins <= sunset_mins + TWILIGHT_MINUTES)
     {
 
         double percent = double(mins - sunset_mins) / TWILIGHT_MINUTES;
-        return int( double(DAYLIGHT_LEVEL) * (1. - percent) +
-                    double(moonlight)      * percent         );
+        return int(double(DAYLIGHT_LEVEL) * (1. - percent) +
+                   double(moonlight)      * percent);
 
     }
     else

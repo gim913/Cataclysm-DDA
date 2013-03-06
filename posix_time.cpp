@@ -2,8 +2,8 @@
 
 #if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
 int
-nanosleep (const struct timespec *requested_delay,
-           struct timespec *remaining_delay)
+nanosleep(const struct timespec *requested_delay,
+          struct timespec *remaining_delay)
 {
     static bool initialized;
     /* Number of performance counter increments per nanosecond,
@@ -25,7 +25,7 @@ nanosleep (const struct timespec *requested_delay,
             /* Initialize ticks_per_nanosecond.  */
             LARGE_INTEGER ticks_per_second;
 
-            if (QueryPerformanceFrequency (&ticks_per_second))
+            if (QueryPerformanceFrequency(&ticks_per_second))
                 ticks_per_nanosecond =
                     (double) ticks_per_second.QuadPart / 1000000000.0;
 
@@ -44,7 +44,7 @@ nanosleep (const struct timespec *requested_delay,
             LONGLONG wait_ticks = requested_delay->tv_nsec * ticks_per_nanosecond;
             /* Start.  */
             LARGE_INTEGER counter_before;
-            if (QueryPerformanceCounter (&counter_before))
+            if (QueryPerformanceCounter(&counter_before))
             {
                 /* Wait until the performance counter has reached this value.
                    We don't need to worry about overflow, because the performance
@@ -54,13 +54,13 @@ nanosleep (const struct timespec *requested_delay,
                 /* Use Sleep for the longest part.  */
                 if (sleep_millis > 0)
                 {
-                    Sleep (sleep_millis);
+                    Sleep(sleep_millis);
                 }
                 /* Busy-loop for the rest.  */
                 for (;;)
                 {
                     LARGE_INTEGER counter_after;
-                    if (!QueryPerformanceCounter (&counter_after))
+                    if (!QueryPerformanceCounter(&counter_after))
                         /* QueryPerformanceCounter failed, but succeeded earlier.
                            Should not happen.  */
                     {
@@ -77,7 +77,7 @@ nanosleep (const struct timespec *requested_delay,
         }
     }
     /* Implementation for long delays and as fallback.  */
-    Sleep (requested_delay->tv_sec * 1000 + requested_delay->tv_nsec / 1000000);
+    Sleep(requested_delay->tv_sec * 1000 + requested_delay->tv_nsec / 1000000);
 
 done:
     /* Sleep is not interruptible.  So there is no remaining delay.  */

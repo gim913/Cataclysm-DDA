@@ -186,13 +186,13 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
                     mondex = mon_at(tarx + diff, tary - radius);
                     if (mondex != -1 && z[mondex].hp > 0 && z[mondex].friendly == 0)
                     {
-                        new_targets.push_back( point(tarx + diff, tary - radius) );
+                        new_targets.push_back(point(tarx + diff, tary - radius));
                     }
 
                     mondex = mon_at(tarx + diff, tary + radius);
                     if (mondex != -1 && z[mondex].hp > 0 && z[mondex].friendly == 0)
                     {
-                        new_targets.push_back( point(tarx + diff, tary + radius) );
+                        new_targets.push_back(point(tarx + diff, tary + radius));
                     }
 
                     if (diff != 0 - radius && diff != radius)   // Corners were already checked
@@ -200,13 +200,13 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
                         mondex = mon_at(tarx - radius, tary + diff);
                         if (mondex != -1 && z[mondex].hp > 0 && z[mondex].friendly == 0)
                         {
-                            new_targets.push_back( point(tarx - radius, tary + diff) );
+                            new_targets.push_back(point(tarx - radius, tary + diff));
                         }
 
                         mondex = mon_at(tarx + radius, tary + diff);
                         if (mondex != -1 && z[mondex].hp > 0 && z[mondex].friendly == 0)
                         {
-                            new_targets.push_back( point(tarx + radius, tary + diff) );
+                            new_targets.push_back(point(tarx + radius, tary + diff));
                         }
                     }
                 }
@@ -234,7 +234,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 
         // Drop a shell casing if appropriate.
         itype_id casing_type = itm_null;
-        switch(curammo->type)
+        switch (curammo->type)
         {
         case AT_SHOT:
             casing_type = itm_shot_hull;
@@ -397,7 +397,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
         {
             if (i > 0)
             {
-                m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, false, true);
+                m.drawsq(w_terrain, u, trajectory[i - 1].x, trajectory[i - 1].y, false, true);
             }
 // Drawing the bullet uses player u, and not player p, because it's drawn
 // relative to YOUR position, which may not be the gunman's position.
@@ -453,7 +453,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 // Penalize for the monster's speed
                 if (z[mondex].speed > 80)
                 {
-                    goodhit *= double( double(z[mondex].speed) / 80.);
+                    goodhit *= double(double(z[mondex].speed) / 80.);
                 }
 
                 std::vector<point> blood_traj = trajectory;
@@ -503,7 +503,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
         }
         if (is_bolt &&
                 ((curammo->m1 == WOOD && !one_in(5)) ||
-                 (curammo->m1 != WOOD && !one_in(15))  ))
+                 (curammo->m1 != WOOD && !one_in(15))))
         {
             m.add_item(lastx, lasty, ammotmp);
         }
@@ -783,7 +783,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
     WINDOW* w_target = newwin(13, 48, 12, TERRAIN_WINDOW_WIDTH + 7);
     wborder(w_target, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     if (!relevent) // currently targetting vehicle to refill with fuel
     {
         mvwprintz(w_target, 1, 1, c_red, "Select a vehicle");
@@ -869,7 +869,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 for (int i = 0; i < ret.size(); i++)
                 {
                     if (abs(ret[i].x - u.posx) <= sight_dist &&
-                            abs(ret[i].y - u.posy) <= sight_dist   )
+                            abs(ret[i].y - u.posy) <= sight_dist)
                     {
                         int mondex = mon_at(ret[i].x, ret[i].y),
                             npcdex = npc_at(ret[i].x, ret[i].y);
@@ -884,7 +884,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                         }
                         else
                         {
-                            m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true,true,center.x, center.y);
+                            m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true, true, center.x, center.y);
                         }
                     }
                 }
@@ -926,7 +926,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         refresh();
         ch = input();
         get_direction(this, tarx, tary, ch);
-        if (tarx != -2 && tary != -2 && ch != '.')  	// Direction character pressed
+        if (tarx != -2 && tary != -2 && ch != '.')      // Direction character pressed
         {
             int mondex = mon_at(x, y), npcdex = npc_at(x, y);
             if (mondex != -1 && u_see(&(z[mondex]), tart))
