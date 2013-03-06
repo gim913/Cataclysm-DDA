@@ -55,7 +55,7 @@ game::game() :
     dout() << "Game initialized.";
     clear();    // Clear the screen
     intro();    // Print an intro screen, make sure we're at least 80x25
-// Gee, it sure is init-y around here!
+    // Gee, it sure is init-y around here!
     init_itypes();        // Set up item types                (SEE itypedef.cpp)
     init_mtypes();        // Set up monster types             (SEE mtypedef.cpp)
     init_monitems();     // Set up the items monsters carry  (SEE monitemsdef.cpp)
@@ -82,7 +82,7 @@ game::game() :
     }
     TERRAIN_WINDOW_WIDTH = (VIEWX * 2) + 1;
     TERRAIN_WINDOW_HEIGHT = (VIEWY * 2) + 1;
-// Set up the main UI windows.
+    // Set up the main UI windows.
     w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, 0, 0);
     werase(w_terrain);
     w_minimap = newwin(7, 7, 0, TERRAIN_WINDOW_WIDTH);
@@ -127,12 +127,12 @@ void game::setup()
     m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
     z.reserve(1000); // Reserve some space
 
-// Even though we may already have 'd', nextinv will be incremented as needed
+    // Even though we may already have 'd', nextinv will be incremented as needed
     nextinv = 'd';
     next_npc_id = 1;
     next_faction_id = 1;
     next_mission_id = 1;
-// Clear monstair values
+    // Clear monstair values
     monstairx = -1;
     monstairy = -1;
     monstairz = -1;
@@ -142,7 +142,7 @@ void game::setup()
     debugmon = false;   // We're not printing debug messages
     no_npc = false;     // We're not suppressing NPC spawns
 
-// ... Unless data/no_npc.txt exists.
+    // ... Unless data/no_npc.txt exists.
     std::ifstream ifile("data/no_npc.txt");
     if (ifile)
     {
@@ -170,7 +170,7 @@ void game::setup()
     {
         kills[i] = 0;
     }
-// Set the scent map to 0
+    // Set the scent map to 0
     for (int i = 0; i < SEEX * MAPSIZE; i++)
     {
         for (int j = 0; j < SEEX * MAPSIZE; j++)
@@ -180,7 +180,7 @@ void game::setup()
     }
     if (opening_screen())  // Opening menu
     {
-// Finally, draw the screen!
+        // Finally, draw the screen!
         refresh_all();
         draw();
     }
@@ -242,7 +242,7 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
     InputEvent input;
     bool start = false;
 
-// Load MOTD and store it in a string
+    // Load MOTD and store it in a string
     std::vector<std::string> motd;
     std::ifstream motd_file;
     motd_file.open("data/motd");
@@ -645,18 +645,18 @@ void game::start_game()
     run_mode = (OPTIONS[OPT_SAFEMODE] ? 1 : 0);
     mostseen = 0;   // ...and mostseen is 0, we haven't seen any monsters yet.
 
-// Init some factions.
+    // Init some factions.
     if (!load_master()) // Master data record contains factions.
     {
         create_factions();
     }
     cur_om = overmap(this, 0, 0, 0);    // We start in the (0,0,0) overmap.
-// Find a random house on the map, and set us there.
+    // Find a random house on the map, and set us there.
     cur_om.first_house(levx, levy);
     levx -= int(int(MAPSIZE / 2) / 2);
     levy -= int(int(MAPSIZE / 2) / 2);
     levz = 0;
-// Start the overmap out with none of it seen by the player...
+    // Start the overmap out with none of it seen by the player...
     for (int i = 0; i < OMAPX; i++)
     {
         for (int j = 0; j < OMAPX; j++)
@@ -664,7 +664,7 @@ void game::start_game()
             cur_om.seen(i, j) = false;
         }
     }
-// ...except for our immediate neighborhood.
+    // ...except for our immediate neighborhood.
     for (int i = -15; i <= 15; i++)
     {
         for (int j = -15; j <= 15; j++)
@@ -672,13 +672,13 @@ void game::start_game()
             cur_om.seen(levx + i, levy + j) = true;
         }
     }
-// Convert the overmap coordinates to submap coordinates
+    // Convert the overmap coordinates to submap coordinates
     levx = levx * 2 - 1;
     levy = levy * 2 - 1;
     set_adjacent_overmaps(true);
-// Init the starting map at this location.
+    // Init the starting map at this location.
     m.load(this, levx, levy);
-// Start us off somewhere in the shelter.
+    // Start us off somewhere in the shelter.
     u.posx = SEEX * int(MAPSIZE / 2) + 5;
     u.posy = SEEY * int(MAPSIZE / 2) + 6;
     u.str_cur = u.str_max;
@@ -688,7 +688,7 @@ void game::start_game()
     nextspawn = int(turn);
     temperature = 65; // Springtime-appropriate?
 
-// Put some NPCs in there!
+    // Put some NPCs in there!
     create_starting_npcs();
     MAPBUFFER.set_dirty();
 }
@@ -731,7 +731,7 @@ void game::create_starting_npcs()
 void game::cleanup_at_end()
 {
     write_msg();
-// Save the monsters before we die!
+    // Save the monsters before we die!
     for (int i = 0; i < z.size(); i++)
     {
         if (z[i].spawnmapx != -1)   // Static spawn, move them back there
@@ -779,7 +779,7 @@ bool game::do_turn()
         cleanup_at_end();
         return true;
     }
-// Actual stuff
+    // Actual stuff
     gamemode->per_turn(this);
     turn.increment();
     process_events();
@@ -789,7 +789,7 @@ bool game::do_turn()
         cur_om.process_mongroups();
     }
 
-// Check if we've overdosed... in any deadly way.
+    // Check if we've overdosed... in any deadly way.
     if (u.stim > 250)
     {
         add_msg("You have a sudden heart attack!");
@@ -857,7 +857,7 @@ bool game::do_turn()
         {
             u.pain++;
         }
-// Mutation healing effects
+        // Mutation healing effects
         if (u.has_trait(PF_FASTHEALER2) && one_in(5))
         {
             u.healall(1);
@@ -880,19 +880,19 @@ bool game::do_turn()
             u.radiation--;
         }
         u.get_sick(this);
-// Auto-save on the half-hour if autosave is enabled
+        // Auto-save on the half-hour if autosave is enabled
         if (OPTIONS[OPT_AUTOSAVE])
         {
             autosave();
         }
     }
-// Update the weather, if it's time.
+    // Update the weather, if it's time.
     if (turn >= nextweather)
     {
         update_weather();
     }
 
-// The following happens when we stay still; 10/40 minutes overdue for spawn
+    // The following happens when we stay still; 10/40 minutes overdue for spawn
     if ((!u.has_trait(PF_INCONSPICUOUS) && turn > nextspawn +  100) ||
             (u.has_trait(PF_INCONSPICUOUS) && turn > nextspawn +  400))
     {
@@ -945,7 +945,7 @@ bool game::do_turn()
         refresh();
     }
 
-// update_bodytemp();
+    // update_bodytemp();
 
     rustCheck();
     if (turn % 10 == 0)
@@ -981,16 +981,16 @@ Warmth  Temperature (Comfortable)    Temperature (Very cold)    Notes
 
 void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet) can affect body temp.
 {
-// NOTE : visit weather.h for some details on the numbers used
-// Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
+    // NOTE : visit weather.h for some details on the numbers used
+    // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
     int Ctemperature = 100 * (temperature - 32) * 5 / 9;
-// Temperature norms
+    // Temperature norms
     const int ambient_norm = 3100;
-// This adjusts the temperature scale to match the bodytemp scale
+    // This adjusts the temperature scale to match the bodytemp scale
     int adjusted_temp = (Ctemperature - ambient_norm);
-// Creative thinking for clean morale penalties: this gets incremented in the for loop and applied after the loop
+    // Creative thinking for clean morale penalties: this gets incremented in the for loop and applied after the loop
     int morale_pen = 0;
-// Fetch the morale value of wetness for bodywetness
+    // Fetch the morale value of wetness for bodywetness
     int bodywetness = 0;
     for (int i = 0; bodywetness == 0 && i < u.morale.size(); i++)
         if (u.morale[i].type == MORALE_WET)
@@ -998,7 +998,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
             bodywetness = abs(u.morale[i].bonus); // Make it positive, less confusing
             break;
         }
-// Current temperature and converging temperature calculations
+    // Current temperature and converging temperature calculations
     for (int i = 0 ; i < num_bp ; i++)
     {
         if (i == bp_eyes)
@@ -1227,7 +1227,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
         //add_msg("%s temperature : %d", body_part_name(body_part(i), -1).c_str(), u.temp_cur[i]);
 
     }
-// Morale penalties
+    // Morale penalties
     if (morale_pen < 0)
     {
         u.add_morale(MORALE_COLD, -1, -abs(morale_pen));
@@ -1589,13 +1589,13 @@ void game::cancel_activity_query(const char* message, ...)
 void game::update_weather()
 {
     season_type season = turn.season;
-// Pick a new weather type (most likely the same one)
+    // Pick a new weather type (most likely the same one)
     int chances[NUM_WEATHER_TYPES];
     int total = 0;
     for (int i = 0; i < NUM_WEATHER_TYPES; i++)
     {
-// Reduce the chance for freezing-temp-only weather to 0 if it's above freezing
-// and vice versa.
+        // Reduce the chance for freezing-temp-only weather to 0 if it's above freezing
+        // and vice versa.
         if ((weather_data[i].avg_temperature[season] < 32 && temperature > 32) ||
                 (weather_data[i].avg_temperature[season] > 32 && temperature < 32))
         {
@@ -1619,7 +1619,7 @@ void game::update_weather()
         choice -= chances[new_weather];
         new_weather = weather_type(int(new_weather) + 1);
     }
-// Advance the weather timer
+    // Advance the weather timer
     int minutes = rng(weather_data[new_weather].mintime,
                       weather_data[new_weather].maxtime);
     nextweather = turn + MINUTES(minutes);
@@ -1638,7 +1638,7 @@ void game::update_weather()
         cancel_activity_query(weather_text.str().c_str());
     }
 
-// Now update temperature
+    // Now update temperature
     if (!one_in(4))   // 3 in 4 chance of respecting avg temp for the weather
     {
         int average = weather_data[weather].avg_temperature[season];
@@ -1936,7 +1936,7 @@ bool game::handle_action()
 
     action_id act = keymap[ch];
 
-// This has no action unless we're in a special game mode.
+    // This has no action unless we're in a special game mode.
     gamemode->pre_action(this, act);
 
     int veh_part;
@@ -2650,7 +2650,7 @@ bool game::load_master()
         return false;
     }
 
-// First, get the next ID numbers for each of these
+    // First, get the next ID numbers for each of these
     fin >> next_mission_id >> next_faction_id >> next_npc_id;
     int num_missions, num_npc, num_factions, num_items;
 
@@ -2678,7 +2678,7 @@ bool game::load_master()
         tmp.load_info(data);
         factions.push_back(tmp);
     }
-// NPCs come next
+    // NPCs come next
     fin >> num_npc;
     if (fin.peek() == '\n')
     {
@@ -2689,7 +2689,7 @@ bool game::load_master()
         getline(fin, data);
         npc tmp;
         tmp.load_info(this, data);
-// We need to load up all their items too
+        // We need to load up all their items too
         fin >> num_items;
         std::vector<item> tmpinv;
         for (int j = 0; j < num_items; j++)
@@ -2742,7 +2742,7 @@ void game::load(std::string name)
     std::stringstream playerfile;
     playerfile << "save/" << name << ".sav";
     fin.open(playerfile.str().c_str());
-// First, read in basic game state information.
+    // First, read in basic game state information.
     if (!fin.is_open())
     {
         dbg(D_ERROR) << "game:load: No save game exists!";
@@ -2774,7 +2774,7 @@ void game::load(std::string name)
     last_target = tmptar;
     weather = weather_type(tmpweather);
     temperature = tmptemp;
-// Next, the scent map.
+    // Next, the scent map.
     for (int i = 0; i < SEEX * MAPSIZE; i++)
     {
         for (int j = 0; j < SEEY * MAPSIZE; j++)
@@ -2782,10 +2782,10 @@ void game::load(std::string name)
             fin >> grscent[i][j];
         }
     }
-// Now the number of monsters...
+    // Now the number of monsters...
     int nummon;
     fin >> nummon;
-// ... and the data on each one.
+    // ... and the data on each one.
     std::string data;
     z.clear();
     monster montmp;
@@ -2800,7 +2800,7 @@ void game::load(std::string name)
         montmp.load_info(data, &mtypes);
         z.push_back(montmp);
     }
-// And the kill counts;
+    // And the kill counts;
     if (fin.peek() == '\n')
     {
         fin.get(junk);    // Chomp that pesky endline
@@ -2809,19 +2809,19 @@ void game::load(std::string name)
     {
         fin >> kills[i];
     }
-// Finally, the data on the player.
+    // Finally, the data on the player.
     if (fin.peek() == '\n')
     {
         fin.get(junk);    // Chomp that pesky endline
     }
     getline(fin, data);
     u.load_info(this, data);
-// And the player's inventory...
+    // And the player's inventory...
     char item_place;
     std::string itemdata;
-// We need a temporary vector of items.  Otherwise, when we encounter an item
-// which is contained in another item, the auto-sort/stacking behavior of the
-// player's inventory may cause the contained item to be misplaced.
+    // We need a temporary vector of items.  Otherwise, when we encounter an item
+    // which is contained in another item, the auto-sort/stacking behavior of the
+    // player's inventory may cause the contained item to be misplaced.
     std::vector<item> tmpinv;
     while (!fin.eof())
     {
@@ -2851,10 +2851,10 @@ void game::load(std::string name)
             }
         }
     }
-// Now dump tmpinv into the player's inventory
+    // Now dump tmpinv into the player's inventory
     u.inv.add_stack(tmpinv);
     fin.close();
-// Now load up the master game data; factions (and more?)
+    // Now load up the master game data; factions (and more?)
     load_master();
     set_adjacent_overmaps(true);
     MAPBUFFER.set_dirty();
@@ -2868,14 +2868,14 @@ void game::save()
     playerfile << "save/" << u.name << ".sav";
     masterfile << "save/master.gsav";
     fout.open(playerfile.str().c_str());
-// First, write out basic game state information.
+    // First, write out basic game state information.
     fout << int(turn) << " " << int(last_target) << " " << int(run_mode) << " " <<
          mostseen << " " << nextinv << " " << next_npc_id << " " <<
          next_faction_id << " " << next_mission_id << " " << int(nextspawn) <<
          " " << int(nextweather) << " " << weather << " " << int(temperature) <<
          " " << levx << " " << levy << " " << levz << " " << cur_om.posx <<
          " " << cur_om.posy << " " << std::endl;
-// Next, the scent map.
+    // Next, the scent map.
     for (int i = 0; i < SEEX * MAPSIZE; i++)
     {
         for (int j = 0; j < SEEY * MAPSIZE; j++)
@@ -2883,7 +2883,7 @@ void game::save()
             fout << grscent[i][j] << " ";
         }
     }
-// Now save all monsters.
+    // Now save all monsters.
     fout << std::endl << z.size() << std::endl;
     for (int i = 0; i < z.size(); i++)
     {
@@ -2893,12 +2893,12 @@ void game::save()
     {
         fout << kills[i] << " ";
     }
-// And finally the player.
+    // And finally the player.
     fout << u.save_info() << std::endl;
     fout << std::endl;
     fout.close();
 
-// Now write things that aren't player-specific: factions and NPCs
+    // Now write things that aren't player-specific: factions and NPCs
     fout.open(masterfile.str().c_str());
 
     fout << next_mission_id << " " << next_faction_id << " " << next_npc_id <<
@@ -2924,7 +2924,7 @@ void game::save()
 
     fout.close();
 
-// Finally, save artifacts.
+    // Finally, save artifacts.
     if (itypes.size() > num_all_items)
     {
         fout.open("save/artifacts.gsav");
@@ -2934,7 +2934,7 @@ void game::save()
         }
         fout.close();
     }
-// aaaand the overmap, and the local map.
+    // aaaand the overmap, and the local map.
     cur_om.save(u.name);
     m.save(&cur_om, turn, levx, levy);
     MAPBUFFER.save();
@@ -3444,7 +3444,7 @@ faction* game::list_factions(std::string title)
     int maxlength = 79 - MAX_FAC_NAME_SIZE;
     int sel = 0;
 
-// Init w_list content
+    // Init w_list content
     mvwprintz(w_list, 0, 0, c_white, title.c_str());
     for (int i = 0; i < valfac.size(); i++)
     {
@@ -3452,8 +3452,8 @@ faction* game::list_factions(std::string title)
         mvwprintz(w_list, i + 1, 0, col, valfac[i].name.c_str());
     }
     wrefresh(w_list);
-// Init w_info content
-// fac_*_text() is in faction.cpp
+    // Init w_info content
+    // fac_*_text() is in faction.cpp
     mvwprintz(w_info, 0, 0, c_white,
               "Ranking: %s", fac_ranking_text(valfac[0].likes_u).c_str());
     mvwprintz(w_info, 1, 0, c_white,
@@ -3508,7 +3508,7 @@ faction* game::list_factions(std::string title)
             mvwprintz(w_list, sel + 1, 0, h_white, valfac[sel].name.c_str());
             wrefresh(w_list);
             werase(w_info);
-// fac_*_text() is in faction.cpp
+            // fac_*_text() is in faction.cpp
             mvwprintz(w_info, 0, 0, c_white,
                       "Ranking: %s", fac_ranking_text(valfac[sel].likes_u).c_str());
             mvwprintz(w_info, 1, 0, c_white,
@@ -3663,16 +3663,16 @@ void game::list_missions()
 
 void game::draw()
 {
-// Draw map
+    // Draw map
     werase(w_terrain);
     draw_ter();
     draw_footsteps();
     mon_info();
-// Draw Status
+    // Draw Status
     draw_HP();
     werase(w_status);
     u.disp_status(w_status, this);
-// TODO: Allow for a 24-hour option--already supported by calendar turn
+    // TODO: Allow for a 24-hour option--already supported by calendar turn
     mvwprintz(w_status, 1, 41, c_white, turn.print_time().c_str());
 
     oter_id cur_ter = cur_om.ter((levx + int(MAPSIZE / 2)) / 2,
@@ -3733,7 +3733,7 @@ void game::draw()
         wprintz(w_status, (run_mode == 0) ? ((iPercent == 100) ? c_green : c_red) : c_green, "E");
     }
     wrefresh(w_status);
-// Draw messages
+    // Draw messages
     write_msg();
 }
 
@@ -3751,7 +3751,7 @@ bool game::isBetween(int test, int down, int up)
 
 void game::draw_ter(int posx, int posy)
 {
-// posx/posy default to -999
+    // posx/posy default to -999
     if (posx == -999)
     {
         posx = u.posx + u.view_offset_x;
@@ -3764,7 +3764,7 @@ void game::draw_ter(int posx, int posy)
     lm.generate(this, posx, posy, natural_light_level(), u.active_light());
     m.draw(this, w_terrain, point(posx, posy));
 
-// Draw monsters
+    // Draw monsters
     int distx, disty;
     for (int i = 0; i < z.size(); i++)
     {
@@ -3779,7 +3779,7 @@ void game::draw_ter(int posx, int posy)
             mvwputch(w_terrain, VIEWY + z[i].posy - posy, VIEWX + z[i].posx - posx,
                      c_red, '?');
     }
-// Draw NPCs
+    // Draw NPCs
     for (int i = 0; i < active_npc.size(); i++)
     {
         disty = abs(active_npc[i].posy - posy);
@@ -3924,7 +3924,7 @@ void game::draw_HP()
 
 void game::draw_minimap()
 {
-// Draw the box
+    // Draw the box
     werase(w_minimap);
     mvwputch(w_minimap, 0, 0, c_white, LINE_OXXO);
     mvwputch(w_minimap, 0, 6, c_white, LINE_OOXX);
@@ -4051,7 +4051,7 @@ void game::draw_minimap()
         }
     }
 
-// Print arrow to mission if we have one!
+    // Print arrow to mission if we have one!
     if (!drew_mission)
     {
         double slope;
@@ -4138,7 +4138,7 @@ float game::natural_light_level()
 
 unsigned char game::light_level()
 {
-//already found the light level for now?
+    //already found the light level for now?
     if (turn == latest_lightlevel_turn)
     {
         return latest_lightlevel;
@@ -4260,7 +4260,7 @@ faction* game::random_good_faction()
         int index = valid[rng(0, valid.size() - 1)];
         return &(factions[index]);
     }
-// No good factions exist!  So create one!
+    // No good factions exist!  So create one!
     faction newfac(assign_faction_id());
     do
     {
@@ -4287,7 +4287,7 @@ faction* game::random_evil_faction()
         int index = valid[rng(0, valid.size() - 1)];
         return &(factions[index]);
     }
-// No good factions exist!  So create one!
+    // No good factions exist!  So create one!
     faction newfac(assign_faction_id());
     do
     {
@@ -4301,11 +4301,11 @@ faction* game::random_evil_faction()
 
 bool game::sees_u(int x, int y, int &t)
 {
-// TODO: [lightmap] Apply default monster vison levels here
-//                  the light map should deal lighting from player or fires
+    // TODO: [lightmap] Apply default monster vison levels here
+    //                  the light map should deal lighting from player or fires
     int range = light_level();
 
-// doesn't matter if this actually reduces the range as we only need to look this far
+    // doesn't matter if this actually reduces the range as we only need to look this far
     if (lm.at(0, 0) >= LL_LOW)
     {
         range = rl_dist(x, y, u.posx, u.posy);
@@ -4353,7 +4353,7 @@ bool game::u_see(monster *mon, int &t)
 
 bool game::pl_sees(player *p, monster *mon, int &t)
 {
-// TODO: [lightmap] Allow npcs to use the lightmap
+    // TODO: [lightmap] Allow npcs to use the lightmap
     if (mon->has_flag(MF_DIGS) && !p->has_active_bionic(bio_ground_sonar) &&
             rl_dist(p->posx, p->posy, mon->posx, mon->posy) > 1)
     {
@@ -4467,11 +4467,11 @@ void game::mon_info()
     int buff;
     int newseen = 0;
     const int iProxyDist = (OPTIONS[OPT_SAFEMODEPROXIMITY] <= 0) ? 60 : OPTIONS[OPT_SAFEMODEPROXIMITY];
-// 7 0 1    unique_types uses these indices;
-// 6 8 2    0-7 are provide by direction_from()
-// 5 4 3    8 is used for local monsters (for when we explain them below)
+    // 7 0 1    unique_types uses these indices;
+    // 6 8 2    0-7 are provide by direction_from()
+    // 5 4 3    8 is used for local monsters (for when we explain them below)
     std::vector<int> unique_types[9];
-// dangerous_types tracks whether we should print in red to warn the player
+    // dangerous_types tracks whether we should print in red to warn the player
     bool dangerous[8];
     for (int i = 0; i < 8; i++)
     {
@@ -4555,11 +4555,11 @@ void game::mon_info()
 
     mostseen = newseen;
     nc_color tmpcol;
-// Print the direction headings
-// Reminder:
-// 7 0 1    unique_types uses these indices;
-// 6 8 2    0-7 are provide by direction_from()
-// 5 4 3    8 is used for local monsters (for when we explain them below)
+    // Print the direction headings
+    // Reminder:
+    // 7 0 1    unique_types uses these indices;
+    // 6 8 2    0-7 are provide by direction_from()
+    // 5 4 3    8 is used for local monsters (for when we explain them below)
     mvwprintz(w_moninfo,  0,  0, (unique_types[7].empty() ?
                                   c_dkgray : (dangerous[7] ? c_ltred : c_ltgray)), "NW:");
     mvwprintz(w_moninfo,  0, 15, (unique_types[0].empty() ?
@@ -4656,7 +4656,7 @@ void game::mon_info()
         }
     } // for (int i = 0; i < 8; i++)
 
-// Now we print their full names!
+    // Now we print their full names!
 
     bool listed_it[num_monsters]; // Don't list any twice!
     for (int i = 0; i < num_monsters; i++)
@@ -4666,17 +4666,17 @@ void game::mon_info()
 
     point pr(0, 4);
 
-// Start with nearby zombies--that's the most important
-// We stop if pr.y hits 10--i.e. we're out of space
+    // Start with nearby zombies--that's the most important
+    // We stop if pr.y hits 10--i.e. we're out of space
     for (int i = 0; i < unique_types[8].size() && pr.y < 12; i++)
     {
         buff = unique_types[8][i];
-// buff < 0 means an NPC!  Don't list those.
+        // buff < 0 means an NPC!  Don't list those.
         if (buff >= 0 && !listed_it[buff])
         {
             listed_it[buff] = true;
             std::string name = mtypes[buff]->name;
-// + 2 for the "Z "
+            // + 2 for the "Z "
             if (pr.x + 2 + name.length() >= 48)   // We're too long!
             {
                 pr.y++;
@@ -4704,22 +4704,22 @@ void game::mon_info()
                 }
                 mvwprintz(w_moninfo, pr.y, pr.x + 2, danger, name.c_str());
             }
-// +4 for the "Z " and two trailing spaces
+            // +4 for the "Z " and two trailing spaces
             pr.x += 4 + name.length();
         }
     }
-// Now, if there's space, the rest of the monsters!
+    // Now, if there's space, the rest of the monsters!
     for (int j = 0; j < 8 && pr.y < 12; j++)
     {
         for (int i = 0; i < unique_types[j].size() && pr.y < 12; i++)
         {
             buff = unique_types[j][i];
-// buff < 0 means an NPC!  Don't list those.
+            // buff < 0 means an NPC!  Don't list those.
             if (buff >= 0 && !listed_it[buff])
             {
                 listed_it[buff] = true;
                 std::string name = mtypes[buff]->name;
-// + 2 for the "Z "
+                // + 2 for the "Z "
                 if (pr.x + 2 + name.length() >= 48)   // We're too long!
                 {
                     pr.y++;
@@ -4747,7 +4747,7 @@ void game::mon_info()
                     }
                     mvwprintz(w_moninfo, pr.y, pr.x + 2, danger, name.c_str());
                 }
-// +3 for the "Z " and a trailing space
+                // +3 for the "Z " and a trailing space
                 pr.x += 3 + name.length();
             }
         }
@@ -4799,7 +4799,7 @@ void game::monmove()
         }
         while (!z[i].dead && !z[i].can_move_to(m, z[i].posx, z[i].posy))
         {
-// If we can't move to our current position, assign us to a new one
+            // If we can't move to our current position, assign us to a new one
             if (debugmon)
             {
                 dbg(D_ERROR) << "game:monmove: " << z[i].name().c_str()
@@ -4870,13 +4870,13 @@ void game::monmove()
                     u.rem_disease(DI_LYING_DOWN);
                 }
             }
-// We might have stumbled out of range of the player; if so, kill us
+            // We might have stumbled out of range of the player; if so, kill us
             if (z[i].posx < 0 - (SEEX * MAPSIZE) / 6 ||
                     z[i].posy < 0 - (SEEY * MAPSIZE) / 6 ||
                     z[i].posx > (SEEX * MAPSIZE * 7) / 6 ||
                     z[i].posy > (SEEY * MAPSIZE * 7) / 6)
             {
-// Re-absorb into local group, if applicable
+                // Re-absorb into local group, if applicable
                 int group = valid_group((mon_id)(z[i].type->id), levx, levy);
                 if (group != -1)
                 {
@@ -4903,7 +4903,7 @@ void game::monmove()
 
     cleanup_dead();
 
-// Now, do active NPCs.
+    // Now, do active NPCs.
     for (int i = 0; i < active_npc.size(); i++)
     {
         int turns = 0;
@@ -4934,7 +4934,7 @@ void game::monmove()
 void game::sound(int x, int y, int vol, std::string description)
 {
     vol *= 1.5; // Scale it a little
-// First, alert all monsters (that can hear) to the sound
+    // First, alert all monsters (that can hear) to the sound
     for (int i = 0; i < z.size(); i++)
     {
         if (z[i].can_hear())
@@ -4945,7 +4945,7 @@ void game::sound(int x, int y, int vol, std::string description)
             z[i].process_trigger(MTRIG_SOUND, volume);
         }
     }
-// Loud sounds make the next spawn sooner!
+    // Loud sounds make the next spawn sooner!
     int spawn_range = int(MAPSIZE / 2) * SEEX;
     if (vol >= spawn_range)
     {
@@ -4969,7 +4969,7 @@ void game::sound(int x, int y, int vol, std::string description)
             nextspawn -= change;
         }
     }
-// Next, display the sound as the player hears it
+    // Next, display the sound as the player hears it
     if (description == "")
     {
         return;    // No description (e.g., footsteps)
@@ -5016,10 +5016,10 @@ void game::sound(int x, int y, int vol, std::string description)
     if (x != u.posx || y != u.posy)
         cancel_activity_query("Heard %s!",
                               (description == "" ? "a noise" : description.c_str()));
-// We need to figure out where it was coming from, relative to the player
+    // We need to figure out where it was coming from, relative to the player
     int dx = x - u.posx;
     int dy = y - u.posy;
-// If it came from us, don't print a direction
+    // If it came from us, don't print a direction
     if (dx == 0 && dy == 0)
     {
         if (description[0] >= 'a' && description[0] <= 'z')
@@ -5199,7 +5199,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
             }
         }
     }
-// Draw the explosion
+    // Draw the explosion
     for (int i = 1; i <= radius; i++)
     {
         mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
@@ -5225,7 +5225,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
         nanosleep(&ts, NULL);
     }
 
-// The rest of the function is shrapnel
+    // The rest of the function is shrapnel
     if (shrapnel <= 0)
     {
         return;
@@ -5339,7 +5339,7 @@ void game::flashbang(int x, int y)
         }
     }
     sound(x, y, 12, "a huge boom!");
-// TODO: Blind/deafen NPC
+    // TODO: Blind/deafen NPC
 }
 
 void game::use_computer(int x, int y)
@@ -5472,7 +5472,7 @@ void game::emp_blast(int x, int y)
         m.ter(x, y) = t_console_broken;
         return;
     }
-// TODO: More terrain effects.
+    // TODO: More terrain effects.
     switch (m.ter(x, y))
     {
     case t_card_science:
@@ -5532,9 +5532,9 @@ void game::emp_blast(int x, int y)
             int max_drain = (u.power_level > 40 ? 40 : u.power_level);
             u.charge_power(0 - rng(1 + max_drain / 3, max_drain));
         }
-// TODO: More effects?
+        // TODO: More effects?
     }
-// Drain any items of their battery charge
+    // Drain any items of their battery charge
     for (int i = 0; i < m.i_at(x, y).size(); i++)
     {
         if (m.i_at(x, y)[i].is_tool() &&
@@ -5543,7 +5543,7 @@ void game::emp_blast(int x, int y)
             m.i_at(x, y)[i].charges = 0;
         }
     }
-// TODO: Drain NPC energy reserves
+    // TODO: Drain NPC energy reserves
 }
 
 int game::npc_at(int x, int y)
@@ -5647,7 +5647,7 @@ void game::explode_mon(int index)
     {
         z[index].dead = true;
         kills[z[index].type->id]++; // Increment our kill counter
-// Send body parts and blood all over!
+        // Send body parts and blood all over!
         mtype* corpse = z[index].type;
         if (corpse->mat == FLESH || corpse->mat == VEGGY)   // No chunks otherwise
         {
@@ -5705,7 +5705,7 @@ void game::explode_mon(int index)
                 {
                     tarx = traj[j].x;
                     tary = traj[j].y;
-// Choose a blood type and place it
+                    // Choose a blood type and place it
                     field_id blood_type = fd_blood;
                     if (corpse->dies == &mdeath::boomer)
                     {
@@ -5892,7 +5892,7 @@ void game::smash()
     }
     int smashx, smashy;
     get_direction(smashx, smashy, input);
-// TODO: Move this elsewhere.
+    // TODO: Move this elsewhere.
     if (m.has_flag(alarmed, u.posx + smashx, u.posy + smashy) &&
             !event_queued(EVENT_WANTED))
     {
@@ -6153,7 +6153,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
     vehint.cx = cx;
     vehint.cy = cy;
     vehint.exec(this, &veh, examx, examy);
-//    debugmsg ("exam_vehicle cmd=%c %d", vehint.sel_cmd, (int) vehint.sel_cmd);
+    //    debugmsg ("exam_vehicle cmd=%c %d", vehint.sel_cmd, (int) vehint.sel_cmd);
     if (vehint.sel_cmd != ' ')
     {
         // TODO: different activity times
@@ -6330,7 +6330,7 @@ static void open_gate(game *g, const int examx, const int examy, const enum ter_
                 g->m.ter(cur_x, examy + y_offst) = door_type;
                 cur_x = cur_x + x_incr;
             }
-//vertical orientation of the gate
+            //vertical orientation of the gate
         }
         else if ((g->m.ter(examx - 1, examy) == v_wall_type) ||
                  (g->m.ter(examx + 1, examy) == v_wall_type))
@@ -6675,7 +6675,7 @@ void game::examine()
             m.ter(examx, examy) = t_wall_h;
             m.ter(examx, examy) = t_water_dp;
         */
-//Debug for testing things
+        //Debug for testing things
     }
 
     else if (m.ter(examx, examy) == t_barndoor && query_yn("Pull the rope?"))
@@ -6990,7 +6990,7 @@ void game::examine()
     }
     else if (m.ter(examx, examy) == t_bulletin)
     {
-// TODO: Bulletin Boards
+        // TODO: Bulletin Boards
         switch (menu("Bulletin Board", "Check jobs", "Check events",
                      "Check other notices", "Post notice", "Cancel", NULL))
         {
@@ -7140,8 +7140,8 @@ shape, but with long, twisted, distended limbs.");
         add_msg("You hear the rumble of rock shifting.");
         add_event(EVENT_TEMPLE_SPAWN, turn + 3);
     }
-//-----Jovan's-----
-//flowers
+    //-----Jovan's-----
+    //flowers
     else if ((m.ter(examx, examy) == t_mutpoppy) && (query_yn("Pick the flower?")))
     {
         add_msg("This flower has a heady aroma");
@@ -7158,7 +7158,7 @@ shape, but with long, twisted, distended limbs.");
         m.add_item(examx, examy, this->itypes[itm_poppy_flower], 0);
         m.add_item(examx, examy, this->itypes[itm_poppy_bud], 0);
     }
-// apple trees
+    // apple trees
     else if ((m.ter(examx, examy) == t_tree_apple) && (query_yn("Pick apples?")))
     {
         int num_apples = rng(1, u.skillLevel("survival").level());
@@ -7173,7 +7173,7 @@ shape, but with long, twisted, distended limbs.");
 
         m.ter(examx, examy) = t_tree;
     }
-// blueberry bushes
+    // blueberry bushes
     else if ((m.ter(examx, examy) == t_shrub_blueberry) && (query_yn("Pick blueberries?")))
     {
         int num_blueberries = rng(1, u.skillLevel("survival").level());
@@ -7190,7 +7190,7 @@ shape, but with long, twisted, distended limbs.");
         m.ter(examx, examy) = t_shrub;
     }
 
-// harvesting wild veggies
+    // harvesting wild veggies
     else if ((m.ter(examx, examy) == t_underbrush) && (query_yn("Forage for wild vegetables?")))
     {
         u.assign_activity(ACT_FORAGE, 500 / (u.skillLevel("survival").level() + 1), 0);
@@ -7198,7 +7198,7 @@ shape, but with long, twisted, distended limbs.");
         u.moves = 0;
     }
 
-//-----Recycling machine-----
+    //-----Recycling machine-----
     else if ((m.ter(examx, examy) == t_recycler) && (query_yn("Use the recycler?")))
     {
         if (m.i_at(examx, examy).size() > 0)
@@ -7236,7 +7236,7 @@ shape, but with long, twisted, distended limbs.");
         }
     }
 
-//-----------------
+    //-----------------
     if (m.tr_at(examx, examy) != tr_null &&
             traps[m.tr_at(examx, examy)]->difficulty < 99 &&
             u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(examx, examy)]->visibility &&
@@ -7462,7 +7462,7 @@ void game::list_items()
     std::map<int, std::map<int, std::map<std::string, int> > > grounditems;
     std::map<std::string, item> iteminfo;
 
-//Area to search +- of players position. TODO: Use Perception
+    //Area to search +- of players position. TODO: Use Perception
     int iSearchX = 12 + ((VIEWX > 12) ? ((VIEWX - 12) / 2) : 0);
     int iSearchY = 12 + ((VIEWY > 12) ? ((VIEWY - 12) / 2) : 0);
     int iItemNum = 0;
@@ -7742,7 +7742,7 @@ void game::pickup(int posx, int posy, int min)
                    veh->parts[veh_part].items.size() > 0 &&
                    query_yn("Get items from %s?", veh->part_info(veh_part).name);
     }
-// Picking up water?
+    // Picking up water?
     if ((!from_veh) && m.i_at(posx, posy).size() == 0)
     {
         if (m.has_flag(swimmable, posx, posy) || m.ter(posx, posy) == t_toilet || m.ter(posx, posy) == t_water_sh)
@@ -7756,13 +7756,13 @@ void game::pickup(int posx, int posy, int min)
             }
             else
             {
-// changed boolean, large sources should be infinite
+                // changed boolean, large sources should be infinite
                 handle_liquid(water, true, true);
                 u.moves -= 100;
             }
         }
         return;
-// Few item here, just get it
+        // Few item here, just get it
     }
     else if ((from_veh ? veh->parts[veh_part].items.size() :
               m.i_at(posx, posy).size()) <= min)
@@ -7902,7 +7902,7 @@ void game::pickup(int posx, int posy, int min)
         }
         return;
     }
-// Otherwise, we have 2 or more items and should list them, etc.
+    // Otherwise, we have 2 or more items and should list them, etc.
     WINDOW* w_pickup = newwin(12, 48, 0, VIEWX * 2 + 8);
     WINDOW* w_item_info = newwin(12, 48, 12, VIEWX * 2 + 8);
     int maxitems = 9;    // Number of items to show at one time.
@@ -7917,8 +7917,8 @@ void game::pickup(int posx, int posy, int min)
     int new_weight = u.weight_carried(), new_volume = u.volume_carried();
     bool update = true;
     mvwprintw(w_pickup, 0,  0, "PICK UP");
-// Now print the two lists; those on the ground and about to be added to inv
-// Continue until we hit return or space
+    // Now print the two lists; those on the ground and about to be added to inv
+    // Continue until we hit return or space
     do
     {
         for (int i = 1; i < 12; i++)
@@ -8047,14 +8047,14 @@ void game::pickup(int posx, int posy, int min)
         add_msg("Never mind.");
         return;
     }
-// At this point we've selected our items, now we add them to our inventory
+    // At this point we've selected our items, now we add them to our inventory
     int curmit = 0;
     bool got_water = false; // Did we try to pick up water?
     for (int i = 0; i < here.size(); i++)
     {
         iter = 0;
-// This while loop guarantees the inventory letter won't be a repeat. If it
-// tries all 52 letters, it fails and we don't pick it up.
+        // This while loop guarantees the inventory letter won't be a repeat. If it
+        // tries all 52 letters, it fails and we don't pick it up.
         if (getitem[i] && here[i].made_of(LIQUID))
         {
             got_water = true;
@@ -8281,7 +8281,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
         }
         else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun()))
         {
-// for filling up chainsaws, jackhammers and flamethrowers
+            // for filling up chainsaws, jackhammers and flamethrowers
             ammotype ammo = AT_NULL;
             int max = 0;
 
@@ -8726,8 +8726,8 @@ void game::plthrow(char chInput)
         return;
     }
 
-// TODO: [lightmap] This appears to redraw the screen for throwing,
-//                  check were lightmap needs to be shown
+    // TODO: [lightmap] This appears to redraw the screen for throwing,
+    //                  check were lightmap needs to be shown
     int sight_range = u.sight_range(light_level());
     if (range < sight_range)
     {
@@ -8775,7 +8775,7 @@ void game::plthrow(char chInput)
         }
     }
 
-// target() sets x and y, or returns false if we canceled (by pressing Esc)
+    // target() sets x and y, or returns false if we canceled (by pressing Esc)
     std::vector <point> trajectory = target(x, y, x0, y0, x1, y1, mon_targets,
                                             passtarget, &thrown);
     if (trajectory.size() == 0)
@@ -8863,8 +8863,8 @@ void game::plfire(bool burst)
 
     int junk;
     int range = u.weapon.range(&u);
-// TODO: [lightmap] This appears to redraw the screen for fireing,
-//                  check were lightmap needs to be shown
+    // TODO: [lightmap] This appears to redraw the screen for fireing,
+    //                  check were lightmap needs to be shown
     int sight_range = u.sight_range(light_level());
     if (range > sight_range)
     {
@@ -8892,7 +8892,7 @@ void game::plfire(bool burst)
             }
         }
     }
-// Populate a list of targets with the zombies in range and visible
+    // Populate a list of targets with the zombies in range and visible
     std::vector <monster> mon_targets;
     std::vector <int> targetindices;
     int passtarget = -1;
@@ -8912,7 +8912,7 @@ void game::plfire(bool burst)
         }
     }
 
-// target() sets x and y, and returns an empty vector if we canceled (Esc)
+    // target() sets x and y, and returns an empty vector if we canceled (Esc)
     std::vector <point> trajectory = target(x, y, x0, y0, x1, y1, mon_targets,
                                             passtarget, &u.weapon);
     draw_ter(); // Recenter our view
@@ -8947,7 +8947,7 @@ void game::plfire(bool burst)
         burst = true;
     }
 
-// Train up our skill
+    // Train up our skill
     it_gun* firing = dynamic_cast<it_gun*>(u.weapon.type);
     int num_shots = 1;
     if (burst)
@@ -8993,8 +8993,8 @@ void game::butcher()
         add_msg("You don't have a sharp item to butcher with.");
         return;
     }
-// We do it backwards to prevent the deletion of a corpse from corrupting our
-// vector of indices.
+    // We do it backwards to prevent the deletion of a corpse from corrupting our
+    // vector of indices.
     for (int i = corpses.size() - 1; i >= 0; i--)
     {
         mtype *corpse = m.i_at(u.posx, u.posy)[corpses[i]].corpse;
@@ -9275,12 +9275,12 @@ void game::takeoff(char chInput)
 
 void game::reload(char chInput)
 {
-//Quick and dirty hack
-//Save old weapon in temp variable
-//Wield item that should be unloaded
-//Reload weapon
-//Put unloaded item back into inventory
-//Wield old weapon
+    //Quick and dirty hack
+    //Save old weapon in temp variable
+    //Wield item that should be unloaded
+    //Reload weapon
+    //Put unloaded item back into inventory
+    //Wield old weapon
     bool bSwitch = false;
     item oTempWeapon;
     int iItemIndex = u.inv.index_by_letter(chInput);
@@ -9362,7 +9362,7 @@ single action.", u.weapon.tname().c_str());
         int index = u.weapon.pick_reload_ammo(u, true);
         if (index == -1)
         {
-// Reload failed
+            // Reload failed
             add_msg("Out of %s!", ammo_name(tool->ammo).c_str());
             return;
         }
@@ -9384,12 +9384,12 @@ single action.", u.weapon.tname().c_str());
 // If it's a gun, some gunmods can also be loaded
 void game::unload(char chInput)
 {
-//Quick and dirty hack
-//Save old weapon in temp variable
-//Wield item that should be unloaded
-//Unload weapon
-//Put unloaded item back into inventory
-//Wield old weapon
+    //Quick and dirty hack
+    //Save old weapon in temp variable
+    //Wield item that should be unloaded
+    //Unload weapon
+    //Put unloaded item back into inventory
+    //Wield old weapon
     bool bSwitch = false;
     item oTempWeapon;
     int iItemIndex = u.inv.index_by_letter(chInput);
@@ -9447,14 +9447,14 @@ void game::unload()
             }
             return;
         }
-// Unloading a container!
+        // Unloading a container!
         u.moves -= 40 * u.weapon.contents.size();
         std::vector<item> new_contents; // In case we put stuff back
         while (u.weapon.contents.size() > 0)
         {
             item content = u.weapon.contents[0];
             int iter = 0;
-// Pick an inventory item for the contents
+            // Pick an inventory item for the contents
             while ((content.invlet == 0 || u.has_item(content.invlet)) && iter < 52)
             {
                 content.invlet = nextinv;
@@ -9488,9 +9488,9 @@ void game::unload()
         u.weapon.contents = new_contents;
         return;
     }
-// Unloading a gun or tool!
+    // Unloading a gun or tool!
     u.moves -= int(u.weapon.reload_time(u) / 2);
-// Default to unloading the gun, but then try other alternatives.
+    // Default to unloading the gun, but then try other alternatives.
     item* weapon = &u.weapon;
     it_ammo* tmpammo;
     if (weapon->is_gun())   // Gun ammo is combined with existing items
@@ -9590,7 +9590,7 @@ void game::wield(char chInput)
 {
     if (u.weapon.has_flag(IF_NO_UNWIELD))
     {
-// Bionics can't be unwielded
+        // Bionics can't be unwielded
         add_msg("You cannot unwield your %s.", u.weapon.tname(this).c_str());
         return;
     }
@@ -9760,7 +9760,7 @@ void game::plmove(int x, int y)
 
     dbg(D_PEDANTIC_INFO) << "game:plmove: From (" << u.posx << "," << u.posy << ") to (" << x << "," << y << ")";
 
-// Check if our movement is actually an attack on a monster
+    // Check if our movement is actually an attack on a monster
     int mondex = mon_at(x, y);
     bool displace = false;  // Are we displacing a monster?
     if (mondex != -1)
@@ -9779,7 +9779,7 @@ void game::plmove(int x, int y)
             displace = true;
         }
     }
-// If not a monster, maybe there's an NPC there
+    // If not a monster, maybe there's an NPC there
     int npcdex = npc_at(x, y);
     if (npcdex != -1)
     {
@@ -9805,7 +9805,7 @@ void game::plmove(int x, int y)
         return;
     }
 
-// Otherwise, actual movement, zomg
+    // Otherwise, actual movement, zomg
     if (u.has_disease(DI_AMIGARA))
     {
         int curdist = 999, newdist = 999;
@@ -9899,7 +9899,7 @@ void game::plmove(int x, int y)
             return;
         }
 
-// no need to query if stepping into 'benign' traps
+        // no need to query if stepping into 'benign' traps
         /*
           if (m.tr_at(x, y) != tr_null &&
               u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(x, y)]->visibility &&
@@ -9917,10 +9917,10 @@ void game::plmove(int x, int y)
                 }
         }
 
-// Calculate cost of moving
+        // Calculate cost of moving
         u.moves -= u.run_cost(m.move_cost(x, y) * 50);
 
-// Adjust recoil down
+        // Adjust recoil down
         if (u.recoil > 0)
         {
             if (int(u.str_cur / 2) + u.skillLevel("gun").level() >= u.recoil)
@@ -9980,20 +9980,20 @@ void game::plmove(int x, int y)
         {
             sound(x, y, 40, "You emit a rattling sound.");
         }
-// If we moved out of the nonant, we need update our map data
+        // If we moved out of the nonant, we need update our map data
         if (m.has_flag(swimmable, x, y) && u.has_disease(DI_ONFIRE))
         {
             add_msg("The water puts out the flames!");
             u.rem_disease(DI_ONFIRE);
         }
-// displace is set at the top of this function.
+        // displace is set at the top of this function.
         if (displace)   // We displaced a friendly monster!
         {
-// Immobile monsters can't be displaced.
+            // Immobile monsters can't be displaced.
             if (z[mondex].has_flag(MF_IMMOBILE))
             {
-// ...except that turrets can be picked up.
-// TODO: Make there a flag, instead of hard-coded to mon_turret
+                // ...except that turrets can be picked up.
+                // TODO: Make there a flag, instead of hard-coded to mon_turret
                 if (z[mondex].type->id == mon_turret)
                 {
                     if (query_yn("Deactivate the turret?"))
@@ -10030,7 +10030,7 @@ void game::plmove(int x, int y)
             }
         }
 
-// Some martial art styles have special effects that trigger when we move
+        // Some martial art styles have special effects that trigger when we move
         switch (u.weapon.type->id)
         {
 
@@ -10092,7 +10092,7 @@ void game::plmove(int x, int y)
         break;
         }
 
-// List items here
+        // List items here
         if (!u.has_disease(DI_BLIND) && m.i_at(x, y).size() <= 3 &&
                 m.i_at(x, y).size() != 0)
         {
@@ -10129,7 +10129,7 @@ void game::plmove(int x, int y)
     }
     else if (m.has_flag(swimmable, x, y))     // Dive into water!
     {
-// Requires confirmation if we were on dry land previously
+        // Requires confirmation if we were on dry land previously
         if ((m.has_flag(swimmable, u.posx, u.posy) &&
                 m.move_cost(u.posx, u.posy) == 0) || query_yn("Dive into the water?"))
         {
@@ -10145,7 +10145,7 @@ void game::plmove(int x, int y)
     {
         if (u.has_disease(DI_BLIND) || u.has_disease(DI_STUNNED))
         {
-// Only lose movement if we're blind
+            // Only lose movement if we're blind
             add_msg("You bump into a %s!", m.tername(x, y).c_str());
             u.moves -= 100;
         }
@@ -10385,7 +10385,7 @@ void game::fling_player_or_monster(player *p, monster *zz, int dir, int flvel)
 
 void game::vertical_move(int movez, bool force)
 {
-// > and < are used for diving underwater.
+    // > and < are used for diving underwater.
     if (m.move_cost(u.posx, u.posy) == 0 && m.has_flag(swimmable, u.posx, u.posy))
     {
         if (movez == -1)
@@ -10413,8 +10413,8 @@ void game::vertical_move(int movez, bool force)
         }
         return;
     }
-// Force means we're going down, even if there's no staircase, etc.
-// This happens with sinkholes and the like.
+    // Force means we're going down, even if there's no staircase, etc.
+    // This happens with sinkholes and the like.
     if (!force && ((movez == -1 && !m.has_flag(goes_down, u.posx, u.posy)) ||
                    (movez ==  1 && !m.has_flag(goes_up,   u.posx, u.posy))))
     {
@@ -10424,13 +10424,13 @@ void game::vertical_move(int movez, bool force)
 
     int original_z = cur_om.posz;
     cur_om.save(u.name);
-//m.save(&cur_om, turn, levx, levy);
+    //m.save(&cur_om, turn, levx, levy);
     cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz + movez);
     set_adjacent_overmaps(true);
     map tmpmap(&itypes, &mapitems, &traps);
     tmpmap.load(this, levx, levy, false);
     cur_om = overmap(this, cur_om.posx, cur_om.posy, original_z);
-// Find the corresponding staircase
+    // Find the corresponding staircase
     int stairx = -1, stairy = -1;
     bool rope_ladder = false;
     if (force)
@@ -10489,7 +10489,7 @@ void game::vertical_move(int movez, bool force)
     }
 
     bool replace_monsters = false;
-// Replace the stair monsters if we just came back
+    // Replace the stair monsters if we just came back
     if (abs(monstairx - levx) <= 1 && abs(monstairy - levy) <= 1 &&
             monstairz == levz + movez)
     {
@@ -10546,7 +10546,7 @@ void game::vertical_move(int movez, bool force)
     }
     z.clear();
 
-// Figure out where we know there are up/down connectors
+    // Figure out where we know there are up/down connectors
     std::vector<point> discover;
     for (int x = 0; x < OMAPX; x++)
     {
@@ -10561,10 +10561,10 @@ void game::vertical_move(int movez, bool force)
         }
     }
 
-// We moved!  Load the new map.
+    // We moved!  Load the new map.
     cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz + movez);
 
-// Fill in all the tiles we know about (e.g. subway stations)
+    // Fill in all the tiles we know about (e.g. subway stations)
     for (int i = 0; i < discover.size(); i++)
     {
         int x = discover[i].x, y = discover[i].y;
@@ -10698,14 +10698,14 @@ void game::update_map(int &x, int &y)
     }
     set_adjacent_overmaps();
 
-// Shift monsters
+    // Shift monsters
     for (int i = 0; i < z.size(); i++)
     {
         z[i].shift(shiftx, shifty);
         if (z[i].posx < 0 - SEEX             || z[i].posy < 0 - SEEX ||
                 z[i].posx > SEEX * (MAPSIZE + 1) || z[i].posy > SEEY * (MAPSIZE + 1))
         {
-// Despawn; we're out of bounds
+            // Despawn; we're out of bounds
             if (z[i].spawnmapx != -1)   // Static spawn, move them back there
             {
                 map tmp(&itypes, &mapitems, &traps);
@@ -10735,7 +10735,7 @@ void game::update_map(int &x, int &y)
             i--;
         }
     }
-// Shift NPCs
+    // Shift NPCs
     for (int i = 0; i < active_npc.size(); i++)
     {
         active_npc[i].shift(shiftx, shifty);
@@ -10754,7 +10754,7 @@ void game::update_map(int &x, int &y)
             i--;
         }
     }
-// Spawn static NPCs?
+    // Spawn static NPCs?
     for (int i = 0; i < cur_om.npcs.size(); i++)
     {
 
@@ -10808,13 +10808,13 @@ void game::update_map(int &x, int &y)
 
         }
     }
-// Spawn monsters if appropriate
+    // Spawn monsters if appropriate
     m.spawn_monsters(this); // Static monsters
     if (turn >= nextspawn)
     {
         spawn_mon(shiftx, shifty);
     }
-// Shift scent
+    // Shift scent
     unsigned int newscent[SEEX * MAPSIZE][SEEY * MAPSIZE];
     for (int i = 0; i < SEEX * MAPSIZE; i++)
     {
@@ -10830,7 +10830,7 @@ void game::update_map(int &x, int &y)
             scent(i, j) = newscent[i][j];
         }
     }
-// Update what parts of the world map we can see
+    // Update what parts of the world map we can see
     update_overmap_seen();
     draw_minimap();
 }
@@ -11098,7 +11098,7 @@ void game::spawn_mon(int shiftx, int shifty)
     int pop, rad;
     int iter;
     int t;
-// Create a new NPC?
+    // Create a new NPC?
     if (!no_npc && one_in(100 + 15 * cur_om.npcs.size()))
     {
         npc tmp;
@@ -11120,7 +11120,7 @@ void game::spawn_mon(int shiftx, int shifty)
         active_npc.push_back(tmp);
     }
 
-// Now, spawn monsters (perhaps)
+    // Now, spawn monsters (perhaps)
     monster zom;
     for (int i = 0; i < cur_om.zg.size(); i++)   // For each valid group...
     {
@@ -11130,8 +11130,8 @@ void game::spawn_mon(int shiftx, int shifty)
         rad = cur_om.zg[i].radius;
         if (dist <= rad)
         {
-// (The area of the group's territory) in (population/square at this range)
-// chance of adding one monster; cap at the population OR 16
+            // (The area of the group's territory) in (population/square at this range)
+            // chance of adding one monster; cap at the population OR 16
             while ((cur_om.zg[i].diffuse ?
                     long(pop) :
                     long((1.0 - double(dist / rad)) * pop))
@@ -11293,8 +11293,8 @@ int game::valid_group(mon_id type, int x, int y)
         }
         else
         {
-// If there's a group that's ALMOST big enough, expand that group's radius
-// by one and absorb into that group.
+            // If there's a group that's ALMOST big enough, expand that group's radius
+            // by one and absorb into that group.
             int semi = rng(0, semi_valid.size() - 1);
             if (!cur_om.zg[semi_valid[semi]].diffuse)
             {
@@ -11371,7 +11371,7 @@ void game::write_msg()
             mesSS << mes << " x " << messages[i].count;
             mes = mesSS.str();
         }
-// Split the message into many if we must!
+        // Split the message into many if we must!
         size_t split;
         while (mes.length() > maxlength && line >= 0)
         {
@@ -11459,7 +11459,7 @@ void game::msg_buffer()
                     mesSS << mes << " x " << mtmp->count;
                     mes = mesSS.str();
                 }
-// Split the message into many if we must!
+                // Split the message into many if we must!
                 size_t split;
                 while (mes.length() > 78 && line <= 23)
                 {
@@ -11726,7 +11726,7 @@ int game::autosave_timeout()
     const double lower_limit = 5 * 1000;
     const double range = upper_limit - lower_limit;
 
-// Items exchanged
+    // Items exchanged
     const double max_changes = 20.0;
     const double max_moves = 500.0;
 

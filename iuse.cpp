@@ -54,7 +54,7 @@ void iuse::honeycomb(game *g, player *p, item *it, bool t)
 }
 void iuse::royal_jelly(game *g, player *p, item *it, bool t)
 {
-// TODO: Add other diseases here; royal jelly is a cure-all!
+    // TODO: Add other diseases here; royal jelly is a cure-all!
     p->pkill += 5;
     std::string message;
     if (p->has_disease(DI_FUNGUS))
@@ -766,7 +766,7 @@ void iuse::inhaler(game *g, player *p, item *it, bool t)
 
 void iuse::blech(game *g, player *p, item *it, bool t)
 {
-// TODO: Add more effects?
+    // TODO: Add more effects?
     g->add_msg_if_player(p, "Blech, that burns your throat!");
     p->vomit(g);
 }
@@ -826,8 +826,8 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
     {
         return;
     }
-// If we have the marloss in our veins, we are a "breeder" and will spread
-// alien lifeforms.
+    // If we have the marloss in our veins, we are a "breeder" and will spread
+    // alien lifeforms.
     if (p->has_trait(PF_MARLOSS))
     {
         g->add_msg_if_player(p, "As you eat the berry, you have a near-religious experience, feeling at one with your surroundings...");
@@ -1393,7 +1393,7 @@ void iuse::light_on(game *g, player *p, item *it, bool t)
 {
     if (t)      // Normal use
     {
-// Do nothing... player::active_light and the lightmap::generate deal with this
+        // Do nothing... player::active_light and the lightmap::generate deal with this
     }
     else    // Turning it off
     {
@@ -1439,10 +1439,10 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
     WINDOW* w = newwin(6, 36, 9, 5);
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
-// TODO: More options here.  Thoughts...
-//       > Respond to the SOS of an NPC
-//       > Report something to a faction
-//       > Call another player
+    // TODO: More options here.  Thoughts...
+    //       > Respond to the SOS of an NPC
+    //       > Report something to a faction
+    //       > Call another player
     mvwprintz(w, 1, 1, c_white, "1: Radio a faction for help...");
     mvwprintz(w, 2, 1, c_white, "2: Call Acquaitance...");
     mvwprintz(w, 3, 1, c_white, "3: General S.O.S.");
@@ -1505,7 +1505,7 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
     }
     else if (ch == '2')     // Call Acquaitance
     {
-// TODO: Implement me!
+        // TODO: Implement me!
     }
     else if (ch == '3')     // General S.O.S.
     {
@@ -2026,7 +2026,7 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
         practice = 2;
         break;
     case itm_tripwire:
-// Must have a connection between solid squares.
+        // Must have a connection between solid squares.
         if ((g->m.move_cost(posx    , posy - 1) != 2 &&
                 g->m.move_cost(posx    , posy + 1) != 2) ||
                 (g->m.move_cost(posx + 1, posy) != 2 &&
@@ -2168,7 +2168,7 @@ void iuse::geiger(game *g, player *p, item *it, bool t)
         }
         return;
     }
-// Otherwise, we're activating the geiger counter
+    // Otherwise, we're activating the geiger counter
     it_tool *type = dynamic_cast<it_tool*>(it->type);
     bool is_on = (type->id == itm_geiger_on);
     if (is_on)
@@ -3541,7 +3541,7 @@ void iuse::torch_lit(game *g, player *p, item *it, bool t)
 {
     if (t)      // Normal use
     {
-// Do nothing... player::active_light and the lightmap::generate deal with this
+        // Do nothing... player::active_light and the lightmap::generate deal with this
     }
     else    // Turning it off
     {
@@ -3572,7 +3572,7 @@ void iuse::candle_lit(game *g, player *p, item *it, bool t)
 {
     if (t)      // Normal use
     {
-// Do nothing... player::active_light and the lightmap::generate deal with this
+        // Do nothing... player::active_light and the lightmap::generate deal with this
     }
     else    // Turning it off
     {
@@ -3720,13 +3720,13 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
         gunpowder.charges = 10 * multiply;
         lead.charges = 8 * multiply;
     }
-// else if (pull->type->id == itm_45_jhp) {
-// casing.make(g->itypes[itm_45_casing]);
-// primer.make(g->itypes[itm_lgpistol_primer]);
-// gunpowder.make(g->itypes[itm_gunpowder]);
-// gunpowder.charges = 10*multiply;
-// lead.charges = 8*multiply;
-// }
+    // else if (pull->type->id == itm_45_jhp) {
+    // casing.make(g->itypes[itm_45_casing]);
+    // primer.make(g->itypes[itm_lgpistol_primer]);
+    // gunpowder.make(g->itypes[itm_gunpowder]);
+    // gunpowder.charges = 10*multiply;
+    // lead.charges = 8*multiply;
+    // }
     else if (pull->type->id == itm_45_super)
     {
         casing.make(g->itypes[itm_45_casing]);
@@ -4014,7 +4014,7 @@ void iuse::pda_flashlight(game *g, player *p, item *it, bool t)
 {
     if (t)      // Normal use
     {
-// Do nothing... player::active_light and the lightmap::generate deal with this
+        // Do nothing... player::active_light and the lightmap::generate deal with this
     }
     else    // Turning it off
     {

@@ -76,7 +76,7 @@ enum ter_id
 {
     t_null = 0,
     t_hole, // Real nothingness; makes you fall a z-level
-// Ground
+    // Ground
     t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
     t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
     t_rock_floor, t_rubble, t_ash, t_metal, t_wreckage,
@@ -89,11 +89,11 @@ enum ter_id
     t_grate,
     t_slime,
     t_bridge,
-// Tent Walls & doors
+    // Tent Walls & doors
     t_canvas_wall, t_canvas_door, t_canvas_door_o, t_groundsheet, t_fema_groundsheet,
-// Lighting related
+    // Lighting related
     t_skylight, t_emergency_light_flicker, t_emergency_light,
-// Walls
+    // Walls
     t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
     t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
     t_wall_v, t_wall_h, t_concrete_v, t_concrete_h,
@@ -112,21 +112,21 @@ enum ter_id
     t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
     t_rock, t_fault,
     t_paper,
-// Tree
+    // Tree
     t_tree, t_tree_young, t_tree_apple, t_underbrush, t_shrub, t_shrub_blueberry, t_log,
     t_root_wall,
     t_wax, t_floor_wax,
     t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
     t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
     t_railing_v, t_railing_h,
-// Nether
+    // Nether
     t_marloss, t_fungus, t_tree_fungal,
-// Water, lava, etc.
+    // Water, lava, etc.
     t_water_sh, t_water_dp, t_sewage,
     t_lava,
-// Embellishments
+    // Embellishments
     t_bed, t_toilet, t_makeshift_bed,
-// More embellishments than you can shake a stick at.
+    // More embellishments than you can shake a stick at.
     t_sink, t_oven, t_woodstove, t_bathtub, t_chair, t_armchair, t_sofa, t_cupboard, t_trashcan, t_desk,
     t_sandbox, t_slide, t_monkey_bars, t_backboard,
     t_bench, t_table, t_pool_table,
@@ -138,23 +138,23 @@ enum ter_id
     t_sewage_pipe, t_sewage_pump,
     t_centrifuge,
     t_column,
-// Containers
+    // Containers
     t_fridge, t_glass_fridge, t_dresser, t_locker,
     t_rack, t_bookcase,
     t_dumpster,
     t_vat, t_crate_c, t_crate_o,
-// Staircases etc.
+    // Staircases etc.
     t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
     t_slope_up, t_rope_up,
     t_manhole_cover,
-// Special
+    // Special
     t_card_science, t_card_military, t_card_reader_broken, t_slot_machine,
     t_elevator_control, t_elevator_control_off, t_elevator, t_pedestal_wyrm,
     t_pedestal_temple,
-// Temple tiles
+    // Temple tiles
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
     t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
-// found at fields
+    // found at fields
     t_mutpoppy, //mutated poppy flower
 
     num_terrain_types

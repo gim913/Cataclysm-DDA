@@ -46,7 +46,7 @@ typedef struct
     char *chars;
     char *FG;
     char *BG;
-//cursechar chars [80];
+    //cursechar chars [80];
 } curseline;
 //The curses window struct
 typedef struct

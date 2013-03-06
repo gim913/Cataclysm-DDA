@@ -250,19 +250,19 @@ void player::pick_name()
 
 void player::reset(game *g)
 {
-// Reset our stats to normal levels
-// Any persistent buffs/debuffs will take place in disease.h,
-// player::suffer(), etc.
+    // Reset our stats to normal levels
+    // Any persistent buffs/debuffs will take place in disease.h,
+    // player::suffer(), etc.
     str_cur = str_max;
     dex_cur = dex_max;
     int_cur = int_max;
     per_cur = per_max;
-// We can dodge again!
+    // We can dodge again!
     dodges_left = 1;
     blocks_left = 1;
-// Didn't just pick something up
+    // Didn't just pick something up
     last_item = itype_id(itm_null);
-// Bionic buffs
+    // Bionic buffs
     if (has_active_bionic(bio_hydraulics))
     {
         str_cur += 20;
@@ -290,7 +290,7 @@ void player::reset(game *g)
         power_level++;
     }
 
-// Trait / mutation buffs
+    // Trait / mutation buffs
     if (has_trait(PF_THICK_SCALES))
     {
         dex_cur -= 2;
@@ -308,7 +308,7 @@ void player::reset(game *g)
     {
         dex_cur++;
     }
-// Pain
+    // Pain
     if (pain > pkill)
     {
         str_cur  -=     int((pain - pkill) / 15);
@@ -316,7 +316,7 @@ void player::reset(game *g)
         per_cur  -=     int((pain - pkill) / 20);
         int_cur  -= 1 + int((pain - pkill) / 25);
     }
-// Morale
+    // Morale
     if (abs(morale_level()) >= 100)
     {
         str_cur  += int(morale_level() / 180);
@@ -324,7 +324,7 @@ void player::reset(game *g)
         per_cur  += int(morale_level() / 125);
         int_cur  += int(morale_level() / 100);
     }
-// Radiation
+    // Radiation
     if (radiation > 0)
     {
         str_cur  -= int(radiation / 80);
@@ -332,7 +332,7 @@ void player::reset(game *g)
         per_cur  -= int(radiation / 100);
         int_cur  -= int(radiation / 120);
     }
-// Stimulants
+    // Stimulants
     dex_cur += int(stim / 10);
     per_cur += int(stim /  7);
     int_cur += int(stim /  6);
@@ -343,7 +343,7 @@ void player::reset(game *g)
         int_cur -= int(abs(stim - 15) / 14);
     }
 
-// Set our scent towards the norm
+    // Set our scent towards the norm
     int norm_scent = 500;
     if (has_trait(PF_SMELLY))
     {
@@ -354,24 +354,24 @@ void player::reset(game *g)
         norm_scent = 1200;
     }
 
-// Scent increases fast at first, and slows down as it approaches normal levels.
-// Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
-// Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
+    // Scent increases fast at first, and slows down as it approaches normal levels.
+    // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
+    // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
     if (scent < rng(0, norm_scent))
     {
         scent++;
     }
 
-// Unusually high scent decreases steadily until it reaches normal levels.
+    // Unusually high scent decreases steadily until it reaches normal levels.
     if (scent > norm_scent)
     {
         scent--;
     }
 
-// Give us our movement points for the turn.
+    // Give us our movement points for the turn.
     moves += current_speed(g);
 
-// Floor for our stats.  No stat changes should occur after this!
+    // Floor for our stats.  No stat changes should occur after this!
     if (dex_cur < 0)
     {
         dex_cur = 0;
@@ -451,7 +451,7 @@ void player::temp_equalizer(body_part bp1, body_part bp2)
 int player::current_speed(game *g)
 {
     int newmoves = 100; // Start with 100 movement points...
-// Minus some for weight...
+    // Minus some for weight...
     int carry_penalty = 0;
     if (weight_carried() > int(weight_capacity() * .25))
         carry_penalty = 75 * double((weight_carried() - int(weight_capacity() * .25)) /
@@ -667,7 +667,7 @@ int player::swim_speed()
         }
     }
     ret -= str_cur * 6 + dex_cur * 4;
-// If (ret > 500), we can not swim; so do not apply the underwater bonus.
+    // If (ret > 500), we can not swim; so do not apply the underwater bonus.
     if (underwater && ret < 500)
     {
         ret -= 50;
@@ -1037,7 +1037,7 @@ void player::disp_info(game *g)
         int dexpen = int(stim / 10);
         int perpen = int(stim /  7);
         int intpen = int(stim /  6);
-// Since dexpen etc. are always less than 0, no need for + signs
+        // Since dexpen etc. are always less than 0, no need for + signs
         stim_text << "Speed " << stim << "   Intelligence " << intpen <<
                   "   Perception " << perpen << "   Dexterity " << dexpen;
         effect_text.push_back(stim_text.str());
@@ -1083,10 +1083,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
     WINDOW* w_skills  = newwin(9, 26,  2, 54);
     WINDOW* w_speed   = newwin(9, 26, 12, 54);
     WINDOW* w_info    = newwin(3, 80, 22,  0);
-// Print name and header
+    // Print name and header
     mvwprintw(w_grid, 0, 0, "%s - %s", name.c_str(), (male ? "Male" : "Female"));
     mvwprintz(w_grid, 0, 39, c_ltred, "| Press TAB to cycle, ESC or q to return.");
-// Main line grid
+    // Main line grid
     for (int i = 0; i < 80; i++)
     {
         mvwputch(w_grid,  1, i, c_ltgray, LINE_OXOX);
@@ -1106,7 +1106,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
     mvwputch(w_grid, 11, 53, c_ltgray, LINE_XXXX);
     wrefresh(w_grid);   // w_grid should stay static.
 
-// First!  Default STATS screen.
+    // First!  Default STATS screen.
     mvwprintz(w_stats, 0, 10, c_ltgray, "STATS");
     mvwprintz(w_stats, 2,  2, c_ltgray, "Strength:%s(%d)",
               (str_max < 10 ? "         " : "        "), str_max);
@@ -1225,7 +1225,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
 
     wrefresh(w_stats);
 
-// Next, draw encumberment.
+    // Next, draw encumberment.
     std::string asText[] = {"Head", "Eyes", "Mouth", "Torso", "Arms", "Hands", "Legs", "Feet"};
     body_part aBodyPart[] = {bp_head, bp_eyes, bp_mouth, bp_torso, bp_arms, bp_hands, bp_legs, bp_feet};
     int iEnc, iLayers, iArmorEnc, iWarmth;
@@ -1243,7 +1243,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
     }
     wrefresh(w_encumb);
 
-// Next, draw traits.
+    // Next, draw traits.
     line = 2;
     std::vector <pl_flag> traitslist;
     mvwprintz(w_traits, 0, 9, c_ltgray, "TRAITS");
@@ -1273,7 +1273,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
     }
     wrefresh(w_traits);
 
-// Next, draw effects.
+    // Next, draw effects.
     line = 2;
     mvwprintz(w_effects, 0, 8, c_ltgray, "EFFECTS");
     for (int i = 0; i < effect_name.size() && line < 9; i++)
@@ -1283,7 +1283,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
     }
     wrefresh(w_effects);
 
-// Next, draw skills.
+    // Next, draw skills.
     line = 2;
     std::vector <skill> skillslist;
     mvwprintz(w_skills, 0, 11, c_ltgray, "SKILLS");
@@ -1313,7 +1313,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
     }
     wrefresh(w_skills);
 
-// Finally, draw speed.
+    // Finally, draw speed.
     mvwprintz(w_speed, 0, 11, c_ltgray, "SPEED");
     mvwprintz(w_speed, 1,  1, c_ltgray, "Base Move Cost:");
     mvwprintz(w_speed, 2,  1, c_ltgray, "Current Speed:");
@@ -1451,8 +1451,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
     line = 0;
     bool done = false;
 
-// Initial printing is DONE.  Now we give the player a chance to scroll around
-// and "hover" over different items for more info.
+    // Initial printing is DONE.  Now we give the player a chance to scroll around
+    // and "hover" over different items for more info.
     do
     {
         werase(w_info);
@@ -2031,7 +2031,7 @@ void player::disp_status(WINDOW *w, game *g)
         }
     }
 
-// Print the current weapon mode
+    // Print the current weapon mode
     if (weapon.mode == IF_NULL)
     {
         mvwprintz(w, 1, 0, c_red,    "Normal");
@@ -2524,7 +2524,7 @@ You can not activate %s!  To read a description of \
                 }
                 else    // Describing bionics, not activating them!
                 {
-// Clear the lines first
+                    // Clear the lines first
                     ch = 0;
                     mvwprintz(wBio, 22, 0, c_ltgray, "\
                                                                                \
@@ -2710,7 +2710,7 @@ void player::pause(game *g)
         }
     }
 
-// Meditation boost for Toad Style
+    // Meditation boost for Toad Style
     if (weapon.type->id == itm_style_toad && activity.type == ACT_NULL)
     {
         int arm_amount = 1 + (int_cur - 6) / 3 + (per_cur - 6) / 3;
@@ -2753,7 +2753,7 @@ int player::throw_range(int index)
     {
         return 1;
     }
-// Cap at double our strength + skill
+    // Cap at double our strength + skill
     if (ret > str_cur * 1.5 + skillLevel("throw").level())
     {
         return str_cur * 1.5 + skillLevel("throw").level();
@@ -3227,7 +3227,7 @@ void player::heal(body_part healed, int side, int dam)
         healpart = hp_torso;
         break;
     case bp_hands:
-// Shouldn't happen, but fall through to arms
+        // Shouldn't happen, but fall through to arms
         debugmsg("Heal against hands!");
     case bp_arms:
         if (side == 0)
@@ -3240,7 +3240,7 @@ void player::heal(body_part healed, int side, int dam)
         }
         break;
     case bp_feet:
-// Shouldn't happen, but fall through to legs
+        // Shouldn't happen, but fall through to legs
         debugmsg("Heal against feet!");
     case bp_legs:
         if (side == 0)
@@ -3374,7 +3374,7 @@ void player::knock_back_from(game *g, int x, int y)
     std::string You = (is_npc() ? name : "You");
     std::string s = (is_npc() ? "s" : "");
 
-// First, see if we hit a monster
+    // First, see if we hit a monster
     int mondex = g->mon_at(to.x, to.y);
     if (mondex != -1)
     {
@@ -3415,7 +3415,7 @@ void player::knock_back_from(game *g, int x, int y)
         return;
     }
 
-// If we're still in the function at this point, we're actually moving a tile!
+    // If we're still in the function at this point, we're actually moving a tile!
     if (g->m.move_cost(to.x, to.y) == 0)   // Wait, it's a wall (or water)
     {
 
@@ -3425,7 +3425,7 @@ void player::knock_back_from(game *g, int x, int y)
             {
                 g->plswim(to.x, to.y);
             }
-// TODO: NPCs can't swim!
+            // TODO: NPCs can't swim!
         }
         else     // It's some kind of wall.
         {
@@ -3447,7 +3447,7 @@ void player::knock_back_from(game *g, int x, int y)
 int player::hp_percentage()
 {
     int total_cur = 0, total_max = 0;
-// Head and torso HP are weighted 3x and 2x, respectively
+    // Head and torso HP are weighted 3x and 2x, respectively
     total_cur = hp_cur[hp_head] * 3 + hp_cur[hp_torso] * 2;
     total_max = hp_max[hp_head] * 3 + hp_max[hp_torso] * 2;
     for (int i = hp_arm_l; i < num_hp_parts; i++)
@@ -3538,7 +3538,7 @@ void player::add_disease(dis_type type, int duration, game *g,
         disease tmp(type, duration, intensity);
         illness.push_back(tmp);
     }
-// activity.type = ACT_NULL;
+    // activity.type = ACT_NULL;
 }
 
 void player::rem_disease(dis_type type)
@@ -4101,7 +4101,7 @@ void player::suffer(game *g)
         }
     }
 
-// Negative bionics effects
+    // Negative bionics effects
     if (has_bionic(bio_dis_shock) && one_in(1200))
     {
         g->add_msg("You suffer a painful electrical discharge!");
@@ -4129,7 +4129,7 @@ void player::suffer(game *g)
         str_cur -= 3;
     }
 
-// Artifact effects
+    // Artifact effects
     if (has_artifact_with(AEP_ATTENTION))
     {
         add_disease(DI_ATTENTION, 3, g);
@@ -4355,7 +4355,7 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
 
 void player::sort_inv()
 {
-// guns ammo weaps armor food tools books other
+    // guns ammo weaps armor food tools books other
     std::vector< std::vector<item> > types[8];
     std::vector<item> tmp;
     for (int i = 0; i < inv.size(); i++)
@@ -4649,7 +4649,7 @@ item player::remove_weapon()
     }
     item tmp = weapon;
     weapon = ret_null;
-// We need to remove any boosts related to our style
+    // We need to remove any boosts related to our style
     rem_disease(DI_ATTACK_BOOST);
     rem_disease(DI_DODGE_BOOST);
     rem_disease(DI_DAMAGE_BOOST);
@@ -4885,7 +4885,7 @@ void player::use_charges(itype_id it, int quantity)
         }
         return;
     }
-// Start by checking weapon contents
+    // Start by checking weapon contents
     for (int i = 0; i < weapon.contents.size(); i++)
     {
         if (weapon.contents[i].type->id == it)
@@ -5394,7 +5394,7 @@ bool player::eat(game *g, int index)
     }
     else if (!eaten->type->is_food() && !eaten->is_food_container(this))
     {
-// For when bionics let you burn organic materials
+        // For when bionics let you burn organic materials
         int charge = (eaten->volume() + eaten->weight()) / 2;
         if (eaten->type->m1 == LEATHER || eaten->type->m2 == LEATHER)
         {
@@ -5408,7 +5408,7 @@ bool player::eat(game *g, int index)
     }
     else     // It's real food!  i.e. an it_comest
     {
-// Remember, comest points to the it_comest data
+        // Remember, comest points to the it_comest data
         if (comest == NULL)
         {
             debugmsg("player::eat(%s); comest is NULL!", eaten->tname(g).c_str());
@@ -5500,7 +5500,7 @@ bool player::eat(game *g, int index)
             }
             health += comest->healthy;
         }
-// At this point, we've definitely eaten the item, so use up some turns.
+        // At this point, we've definitely eaten the item, so use up some turns.
         if (has_trait(PF_GOURMAND))
         {
             moves -= 150;
@@ -5509,7 +5509,7 @@ bool player::eat(game *g, int index)
         {
             moves -= 250;
         }
-// If it's poisonous... poison us.  TODO: More several poison effects
+        // If it's poisonous... poison us.  TODO: More several poison effects
         if (eaten->poison >= rng(2, 4))
         {
             add_disease(DI_POISON, eaten->poison * 100, g);
@@ -5519,7 +5519,7 @@ bool player::eat(game *g, int index)
             add_disease(DI_FOODPOISON, eaten->poison * 300, g);
         }
 
-// Descriptive text
+        // Descriptive text
         if (!is_npc())
         {
             if (eaten->made_of(LIQUID))
@@ -5901,7 +5901,7 @@ bool player::wear_item(game *g, item *to_wear)
         return false;
     }
 
-// Make sure we're not wearing 2 of the item already
+    // Make sure we're not wearing 2 of the item already
     int count = 0;
     for (int i = 0; i < worn.size(); i++)
     {
@@ -5967,7 +5967,7 @@ bool player::wear_item(game *g, item *to_wear)
                     (has_trait(PF_ANTENNAE) ? "antennae" : "antlers")));
         return false;
     }
-// Checks to see if the player is wearing not cotton or not wool, ie leather/plastic shoes
+    // Checks to see if the player is wearing not cotton or not wool, ie leather/plastic shoes
     if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(to_wear->made_of(WOOL) || to_wear->made_of(COTTON)))
     {
         for (int i = 0; i < worn.size(); i++)
@@ -6339,14 +6339,14 @@ void player::read(game *g, char ch)
         g->add_msg("It's bad idea to read while driving.");
         return;
     }
-// Check if reading is okay
+    // Check if reading is okay
     if (g->light_level() < 8 && LL_LIT > g->lm.at(0, 0))
     {
         g->add_msg("It's too dark to read!");
         return;
     }
 
-// Find the object
+    // Find the object
     int index = -1;
     if (weapon.invlet == ch)
     {
@@ -6370,7 +6370,7 @@ void player::read(game *g, char ch)
         return;
     }
 
-// Some macguffins can be read, but they aren't treated like books.
+    // Some macguffins can be read, but they aren't treated like books.
     it_macguffin* mac = NULL;
     item *used;
     if (index == -2 && weapon.is_macguffin())
@@ -6438,7 +6438,7 @@ void player::read(game *g, char ch)
         return;
     }
 
-// Base read_speed() is 1000 move points (1 minute per tmp->time)
+    // Base read_speed() is 1000 move points (1 minute per tmp->time)
     time = tmp->time * read_speed();
     activity = player_activity(ACT_READ, time, index);
     moves = 0;
@@ -6557,7 +6557,7 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
 
     ret += armorenc;
 
-// Following items undo their layering. Once. Bodypart has to be taken into account, hence the switch.
+    // Following items undo their layering. Once. Bodypart has to be taken into account, hence the switch.
     switch (bp)
     {
     case bp_feet  :
@@ -6606,7 +6606,7 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
         ret += 3;
     }
 
-// Bionics and mutation
+    // Bionics and mutation
     if ((bp == bp_head  && has_bionic(bio_armor_head))  ||
             (bp == bp_torso && has_bionic(bio_armor_torso)) ||
             (bp == bp_legs  && has_bionic(bio_armor_legs)))
@@ -6775,8 +6775,8 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
             cut = 0;
         }
     }
-// See, we do it backwards, which assumes the player put on their jacket after
-//  their T shirt, for example.  TODO: don't assume! ASS out of U & ME, etc.
+    // See, we do it backwards, which assumes the player put on their jacket after
+    //  their T shirt, for example.  TODO: don't assume! ASS out of U & ME, etc.
     for (int i = worn.size() - 1; i >= 0; i--)
     {
         tmp = dynamic_cast<it_armor*>(worn[i].type);
@@ -6803,7 +6803,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                 arm_cut  *= .1;
                 break;
             }
-// Wool, leather, and cotton clothing may be damaged by CUTTING damage
+            // Wool, leather, and cotton clothing may be damaged by CUTTING damage
             if ((worn[i].made_of(WOOL)   || worn[i].made_of(LEATHER) ||
                     worn[i].made_of(COTTON) || worn[i].made_of(GLASS)   ||
                     worn[i].made_of(WOOD)   || worn[i].made_of(KEVLAR)) &&
@@ -6811,7 +6811,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
             {
                 worn[i].damage++;
             }
-// Kevlar, plastic, iron, steel, and silver may be damaged by BASHING damage
+            // Kevlar, plastic, iron, steel, and silver may be damaged by BASHING damage
             if ((worn[i].made_of(PLASTIC) || worn[i].made_of(IRON)   ||
                     worn[i].made_of(STEEL)   || worn[i].made_of(SILVER) ||
                     worn[i].made_of(STONE))  &&
@@ -7054,8 +7054,8 @@ std::vector<int> player::has_ammo(ammotype at)
                 if (tmp->id == inv[ret[i]].type->id &&
                         inv[a].charges == inv[ret[i]].charges)
                 {
-// They're effectively the same; don't add it to the list
-// TODO: Bullets may become rusted, etc., so this if statement may change
+                    // They're effectively the same; don't add it to the list
+                    // TODO: Bullets may become rusted, etc., so this if statement may change
                     newtype = false;
                     i = ret.size();
                 }

@@ -4,41 +4,41 @@ void game::init_traps()
 {
     int id = -1;
 #define TRAP(name, sym, color, visibility, avoidance, difficulty, action, ...) \
-id++;\
-traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
-                    difficulty, action, __VA_ARGS__));
+    id++;\
+    traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
+                             difficulty, action, __VA_ARGS__));
     TRAP("none", '?', c_white, 20, 0, 0, &trapfunc::none, &trapfuncm::none,
          NULL);
 
-//  Name            Symbol  Color       Vis Avd Diff
+    //  Name            Symbol  Color       Vis Avd Diff
     TRAP("bubblewrap",      '_',    c_ltcyan,    0,  8,  0,
          &trapfunc::bubble, &trapfuncm::bubble,
          itm_bubblewrap, NULL);
-//      Name                    Symbol  Colour          Vis Avd Diff
+    //      Name                    Symbol  Colour          Vis Avd Diff
     TRAP("cot",                    '#',    c_green,         0,  0,  0,
          &trapfunc::none,         &trapfuncm::cot,
          itm_cot, NULL);
 
-//      Name                    Symbol  Colour          Vis Avd Diff
+    //      Name                    Symbol  Colour          Vis Avd Diff
     TRAP("brazier",                '#',    c_red,           0,  0,  0,
          &trapfunc::none,         &trapfuncm::none,
          itm_brazier, NULL);
 
-//      Name                    Symbol  Colour          Vis Avd Diff
+    //      Name                    Symbol  Colour          Vis Avd Diff
     TRAP("roll mat",               '#',    c_blue,          0,  0,  0,
          &trapfunc::none,     &trapfuncm::none,
          itm_rollmat, NULL);
-//  Name            Symbol  Color       Vis Avd Diff
+    //  Name            Symbol  Color       Vis Avd Diff
     TRAP("bear trap",       '^',    c_blue,      2,  7,  3,
          &trapfunc::beartrap,   &trapfuncm::beartrap,
          itm_beartrap, NULL);
 
-//  Name            Symbol  Color       Vis Avd Diff
+    //  Name            Symbol  Color       Vis Avd Diff
     TRAP("buried bear trap",    '^',    c_blue,      9,  8,  4,
          &trapfunc::beartrap,   &trapfuncm::beartrap,
          itm_beartrap, NULL);
 
-//  Name            Symbol  Color       Vis Avd Diff
+    //  Name            Symbol  Color       Vis Avd Diff
     TRAP("rabbit snare",        '\\',   c_brown,     5, 10,  2,
          &trapfunc::snare,  &trapfuncm::snare,
          itm_stick, itm_string_36, NULL);
@@ -71,32 +71,32 @@ traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
          &trapfunc::blade,  &trapfuncm::blade,
          NULL);
 
-//  Name                Symbol  Color       Vis Avd Diff
+    //  Name                Symbol  Color       Vis Avd Diff
     TRAP("land mine",       '^',    c_red,       1, 14, 10,
          &trapfunc::landmine,   &trapfuncm::landmine,
          itm_landmine, NULL);
 
-//  Name                      Symbol    Color       Vis Avd Diff
+    //  Name                      Symbol    Color       Vis Avd Diff
     TRAP("buried land mine",        '_',    c_red,      10, 14, 10,
          &trapfunc::landmine,   &trapfuncm::landmine,
          itm_landmine, NULL);
 
-//  Name            Symbol  Color       Vis Avd Diff
+    //  Name            Symbol  Color       Vis Avd Diff
     TRAP("teleport pad",        '_',    c_magenta,   0, 15, 20,
          &trapfunc::telepad,    &trapfuncm::telepad,
          itm_null, NULL);
 
-//  Name            Symbol  Color       Vis Avd Diff
+    //  Name            Symbol  Color       Vis Avd Diff
     TRAP("goo pit",     '_',    c_dkgray,    0, 15, 15,
          &trapfunc::goo,        &trapfuncm::goo,
          itm_null, NULL);
 
-//  Name            Symbol  Color       Vis Avd Diff
+    //  Name            Symbol  Color       Vis Avd Diff
     TRAP("dissector",       '7',    c_cyan,      2, 20, 99,
          &trapfunc::dissector,  &trapfuncm::dissector,
          itm_null, NULL);
 
-//  Name            Symbol  Color       Vis Avd Diff
+    //  Name            Symbol  Color       Vis Avd Diff
     TRAP("sinkhole",        '_',    c_brown,    10, 14, 99,
          &trapfunc::sinkhole,   &trapfuncm::sinkhole,
          itm_null, NULL);
@@ -113,8 +113,8 @@ traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
          &trapfunc::lava,   &trapfuncm::lava,
          itm_null, NULL);
 
-// The '%' symbol makes the portal cycle through ~*0&
-//  Name            Symbol  Color       Vis Avd Diff
+    // The '%' symbol makes the portal cycle through ~*0&
+    //  Name            Symbol  Color       Vis Avd Diff
     TRAP("shimmering portal",   '%',    c_magenta,   0, 30, 99,
          &trapfunc::portal, &trapfuncm::portal,
          itm_null, NULL);
@@ -131,32 +131,32 @@ traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
          &trapfunc::temple_flood, &trapfuncm::none,
          itm_null, NULL);
 
-// Toggles through states of RGB walls
+    // Toggles through states of RGB walls
     TRAP("",            '^',    c_white,    99, 99, 99,
          &trapfunc::temple_toggle,  &trapfuncm::none,
          itm_null, NULL);
 
-// Glow attack
+    // Glow attack
     TRAP("",            '^',    c_white,    99, 99, 99,
          &trapfunc::glow,   &trapfuncm::glow,
          itm_null, NULL);
 
-// Hum attack
+    // Hum attack
     TRAP("",            '^',    c_white,    99, 99, 99,
          &trapfunc::hum,        &trapfuncm::hum,
          itm_null, NULL);
 
-// Shadow spawn
+    // Shadow spawn
     TRAP("",            '^',    c_white,    99, 99, 99,
          &trapfunc::shadow, &trapfuncm::none,
          itm_null, NULL);
 
-// Drain attack
+    // Drain attack
     TRAP("",            '^',    c_white,    99, 99, 99,
          &trapfunc::drain,  &trapfuncm::drain,
          itm_null, NULL);
 
-// Snake spawn / hisssss
+    // Snake spawn / hisssss
     TRAP("",            '^',    c_white,    99, 99, 99,
          &trapfunc::snake,  &trapfuncm::snake,
          itm_null, NULL);

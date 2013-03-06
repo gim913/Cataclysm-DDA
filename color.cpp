@@ -13,7 +13,7 @@ void init_colors()
     init_pair(6, COLOR_MAGENTA, COLOR_BLACK);
     init_pair(7, COLOR_YELLOW,  COLOR_BLACK);
 
-// Inverted Colors
+    // Inverted Colors
     init_pair(8, COLOR_BLACK,   COLOR_WHITE);
     init_pair(9, COLOR_BLACK,   COLOR_RED);
     init_pair(10, COLOR_BLACK,   COLOR_GREEN);
@@ -22,7 +22,7 @@ void init_colors()
     init_pair(13, COLOR_BLACK,   COLOR_MAGENTA);
     init_pair(14, COLOR_BLACK,   COLOR_YELLOW);
 
-// Highlighted - blue background
+    // Highlighted - blue background
     init_pair(15, COLOR_WHITE,   HILIGHT);
     init_pair(16, COLOR_RED,     HILIGHT);
     init_pair(17, COLOR_GREEN,   HILIGHT);
@@ -32,7 +32,7 @@ void init_colors()
     init_pair(21, COLOR_MAGENTA, HILIGHT);
     init_pair(22, COLOR_YELLOW,  HILIGHT);
 
-// Red background - for monsters on fire
+    // Red background - for monsters on fire
     init_pair(23, COLOR_WHITE,   COLOR_RED);
     init_pair(24, COLOR_RED,     COLOR_RED);
     init_pair(25, COLOR_GREEN,   COLOR_RED);

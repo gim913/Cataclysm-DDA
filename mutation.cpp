@@ -15,7 +15,7 @@ void player::mutate(game *g)
         force_bad = false;    // 11% chance!
     }
 
-// First, see if we should ugrade/extend an existing mutation
+    // First, see if we should ugrade/extend an existing mutation
     std::vector<pl_flag> upgrades;
     for (int i = 1; i < PF_MAX2; i++)
     {
@@ -48,7 +48,7 @@ void player::mutate(game *g)
         return;
     }
 
-// Next, see if we should mutate within a given category
+    // Next, see if we should mutate within a given category
     mutation_category cat = MUTCAT_NULL;
 
     int total = 0, highest = 0;
@@ -72,8 +72,8 @@ void player::mutate(game *g)
 
     do
     {
-// If we tried once with a non-NULL category, and couldn't find anything valid
-// there, try again with MUTCAT_NULL
+        // If we tried once with a non-NULL category, and couldn't find anything valid
+        // there, try again with MUTCAT_NULL
         if (cat != MUTCAT_NULL && !first_pass)
         {
             cat = MUTCAT_NULL;
@@ -94,8 +94,8 @@ void player::mutate(game *g)
             valid = mutations_from_category(cat);
         }
 
-// Remove anything we already have, or that we have a child of, or that's
-// positive and we're forcing bad
+        // Remove anything we already have, or that we have a child of, or that's
+        // positive and we're forcing bad
         for (int i = 0; i < valid.size(); i++)
         {
             if (has_trait(valid[i]) || has_child_flag(g, valid[i]) ||
@@ -166,7 +166,7 @@ void player::mutate_towards(game *g, pl_flag mut)
         return;
     }
 
-// Check if one of the prereqs that we have TURNS INTO this one
+    // Check if one of the prereqs that we have TURNS INTO this one
     pl_flag replacing = PF_NULL;
     prereq = g->mutation_data[mut].prereqs; // Reset it
     for (int i = 0; i < prereq.size(); i++)
@@ -198,7 +198,7 @@ void player::mutate_towards(game *g, pl_flag mut)
     }
     mutation_effect(g, *this, mut);
 
-// Weight us towards any categories that include this mutation
+    // Weight us towards any categories that include this mutation
     for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
     {
         std::vector<pl_flag> group = mutations_from_category(mutation_category(i));
@@ -225,7 +225,7 @@ void player::mutate_towards(game *g, pl_flag mut)
 
 void player::remove_mutation(game *g, pl_flag mut)
 {
-// Check if there's a prereq we should shrink back into
+    // Check if there's a prereq we should shrink back into
     pl_flag replacing = PF_NULL;
     std::vector<pl_flag> originals = g->mutation_data[mut].prereqs;
     for (int i = 0; replacing == PF_NULL && i < originals.size(); i++)
@@ -297,40 +297,40 @@ void mutation_effect(game *g, player &p, pl_flag mut)
 
     switch (mut)
     {
-// Push off gloves
+        // Push off gloves
     case PF_WEBBED:
     case PF_ARM_TENTACLES:
     case PF_ARM_TENTACLES_4:
     case PF_ARM_TENTACLES_8:
         bps.push_back(bp_hands);
         break;
-// Destroy gloves
+        // Destroy gloves
     case PF_TALONS:
         destroy = true;
         bps.push_back(bp_hands);
         break;
-// Destroy mouthwear
+        // Destroy mouthwear
     case PF_BEAK:
     case PF_MANDIBLES:
         destroy = true;
         bps.push_back(bp_mouth);
         break;
-// Destroy footwear
+        // Destroy footwear
     case PF_HOOVES:
         destroy = true;
         bps.push_back(bp_feet);
         break;
-// Destroy torsowear
+        // Destroy torsowear
     case PF_SHELL:
         destroy = true;
         bps.push_back(bp_torso);
         break;
-// Push off all helmets
+        // Push off all helmets
     case PF_HORNS_CURLED:
     case PF_CHITIN3:
         bps.push_back(bp_head);
         break;
-// Push off non-cloth helmets
+        // Push off non-cloth helmets
     case PF_HORNS_POINTED:
     case PF_ANTENNAE:
     case PF_ANTLERS:

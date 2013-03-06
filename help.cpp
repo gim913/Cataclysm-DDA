@@ -463,7 +463,7 @@ from frostbite and to keep your distance from large fires.");
                     mvprintz(6, 40, c_white, "action.                              ");
                     needs_refresh = false;
                 }
-// Clear the lines
+                // Clear the lines
                 for (int i = 0; i < 25; i++)
                 {
                     mvprintz(i, 0, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
@@ -555,7 +555,7 @@ from frostbite and to keep your distance from large fires.");
             bool needs_refresh = true;
             do
             {
-// TODO: change instructions
+                // TODO: change instructions
                 if (needs_refresh)
                 {
                     erase();
@@ -563,7 +563,7 @@ from frostbite and to keep your distance from large fires.");
                     mvprintz(1, 40, c_white, "available options.");
                     mvprintz(2, 40, c_white, "Use left/right keys to toggle.");
                     mvprintz(3, 40, c_white, "Press ESC or q to return.             ");
-// highlight options for option descriptions
+                    // highlight options for option descriptions
                     std::string tmp = option_desc(option_key(offset + line));
                     std::string out;
                     size_t pos;
@@ -580,14 +580,14 @@ from frostbite and to keep your distance from large fires.");
                     needs_refresh = false;
                 }
 
-// Clear the lines
+                // Clear the lines
                 for (int i = 0; i < 25; i++)
                 {
                     mvprintz(i, 0, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
                 }
                 int valid_option_count = 0;
 
-// display options
+                // display options
                 for (int i = 0; i < 25 && offset + i < NUM_OPTION_KEYS; i++)
                 {
                     valid_option_count++;
@@ -626,7 +626,7 @@ from frostbite and to keep your distance from large fires.");
 
                 switch (ch)
                 {
-// move up and down
+                    // move up and down
                 case 'j':
                     line++;
                     if (line == NUM_OPTION_KEYS - 1)
@@ -641,7 +641,7 @@ from frostbite and to keep your distance from large fires.");
                         line = NUM_OPTION_KEYS - 2;
                     }
                     break;
-// toggle options with left/right keys
+                    // toggle options with left/right keys
                 case 'h':
                     if (option_is_bool(option_key(offset + line)))
                     {

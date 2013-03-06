@@ -56,7 +56,7 @@ bool monster::can_move_to(map &m, int x, int y)
 void monster::set_dest(int x, int y, int &t)
 {
     plans.clear();
-// TODO: This causes a segfault, once in a blue moon!  Whyyyyy.
+    // TODO: This causes a segfault, once in a blue moon!  Whyyyyy.
     plans = line_to(posx, posy, x, y, t);
 }
 
@@ -126,7 +126,7 @@ void monster::plan(game *g)
         wandf = 40;
         dist = rl_dist(posx, posy, g->u.posx, g->u.posy);
     }
-// If we can see, and we can see a character, start moving towards them
+    // If we can see, and we can see a character, start moving towards them
     if (!is_fleeing(g->u) && can_see() && g->sees_u(posx, posy, tc))
     {
         dist = rl_dist(posx, posy, g->u.posx, g->u.posy);
@@ -208,14 +208,14 @@ void monster::plan(game *g)
 // 4) Sound-based tracking
 void monster::move(game *g)
 {
-// We decrement wandf no matter what.  We'll save our wander_to plans until
-// after we finish out set_dest plans, UNLESS they time out first.
+    // We decrement wandf no matter what.  We'll save our wander_to plans until
+    // after we finish out set_dest plans, UNLESS they time out first.
     if (wandf > 0)
     {
         wandf--;
     }
 
-// First, use the special attack, if we can!
+    // First, use the special attack, if we can!
     if (sp_timeout > 0)
     {
         sp_timeout--;
@@ -265,7 +265,7 @@ void monster::move(game *g)
     {
         current_attitude = attitude(&(g->u));
     }
-// If our plans end in a player, set our attitude to consider that player
+    // If our plans end in a player, set our attitude to consider that player
     if (plans.size() > 0)
     {
         if (plans.back().x == g->u.posx && plans.back().y == g->u.posy)
@@ -304,8 +304,8 @@ void monster::move(game *g)
     }
     else if (has_flag(MF_SMELLS))
     {
-// No sight... or our plans are invalid (e.g. moving through a transparent, but
-//  solid, square of terrain).  Fall back to smell if we have it.
+        // No sight... or our plans are invalid (e.g. moving through a transparent, but
+        //  solid, square of terrain).  Fall back to smell if we have it.
         point tmp = scent_move(g);
         if (tmp.x != -1)
         {
@@ -323,8 +323,8 @@ void monster::move(game *g)
         }
     }
 
-// Finished logic section.  By this point, we should have chosen a square to
-//  move to (moved = true).
+    // Finished logic section.  By this point, we should have chosen a square to
+    //  move to (moved = true).
     if (moved)      // Actual effects of moving to the square we've chosen
     {
         mondex = g->mon_at(next.x, next.y);
@@ -369,7 +369,7 @@ void monster::move(game *g)
         }
     }
 
-// If we're close to our target, we get focused and don't stumble
+    // If we're close to our target, we get focused and don't stumble
     if ((has_flag(MF_STUMBLES) && (plans.size() > 3 || plans.size() == 0)) ||
             !moved)
     {
@@ -656,7 +656,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
         if (u_see && tech != TEC_BLOCK)
             g->add_msg("The %s hits %s %s.", name().c_str(), your.c_str(),
                        body_part_name(bphit, side).c_str());
-// Attempt defensive moves
+        // Attempt defensive moves
 
         if (!is_npc)
         {
@@ -762,7 +762,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
             plans.clear();
         }
     }
-// Adjust anger/morale of same-species monsters, if appropriate
+    // Adjust anger/morale of same-species monsters, if appropriate
     int anger_adjust = 0, morale_adjust = 0;
     for (int i = 0; i < type->anger.size(); i++)
     {
@@ -839,19 +839,19 @@ void monster::move_to(game *g, int x, int y)
                 (f.*(tr->actm))(g, this, posx, posy);
             }
         }
-// Diggers turn the dirt into dirtmound
+        // Diggers turn the dirt into dirtmound
         if (has_flag(MF_DIGS))
         {
             g->m.ter(posx, posy) = t_dirtmound;
         }
-// Acid trail monsters leave... a trail of acid
+        // Acid trail monsters leave... a trail of acid
         if (has_flag(MF_ACIDTRAIL))
         {
             g->m.add_field(g, posx, posy, fd_acid, 1);
         }
     }
     else if (has_flag(MF_ATTACKMON) || g->z[mondex].friendly != 0)
-// If there IS a monster there, and we fight monsters, fight it!
+        // If there IS a monster there, and we fight monsters, fight it!
     {
         hit_monster(g, mondex);
     }
@@ -865,7 +865,7 @@ void monster::move_to(game *g, int x, int y)
  */
 void monster::stumble(game *g, bool moved)
 {
-// don't stumble every turn. every 3rd turn, or 8th when walking.
+    // don't stumble every turn. every 3rd turn, or 8th when walking.
     if (moved)
         if (!one_in(8))
         {
@@ -902,9 +902,9 @@ void monster::stumble(game *g, bool moved)
     {
         moves -= (g->m.move_cost(posx, posy) - 2) * 50;
     }
-// Here we have to fix our plans[] list,
-// acquiring a new path to the previous target.
-// target == either end of current plan, or the player.
+    // Here we have to fix our plans[] list,
+    // acquiring a new path to the previous target.
+    // target == either end of current plan, or the player.
     int tc;
     if (plans.size() > 0)
     {
@@ -950,7 +950,7 @@ void monster::knock_back_from(game *g, int x, int y)
     int t = 0;
     bool u_see = g->u_see(to.x, to.y, t);
 
-// First, see if we hit another monster
+    // First, see if we hit another monster
     int mondex = g->mon_at(to.x, to.y);
     if (mondex != -1)
     {
@@ -992,7 +992,7 @@ void monster::knock_back_from(game *g, int x, int y)
         return;
     }
 
-// If we're still in the function at this point, we're actually moving a tile!
+    // If we're still in the function at this point, we're actually moving a tile!
     if (g->m.move_cost(to.x, to.y) == 0)   // Wait, it's a wall (or water)
     {
 

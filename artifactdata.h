@@ -352,7 +352,7 @@ unsigned flags :
 artifact_weapon_datum artifact_weapon_data[NUM_ARTWEAPS] =
 {
     {"", 0, 0, 0, 0, 0, 0, 0, 0, 0},
-// Adjective    Vol,wgt     Bash        Cut     To-Hit
+    // Adjective    Vol,wgt     Bash        Cut     To-Hit
     {
         "Heavy",     0, 12,     10, 20,      0,  0,     -2,  0,
         0
@@ -441,7 +441,7 @@ artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] =
         0, false,
         {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
     },
-// Name    color  Materials      Vol Wgt Enc Dmg Cut Env Wrm Sto Bsh Cut Hit
+    // Name    color  Materials      Vol Wgt Enc Dmg Cut Env Wrm Sto Bsh Cut Hit
     {
         "Robe",   c_red, WOOL, MNULL,     6,  6,  1,  3,  1,  0,  2,  0, -8,  0, -3,
         mfb(bp_torso) | mfb(bp_legs), false,
@@ -469,7 +469,7 @@ artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] =
         }
     },
 
-// Name    color  Materials      Vol Wgt Enc Dmg Cut Env Wrm Sto Bsh Cut Hit
+    // Name    color  Materials      Vol Wgt Enc Dmg Cut Env Wrm Sto Bsh Cut Hit
     {
         "Helm",   c_dkgray, SILVER, MNULL, 6,  6,  2,  4, 18,  0,  1,  0,  8,  0, -2,
         mfb(bp_head), false,
@@ -488,7 +488,7 @@ artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] =
         }
     },
 
-// Name    color  Materials      Vol Wgt Enc Dmg Cut Env Wrm Sto Bsh Cut Hit
+    // Name    color  Materials      Vol Wgt Enc Dmg Cut Env Wrm Sto Bsh Cut Hit
     {
         "Boots", c_blue, LEATHER, MNULL,  6,  2,  1,  6,  6,  1,  3,  0,  4,  0, -1,
         mfb(bp_feet), true,
@@ -517,10 +517,10 @@ artifact_armor_form_datum artifact_armor_mod_data[NUM_ARMORMODS] =
         "", c_white, MNULL, MNULL, 0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, false,
         {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
     },
-// Description; "It is ..." or "They are ..."
+    // Description; "It is ..." or "They are ..."
     {
         "very thin and light.", c_white, MNULL, MNULL,
-// Vol Wgt Enc Dmg Cut Env Wrm Sto
+        // Vol Wgt Enc Dmg Cut Env Wrm Sto
         -4, -8, -2, -1, -1, -1, -1,  0, 0, 0, 0, 0,  false,
         {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
     },
@@ -539,7 +539,7 @@ artifact_armor_form_datum artifact_armor_mod_data[NUM_ARMORMODS] =
 
     {
         "disgustingly furry.", c_white, WOOL, MNULL,
-// Vol Wgt Enc Dmg Cut Env Wrm Sto
+        // Vol Wgt Enc Dmg Cut Env Wrm Sto
         4,  2,  1,  4,  0,  1,  3,  0, 0, 0, 0, 0,  false,
         {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
     },

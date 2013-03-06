@@ -24,8 +24,8 @@ void mdeath::normal(game *g, monster *z)
             g->m.add_field(g, z->posx, z->posy, fd_blood, 1);
         }
     }
-// Drop a dang ol' corpse
-// If their hp is less than -50, we destroyed them so badly no corpse was left
+    // Drop a dang ol' corpse
+    // If their hp is less than -50, we destroyed them so badly no corpse was left
     if ((z->hp >= -50 || z->hp >= 0 - 2 * z->type->hp) &&
             (z->made_of(FLESH) || z->made_of(VEGGY)))
     {

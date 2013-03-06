@@ -119,11 +119,11 @@ struct trap
     int difficulty; // 0 to ??, difficulty of assembly & disassembly
     std::vector<itype_id> components;   // For disassembly?
 
-// You stepped on it
+    // You stepped on it
     void (trapfunc::*act)(game *, int x, int y);
-// Monster stepped on it
+    // Monster stepped on it
     void (trapfuncm::*actm)(game *, monster *, int x, int y);
-// Type of trap
+    // Type of trap
     bool is_benign();
 
     trap(int pid, char psym, nc_color pcolor, std::string pname,

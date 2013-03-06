@@ -18,7 +18,7 @@
 void game::init_mutations()
 {
     int id = 0;
-// Set all post-PF_MAX to valid
+    // Set all post-PF_MAX to valid
     for (int i = PF_MAX + 1; i < PF_MAX2; i++)
     {
         mutation_data[i].valid = true;
@@ -76,7 +76,7 @@ void game::init_mutations()
     CHANGES_TO(PF_DEFORMED);
 
 
-// Mutation-only traits start here
+    // Mutation-only traits start here
 
     MUTATION(PF_HOOVES);
     CANCELS(PF_PADDED_FEET, PF_LEG_TENTACLES);
@@ -339,7 +339,7 @@ void game::init_mutations()
     PREREQS(PF_PER_UP_3);
 
 
-// Bad mutations below this point
+    // Bad mutations below this point
 
     MUTATION(PF_HEADBUMPS);
     CHANGES_TO(PF_HORNS, PF_ANTENNAE);

@@ -132,7 +132,7 @@ void computer::use(game *g)
         reset_terminal();
     }
 
-// Main computer loop
+    // Main computer loop
 
     bool done = false; // Are we done using the computer?
     do
@@ -251,7 +251,7 @@ void computer::load_data(std::string data)
     std::stringstream dump;
     std::string buffer;
     dump << data;
-// Pull in name and security
+    // Pull in name and security
     dump >> name >> security >> mission_id;
     size_t found = name.find("_");
     while (found != std::string::npos)
@@ -259,7 +259,7 @@ void computer::load_data(std::string data)
         name.replace(found, 1, " ");
         found = name.find("_");
     }
-// Pull in options
+    // Pull in options
     int optsize;
     dump >> optsize;
     for (int n = 0; n < optsize; n++)
@@ -275,7 +275,7 @@ void computer::load_data(std::string data)
         }
         add_option(tmpname, computer_action(tmpaction), tmpsec);
     }
-// Pull in failures
+    // Pull in failures
     int failsize, tmpfail;
     dump >> failsize;
     for (int n = 0; n < failsize; n++)
@@ -549,14 +549,14 @@ void computer::activate_function(game *g, computer_action action)
     case COMPACT_MISS_LAUNCH:
     {
         overmap tmp_om(g, g->cur_om.posx, g->cur_om.posy, 0);
-// Target Acquisition.
+        // Target Acquisition.
         point target = tmp_om.choose_point(g);
         if (target.x == -1)
         {
             print_line("Launch canceled.");
             return;
         }
-// Figure out where the glass wall is...
+        // Figure out where the glass wall is...
         int wall_spot = 0;
         for (int i = g->u.posx; i < g->u.posx + SEEX * 2 && wall_spot == 0; i++)
         {
@@ -565,7 +565,7 @@ void computer::activate_function(game *g, computer_action action)
                 wall_spot = i;
             }
         }
-// ...and put radioactive to the right of it
+        // ...and put radioactive to the right of it
         for (int i = wall_spot + 1; i < SEEX * 2 - 1; i++)
         {
             for (int j = 1; j < SEEY * 2 - 1; j++)
@@ -576,7 +576,7 @@ void computer::activate_function(game *g, computer_action action)
                 }
             }
         }
-// For each level between here and the surface, remove the missile
+        // For each level between here and the surface, remove the missile
         for (int level = g->cur_om.posz; level < 0; level++)
         {
             tmp_om = g->cur_om;
@@ -1052,16 +1052,16 @@ void computer::activate_failure(game *g, computer_failure fail)
 
 bool computer::query_bool(const char *mes, ...)
 {
-// Translate the printf flags
+    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
     char buff[6000];
     vsprintf(buff, mes, ap);
     va_end(ap);
-// Append with (Y/N/Q)
+    // Append with (Y/N/Q)
     std::string full_line = buff;
     full_line += " (Y/N/Q)";
-// Print the resulting text
+    // Print the resulting text
     print_line(full_line.c_str());
     char ret;
     do
@@ -1075,16 +1075,16 @@ bool computer::query_bool(const char *mes, ...)
 
 char computer::query_ynq(const char *mes, ...)
 {
-// Translate the printf flags
+    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
     char buff[6000];
     vsprintf(buff, mes, ap);
     va_end(ap);
-// Append with (Y/N/Q)
+    // Append with (Y/N/Q)
     std::string full_line = buff;
     full_line += " (Y/N/Q)";
-// Print the resulting text
+    // Print the resulting text
     print_line(full_line.c_str());
     char ret;
     do
@@ -1098,13 +1098,13 @@ char computer::query_ynq(const char *mes, ...)
 
 void computer::print_line(const char *mes, ...)
 {
-// Translate the printf flags
+    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
     char buff[6000];
     vsprintf(buff, mes, ap);
     va_end(ap);
-// Replace any '\n' with "\n " to allow for the border
+    // Replace any '\n' with "\n " to allow for the border
     std::string message = buff;
     size_t pos = 0;
     while (pos != std::string::npos)
@@ -1116,9 +1116,9 @@ void computer::print_line(const char *mes, ...)
             pos += 2;
         }
     }
-// Print the line.
+    // Print the line.
     wprintz(w_terminal, c_green, " %s\n", message.c_str());
-// Reprint the border, in case we pushed a line over it
+    // Reprint the border, in case we pushed a line over it
     wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     wrefresh(w_terminal);
@@ -1126,15 +1126,15 @@ void computer::print_line(const char *mes, ...)
 
 void computer::print_error(const char *mes, ...)
 {
-// Translate the printf flags
+    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
     char buff[6000];
     vsprintf(buff, mes, ap);
     va_end(ap);
-// Print the line.
+    // Print the line.
     wprintz(w_terminal, c_red, " %s%s", buff, "\n");
-// Reprint the border, in case we pushed a line over it
+    // Reprint the border, in case we pushed a line over it
     wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     wrefresh(w_terminal);

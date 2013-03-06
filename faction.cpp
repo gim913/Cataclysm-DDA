@@ -13,7 +13,7 @@ std::string invent_adj();
 
 faction::faction()
 {
-// debugmsg("Warning: Faction created without UID!");
+    // debugmsg("Warning: Faction created without UID!");
     name = "";
     values = 0;
     likes_u = 0;
@@ -110,13 +110,13 @@ void faction::load_info(std::string data)
 
 void faction::randomize()
 {
-// Set up values
-// TODO: Not always in overmap 0,0
+    // Set up values
+    // TODO: Not always in overmap 0,0
     omx = 0;
     omy = 0;
     mapx = rng(OMAPX / 10, OMAPX - OMAPX / 10);
     mapy = rng(OMAPY / 10, OMAPY - OMAPY / 10);
-// Pick an overall goal.
+    // Pick an overall goal.
     goal = faction_goal(rng(1, NUM_FACGOALS - 1));
     if (one_in(4))
     {
@@ -847,7 +847,7 @@ std::string fac_ranking_text(int val)
 // Used in game.cpp
 std::string fac_respect_text(int val)
 {
-// Respected, feared, etc.
+    // Respected, feared, etc.
     if (val >= 100)
     {
         return "Legendary";
@@ -873,7 +873,7 @@ std::string fac_respect_text(int val)
         return "Spoken Of";
     }
 
-// Disrepected, laughed at, etc.
+    // Disrepected, laughed at, etc.
     if (val <= -100)
     {
         return "Worthless Scum";

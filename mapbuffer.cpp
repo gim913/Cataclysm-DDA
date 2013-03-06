@@ -112,7 +112,7 @@ void mapbuffer::save()
         fout << it->first.x << " " << it->first.y << " " << it->first.z << std::endl;
         submap *sm = it->second;
         fout << sm->turn_last_touched << std::endl;
-// Dump the terrain.
+        // Dump the terrain.
         for (int j = 0; j < SEEY; j++)
         {
             for (int i = 0; i < SEEX; i++)
@@ -121,7 +121,7 @@ void mapbuffer::save()
             }
             fout << std::endl;
         }
-// Dump the radiation
+        // Dump the radiation
         for (int j = 0; j < SEEY; j++)
         {
             for (int i = 0; i < SEEX; i++)
@@ -131,11 +131,11 @@ void mapbuffer::save()
         }
         fout << std::endl;
 
-// Items section; designate it with an I.  Then check itm[][] for each square
-//   in the grid and print the coords and the item's details.
-// Designate it with a C if it's contained in the prior item.
-// Also, this wastes space since we print the coords for each item, when we
-//   could be printing a list of items for each coord (except the empty ones)
+        // Items section; designate it with an I.  Then check itm[][] for each square
+        //   in the grid and print the coords and the item's details.
+        // Designate it with a C if it's contained in the prior item.
+        // Also, this wastes space since we print the coords for each item, when we
+        //   could be printing a list of items for each coord (except the empty ones)
         item tmp;
         for (int j = 0; j < SEEY; j++)
         {
@@ -153,7 +153,7 @@ void mapbuffer::save()
                 }
             }
         }
-// Output the traps
+        // Output the traps
         for (int j = 0; j < SEEY; j++)
         {
             for (int i = 0; i < SEEX; i++)
@@ -164,7 +164,7 @@ void mapbuffer::save()
             }
         }
 
-// Output the fields
+        // Output the fields
         field tmpf;
         for (int j = 0; j < SEEY; j++)
         {
@@ -176,7 +176,7 @@ void mapbuffer::save()
                          int(tmpf.density) << " " << tmpf.age << std::endl;
             }
         }
-// Output the spawn points
+        // Output the spawn points
         spawn_point tmpsp;
         for (int i = 0; i < sm->spawns.size(); i++)
         {
@@ -186,19 +186,19 @@ void mapbuffer::save()
                  tmpsp.mission_id << (tmpsp.friendly ? " 1 " : " 0 ") <<
                  tmpsp.name << std::endl;
         }
-// Output the vehicles
+        // Output the vehicles
         for (int i = 0; i < sm->vehicles.size(); i++)
         {
             fout << "V ";
             sm->vehicles[i]->save(fout);
         }
-// Output the computer
+        // Output the computer
         if (sm->comp.name != "")
         {
             fout << "c " << sm->comp.save_data() << std::endl;
         }
 
-// Output the graffiti
+        // Output the graffiti
         for (int j = 0; j < SEEY; j++)
         {
             for (int i = 0; i < SEEX; i++)
@@ -213,7 +213,7 @@ void mapbuffer::save()
         fout << "----" << std::endl;
         num_saved_submaps++;
     }
-// Close the file; that's all we need.
+    // Close the file; that's all we need.
     fout.close();
 }
 
@@ -252,7 +252,7 @@ void mapbuffer::load()
         {
             turndif = 0;
         }
-// Load terrain
+        // Load terrain
         for (int j = 0; j < SEEY; j++)
         {
             for (int i = 0; i < SEEX; i++)
@@ -266,7 +266,7 @@ void mapbuffer::load()
                 sm->graf[i][j] = graffiti();
             }
         }
-// Load irradiation
+        // Load irradiation
         for (int j = 0; j < SEEY; j++)
         {
             for (int i = 0; i < SEEX; i++)
@@ -281,7 +281,7 @@ void mapbuffer::load()
                 sm->rad[i][j] = radtmp;
             }
         }
-// Load items and traps and fields and spawn points and vehicles
+        // Load items and traps and fields and spawn points and vehicles
         std::string string_identifier;
         do
         {

@@ -75,7 +75,7 @@ public:
     int closest_city(point p);
     point random_house_in_city(int city_id);
     int dist_from_city(point p);
-// Interactive point choosing; used as the map screen
+    // Interactive point choosing; used as the map screen
     point choose_point(game *g);
 
     bool ter_in_type_range(int x, int y, oter_id type, int type_range);

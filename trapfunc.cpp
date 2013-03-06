@@ -650,7 +650,7 @@ void trapfunc::sinkhole(game *g, int x, int y)
             if (rng(g->u.skillLevel("unarmed").level(),
                     g->u.skillLevel("unarmed").level() + g->u.str_cur) > 6)
             {
-// Determine safe places for the character to get pulled to
+                // Determine safe places for the character to get pulled to
                 std::vector<point> safe;
                 for (int i = g->u.posx - 1; i <= g->u.posx + 1; i++)
                 {

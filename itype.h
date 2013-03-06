@@ -36,18 +36,18 @@ enum itype_id
 {
     itm_null = 0,
     itm_corpse,
-// Special pseudoitems
+    // Special pseudoitems
     itm_fire, itm_toolset, itm_apparatus,
-// Drinks
+    // Drinks
     itm_water, itm_water_clean, itm_sewage, itm_salt_water, itm_oj, itm_apple_cider,
     itm_energy_drink, itm_cola, itm_rootbeer, itm_milk, itm_V8, itm_broth,
     itm_soup, itm_whiskey, itm_vodka, itm_gin, itm_rum, itm_tequila, itm_triple_sec,
     itm_long_island, itm_beer, itm_bleach,
     itm_ammonia, itm_mutagen, itm_purifier, itm_tea, itm_coffee, itm_blood,
-// Monster Meats
+    // Monster Meats
     itm_meat, itm_veggy, itm_human_flesh, itm_veggy_wild, itm_meat_tainted, itm_veggy_tainted,
     itm_meat_cooked, itm_veggy_cooked, itm_veggy_wild_cooked,
-// Food
+    // Food
     itm_apple, itm_orange, itm_lemon, itm_chips, itm_chips2, itm_chips3,
     itm_pretzels, itm_chocolate,
     itm_jerky, itm_sandwich_t, itm_candy, itm_mushroom, itm_mushroom_poison,
@@ -60,13 +60,13 @@ enum itype_id
     itm_arm, itm_leg, itm_ant_egg, itm_marloss_berry, itm_flour, itm_sugar,
     itm_salt, itm_potato_raw, itm_potato_baked, itm_bread, itm_pie, itm_pizza,
     itm_mre_beef, itm_mre_veggy, itm_tea_raw, itm_coffee_raw,
-// Medication
+    // Medication
     itm_bandages, itm_1st_aid, itm_vitamins, itm_aspirin, itm_caffeine,
     itm_pills_sleep, itm_iodine, itm_dayquil, itm_nyquil, itm_inhaler, itm_codeine,
     itm_oxycodone, itm_tramadol, itm_xanax, itm_adderall, itm_thorazine,
     itm_prozac, itm_cig, itm_weed, itm_coke, itm_meth, itm_heroin, itm_cigar,
     itm_antibiotics, itm_poppy_sleep, itm_poppy_pain, itm_crack, /*itm_grack,*/
-// Do-nothing / Melee weapons
+    // Do-nothing / Melee weapons
     itm_wrapper, itm_withered, itm_syringe, itm_fur, itm_leather, itm_superglue,
     itm_id_science, itm_id_military, itm_electrohack, itm_string_6, itm_string_36,
     itm_rope_6, itm_rope_30, itm_chain, itm_processor, itm_RAM, itm_power_supply,
@@ -89,7 +89,7 @@ enum itype_id
     itm_fan, itm_ceramic_plate, itm_ceramic_bowl, itm_ceramic_cup,
     itm_glass_plate, itm_glass_bowl, itm_glass, itm_tin_plate, itm_fork, itm_spork,
     itm_foon, itm_rag_bloody, itm_clock, itm_clockworks,
-// Vehicle parts
+    // Vehicle parts
     itm_frame,
     itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
     itm_seat, itm_vehicle_controls,
@@ -98,47 +98,47 @@ enum itype_id
     itm_motor, itm_motor_large, itm_plasma_engine, itm_foot_crank,
     itm_metal_tank, itm_storage_battery, itm_minireactor, itm_solar_panel,
     itm_steel_plate, itm_alloy_plate, itm_spiked_plate, itm_hard_plate,
-// Footwear
+    // Footwear
     itm_socks, itm_socks_wool,
     itm_sneakers, itm_boots, itm_boots_steel, itm_boots_winter, itm_mocassins,
     itm_flip_flops, itm_dress_shoes, itm_heels,
     itm_sneakers_fit, itm_boots_fit, itm_boots_steel_fit, itm_boots_winter_fit,
     itm_dress_shoes_fit, itm_heels_fit,
-// Legwear
+    // Legwear
     itm_shorts, itm_shorts_cargo,
     itm_jeans, itm_pants, itm_pants_leather, itm_pants_cargo, itm_pants_army, itm_pants_ski,
     itm_long_underpants, itm_skirt,
     itm_jeans_fit, itm_pants_fit, itm_pants_cargo_fit, itm_pants_army_fit,
-// Full-body clothing
+    // Full-body clothing
     itm_jumpsuit, itm_dress, itm_armor_chitin, itm_suit, itm_hazmat_suit,
     itm_armor_plate,
-// Torso clothing
+    // Torso clothing
     itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top, itm_sweatshirt,
     itm_sweater, itm_hoodie, itm_under_armor, itm_jacket_light, itm_jacket_jean, itm_blazer,
     itm_jacket_leather, itm_kevlar, itm_coat_rain, itm_poncho, itm_trenchcoat, itm_trenchcoat_leather,
     itm_coat_winter, itm_coat_fur, itm_peacoat, itm_vest, itm_beltrig, itm_coat_lab,
     itm_tshirt_fit, itm_polo_shirt_fit, itm_hoodie_fit, itm_sweatshirt_fit, itm_sweater_fit,
     itm_jacket_light_fit, itm_jacket_leather_fit, itm_trenchcoat_fit, itm_trenchcoat_leather_fit,
-// Arm clothing
+    // Arm clothing
     itm_armguard_soft, itm_armguard_hard, itm_armguard_chitin, itm_armguard_metal,
-// Gloves
+    // Gloves
     itm_gloves_liner, itm_gloves_light, itm_mittens, itm_gloves_wool, itm_gloves_winter,
     itm_gloves_leather, itm_gloves_fingerless, itm_gloves_rubber,
     itm_gloves_medical, itm_fire_gauntlets,
-// Masks
+    // Masks
     itm_mask_dust, itm_bandana, itm_scarf, itm_mask_filter, itm_mask_gas,
-// Eyewear
+    // Eyewear
     itm_glasses_eye, itm_glasses_reading, itm_glasses_safety, itm_goggles_swim,
     itm_goggles_ski, itm_goggles_welding, itm_goggles_nv, itm_glasses_monocle, itm_sunglasses,
-// Headwear
+    // Headwear
     itm_hat_ball, itm_hat_boonie, itm_hat_cotton, itm_hat_knit, itm_hat_hunting, itm_hat_fur, itm_balclava, itm_hat_hard,
     itm_helmet_bike, itm_helmet_skid, itm_helmet_ball, itm_helmet_army, itm_helmet_riot,
     itm_helmet_motor, itm_helmet_chitin, itm_helmet_plate, itm_tophat,
-// High-storage
+    // High-storage
     itm_backpack, itm_rucksack, itm_purse, itm_mbag, itm_fanny, itm_holster, itm_bootstrap,
-// Decorative
+    // Decorative
     itm_ring, itm_necklace,
-// Ammunition
+    // Ammunition
     itm_battery, itm_thread,  itm_duct_tape, itm_cable, itm_plut_cell,
     itm_nail, itm_bb, itm_arrow_wood, itm_arrow_cf,
     itm_bolt_wood, itm_bolt_steel, itm_shot_bird, itm_shot_00, itm_shot_slug,
@@ -156,7 +156,7 @@ enum itype_id
     itm_3006_casing, itm_308_casing, itm_40mm_casing, itm_gunpowder,
     itm_shotgun_primer, itm_smpistol_primer, itm_lgpistol_primer,
     itm_smrifle_primer, itm_lgrifle_primer, itm_lead, itm_incendiary, itm_gasoline,
-// Guns
+    // Guns
     itm_nailgun, itm_bbgun, itm_crossbow, itm_compbow, itm_longbow, itm_rifle_22,
     itm_rifle_9mm, itm_smg_9mm, itm_smg_45, itm_sig_mosquito, itm_sw_22,
     itm_glock_19, itm_usp_9mm, itm_sw_619, itm_taurus_38, itm_sig_40, itm_sw_610,
@@ -171,13 +171,13 @@ enum itype_id
     itm_flamethrower_simple, itm_flamethrower, itm_launcher_simple, itm_m79,
     itm_m320, itm_mgl, itm_coilgun, itm_hk_g80, itm_plasma_rifle,
     itm_revolver_shotgun,
-// Gun modifications
+    // Gun modifications
     itm_silencer, itm_grip, itm_barrel_big, itm_barrel_small, itm_barrel_rifled,
     itm_clip, itm_clip2, itm_spare_mag, itm_stablizer, itm_blowback, itm_autofire,
     itm_retool_45, itm_retool_9mm, itm_retool_22, itm_retool_57, itm_retool_46,
     itm_retool_308, itm_retool_223, itm_conversion_battle, itm_conversion_sniper,
     itm_m203, itm_bayonet, itm_u_shotgun, itm_gun_crossbow,
-// Books
+    // Books
     itm_mag_porn, itm_mag_tv, itm_mag_news, itm_mag_cars, itm_mag_cooking,
     itm_mag_carpentry,
     itm_mag_guns, itm_novel_romance, itm_novel_spy, itm_novel_scifi,
@@ -187,11 +187,11 @@ enum itype_id
     itm_manual_tailor, itm_manual_traps, itm_manual_carpentry,
     itm_textbook_computers, itm_textbook_electronics, itm_textbook_business, itm_textbook_mechanics,
     itm_textbook_chemistry, itm_textbook_carpentry, itm_SICP, itm_textbook_robots,
-// Containers
+    // Containers
     itm_bag_plastic, itm_bottle_plastic, itm_bottle_glass,
     itm_can_drink, itm_can_food, itm_box_small,
     itm_canteen, itm_jerrycan, itm_carboy_plastic, itm_flask_glass,
-// Tools
+    // Tools
     itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
     itm_flashlight, itm_flashlight_on, itm_hotplate, itm_soldering_iron,
     itm_water_purifier, itm_two_way_radio, itm_radio, itm_radio_on, itm_crowbar,
@@ -212,61 +212,61 @@ enum itype_id
     itm_brazier, itm_puller, itm_press, itm_screwdriver, itm_wrench,
     itm_boltcutters, itm_mop, itm_picklocks, itm_pickaxe, itm_spray_can, itm_rag,
     itm_pda, itm_pda_flashlight, itm_pockknife,
-// Bionics containers
+    // Bionics containers
     itm_bionics_battery,
-//power sources
+    //power sources
     itm_bionics_solar,   itm_bionics_batteries,
     itm_bionics_metabolics,   itm_bionics_furnace, itm_bionics_ethanol,
-// utility
+    // utility
     itm_bionics_toolset,      itm_bionics_storage, itm_bionics_flashlight,
     itm_bionics_lighter,      itm_bionics_magnet,
-// neuro
+    // neuro
     itm_bionics_memory,       itm_bionics_painkiller, itm_bionics_alarm,
-// sensory
+    // sensory
     itm_bionics_ears,          itm_bionics_eye_enhancer, itm_bionics_night_vision,
     itm_bionics_infrared,      itm_bionics_scent_vision,
-// cbm: aquatic
+    // cbm: aquatic
     itm_bionics_membrane, itm_bionics_gills,
-// cbm: combat augs
+    // cbm: combat augs
     itm_bionics_targeting, itm_bionics_ground_sonar,
-// cbm: hazmat
+    // cbm: hazmat
     itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter,
-// nutritional
+    // nutritional
     itm_bionics_recycler, itm_bionics_digestion, itm_bionics_evap, itm_bionics_water_extractor,
-// desert survival (all dupes)
-// melee:
+    // desert survival (all dupes)
+    // melee:
     itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws,
-// armor:
+    // armor:
     itm_bionics_carbon, itm_bionics_armor_head, itm_bionics_armor_torso,
     itm_bionics_armor_arms, itm_bionics_armor_legs,
-// espionage
+    // espionage
     itm_bionics_face_mask, itm_bionics_scent_mask, itm_bionics_cloak, itm_bionics_fingerhack,
-//defense
+    //defense
     itm_bionics_ads, itm_bionics_ods,
-// medical
+    // medical
     itm_bionics_nanobots, itm_bionics_blood_anal,
-// construction
+    // construction
     itm_bionics_resonator, itm_bionics_hydraulics,
-// super soldier
+    // super soldier
     itm_bionics_time_freeze, itm_bionics_teleport,
-// ranged combat
+    // ranged combat
     itm_bionics_blaster, itm_bionics_laser, itm_bionics_emp,
 
-// Software
+    // Software
     itm_software_useless, itm_software_hacking, itm_software_medical,
     itm_software_math, itm_software_blood_data,
-// MacGuffins!
+    // MacGuffins!
     itm_note,
-//-----Jovan's. Flowers!-----
+    //-----Jovan's. Flowers!-----
     itm_poppy_flower, itm_poppy_bud,
-//---------------------------
+    //---------------------------
 
-// Static (non-random) artifacts should go here.
+    // Static (non-random) artifacts should go here.
     num_items,
-// These shouldn't be counted among "normal" items; thus, they are outside the
-// bounds of num_items
+    // These shouldn't be counted among "normal" items; thus, they are outside the
+    // bounds of num_items
     itm_bio_claws, itm_bio_fusion, itm_bio_blaster,
-// Unarmed Combat Styles
+    // Unarmed Combat Styles
     itm_style_karate, itm_style_aikido, itm_style_judo, itm_style_tai_chi,
     itm_style_capoeira, itm_style_krav_maga, itm_style_muay_thai,
     itm_style_ninjutsu, itm_style_taekwando, itm_style_tiger, itm_style_crane,
@@ -333,7 +333,7 @@ enum item_flag
     IF_UNARMED_WEAPON, // Counts as an unarmed weapon
     IF_NO_UNWIELD, // Impossible to unwield, e.g. bionic claws
 
-// Weapon mode flags
+    // Weapon mode flags
     IF_MODE_AUX, // A gunmod with a firing mode
     IF_MODE_BURST, // A burst of attacks
 
@@ -360,7 +360,7 @@ enum ammo_effect
 enum technique_id
 {
     TEC_NULL,
-// Offensive Techniques
+    // Offensive Techniques
     TEC_SWEEP,  // Crits may make your enemy fall & miss a turn
     TEC_PRECISE,    // Crits are painful and stun
     TEC_BRUTAL, // Crits knock the target back
@@ -370,7 +370,7 @@ enum technique_id
     TEC_FEINT,  // Misses take less time
     TEC_THROW,  // Attacks may throw your opponent
     TEC_DISARM, // Remove an NPC's weapon
-// Defensive Techniques
+    // Defensive Techniques
     TEC_BLOCK,  // Block attacks, reducing them to 25% damage
     TEC_BLOCK_LEGS, // Block attacks, but with your legs
     TEC_WBLOCK_1,   // Weapon block, poor chance -- e.g. pole
@@ -390,7 +390,7 @@ enum bigness_property_aspect
     BIGNESS_ENGINE_DISPLACEMENT, // combustion engine CC displacement
     BIGNESS_KILOWATTS,           // electric motor power
     BIGNESS_WHEEL_DIAMETER,      // wheel size in inches, including tire
-//BIGNESS_PLATING_THICKNESS, //
+    //BIGNESS_PLATING_THICKNESS, //
     NUM_BIGNESS_ASPECTS,
 };
 
@@ -582,7 +582,7 @@ struct it_comest : public itype
     {
         return true;
     }
-// virtual bool count_by_charges() { return charges >= 1 ; }
+    // virtual bool count_by_charges() { return charges >= 1 ; }
 
     virtual bool count_by_charges()
     {
@@ -633,7 +633,7 @@ struct it_comest : public itype
 // v6, v8, wankel, etc.
 struct it_var_veh_part: public itype
 {
-// TODO? geometric mean: nth root of product
+    // TODO? geometric mean: nth root of product
     unsigned int min_bigness; //CC's
     unsigned int max_bigness;
 
@@ -694,7 +694,7 @@ unsigned ammo_effects :
     {
         return true;
     }
-// virtual bool count_by_charges() { return id != itm_gasoline; }
+    // virtual bool count_by_charges() { return id != itm_gasoline; }
     virtual bool count_by_charges()
     {
         return true;

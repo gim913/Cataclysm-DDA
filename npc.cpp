@@ -71,7 +71,7 @@ npc& npc::operator= (const npc & rhs)
     wandy = rhs.wandy;
     wandf = rhs.wandf;
 
-// Location:
+    // Location:
     omx = rhs.omx;
     omy = rhs.omy;
     omz = rhs.omz;
@@ -153,7 +153,7 @@ npc& npc::operator= (const npc & rhs)
 std::string npc::save_info()
 {
     std::stringstream dump;
-// The " || " is what tells npc::load_info() that it's down reading the name
+    // The " || " is what tells npc::load_info() that it's down reading the name
     dump << id << " " << name << " || " << posx << " " << posy << " " << str_cur <<
          " " << str_max << " " << dex_cur << " " << dex_max << " " << int_cur <<
          " " << int_max << " " << per_cur << " " << per_max << " " << hunger <<
@@ -198,7 +198,7 @@ std::string npc::save_info()
         dump << int(my_bionics[i].id) << " " << my_bionics[i].invlet << " " <<
              int(my_bionics[i].powered) << " " << my_bionics[i].charge << " ";
 
-// NPC-specific stuff
+    // NPC-specific stuff
     dump << int(personality.aggression) << " " << int(personality.bravery) <<
          " " << int(personality.collector) << " " <<
          int(personality.altruism) << " " << wandx << " " << wandy << " " <<
@@ -218,7 +218,7 @@ std::string npc::save_info()
 
     dump << combat_rules.save_info();
 
-// Inventory size, plus armor size, plus 1 for the weapon
+    // Inventory size, plus armor size, plus 1 for the weapon
     dump << std::endl << inv.num_items() + worn.size() + 1 << std::endl;
     for (int i = 0; i < inv.size(); i++)
     {
@@ -251,7 +251,7 @@ void npc::load_info(game *g, std::string data)
     int deathtmp, deadtmp, classtmp;
     dump << data;
     dump >> id;
-// Standard player stuff
+    // Standard player stuff
     do
     {
         dump >> tmpname;
@@ -337,7 +337,7 @@ void npc::load_info(game *g, std::string data)
         biotmp.id = bionic_id(typetmp);
         my_bionics.push_back(biotmp);
     }
-// Special NPC stuff
+    // Special NPC stuff
     int misstmp, flagstmp, tmpatt, agg, bra, col, alt;
     dump >> agg >> bra >> col >> alt >> wandx >> wandy >> wandf >> omx >> omy >>
          omz >> mapx >> mapy >> plx >> ply >> goalx >> goaly >> misstmp >>
@@ -369,7 +369,7 @@ void npc::randomize(game *g, npc_class type)
     personality.bravery =    rng(-3, 10);
     personality.collector =  rng(-1, 10);
     personality.altruism =   rng(-10, 10);
-//cash = 100 * rng(0, 20) + 10 * rng(0, 30) + rng(0, 50);
+    //cash = 100 * rng(0, 20) + 10 * rng(0, 30) + rng(0, 50);
     cash = 0;
     moves = 100;
     mission = NPC_MISSION_NULL;
@@ -578,7 +578,7 @@ void npc::randomize(game *g, npc_class type)
 
 void npc::randomize_from_faction(game *g, faction *fac)
 {
-// Personality = aggression, bravery, altruism, collector
+    // Personality = aggression, bravery, altruism, collector
     my_fac = fac;
     randomize(g);
 
@@ -639,7 +639,7 @@ void npc::randomize_from_faction(game *g, faction *fac)
         personality.collector += rng(1, 5);
         break;
     }
-// Jobs
+    // Jobs
     if (fac->has_job(FACJOB_EXTORTION))
     {
         personality.aggression += rng(0, 3);
@@ -980,7 +980,7 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
         }
     }
 
-// Now, more specific stuff for certain classes.
+    // Now, more specific stuff for certain classes.
     switch (type)
     {
     case NC_DOCTOR:
@@ -1129,7 +1129,7 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
         }
         break;
     }
-// Fill in the standard things we wear
+    // Fill in the standard things we wear
     if (shoes != itm_null)
     {
         ret.push_back(item(g->itypes[shoes], 0));
@@ -1150,7 +1150,7 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
     {
         ret.push_back(item(g->itypes[gloves], 0));
     }
-// Bad to wear a mask under a motorcycle helmet
+    // Bad to wear a mask under a motorcycle helmet
     if (mask != itm_null && hat != itm_helmet_motor)
     {
         ret.push_back(item(g->itypes[mask], 0));
@@ -1164,7 +1164,7 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
         ret.push_back(item(g->itypes[hat], 0));
     }
 
-// Second pass--for extra stuff like backpacks, etc
+    // Second pass--for extra stuff like backpacks, etc
     switch (type)
     {
     case NC_NONE:
@@ -1200,7 +1200,7 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
     ret.push_back(item(g->itypes[itm_lighter], 0));
     itype_id tmp;
 
-// First, if we're wielding a gun, get some ammo for it
+    // First, if we're wielding a gun, get some ammo for it
     if (me->weapon.is_gun())
     {
         it_gun *gun = dynamic_cast<it_gun*>(me->weapon.type);
@@ -1271,7 +1271,7 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
             }
         }
     }
-// TODO: More specifics.
+    // TODO: More specifics.
 
     while (total_space > 0 && !one_in(8))
     {
@@ -1302,7 +1302,7 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
 
 void npc::spawn_at(overmap *o, int x, int y)
 {
-// First, specify that we are in this overmap!
+    // First, specify that we are in this overmap!
     omx = o->posx;
     omy = o->posy;
     mapx = x;
@@ -1402,7 +1402,7 @@ void npc::starting_weapon(game *g)
         }
         break;
     case sk_throw:
-// TODO: Some throwing weapons... grenades?
+        // TODO: Some throwing weapons... grenades?
         break;
     case sk_pistol:
         index = rng(0, g->mapitems[mi_pistols].size() - 1);
@@ -1452,7 +1452,7 @@ bool npc::wear_if_wanted(item it)
         worn.push_back(it);
         return true;
     }
-// Otherwise, maybe we should take off one or more items and replace them
+    // Otherwise, maybe we should take off one or more items and replace them
     std::vector<int> removal;
     for (int i = 0; i < worn.size(); i++)
     {
@@ -1470,7 +1470,7 @@ bool npc::wear_if_wanted(item it)
     {
         if (true)
         {
-//  if (worn[removal[i]].value_to(this) < it.value_to(this)) {
+            //  if (worn[removal[i]].value_to(this) < it.value_to(this)) {
             inv.push_back(worn[removal[i]]);
             worn.push_back(it);
             return true;
@@ -1572,7 +1572,7 @@ void npc::perform_mission(game *g)
 
 void npc::form_opinion(player *u)
 {
-// FEAR
+    // FEAR
     if (u->weapon.is_gun())
     {
         if (weapon.is_gun())
@@ -1641,7 +1641,7 @@ void npc::form_opinion(player *u)
         op_of_u.fear -= 2;
     }
 
-// TRUST
+    // TRUST
     if (op_of_u.fear > 0)
     {
         op_of_u.trust -= 3;
@@ -1686,7 +1686,7 @@ void npc::form_opinion(player *u)
         op_of_u.trust -= 3;
     }
 
-// VALUE
+    // VALUE
     op_of_u.value = 0;
     for (int i = 0; i < num_hp_parts; i++)
     {
@@ -1721,7 +1721,7 @@ void npc::form_opinion(player *u)
 
 talk_topic npc::pick_talk_topic(player *u)
 {
-//form_opinion(u);
+    //form_opinion(u);
     if (personality.aggression > 0)
     {
         if (op_of_u.fear * 2 < personality.bravery && personality.altruism < 0)
@@ -2174,14 +2174,14 @@ int npc::value(item &it)
         }
     }
 
-// TODO: Sometimes we want more than one tool?  Also we don't want EVERY tool.
+    // TODO: Sometimes we want more than one tool?  Also we don't want EVERY tool.
     if (it.is_tool() && !has_amount(itype_id(it.type->id), 1))
     {
         ret += 8;
     }
 
-// TODO: Artifact hunting from relevant factions
-// ALSO TODO: Bionics hunting from relevant factions
+    // TODO: Artifact hunting from relevant factions
+    // ALSO TODO: Bionics hunting from relevant factions
     if (fac_has_job(FACJOB_DRUGS) && it.is_food() &&
             (dynamic_cast<it_comest*>(it.type))->addict >= 5)
     {
@@ -2298,7 +2298,7 @@ int npc::danger_assessment(game *g)
         ret = -10 + 5 * ret;    // Low danger if no monsters around
     }
 
-// Mod for the player
+    // Mod for the player
     if (is_enemy())
     {
         if (rl_dist(posx, posy, g->u.posx, g->u.posy) < 10)
@@ -2462,9 +2462,9 @@ int npc::speed_estimate(int speed)
     {
         return rng(0, speed * 2);
     }
-// Up to 80% deviation if per_cur is 1;
-// Up to 10% deviation if per_cur is 8;
-// Up to 4% deviation if per_cur is 20;
+    // Up to 80% deviation if per_cur is 1;
+    // Up to 10% deviation if per_cur is 8;
+    // Up to 4% deviation if per_cur is 20;
     int deviation = speed / (double)(per_cur * 1.25);
     int low = speed - deviation, high = speed + deviation;
     return rng(low, high);
@@ -2499,10 +2499,10 @@ void npc::draw(WINDOW* w, int ux, int uy, bool inv)
 
 void npc::print_info(WINDOW* w)
 {
-// First line of w is the border; the next 4 are terrain info, and after that
-// is a blank line. w is 13 characters tall, and we can't use the last one
-// because it's a border as well; so we have lines 6 through 11.
-// w is also 48 characters wide - 2 characters for border = 46 characters for us
+    // First line of w is the border; the next 4 are terrain info, and after that
+    // is a blank line. w is 13 characters tall, and we can't use the last one
+    // because it's a border as well; so we have lines 6 through 11.
+    // w is also 48 characters wide - 2 characters for border = 46 characters for us
     mvwprintz(w, 6, 1, c_white, "NPC: %s", name.c_str());
     mvwprintz(w, 7, 1, c_red, "Wielding %s%s", (weapon.type->id == 0 ? "" : "a "),
               weapon.tname().c_str());

@@ -32,7 +32,7 @@ struct constructable
 
 struct construct // Construction functions.
 {
-// Bools - able to build at the given point?
+    // Bools - able to build at the given point?
     bool able_always(game *, point)
     {
         return true;
@@ -69,7 +69,7 @@ struct construct // Construction functions.
 
     bool able_deconstruct(game *, point);
 
-// Does anything special happen when we're finished?
+    // Does anything special happen when we're finished?
     void done_nothing(game *, point) { }
     void done_window_pane(game *, point);
     void done_vehicle(game *, point);

@@ -460,7 +460,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
     }
     else if (is_food_container())
     {
-// added charge display for debugging
+        // added charge display for debugging
         it_comest* food = dynamic_cast<it_comest*>(contents[0].type);
 
         dump->push_back(iteminfo("FOOD", " Nutrition: ", "", int(food->nutr)));
@@ -905,7 +905,7 @@ nc_color item::color(player *u)
 
 nc_color item::color_in_inventory(player *u)
 {
-// Items in our inventory get colorized specially
+    // Items in our inventory get colorized specially
     nc_color ret = c_white;
     if (active)
     {
@@ -1536,14 +1536,14 @@ int item::weapon_value(int skills[num_skill_types])
 
     my_value += int(type->melee_dam * (1   + .3 * skills[sk_bashing] +
                                        .1 * skills[sk_melee]));
-//debugmsg("My value: (+bash) %d", my_value);
+    //debugmsg("My value: (+bash) %d", my_value);
 
     my_value += int(type->melee_cut * (1   + .4 * skills[sk_cutting] +
                                        .1 * skills[sk_melee]));
-//debugmsg("My value: (+cut) %d", my_value);
+    //debugmsg("My value: (+cut) %d", my_value);
 
     my_value += int(type->m_to_hit  * (1.2 + .3 * skills[sk_melee]));
-//debugmsg("My value: (+hit) %d", my_value);
+    //debugmsg("My value: (+hit) %d", my_value);
 
     return my_value;
 }
@@ -1558,14 +1558,14 @@ int item::melee_value(int skills[num_skill_types])
     int my_value = 0;
     my_value += int(type->melee_dam * (1   + .3 * skills[sk_bashing] +
                                        .1 * skills[sk_melee]));
-//debugmsg("My value: (+bash) %d", my_value);
+    //debugmsg("My value: (+bash) %d", my_value);
 
     my_value += int(type->melee_cut * (1   + .4 * skills[sk_cutting] +
                                        .1 * skills[sk_melee]));
-//debugmsg("My value: (+cut) %d", my_value);
+    //debugmsg("My value: (+cut) %d", my_value);
 
     my_value += int(type->m_to_hit  * (1.2 + .3 * skills[sk_melee]));
-//debugmsg("My value: (+hit) %d", my_value);
+    //debugmsg("My value: (+hit) %d", my_value);
 
     if (is_style())
     {
@@ -2135,7 +2135,7 @@ int item::burst_size()
     {
         return 0;
     }
-// No burst fire for gunmods right now.
+    // No burst fire for gunmods right now.
     if (mode == IF_MODE_AUX)
     {
         return 1;
@@ -2162,7 +2162,7 @@ int item::recoil(bool with_ammo)
     {
         return 0;
     }
-// Just use the raw ammo recoil for now.
+    // Just use the raw ammo recoil for now.
     if (mode == IF_MODE_AUX)
     {
         item* gunmod = active_gunmod();
@@ -2197,7 +2197,7 @@ int item::range(player *p)
     {
         return 0;
     }
-// Just use the raw ammo range for now.
+    // Just use the raw ammo range for now.
     if (mode == IF_MODE_AUX)
     {
         item* gunmod = active_gunmod();
@@ -2377,7 +2377,7 @@ Choose ammo type:         Damage     Armor Pierce     Range     Accuracy");
             index = am[ch - 'a'];
         }
     }
-// Either only one valid choice or chosing for a NPC, just return the first.
+    // Either only one valid choice or chosing for a NPC, just return the first.
     else if (am.size() > 0)
     {
         index = am[0];
@@ -2392,7 +2392,7 @@ bool item::reload(player &u, int index)
     item *reload_target = NULL;
     item *ammo_to_use = index != -2 ? &u.inv[index] : NULL;
 
-// Handle ammo in containers, currently only gasoline
+    // Handle ammo in containers, currently only gasoline
     if (ammo_to_use && ammo_to_use->is_container())
     {
         ammo_to_use = &ammo_to_use->contents[0];

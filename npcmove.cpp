@@ -67,9 +67,9 @@ void npc::move(game *g)
             }
         }
     }
-// TODO: Place player-aiding actions here, with a weight
+    // TODO: Place player-aiding actions here, with a weight
 
-//if (!bravery_check(danger) || !bravery_check(total_danger) ||
+    //if (!bravery_check(danger) || !bravery_check(total_danger) ||
     if (target == TARGET_PLAYER && attitude == NPCATT_FLEE)
     {
         action = method_of_fleeing(g, target);
@@ -298,7 +298,7 @@ void npc::execute_action(game *g, npc_action action, int target)
         break;
 
     case npc_flee:
-// TODO: More intelligent fleeing
+        // TODO: More intelligent fleeing
         move_away_from(g, tarx, tary);
         break;
 
@@ -340,7 +340,7 @@ void npc::execute_action(game *g, npc_action action, int target)
     case npc_look_for_player:
         if (saw_player_recently() && g->m.sees(posx, posy, plx, ply, light, linet))
         {
-// (plx, ply) is the point where we last saw the player
+            // (plx, ply) is the point where we last saw the player
             update_path(g, plx, ply);
             move_to_next(g);
         }
@@ -608,7 +608,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
         }
     }
 
-// Check if there's something better to wield
+    // Check if there's something better to wield
     bool has_empty_gun = false, has_better_melee = false;
     std::vector<int> empty_guns;
     for (int i = 0; i < inv.size(); i++)
@@ -697,8 +697,8 @@ npc_action npc::address_needs(game *g, int danger)
       return npc_sleep;
     */
 
-// TODO: Mutation & trait related needs
-// e.g. finding glasses; getting out of sunlight if we're an albino; etc.
+    // TODO: Mutation & trait related needs
+    // e.g. finding glasses; getting out of sunlight if we're an albino; etc.
 
     return npc_undecided;
 }
@@ -793,7 +793,7 @@ npc_action npc::long_term_goal_action(game *g)
         return npc_pause;    // Shopkeeps just stay put.
     }
 
-// TODO: Follow / look for player
+    // TODO: Follow / look for player
 
 
     if (!has_destination())
@@ -901,11 +901,11 @@ int npc::confident_range(int index)
     if (index == -1)
     {
         it_gun* firing = dynamic_cast<it_gun*>(weapon.type);
-// We want at least 50% confidence that missed_by will be < .5.
-// missed_by = .00325 * deviation * range <= .5; deviation * range <= 156
-// (range <= 156 / deviation) is okay, so confident range is (156 / deviation)
-// Here we're using median values for deviation, for a around-50% estimate.
-// See game::fire (ranged.cpp) for where these computations come from
+        // We want at least 50% confidence that missed_by will be < .5.
+        // missed_by = .00325 * deviation * range <= .5; deviation * range <= 156
+        // (range <= 156 / deviation) is okay, so confident range is (156 / deviation)
+        // Here we're using median values for deviation, for a around-50% estimate.
+        // See game::fire (ranged.cpp) for where these computations come from
 
         if (skillLevel(firing->skill_used) < 5)
         {
@@ -999,7 +999,7 @@ int npc::confident_range(int index)
         deviation += rng(0, 1 + abs(str_cur - thrown->weight()));
     }
 
-// Using 180 for now for extra-confident NPCs.
+    // Using 180 for now for extra-confident NPCs.
     int ret = (max > int(180 / deviation) ? max : int(180 / deviation));
     if (weapon.curammo && ret > weapon.curammo->range)
     {
@@ -1036,19 +1036,19 @@ bool npc::wont_hit_friend(game *g, int tarx, int tary, int index)
         {
             for (int y = traj[i].y - deviation; y <= traj[i].y + deviation; y++)
             {
-// Hit the player?
+                // Hit the player?
                 if (is_friend() && g->u.posx == x && g->u.posy == y)
                 {
                     return false;
                 }
-// Hit a friendly monster?
+                // Hit a friendly monster?
                 /*
                     for (int n = 0; n < g->z.size(); n++) {
                      if (g->z[n].friendly != 0 && g->z[n].posx == x && g->z[n].posy == y)
                       return false;
                     }
                 */
-// Hit an NPC that's on our team?
+                // Hit an NPC that's on our team?
                 /*
                     for (int n = 0; n < g->active_npc.size(); n++) {
                      npc* guy = &(g->active_npc[n]);
@@ -1199,7 +1199,7 @@ void npc::move_to(game *g, int x, int y)
         moves -= 100;
     }
     else if (g->npc_at(x, y) != -1)
-// TODO: Determine if it's an enemy NPC (hit them), or a friendly in the way
+        // TODO: Determine if it's an enemy NPC (hit them), or a friendly in the way
     {
         moves -= 100;
     }
@@ -1512,7 +1512,7 @@ void npc::pick_up_item(game *g)
         move_to_next(g);
         return;
     }
-// We're adjacent to the item; grab it!
+    // We're adjacent to the item; grab it!
     moves -= 100;
     fetching_item = false;
     std::vector<item> *items = &(g->m.i_at(itx, ity));
@@ -1540,7 +1540,7 @@ void npc::pick_up_item(game *g)
       drop_items(g, wgt_to_drop, vol_to_drop);
      }
     */
-// Describe the pickup to the player
+    // Describe the pickup to the player
     int t;
     bool u_see_me = g->u_see(posx, posy, t), u_see_items = g->u_see(itx, ity, t);
     if (u_see_me)
@@ -1626,7 +1626,7 @@ void npc::drop_items(game *g, int weight, int volume)
     int weight_dropped = 0, volume_dropped = 0;
     std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios
 
-// First fill our ratio vectors, so we know which things to drop first
+    // First fill our ratio vectors, so we know which things to drop first
     for (int i = 0; i < inv.size(); i++)
     {
         double wgt_ratio, vol_ratio;
@@ -1669,20 +1669,20 @@ void npc::drop_items(game *g, int weight, int volume)
 
     std::stringstream item_name; // For description below
     int num_items_dropped = 0; // For description below
-// Now, drop items, starting from the top of each list
+    // Now, drop items, starting from the top of each list
     while (weight_dropped < weight || volume_dropped < volume)
     {
-// weight and volume may be passed as 0 or a negative value, to indicate that
-// decreasing that variable is not important.
+        // weight and volume may be passed as 0 or a negative value, to indicate that
+        // decreasing that variable is not important.
         int dWeight = (weight <= 0 ? -1 : weight - weight_dropped);
         int dVolume = (volume <= 0 ? -1 : volume - volume_dropped);
         int index;
-// Which is more important, weight or volume?
+        // Which is more important, weight or volume?
         if (dWeight > dVolume)
         {
             index = rWgt[0].index;
             rWgt.erase(rWgt.begin());
-// Fix the rest of those indices.
+            // Fix the rest of those indices.
             for (int i = 0; i < rWgt.size(); i++)
             {
                 if (rWgt[i].index > index)
@@ -1695,7 +1695,7 @@ void npc::drop_items(game *g, int weight, int volume)
         {
             index = rVol[0].index;
             rVol.erase(rVol.begin());
-// Fix the rest of those indices.
+            // Fix the rest of those indices.
             for (int i = 0; i < rVol.size(); i++)
             {
                 if (i > rVol.size())
@@ -1721,7 +1721,7 @@ void npc::drop_items(game *g, int weight, int volume)
         }
         g->m.add_item(posx, posy, dropped);
     }
-// Finally, describe the action if u can see it
+    // Finally, describe the action if u can see it
     int linet;
     std::string item_name_str = item_name.str();
     if (g->u_see(posx, posy, linet))
@@ -1741,7 +1741,7 @@ void npc::drop_items(game *g, int weight, int volume)
 npc_action npc::scan_new_items(game *g, int target)
 {
     bool can_use_gun = (!is_following() || combat_rules.use_guns);
-// Check if there's something better to wield
+    // Check if there's something better to wield
     bool has_empty_gun = false, has_better_melee = false;
     std::vector<int> empty_guns;
     for (int i = 0; i < inv.size(); i++)
@@ -1817,7 +1817,7 @@ void npc::wield_best_melee(game *g)
     if (!styles.empty() && // Wield a style if our skills warrant it
             best_score < 15 * sklevel[sk_unarmed] + 8 * sklevel[sk_melee])
     {
-// TODO: More intelligent style choosing
+        // TODO: More intelligent style choosing
         wield(g, 0 - rng(1, styles.size()));
         return;
     }
@@ -1867,7 +1867,7 @@ void npc::alt_attack(game *g, int target)
 
     if (which == itm_null)   // We ain't got shit!
     {
-// Not sure if this should ever occur.  For now, let's warn with a debug msg
+        // Not sure if this should ever occur.  For now, let's warn with a debug msg
         debugmsg("npc::alt_attack() couldn't find an alt attack item!");
         if (dist == 1)
         {
@@ -1905,7 +1905,7 @@ void npc::alt_attack(game *g, int target)
         }
     }
 
-// Are we going to throw this item?
+    // Are we going to throw this item?
     if (!thrown_item(used))
     {
         activate_item(g, index);
@@ -1954,8 +1954,8 @@ void npc::alt_attack(game *g, int target)
                         {
                             int newtarget = g->mon_at(x, y);
                             int newdist = rl_dist(posx, posy, x, y);
-// TODO: Change "newdist >= 2" to "newdist >= safe_distance(used)"
-// Molotovs are safe at 2 tiles, grenades at 4, mininukes at 8ish
+                            // TODO: Change "newdist >= 2" to "newdist >= safe_distance(used)"
+                            // Molotovs are safe at 2 tiles, grenades at 4, mininukes at 8ish
                             if (newdist <= conf && newdist >= 2 && newtarget != -1 &&
                                     wont_hit_friend(g, x, y, index))   // Friendlyfire-safe!
                             {
@@ -2056,11 +2056,11 @@ void npc::heal_player(game *g, player &patient)
     {
         int lowest_HP = 400;
         hp_part worst;
-// Chose the worst-hurting body part
+        // Chose the worst-hurting body part
         for (int i = 0; i < num_hp_parts; i++)
         {
             int hp = patient.hp_cur[i];
-// The head and torso are weighted more heavily than other body parts
+            // The head and torso are weighted more heavily than other body parts
             if (i == hp_head)
             {
                 hp = patient.hp_max[i] - 3 * (patient.hp_max[i] - hp);
@@ -2142,7 +2142,7 @@ void npc::heal_player(game *g, player &patient)
 
         if (!patient.is_npc())
         {
-// Test if we want to heal the player further
+            // Test if we want to heal the player further
             if (op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 +
                     (fac_has_value(FACVAL_CHARITABLE) ?  5 : 0) +
                     (fac_has_job(FACJOB_DOCTORS)    ? 15 : 0) - op_of_u.fear * 3 <  25)
@@ -2162,11 +2162,11 @@ void npc::heal_self(game *g)
 {
     int lowest_HP = 400;
     hp_part worst;
-// Chose the worst-hurting body part
+    // Chose the worst-hurting body part
     for (int i = 0; i < num_hp_parts; i++)
     {
         int hp = hp_cur[i];
-// The head and torso are weighted more heavily than other body parts
+        // The head and torso are weighted more heavily than other body parts
         if (i == hp_head)
         {
             hp = hp_max[i] - 3 * (hp_max[i] - hp);
@@ -2229,7 +2229,7 @@ void npc::heal_self(game *g)
 
 void npc::use_painkiller(game *g)
 {
-// First, find the best painkiller for our pain level
+    // First, find the best painkiller for our pain level
     int difference = 9999, index = -1;
     for (int i = 0; i < inv.size(); i++)
     {
@@ -2343,7 +2343,7 @@ void npc::mug_player(game *g, player &mark)
             cash += mark.cash;
             mark.cash = 0;
             moves = 0;
-// Describe the action
+            // Describe the action
             if (mark.is_npc())
             {
                 if (u_see_me)
@@ -2376,8 +2376,8 @@ void npc::mug_player(game *g, player &mark)
         }
         else     // We already have their money; take some goodies!
         {
-// value_mod affects at what point we "take the money and run"
-// A lower value means we'll take more stuff
+            // value_mod affects at what point we "take the money and run"
+            // A lower value means we'll take more stuff
             double value_mod = 1 - double((10 - personality.bravery)    * .05) -
                                double((10 - personality.aggression) * .04) -
                                double((10 - personality.collector)  * .06);
@@ -2535,8 +2535,8 @@ void npc::set_destination(game *g)
      *  lab" or "map that river bank."
      */
 
-// all of the following luxuries are at ground level.
-// so please wallow in hunger & fear if below ground.
+    // all of the following luxuries are at ground level.
+    // so please wallow in hunger & fear if below ground.
     if (g->cur_om.posz != 0)
     {
         goalx = -1;
@@ -2609,9 +2609,9 @@ void npc::go_to_destination(game *g)
         {
             sy = 0;
         }
-// sx and sy are now equal to the direction we need to move in
+        // sx and sy are now equal to the direction we need to move in
         int x = posx + 8 * sx, y = posy + 8 * sy, linet, light = g->light_level();
-// x and y are now equal to a local square that's close by
+        // x and y are now equal to a local square that's close by
         for (int i = 0; i < 8; i++)
         {
             for (int dx = 0 - i; dx <= i; dx++)

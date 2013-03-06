@@ -78,8 +78,8 @@ void addict_effect(game *g, addiction &add)
         break;
 
     case ADD_SLEEP:
-// No effects here--just in player::can_sleep()
-// EXCEPT!  Prolong this addiction longer than usual.
+        // No effects here--just in player::can_sleep()
+        // EXCEPT!  Prolong this addiction longer than usual.
         if (one_in(2) && add.sated < 0)
         {
             add.sated++;

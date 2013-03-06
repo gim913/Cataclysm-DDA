@@ -267,12 +267,12 @@ void mvwprintz(WINDOW* w, int y, int x, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-// char buff[4096];
-// vsprintf(buff, mes, ap);
+    // char buff[4096];
+    // vsprintf(buff, mes, ap);
     char buff[6000];
     vsprintf(buff, mes, ap);
     wattron(w, FG);
-// wmove(w, y, x);
+    // wmove(w, y, x);
     mvwprintw(w, y, x, buff);
     wattroff(w, FG);
     va_end(ap);
@@ -316,7 +316,7 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
     }
     va_end(ap);
 
-// Draw the line under the tabs
+    // Draw the line under the tabs
     for (int x = 0; x < win_width; x++)
     {
         mvwputch(w, 2, x, c_white, LINE_OXOX);
@@ -334,10 +334,10 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
         return;
     }
 
-// Extra "buffer" space per each side of each tab
+    // Extra "buffer" space per each side of each tab
     double buffer_extra = (win_width - total_width) / (labels.size() * 2);
     int buffer = int(buffer_extra);
-// Set buffer_extra to (0, 1); the "extra" whitespace that builds up
+    // Set buffer_extra to (0, 1); the "extra" whitespace that builds up
     buffer_extra = buffer_extra - buffer;
     int xpos = 0;
     double savings = 0;
@@ -505,7 +505,7 @@ std::string string_input_popup(std::string title, int max_length, std::string in
         }
         else if ((ch == KEY_BACKSPACE || ch == 127) && posx > startx)
         {
-// Move the cursor back and re-draw it
+            // Move the cursor back and re-draw it
             ret = ret.substr(0, ret.size() - 1);
             mvwputch(w, 1, posx, c_ltgray, '_');
             posx--;

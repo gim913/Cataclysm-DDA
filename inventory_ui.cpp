@@ -15,10 +15,10 @@ std::string CATEGORIES[9] =
 void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
                        std::vector<char> dropped_items)
 {
-// Print our header
+    // Print our header
     mvwprintw(w_inv, 0, 0, title.c_str());
 
-// Print weight
+    // Print weight
     mvwprintw(w_inv, 0, 45, "Weight: ");
     if (g->u.weight_carried() >= g->u.weight_capacity() * .25)
     {
@@ -30,7 +30,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
     }
     wprintz(w_inv, c_ltgray, "/%d", int(g->u.weight_capacity() * .25));//, g->u.weight_capacity());
 
-// Print volume
+    // Print volume
     mvwprintw(w_inv, 0, 62, "Volume: ");
     if (g->u.volume_carried() > g->u.volume_capacity() - 2)
     {
@@ -42,7 +42,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
     }
     wprintw(w_inv, "/%d", g->u.volume_capacity() - 2);
 
-// Print our weapon
+    // Print our weapon
     int n_items = 0;
     mvwprintz(w_inv, 2, 45, c_magenta, "WEAPON:");
     int dropping_weapon = false;
@@ -73,7 +73,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
     {
         mvwprintz(w_inv, 3, 45, c_ltgray, g->u.weapname().c_str());
     }
-// Print worn items
+    // Print worn items
     if (g->u.worn.size() > 0)
     {
         mvwprintz(w_inv, 5, 45, c_magenta, "ITEMS WORN:");
@@ -97,7 +97,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
                       g->u.worn[i].tname(g).c_str());
     }
 
-// Print items carried
+    // Print items carried
     for (int ch = 'a'; ch <= 'z'; ++ch)
     {
         n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
@@ -169,7 +169,7 @@ char game::inv(std::string title)
     u.inv.restack(&u);
     std::vector<char> null_vector;
     print_inv_statics(this, w_inv, title, null_vector);
-// Gun, ammo, weapon, armor, food, tool, book, other
+    // Gun, ammo, weapon, armor, food, tool, book, other
     std::vector<int> firsts = find_firsts(u.inv);
 
     do
@@ -199,9 +199,9 @@ char game::inv(std::string title)
         int cur_line = 2;
         for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems + 3; cur_it++)
         {
-// Clear the current line;
+            // Clear the current line;
             mvwprintw(w_inv, cur_line, 0, "                                             ");
-// Print category header
+            // Print category header
             for (int i = 1; i < 9; i++)
             {
                 if (cur_it == firsts[i - 1])
@@ -252,8 +252,8 @@ char game::inv(std::string title)
 
 char game::inv_type(std::string title, int inv_item_type)
 {
-// this function lists inventory objects by type
-// refer to enum item_cat in itype.h for list of categories
+    // this function lists inventory objects by type
+    // refer to enum item_cat in itype.h for list of categories
 
     WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY * 2 + 1), ((VIEWX < 12) ? 80 : VIEWX * 2 + 56), 0, 0);
     const int maxitems = (VIEWY < 12) ? 20 : VIEWY * 2 - 4; // Number of items to show at one time.
@@ -263,9 +263,9 @@ char game::inv_type(std::string title, int inv_item_type)
     u.inv.restack(&u);
     std::vector<char> null_vector;
     print_inv_statics(this, w_inv, title, null_vector);
-// Gun, ammo, weapon, armor, food, tool, book, other
+    // Gun, ammo, weapon, armor, food, tool, book, other
 
-// Create the reduced inventory
+    // Create the reduced inventory
     inventory reduced_inv = u.inv;
     reduced_inv.clear();
     int inv_index = 0;
@@ -357,7 +357,7 @@ char game::inv_type(std::string title, int inv_item_type)
         int cur_line = 2;
         for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems + 3; cur_it++)
         {
-// Clear the current line;
+            // Clear the current line;
             mvwprintw(w_inv, cur_line, 0, "                                             ");
 
             for (int i = 1; i < 9; i++)
@@ -389,7 +389,7 @@ char game::inv_type(std::string title, int inv_item_type)
                 }
                 cur_line++;
             }
-//   cur_line++;
+            //   cur_line++;
         }
         if (start > 0)
         {
@@ -425,7 +425,7 @@ std::vector<item> game::multidrop()
     std::vector<char> weapon_and_armor; // Always single, not counted
     bool warned_about_bionic = false; // Printed add_msg re: dropping bionics
     print_inv_statics(this, w_inv, "Multidrop:", weapon_and_armor);
-// Gun, ammo, weapon, armor, food, tool, book, other
+    // Gun, ammo, weapon, armor, food, tool, book, other
     std::vector<int> firsts = find_firsts(u.inv);
 
     char ch = '.';
@@ -457,9 +457,9 @@ std::vector<item> game::multidrop()
         int cur_line = 2;
         for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems + 3; cur_it++)
         {
-// Clear the current line;
+            // Clear the current line;
             mvwprintw(w_inv, cur_line, 0, "                                             ");
-// Print category header
+            // Print category header
             for (int i = 1; i < 9; i++)
             {
                 if (cur_it == firsts[i - 1])
@@ -694,7 +694,7 @@ void game::compare(int iCompareX, int iCompareY)
     examy += u.posy;
     std::vector <item> here = m.i_at(examx, examy);
     std::vector <item> grounditems;
-//Filter out items with the same name (keep only one of them)
+    //Filter out items with the same name (keep only one of them)
     std::map <std::string, bool> dups;
     for (int i = 0; i < here.size(); i++)
     {
@@ -704,7 +704,7 @@ void game::compare(int iCompareX, int iCompareY)
             dups[here[i].tname(this).c_str()] = true;
         }
     }
-//Only the first 10 Items due to numbering 0-9
+    //Only the first 10 Items due to numbering 0-9
     const int groundsize = (grounditems.size() > 10 ? 10 : grounditems.size());
     u.sort_inv();
     u.inv.restack(&u);
@@ -720,7 +720,7 @@ void game::compare(int iCompareX, int iCompareY)
     }
     std::vector<char> weapon_and_armor; // Always single, not counted
     print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);
-// Gun, ammo, weapon, armor, food, tool, book, other
+    // Gun, ammo, weapon, armor, food, tool, book, other
     std::vector<int> first = find_firsts(u.inv);
     std::vector<int> firsts;
     if (groundsize > 0)
@@ -762,9 +762,9 @@ void game::compare(int iCompareX, int iCompareY)
 
         for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems + 3; cur_it++)
         {
-// Clear the current line;
+            // Clear the current line;
             mvwprintw(w_inv, cur_line, 0, "                                             ");
-// Print category header
+            // Print category header
             for (int i = iHeaderOffset; i < 9; i++)
             {
                 if (cur_it == firsts[i - iHeaderOffset])

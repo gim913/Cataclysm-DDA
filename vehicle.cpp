@@ -226,7 +226,7 @@ std::string vehicle::use_controls()
     std::vector<vehicle_controls> options_choice;
     std::vector<std::string> options_message;
 
-// Alway have this option
+    // Alway have this option
     options_choice.push_back(toggle_cruise_control);
     options_message.push_back((cruise_on) ? "Disable cruise control" : "Enable cruise control");
 
@@ -244,14 +244,14 @@ std::string vehicle::use_controls()
         }
     }
 
-// Lights if they are there - Note you can turn them on even when damaged, they just don't work
+    // Lights if they are there - Note you can turn them on even when damaged, they just don't work
     if (has_lights)
     {
         options_choice.push_back(toggle_lights);
         options_message.push_back((lights_on) ? "Turn off headlights" : "Turn on headlights");
     }
 
-// Turrents: off or burst mode
+    // Turrents: off or burst mode
     if (has_turrets)
     {
         options_choice.push_back(toggle_turrets);
@@ -354,32 +354,32 @@ bool vehicle::can_mount(int dx, int dy, vpart_id id)
         }
     if (!n3ar)
     {
-//         debugmsg ("can_mount%d(%d,%d): no point to mount", id, dx, dy);
+        //         debugmsg ("can_mount%d(%d,%d): no point to mount", id, dx, dy);
         return false; // no point to mount
     }
 
-// TODO: seatbelts must require an obstacle part n3arby
+    // TODO: seatbelts must require an obstacle part n3arby
 
     std::vector<int> parts_here = parts_at_relative(dx, dy);
     if (parts_here.size() < 1)
     {
         int res = vpart_list[id].flags & mfb(vpf_external);
-//         if (!res)
-//             debugmsg ("can_mount: not first or external");
+        //         if (!res)
+        //             debugmsg ("can_mount: not first or external");
         return res; // can be mounted if first and external
     }
 
     int flags1 = part_info(parts_here[0]).flags;
     if ((vpart_list[id].flags & mfb(vpf_armor)) && flags1 & mfb(vpf_no_reinforce))
     {
-//         debugmsg ("can_mount: armor plates on non-reinforcable part");
+        //         debugmsg ("can_mount: armor plates on non-reinforcable part");
         return false;   // trying to put armor plates on non-reinforcable part
     }
 
     for (int vf = vpf_func_begin; vf <= vpf_func_end; vf++)
         if ((vpart_list[id].flags & mfb(vf)) && part_with_feature(parts_here[0], vf, false) >= 0)
         {
-//             debugmsg ("can_mount%d(%d,%d): already has inner part with same unique feature",id, dx, dy);
+            //             debugmsg ("can_mount%d(%d,%d): already has inner part with same unique feature",id, dx, dy);
             return false;   // this part already has inner part with same unique feature
         }
 
@@ -395,11 +395,11 @@ bool vehicle::can_mount(int dx, int dy, vpart_id id)
     {
         return true;    // can mount as part over
     }
-//     debugmsg ("can_mount%d(%d,%d): allow_i=%c allow_o=%c this_i=%c this_o=%c", id, dx, dy,
-//               allow_inner? 'y' : 'n',
-//               allow_over? 'y' : 'n',
-//               this_inner? 'y' : 'n',
-//               this_over? 'y' : 'n');
+    //     debugmsg ("can_mount%d(%d,%d): allow_i=%c allow_o=%c this_i=%c this_o=%c", id, dx, dy,
+    //               allow_inner? 'y' : 'n',
+    //               allow_over? 'y' : 'n',
+    //               this_inner? 'y' : 'n',
+    //               this_over? 'y' : 'n');
     return false;
 }
 
@@ -716,7 +716,7 @@ void vehicle::print_part_desc(void *w, int y1, int width, int p, int hl)
         mvwprintz(win, y, 2, i == hl ? hilite(col_cond) : col_cond, partname.c_str());
         mvwprintz(win, y, 1, i == hl ? hilite(c_ltgray) : c_ltgray, armor ? "(" : (i ? "-" : "["));
         mvwprintz(win, y, 2 + partname.size(), i == hl ? hilite(c_ltgray) : c_ltgray, armor ? ")" : (i ? "-" : "]"));
-//         mvwprintz(win, y, 3 + strlen(part_info(pl[i]).name), c_ltred, "%d", parts[pl[i]].blood);
+        //         mvwprintz(win, y, 3 + strlen(part_info(pl[i]).name), c_ltred, "%d", parts[pl[i]].blood);
 
         if (i == 0)
         {
@@ -1203,7 +1203,7 @@ bool vehicle::valid_wheel_config()
         yo = yo * wo / (wo + w2) + parts[p].mount_dy * w2 / (wo + w2);
         wo += w2;
     }
-//    g->add_msg("cm x=%.3f y=%.3f m=%d  x1=%d y1=%d x2=%d y2=%d", xo, yo, (int) wo, x1, y1, x2, y2);
+    //    g->add_msg("cm x=%.3f y=%.3f m=%d  x1=%d y1=%d x2=%d y2=%d", xo, yo, (int) wo, x1, y1, x2, y2);
     if ((int)xo < x1 || (int)xo > x2 || (int)yo < y1 || (int)yo > y2)
     {
         return false;    // center of masses not inside support of wheels (roughly)
@@ -1222,7 +1222,7 @@ void vehicle::consume_fuel()
         {
             continue;    // no engines of that type
         }
-//         g->add_msg("consume: %d of fuel%d (st:%.2f)", amnt, ft, st);
+        //         g->add_msg("consume: %d of fuel%d (st:%.2f)", amnt, ft, st);
         bool elec = ftypes[ft] == AT_BATT;
         bool found = false;
         for (int j = 0; j < (elec ? 2 : 1); j++)

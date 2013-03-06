@@ -32,7 +32,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 
     if (p.weapon.has_flag(IF_CHARGE))   // It's a charger gun, so make up a type
     {
-// Charges maxes out at 8.
+        // Charges maxes out at 8.
         int charges = p.weapon.num_charges();
         it_ammo *tmpammo = dynamic_cast<it_ammo*>(itypes[itm_charge_shot]);
 
@@ -102,14 +102,14 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 
     bool is_bolt = false;
     unsigned int effects = curammo->ammo_effects;
-// Bolts and arrows are silent
+    // Bolts and arrows are silent
     if (curammo->type == AT_BOLT || curammo->type == AT_ARROW)
     {
         is_bolt = true;
     }
 
     int x = p.posx, y = p.posy;
-// Have to use the gun, gunmods don't have a type
+    // Have to use the gun, gunmods don't have a type
     it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
     if (p.has_trait(PF_TRIGGERHAPPY) && one_in(30))
     {
@@ -122,9 +122,9 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 
     int junk = 0;
     bool u_see_shooter = u_see(p.posx, p.posy, junk);
-// Use different amounts of time depending on the type of gun and our skill
+    // Use different amounts of time depending on the type of gun and our skill
     p.moves -= time_to_fire(p, firing);
-// Decide how many shots to fire
+    // Decide how many shots to fire
     int num_shots = 1;
     if (burst)
     {
@@ -140,12 +140,12 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
         debugmsg("game::fire() - num_shots = 0!");
     }
 
-// Set up a timespec for use in the nanosleep function below
+    // Set up a timespec for use in the nanosleep function below
     timespec ts;
     ts.tv_sec = 0;
     ts.tv_nsec = BULLET_SPEED;
 
-// Use up some ammunition
+    // Use up some ammunition
     int trange = trig_dist(p.posx, p.posy, tarx, tary);
     if (trange < int(firing->volume / 3) && firing->ammo != AT_SHOT)
     {
@@ -172,7 +172,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     int tart;
     for (int curshot = 0; curshot < num_shots; curshot++)
     {
-// Burst-fire weapons allow us to pick a new target after killing the first
+        // Burst-fire weapons allow us to pick a new target after killing the first
         if (curshot > 0 &&
                 (mon_at(tarx, tary) == -1 || z[mon_at(tarx, tary)].hp <= 0))
         {
@@ -322,7 +322,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
         make_gun_sound_effect(this, p, burst, weapon);
         int trange = calculate_range(p, tarx, tary);
         double missed_by = calculate_missed_by(p, trange, weapon);
-// Calculate a penalty based on the monster's speed
+        // Calculate a penalty based on the monster's speed
         double monster_speed_penalty = 1.;
         int target_index = mon_at(tarx, tary);
         if (target_index != -1)
@@ -349,8 +349,8 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 
         if (missed_by >= 1.)
         {
-// We missed D:
-// Shoot a random nearby space?
+            // We missed D:
+            // Shoot a random nearby space?
             tarx += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
             tary += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
             if (m.sees(p.posx, p.posy, x, y, -1, tart))
@@ -376,7 +376,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
         }
         else if (missed_by >= .7 / monster_speed_penalty)
         {
-// Hit the space, but not necessarily the monster there
+            // Hit the space, but not necessarily the monster there
             missed = true;
             if (!burst)
             {
@@ -399,8 +399,8 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
             {
                 m.drawsq(w_terrain, u, trajectory[i - 1].x, trajectory[i - 1].y, false, true);
             }
-// Drawing the bullet uses player u, and not player p, because it's drawn
-// relative to YOUR position, which may not be the gunman's position.
+            // Drawing the bullet uses player u, and not player p, because it's drawn
+            // relative to YOUR position, which may not be the gunman's position.
             if (u_see(trajectory[i].x, trajectory[i].y, junk))
             {
                 char bullet = '*';
@@ -434,10 +434,10 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
             }
 
             int tx = trajectory[i].x, ty = trajectory[i].y;
-// If there's a monster in the path of our bullet, and either our aim was true,
-//  OR it's not the monster we were aiming at and we were lucky enough to hit it
+            // If there's a monster in the path of our bullet, and either our aim was true,
+            //  OR it's not the monster we were aiming at and we were lucky enough to hit it
             int mondex = mon_at(tx, ty);
-// If we shot us a monster...
+            // If we shot us a monster...
             if (mondex != -1 && (!z[mondex].has_flag(MF_DIGS) ||
                                  rl_dist(p.posx, p.posy, z[mondex].posx, z[mondex].posy) <= 1) &&
                     ((!missed && i == trajectory.size() - 1) ||
@@ -450,7 +450,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
                     goodhit = double(rand() / (RAND_MAX + 1.0)) / 2;
                 }
 
-// Penalize for the monster's speed
+                // Penalize for the monster's speed
                 if (z[mondex].speed > 80)
                 {
                     goodhit *= double(double(z[mondex].speed) / 80.);
@@ -522,7 +522,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     int deviation = 0;
     int trange = 1.5 * rl_dist(p.posx, p.posy, tarx, tary);
 
-// Throwing attempts below "Basic Competency" level are extra-bad
+    // Throwing attempts below "Basic Competency" level are extra-bad
     int skillLevel = p.skillLevel("throw").level();
 
     if (skillLevel < 3)
@@ -568,8 +568,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
 
     if (missed_by >= 1)
     {
-// We missed D:
-// Shoot a random nearby space?
+        // We missed D:
+        // Shoot a random nearby space?
         if (missed_by > 9)
         {
             missed_by = 9;
@@ -592,7 +592,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
     else if (missed_by >= .6)
     {
-// Hit the space, but not necessarily the monster there
+        // Hit the space, but not necessarily the monster there
         missed = true;
         if (!p.is_npc())
         {
@@ -615,8 +615,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         double goodhit = missed_by;
         tx = trajectory[i].x;
         ty = trajectory[i].y;
-// If there's a monster in the path of our item, and either our aim was true,
-//  OR it's not the monster we were aiming at and we were lucky enough to hit it
+        // If there's a monster in the path of our item, and either our aim was true,
+        //  OR it's not the monster we were aiming at and we were lucky enough to hit it
         if (mon_at(tx, ty) != -1 &&
                 (!missed || one_in(7 - int(z[mon_at(tx, ty)].type->size))))
         {
@@ -751,16 +751,16 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 {
     std::vector<point> ret;
     int tarx, tary, tart, junk;
-// TODO: [lightmap] Enable auto targeting based on lightmap
+    // TODO: [lightmap] Enable auto targeting based on lightmap
     int sight_dist = u.sight_range(light_level());
 
-// First, decide on a target among the monsters, if there are any in range
+    // First, decide on a target among the monsters, if there are any in range
     if (t.size() > 0)
     {
-// Check for previous target
+        // Check for previous target
         if (target == -1)
         {
-// If no previous target, target the closest there is
+            // If no previous target, target the closest there is
             double closest = -1;
             double dist;
             for (int i = 0; i < t.size(); i++)
@@ -809,7 +809,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     wrefresh(w_target);
     char ch;
     bool snap_to_target = OPTIONS[OPT_SNAP_TO_TARGET];
-// The main loop.
+    // The main loop.
     do
     {
         point center;
@@ -821,7 +821,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         {
             center = point(u.posx, u.posy);
         }
-// Clear the target window.
+        // Clear the target window.
         for (int i = 5; i < 12; i++)
         {
             for (int j = 1; j < 46; j++)
@@ -831,7 +831,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         }
         lm.generate(this, center.x, center.y, natural_light_level(), u.active_light());
         m.draw(this, w_terrain, center);
-// Draw the Monsters
+        // Draw the Monsters
         for (int i = 0; i < z.size(); i++)
         {
             if (u_see(&(z[i]), tart) && z[i].posx >= lowx && z[i].posy >= lowy &&
@@ -840,7 +840,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 z[i].draw(w_terrain, center.x, center.y, false);
             }
         }
-// Draw the NPCs
+        // Draw the NPCs
         for (int i = 0; i < active_npc.size(); i++)
         {
             if (u_see(active_npc[i].posx, active_npc[i].posy, tart))
@@ -850,12 +850,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         }
         if (x != u.posx || y != u.posy)
         {
-// Calculate the return vector (and draw it too)
+            // Calculate the return vector (and draw it too)
             /*
                for (int i = 0; i < ret.size(); i++)
                 m.drawsq(w_terrain, u, ret[i].x, ret[i].y, false, true, center.x, center.y);
             */
-// Draw the player
+            // Draw the player
             int atx = VIEWX + u.posx - center.x, aty = VIEWY + u.posy - center.y;
             if (atx >= 0 && atx < TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < TERRAIN_WINDOW_HEIGHT)
             {
@@ -865,7 +865,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             if (m.sees(u.posx, u.posy, x, y, -1, tart))  // Selects a valid line-of-sight
             {
                 ret = line_to(u.posx, u.posy, x, y, tart); // Sets the vector to that LOS
-// Draw the trajectory
+                // Draw the trajectory
                 for (int i = 0; i < ret.size(); i++)
                 {
                     if (abs(ret[i].x - u.posx) <= sight_dist &&
@@ -873,7 +873,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                     {
                         int mondex = mon_at(ret[i].x, ret[i].y),
                             npcdex = npc_at(ret[i].x, ret[i].y);
-// NPCs and monsters get drawn with inverted colors
+                        // NPCs and monsters get drawn with inverted colors
                         if (mondex != -1 && u_see(&(z[mondex]), tart))
                         {
                             z[mondex].draw(w_terrain, center.x, center.y, true);
@@ -1125,7 +1125,7 @@ int time_to_fire(player &p, it_gun* firing)
 void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
 {
     std::string gunsound;
-// noise() doesn't suport gunmods, but it does return the right value
+    // noise() doesn't suport gunmods, but it does return the right value
     int noise = p.weapon.noise();
     if (noise < 5)
     {
@@ -1221,11 +1221,11 @@ int calculate_range(player &p, int tarx, int tary)
 
 double calculate_missed_by(player &p, int trange, item* weapon)
 {
-// No type for gunmods,so use player weapon.
+    // No type for gunmods,so use player weapon.
     it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
-// Calculate deviation from intended target (assuming we shoot for the head)
+    // Calculate deviation from intended target (assuming we shoot for the head)
     double deviation = 0.; // Measured in quarter-degrees
-// Up to 1.5 degrees for each skill point < 4; up to 1.25 for each point > 4
+    // Up to 1.5 degrees for each skill point < 4; up to 1.25 for each point > 4
     if (p.skillLevel(firing->skill_used) < 4)
     {
         deviation += rng(0, 6 * (4 - p.skillLevel(firing->skill_used).level()));
@@ -1255,18 +1255,18 @@ double calculate_missed_by(player &p, int trange, item* weapon)
     int adj_recoil = p.recoil + p.driving_recoil;
     deviation += rng(int(adj_recoil / 4), adj_recoil);
 
-// .013 * trange is a computationally cheap version of finding the tangent.
-// (note that .00325 * 4 = .013; .00325 is used because deviation is a number
-//  of quarter-degrees)
-// It's also generous; missed_by will be rather short.
+    // .013 * trange is a computationally cheap version of finding the tangent.
+    // (note that .00325 * 4 = .013; .00325 is used because deviation is a number
+    //  of quarter-degrees)
+    // It's also generous; missed_by will be rather short.
     return (.00325 * deviation * trange);
 }
 
 int recoil_add(player &p)
 {
-// Gunmods don't have atype,so use guns.
+    // Gunmods don't have atype,so use guns.
     it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
-// item::recoil() doesn't suport gunmods, so call it on player gun.
+    // item::recoil() doesn't suport gunmods, so call it on player gun.
     int ret = p.weapon.recoil();
     ret -= rng(p.str_cur / 2, p.str_cur);
     ret -= rng(0, p.skillLevel(firing->skill_used).level() / 2);
@@ -1279,7 +1279,7 @@ int recoil_add(player &p)
 
 void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, item* weapon)
 {
-// Gunmods don't have a type, so use the player weapon type.
+    // Gunmods don't have a type, so use the player weapon type.
     it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
     std::string message;
     int junk;
@@ -1295,7 +1295,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
     }
     else     // Not HARDTOSHOOT
     {
-// Armor blocks BEFORE any critical effects.
+        // Armor blocks BEFORE any critical effects.
         int zarm = mon.armor_cut();
         zarm -= weapon->curammo->pierce;
         if (weapon->curammo->m1 == LIQUID)
@@ -1344,7 +1344,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
         {
             dam = 0;
         }
-// Find the zombie at (x, y) and hurt them, MAYBE kill them!
+        // Find the zombie at (x, y) and hurt them, MAYBE kill them!
         if (dam > 0)
         {
             mon.moves -= dam * 5;
@@ -1370,7 +1370,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
 void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
 {
     int npcdex = g->npc_at(h->posx, h->posy);
-// Gunmods don't have a type, so use the player gun type.
+    // Gunmods don't have a type, so use the player gun type.
     it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
     body_part hit;
     int side = rng(0, 1), junk;

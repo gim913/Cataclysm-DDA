@@ -13,7 +13,7 @@
 
 #define SELCOL(n) (selection == (n) ? c_yellow : c_blue)
 #define TOGCOL(n, b) (selection == (n) ? (b ? c_ltgreen : c_yellow) :\
-                      (b ? c_green : c_dkgray))
+                          (b ? c_green : c_dkgray))
 #define NUMALIGN(n) ((n) >= 10000 ? 20 : ((n) >= 1000 ? 21 :\
                      ((n) >= 100 ? 22 : ((n) >= 10 ? 23 : 24))))
 
@@ -125,7 +125,7 @@ void defense_game::pre_action(game *g, action_id &act)
         act = ACTION_NULL;
     }
 
-// Big ugly block for movement
+    // Big ugly block for movement
     if ((act == ACTION_MOVE_N && g->u.posy == SEEX * int(MAPSIZE / 2) &&
             g->levy <= 93) ||
             (act == ACTION_MOVE_NE && ((g->u.posy == SEEY * int(MAPSIZE / 2) &&
@@ -264,7 +264,7 @@ void defense_game::init_map(game *g)
         g->cur_om.ter(50, 49) = ot_mansion_entrance;
         break;
     }
-// Init the map
+    // Init the map
     int old_percent = 0;
     for (int i = 0; i <= MAPSIZE * 2; i += 2)
     {
@@ -279,7 +279,7 @@ void defense_game::init_map(game *g)
                              (percent < 10 ? " " : ""), percent);
                 old_percent = percent;
             }
-// Round down to the nearest even number
+            // Round down to the nearest even number
             mx -= mx % 2;
             my -= my % 2;
             tinymap tm(&g->itypes, &g->mapitems, &g->traps);
@@ -294,7 +294,7 @@ void defense_game::init_map(game *g)
 
     g->update_map(g->u.posx, g->u.posy);
     monster generator(g->mtypes[mon_generator], g->u.posx + 1, g->u.posy + 1);
-// Find a valid spot to spawn the generator
+    // Find a valid spot to spawn the generator
     std::vector<point> valid;
     for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++)
     {
@@ -830,7 +830,7 @@ void defense_game::refresh_setup(WINDOW* w, int selection)
 
 std::string defense_style_name(defense_style style)
 {
-// 24 Characters Max!
+    // 24 Characters Max!
     switch (style)
     {
     case DEFENSE_CUSTOM:
@@ -860,7 +860,7 @@ std::string defense_style_name(defense_style style)
 
 std::string defense_style_description(defense_style style)
 {
-// 51 Characters Max!
+    // 51 Characters Max!
     switch (style)
     {
     case DEFENSE_CUSTOM:
@@ -931,7 +931,7 @@ void defense_game::caravan(game *g)
     std::vector<itype_id> items[NUM_CARAVAN_CATEGORIES];
     std::vector<int> item_count[NUM_CARAVAN_CATEGORIES];
 
-// Init the items for each category
+    // Init the items for each category
     for (int i = 0; i < NUM_CARAVAN_CATEGORIES; i++)
     {
         items[i] = caravan_items(caravan_category(i));
@@ -1315,7 +1315,7 @@ std::vector<itype_id> caravan_items(caravan_category cat)
 
 void draw_caravan_borders(WINDOW *w, int current_window)
 {
-// First, do the borders for the category window
+    // First, do the borders for the category window
     nc_color col = c_ltgray;
     if (current_window == 0)
     {
@@ -1335,12 +1335,12 @@ void draw_caravan_borders(WINDOW *w, int current_window)
     }
     mvwputch(w, 11,  0, col, LINE_XXXO);
 
-// These are shared with the items window, and so are always "on"
+    // These are shared with the items window, and so are always "on"
     mvwputch(w,  0, 39, c_yellow, LINE_OXXX);
     mvwputch(w, 11, 39, c_yellow, LINE_XOXX);
 
     col = (current_window == 1 ? c_yellow : c_ltgray);
-// Next, draw the borders for the item description window--always "off" & gray
+    // Next, draw the borders for the item description window--always "off" & gray
     for (int i = 12; i <= 23; i++)
     {
         mvwputch(w, i,  0, c_ltgray, LINE_XOXO);
@@ -1354,7 +1354,7 @@ void draw_caravan_borders(WINDOW *w, int current_window)
     mvwputch(w, 24,  0, c_ltgray, LINE_XXOO);
     mvwputch(w, 24, 39, c_ltgray, LINE_XXOX);
 
-// Finally, draw the item section borders
+    // Finally, draw the item section borders
     for (int i = 40; i <= 78; i++)
     {
         mvwputch(w,  0, i, col, LINE_OXOX);
@@ -1369,7 +1369,7 @@ void draw_caravan_borders(WINDOW *w, int current_window)
     mvwputch(w,  0, 79, col, LINE_OOXX);
     mvwputch(w, 24, 79, col, LINE_XOOX);
 
-// Quick reminded about help.
+    // Quick reminded about help.
     mvwprintz(w, 24, 2, c_red, "Press ? for help.");
     wrefresh(w);
 }
@@ -1377,7 +1377,7 @@ void draw_caravan_borders(WINDOW *w, int current_window)
 void draw_caravan_categories(WINDOW *w, int category_selected, int total_price,
                              int cash)
 {
-// Clear the window
+    // Clear the window
     for (int i = 1; i <= 10; i++)
     {
         mvwprintz(w, i, 1, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
@@ -1398,26 +1398,26 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
                         std::vector<int> *counts, int offset,
                         int item_selected)
 {
-// Print the item info first.  This is important, because it contains \n which
-// will corrupt the item list.
+    // Print the item info first.  This is important, because it contains \n which
+    // will corrupt the item list.
 
-// Actually, clear the item info first.
+    // Actually, clear the item info first.
     for (int i = 12; i <= 23; i++)
     {
         mvwprintz(w, i, 1, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     }
-// THEN print it--if item_selected is valid
+    // THEN print it--if item_selected is valid
     if (item_selected < items->size())
     {
         item tmp(g->itypes[(*items)[item_selected] ], 0);  // Dummy item to get info
         mvwprintz(w, 12, 0, c_white, tmp.info().c_str());
     }
-// Next, clear the item list on the right
+    // Next, clear the item list on the right
     for (int i = 1; i <= 23; i++)
     {
         mvwprintz(w, i, 40, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     }
-// Finally, print the item list on the right
+    // Finally, print the item list on the right
     for (int i = offset; i <= offset + 23 && i < items->size(); i++)
     {
         mvwprintz(w, i - offset + 1, 40, (item_selected == i ? h_white : c_white),
@@ -1454,7 +1454,7 @@ void defense_game::spawn_wave(game *g)
     valid = pick_monster_wave(g);
     while (diff > 0)
     {
-// Clear out any monsters that exceed our remaining difficulty
+        // Clear out any monsters that exceed our remaining difficulty
         for (int i = 0; i < valid.size(); i++)
         {
             if (g->mtypes[valid[i]]->difficulty > diff)
@@ -1476,7 +1476,7 @@ void defense_game::spawn_wave(game *g)
             int num = diff / type->difficulty;
             if (num >= SPECIAL_WAVE_MIN)
             {
-// TODO: Do we want a special message here?
+                // TODO: Do we want a special message here?
                 for (int i = 0; i < num; i++)
                 {
                     spawn_wave_monster(g, type);
@@ -1569,7 +1569,7 @@ void defense_game::spawn_wave_monster(game *g, mtype *type)
     tmp.wandx = g->u.posx;
     tmp.wandy = g->u.posy;
     tmp.wandf = 150;
-// We wanna kill!
+    // We wanna kill!
     tmp.anger = 100;
     tmp.morale = 100;
     g->z.push_back(tmp);

@@ -55,7 +55,7 @@ int player::base_to_hit(bool real_life, int stat)
 int player::hit_roll()
 {
     int stat = dex_cur;
-// Some martial arts use something else to determine hits!
+    // Some martial arts use something else to determine hits!
     switch (weapon.typeId())
     {
     case itm_style_tiger:
@@ -77,7 +77,7 @@ int player::hit_roll()
         sides = 2;
     }
 
-// Are we unarmed?
+    // Are we unarmed?
     if (unarmed_attack())
     {
         best_bonus = skillLevel("unarmed").level();
@@ -87,7 +87,7 @@ int player::hit_roll()
         }
     }
 
-// Using a bashing weapon?
+    // Using a bashing weapon?
     if (weapon.is_bashing_weapon())
     {
         int bash_bonus = int(skillLevel("bashing").level() / 3);
@@ -97,7 +97,7 @@ int player::hit_roll()
         }
     }
 
-// Using a cutting weapon?
+    // Using a cutting weapon?
     if (weapon.is_cutting_weapon())
     {
         int cut_bonus = int(skillLevel("cutting").level() / 2);
@@ -107,7 +107,7 @@ int player::hit_roll()
         }
     }
 
-// Using a spear?
+    // Using a spear?
     if (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB))
     {
         int stab_bonus = int(skillLevel("stabbing").level() / 2);
@@ -119,7 +119,7 @@ int player::hit_roll()
 
     numdice += best_bonus; // Use whichever bonus is best.
 
-// Drunken master makes us hit better
+    // Drunken master makes us hit better
     if (has_trait(PF_DRUNKEN))
     {
         if (unarmed_attack())
@@ -155,7 +155,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
     std::string verb = "hit";
     std::string target = "the " + z->name();
 
-// If !allow_grab, then we already grabbed them--meaning their dodge is hampered
+    // If !allow_grab, then we already grabbed them--meaning their dodge is hampered
     int mondodge = (allow_grab ? z->dodge_roll() : z->dodge_roll() / 3);
 
     bool missed = (hit_roll() < mondodge ||
@@ -206,27 +206,27 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
     int pain = 0; // Boost to pain; required for perform_technique
 
-// Moves lost to getting your weapon stuck
+    // Moves lost to getting your weapon stuck
     int stuck_penalty = roll_stuck_penalty(z, (stab_dam >= cut_dam));
     if (weapon.is_style())
     {
         stuck_penalty = 0;
     }
 
-// Pick one or more special attacks
+    // Pick one or more special attacks
     technique_id technique = pick_technique(g, z, NULL, critical_hit, allow_grab);
 
-// Handles effects as well; not done in melee_affect_*
+    // Handles effects as well; not done in melee_affect_*
     perform_technique(technique, g, z, NULL, bash_dam, cut_dam, stab_dam, pain);
     z->speed -= int(pain / 2);
 
-// Mutation-based attacks
+    // Mutation-based attacks
     perform_special_attacks(g, z, NULL, bash_dam, cut_dam, stab_dam);
 
-// Handles speed penalties to monster & us, etc
+    // Handles speed penalties to monster & us, etc
     melee_special_effects(g, z, NULL, critical_hit, bash_dam, cut_dam, stab_dam);
 
-// Make a rather quiet sound, to alert any nearby monsters
+    // Make a rather quiet sound, to alert any nearby monsters
     if (weapon.typeId() != itm_style_ninjutsu) // Ninjutsu is silent!
     {
         g->sound(posx, posy, 8, "");
@@ -245,7 +245,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
     if (allow_grab && technique == TEC_GRAB)
     {
-// Move our weapon to a temp slot, if it's not unarmed
+        // Move our weapon to a temp slot, if it's not unarmed
         if (!unarmed_attack())
         {
             item tmpweap = remove_weapon();
@@ -280,7 +280,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
     std::string your = (is_u ? "your" : (male ? "his" : "her"));
     std::string verb = "hit";
 
-// Divide their dodge roll by 2 if this is a grab
+    // Divide their dodge roll by 2 if this is a grab
     int target_dodge = (allow_grab ? p.dodge_roll(g) : p.dodge_roll(g) / 2);
     int hit_value = hit_roll() - target_dodge;
     bool missed = (hit_roll() <= 0);
@@ -371,27 +371,27 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 
     int pain = 0; // Boost to pain; required for perform_technique
 
-// Moves lost to getting your weapon stuck
+    // Moves lost to getting your weapon stuck
     int stuck_penalty = roll_stuck_penalty(NULL, (stab_dam >= cut_dam));
     if (weapon.is_style())
     {
         stuck_penalty = 0;
     }
 
-// Pick one or more special attacks
+    // Pick one or more special attacks
     technique_id technique = pick_technique(g, NULL, &p, critical_hit, allow_grab);
 
-// Handles effects as well; not done in melee_affect_*
+    // Handles effects as well; not done in melee_affect_*
     perform_technique(technique, g, NULL, &p, bash_dam, cut_dam, stab_dam, pain);
     p.pain += pain;
 
-// Mutation-based attacks
+    // Mutation-based attacks
     perform_special_attacks(g, NULL, &p, bash_dam, cut_dam, stab_dam);
 
-// Handles speed penalties to monster & us, etc
+    // Handles speed penalties to monster & us, etc
     melee_special_effects(g, NULL, &p, critical_hit, bash_dam, cut_dam, stab_dam);
 
-// Make a rather quiet sound, to alert any nearby monsters
+    // Make a rather quiet sound, to alert any nearby monsters
     if (weapon.typeId() != itm_style_ninjutsu) // Ninjutsu is silent!
     {
         g->sound(posx, posy, 8, "");
@@ -415,7 +415,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 
     if (allow_grab && technique == TEC_GRAB)
     {
-// Move our weapon to a temp slot, if it's not unarmed
+        // Move our weapon to a temp slot, if it's not unarmed
         if (p.weapon.has_technique(TEC_BREAK, &p) &&
                 dice(p.dex_cur + p.skillLevel("melee").level(), 12) >
                 dice(dex_cur + skillLevel("melee").level(), 10))
@@ -457,7 +457,7 @@ int stumble(player &u)
     {
         stumble_pen = 0;
     }
-// TODO: Reflect high strength bonus in newcharacter.cpp
+    // TODO: Reflect high strength bonus in newcharacter.cpp
     if (stumble_pen > 0 && (u.str_cur >= 15 || u.dex_cur >= 21 ||
                             one_in(16 - u.str_cur) || one_in(22 - u.dex_cur)))
     {
@@ -471,7 +471,7 @@ bool player::scored_crit(int target_dodge)
 {
     int num_crits = 0;
 
-// Weapon to-hit roll
+    // Weapon to-hit roll
     int chance = 25;
     if (unarmed_attack())   // Unarmed attack: 1/2 of unarmed skill is to-hit
     {
@@ -499,10 +499,10 @@ bool player::scored_crit(int target_dodge)
         num_crits++;
     }
 
-// Dexterity to-hit roll
-// ... except sometimes we don't use dexteiry!
+    // Dexterity to-hit roll
+    // ... except sometimes we don't use dexteiry!
     int stat = dex_cur;
-// Some martial arts use something else to determine hits!
+    // Some martial arts use something else to determine hits!
     switch (weapon.typeId())
     {
     case itm_style_tiger:
@@ -540,7 +540,7 @@ bool player::scored_crit(int target_dodge)
         num_crits++;
     }
 
-// Skill level roll
+    // Skill level roll
     int best_skill = 0;
 
     if (weapon.is_bashing_weapon() && skillLevel("bashing").level() > best_skill)
@@ -646,7 +646,7 @@ int player::dodge(game *g)
         }
     }
     dodges_left--;
-// If we're over our cap, average it with our cap
+    // If we're over our cap, average it with our cap
     if (ret > int(dex_cur / 2) + skillLevel("dodge").level() * 2)
     {
         ret = (ret + int(dex_cur / 2) + skillLevel("dodge").level() * 2) / 2;
@@ -666,12 +666,12 @@ int player::base_damage(bool real_life, int stat)
         stat = (real_life ? str_cur : str_max);
     }
     int dam = (real_life ? rng(0, stat / 2) : stat / 2);
-// Bonus for statong characters
+    // Bonus for statong characters
     if (stat > 10)
     {
         dam += int((stat - 9) / 2);
     }
-// Big bonus for super-human characters
+    // Big bonus for super-human characters
     if (stat > 20)
     {
         dam += int((stat - 20) * 1.5);
@@ -705,10 +705,10 @@ int player::roll_bash_damage(monster *z, bool crit)
 
     ret = base_damage(true, stat);
 
-// Drunken Master damage bonuses
+    // Drunken Master damage bonuses
     if (has_trait(PF_DRUNKEN) && has_disease(DI_DRUNK))
     {
-// Remember, a single drink gives 600 levels of DI_DRUNK
+        // Remember, a single drink gives 600 levels of DI_DRUNK
         int mindrunk, maxdrunk;
         if (unarmed_attack())
         {
@@ -760,7 +760,7 @@ int player::roll_bash_damage(monster *z, bool crit)
 
     ret += disease_intensity(DI_DAMAGE_BOOST);
 
-// Finally, extra crit effects
+    // Finally, extra crit effects
     if (crit)
     {
         ret += int(stat / 2);
@@ -818,7 +818,7 @@ int player::roll_cut_damage(monster *z, bool crit)
         return 0;    // No negative damage!
     }
 
-// 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
+    // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
     if (skillLevel("cutting").level() <= 5)
     {
         ret *= double(0.8 + 0.08 * skillLevel("cutting").level());
@@ -1079,7 +1079,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
         bash_dam *= .7;
         return;
     }
-// The rest affect our target, and thus depend on z vs. p
+    // The rest affect our target, and thus depend on z vs. p
     switch (technique)
     {
 
@@ -1122,8 +1122,8 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
         break;
 
     case TEC_THROW:
-// Throws are less predictable than brutal strikes.
-// We knock them back from a tile adjacent to us!
+        // Throws are less predictable than brutal strikes.
+        // We knock them back from a tile adjacent to us!
         if (z != NULL)
         {
             z->add_effect(ME_DOWNED, rng(1, 2));
@@ -1344,7 +1344,7 @@ void player::perform_defensive_technique(
                        your.c_str(), body_part_name(bp_hit, side).c_str());
         bash_dam *= .5;
         double reduction = 1.0;
-// Special reductions for certain styles
+        // Special reductions for certain styles
         if (weapon.typeId() == itm_style_tai_chi)
         {
             reduction -= double(0.08 * double(per_cur - 6));
@@ -1369,7 +1369,7 @@ void player::perform_defensive_technique(
     case TEC_WBLOCK_1:
     case TEC_WBLOCK_2:
     case TEC_WBLOCK_3:
-// TODO: Cause weapon damage
+        // TODO: Cause weapon damage
         bash_dam = 0;
         cut_dam = 0;
         stab_dam = 0;
@@ -1401,7 +1401,7 @@ void player::perform_defensive_technique(
 
     case TEC_DEF_DISARM:
         g->m.add_item(p->posx, p->posy, p->remove_weapon());
-// Re-roll damage, without our weapon
+        // Re-roll damage, without our weapon
         bash_dam = p->roll_bash_damage(NULL, false);
         cut_dam  = p->roll_cut_damage(NULL, false);
         stab_dam = p->roll_stab_damage(NULL, false);
@@ -1494,7 +1494,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
                                      (p->is_npc() ? p->name + "'s" : your));
     int tarposx = (mon ? z->posx : p->posx), tarposy = (mon ? z->posy : p->posy);
 
-// Bashing effecs
+    // Bashing effecs
     if (mon)
     {
         z->moves -= rng(0, bash_dam * 2);
@@ -1504,7 +1504,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
         p->moves -= rng(0, bash_dam * 2);
     }
 
-// Bashing crit
+    // Bashing crit
     if (crit && !unarmed_attack())
     {
         int turns_stunned = int(bash_dam / 20) + rng(0, int(skillLevel("bashing").level() / 2));
@@ -1525,7 +1525,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
         }
     }
 
-// Stabbing effects
+    // Stabbing effects
     int stab_moves = rng(stab_dam / 2, stab_dam * 1.5);
     if (crit)
     {
@@ -1556,7 +1556,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
         p->moves -= stab_moves;
     }
 
-// Bonus attacks!
+    // Bonus attacks!
     bool shock_them = (has_bionic(bio_shock) && power_level >= 2 &&
                        unarmed_attack() && (!mon || !z->has_flag(MF_ELECTRIC)) &&
                        one_in(3));
@@ -1618,7 +1618,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
         }
     }
 
-// Glass weapons shatter sometimes
+    // Glass weapons shatter sometimes
     if (weapon.made_of(GLASS) &&
             rng(0, weapon.volume() + 8) < weapon.volume() + str_cur)
     {
@@ -1627,7 +1627,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
             g->add_msg("%s %s shatters!", Your.c_str(), weapon.tname(g).c_str());
         }
         g->sound(posx, posy, 16, "");
-// Dump its contents on the ground
+        // Dump its contents on the ground
         for (int i = 0; i < weapon.contents.size(); i++)
         {
             g->m.add_item(posx, posy, weapon.contents[i]);
@@ -1641,7 +1641,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
         remove_weapon();
     }
 
-// Getting your weapon stuck
+    // Getting your weapon stuck
     int cutting_penalty = roll_stuck_penalty(z, stab_dam > cut_dam);
     if (weapon.has_flag(IF_MESSY))   // e.g. chainsaws
     {
@@ -1707,7 +1707,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
         }
     }
 
-// Finally, some special effects for martial arts
+    // Finally, some special effects for martial arts
     switch (weapon.typeId())
     {
 
@@ -2050,7 +2050,7 @@ std::string melee_verb(technique_id tech, std::string your, player &p,
             }
             return "nick" + s;
         }
-// Only stab damage is left
+        // Only stab damage is left
         if (stab_dam >= 30)
         {
             return "impale" + s;

@@ -10,7 +10,7 @@ class iuse
 public:
     void none(game *g, player *p, item *it, bool t) { };
 
-// FOOD AND DRUGS (ADMINISTRATION)
+    // FOOD AND DRUGS (ADMINISTRATION)
     void sewage(game *g, player *p, item *it, bool t);
     void honeycomb(game *g, player *p, item *it, bool t);
     void royal_jelly(game *g, player *p, item *it, bool t);
@@ -46,7 +46,7 @@ public:
     void marloss(game *g, player *p, item *it, bool t);
     void dogfood(game *g, player *p, item *it, bool t);
 
-// TOOLS
+    // TOOLS
     void lighter(game *g, player *p, item *it, bool t);
     void sew(game *g, player *p, item *it, bool t);
     void scissors(game *g, player *p, item *it, bool t);
@@ -125,12 +125,12 @@ public:
     void pda(game *g, player *p, item *it, bool t);
     void pda_flashlight(game *g, player *p, item *it, bool t);
 
-// MACGUFFINS
+    // MACGUFFINS
     void mcg_note(game *g, player *p, item *it, bool t);
-// ARTIFACTS
-// This function is used when an artifact is activated
-// It examines the item's artifact-specific properties
-// See artifact.h for a list
+    // ARTIFACTS
+    // This function is used when an artifact is activated
+    // It examines the item's artifact-specific properties
+    // See artifact.h for a list
     void artifact(game *g, player *p, item *it, bool t);
     void heal(game *g, player *p, item *it, bool t);
     void twist_space(game *g, player *p, item *it, bool t);

@@ -36,7 +36,7 @@ void game::init_vehicles()
 
 #define VEHICLE(nm) { veh = new vehicle(this, (vhtype_id)index++); veh->name = nm; vtypes.push_back(veh); }
 #define PART(mdx, mdy, id) { pi = veh->install_part(mdx, mdy, id); \
-    if (pi < 0) debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d", veh->name.c_str(), vpart_list[id].name, veh->parts.size(), mdx, mdy); }
+        if (pi < 0) debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d", veh->name.c_str(), vpart_list[id].name, veh->parts.size(), mdx, mdy); }
 
     //        name
     VEHICLE("Bicycle");
@@ -224,7 +224,7 @@ void game::init_vehicles()
     PART(0, 0,     vp_frame_v);
     PART(0, 0,     vp_cargo_box);
     PART(0, 0,     vp_roof);
-//    PART (0, 0,     vp_seatbelt);
+    //    PART (0, 0,     vp_seatbelt);
     PART(0, -1,    vp_frame_v2);
     PART(0, -1,    vp_seat);
     PART(0, -1,    vp_seatbelt);
@@ -671,20 +671,20 @@ void game::init_vehicles()
     PART(1, 0, vp_frame_v2);
     PART(1, 0, vp_seat);
     PART(1, 0, vp_fuel_tank_gas);
-//  PART (1, 0, vp_fuel_tank_hydrogen);
+    //  PART (1, 0, vp_fuel_tank_hydrogen);
     PART(1, 0, vp_seatbelt);
     PART(1, 0, vp_roof);
     PART(1, -1, vp_frame_v2);
     PART(1, -1, vp_seat);
     PART(1, -1, vp_fuel_tank_gas);
-//  PART (1, -1, vp_fuel_tank_hydrogen);
+    //  PART (1, -1, vp_fuel_tank_hydrogen);
     PART(1, -1, vp_seatbelt);
     PART(1, -1, vp_roof);
     PART(1, -1, vp_controls);
     PART(1, 1, vp_frame_v2);
     PART(1, 1, vp_seat);
     PART(1, 1, vp_fuel_tank_gas);
-//  PART (1, 1, vp_fuel_tank_hydrogen);
+    //  PART (1, 1, vp_fuel_tank_hydrogen);
     PART(1, 1, vp_seatbelt);
     PART(1, 1, vp_roof);
     PART(1, -2, vp_door);
@@ -724,8 +724,8 @@ void game::init_vehicles()
     PART(3, 1, vp_frame_h);
     PART(3, 0, vp_engine_gas_v8);
     PART(3, 0, vp_steel_plate);
-//  switch for hydrogen fuel or use both and change (3,0) to (3,1) and (3,-1)
-//  PART (3, 0, vp_engine_plasma);
+    //  switch for hydrogen fuel or use both and change (3,0) to (3,1) and (3,-1)
+    //  PART (3, 0, vp_engine_plasma);
     PART(3, -2, vp_wheel_wide);
     PART(3, -2, vp_steel_plate);
     PART(3, 2, vp_wheel_wide);

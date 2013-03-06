@@ -92,10 +92,10 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
     dbg(D_INFO) << "map::generate( g[" << g << "], om[" << (void*)om << "], x[" << x << "], "
                 << "y[" << y << "], turn[" << turn << "] )";
 
-// First we have to create new submaps and initialize them to 0 all over
-// We create all the submaps, even if we're not a tinymap, so that map
-//  generation which overflows won't cause a crash.  At the bottom of this
-//  function, we save the upper-left 4 submaps, and delete the rest.
+    // First we have to create new submaps and initialize them to 0 all over
+    // We create all the submaps, even if we're not a tinymap, so that map
+    //  generation which overflows won't cause a crash.  At the bottom of this
+    //  function, we save the upper-left 4 submaps, and delete the rest.
     for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++)
     {
         grid[i] = new submap;
@@ -124,8 +124,8 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
     {
         dbg(D_INFO) << "map::generate: In section 1";
 
-// This happens when we're at the very edge of the overmap, and are generating
-// terrain for the adjacent overmap.
+        // This happens when we're at the very edge of the overmap, and are generating
+        // terrain for the adjacent overmap.
         int sx = 0, sy = 0;
         overx = (x % (OMAPX * 2)) / 2;
         if (x >= OMAPX * 2)
@@ -253,8 +253,8 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
 
     post_process(g, zones);
 
-// Okay, we know who are neighbors are.  Let's draw!
-// And finally save used submaps and delete the rest.
+    // Okay, we know who are neighbors are.  Let's draw!
+    // And finally save used submaps and delete the rest.
     for (int i = 0; i < my_MAPSIZE; i++)
     {
         for (int j = 0; j < my_MAPSIZE; j++)
@@ -279,18 +279,18 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                    oter_id t_south, oter_id t_west, oter_id t_above, int turn,
                    game *g)
 {
-// Big old switch statement with a case for each overmap terrain type.
-// Many of these can be copied from another type, then rotated; for instance,
-//  ot_house_east is identical to ot_house_north, just rotated 90 degrees to
-//  the right.  The rotate(int) function is at the bottom of this file.
+    // Big old switch statement with a case for each overmap terrain type.
+    // Many of these can be copied from another type, then rotated; for instance,
+    //  ot_house_east is identical to ot_house_north, just rotated 90 degrees to
+    //  the right.  The rotate(int) function is at the bottom of this file.
 
-// The place_items() function takes a mapitems type (see mapitems.h and
-//  mapitemsdef.cpp), an "odds" int giving the chance for a single item to be
-//  placed, four ints (x1, y1, x2, y2) corresponding to the upper left corner
-//  and lower right corner of a square where the items are placed, a boolean
-//  that indicates whether items may spawn on grass & dirt, and finally an
-//  integer that indicates on which turn the items were created.  This final
-//  integer should be 0, unless the items are "fresh-grown" like wild fruit.
+    // The place_items() function takes a mapitems type (see mapitems.h and
+    //  mapitemsdef.cpp), an "odds" int giving the chance for a single item to be
+    //  placed, four ints (x1, y1, x2, y2) corresponding to the upper left corner
+    //  and lower right corner of a square where the items are placed, a boolean
+    //  that indicates whether items may spawn on grass & dirt, and finally an
+    //  integer that indicates on which turn the items were created.  This final
+    //  integer should be 0, unless the items are "fresh-grown" like wild fruit.
 
     int rn, lw, rw, mw, tw, bw, cw, x, y;
     int n_fac = 0, e_fac = 0, s_fac = 0, w_fac = 0;
@@ -520,7 +520,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 
         if (terrain_type == ot_forest_water)
         {
-// Reset *_fac to handle where to place water
+            // Reset *_fac to handle where to place water
             if (t_north == ot_forest_water)
             {
                 n_fac = 2;
@@ -676,7 +676,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         break;
 
     case ot_hive:
-// Start with a basic forest pattern
+        // Start with a basic forest pattern
         for (int i = 0; i < SEEX * 2; i++)
         {
             for (int j = 0; j < SEEY * 2; j++)
@@ -701,14 +701,14 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             }
         }
 
-// j and i loop through appropriate hive-cell center squares
+        // j and i loop through appropriate hive-cell center squares
         for (int j = 5; j < SEEY * 2 - 5; j += 6)
         {
             for (int i = (j == 5 || j == 17 ? 3 : 6); i < SEEX * 2 - 5; i += 6)
             {
                 if (!one_in(8))
                 {
-// Caps are always there
+                    // Caps are always there
                     ter(i    , j - 5) = t_wax;
                     ter(i    , j + 5) = t_wax;
                     for (int k = -2; k <= 2; k++)
@@ -729,7 +729,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                     ter(i    , j + 2) = t_floor_wax;
                     ter(i + 1, j + 2) = t_floor_wax;
 
-// Up to two of these get skipped; an entrance to the cell
+                    // Up to two of these get skipped; an entrance to the cell
                     int skip1 = rng(0, 23);
                     int skip2 = rng(0, 23);
 
@@ -870,7 +870,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         break;
 
     case ot_spider_pit:
-// First generate a forest
+        // First generate a forest
         n_fac = 0;
         e_fac = 0;
         s_fac = 0;
@@ -956,7 +956,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             }
         }
         place_items(mi_forest, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
-// Next, place webs and sinkholes
+        // Next, place webs and sinkholes
         for (int i = 0; i < 4; i++)
         {
             int x = rng(3, SEEX * 2 - 4), y = rng(3, SEEY * 2 - 4);
@@ -1592,22 +1592,22 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         case 2: // Old-style; simple
             cw = tw + rng(3, 6);
             mw = rng(lw + 7, rw - 4);
-// Plop down the rooms
+            // Plop down the rooms
             house_room(this, room_living, lw, tw, rw, cw);
             house_room(this, room_kitchen, mw, cw, rw, bw - 3);
             house_room(this, room_bedroom, lw, cw, mw, bw);
             house_room(this, room_bathroom, mw, bw - 3, rw, bw);
-// Space between kitchen & living room:
+            // Space between kitchen & living room:
             rn = rng(mw + 1, rw - 3);
             ter(rn    , cw) = t_floor;
             ter(rn + 1, cw) = t_floor;
-// Front windows
+            // Front windows
             rn = rng(2, 5);
             ter(lw + rn    , tw) = t_window_domestic;
             ter(lw + rn + 1, tw) = t_window_domestic;
             ter(rw - rn    , tw) = t_window_domestic;
             ter(rw - rn + 1, tw) = t_window_domestic;
-// Front door
+            // Front door
             ter(rng(lw + 4, rw - 4), tw) = (one_in(6) ? t_door_c : t_door_locked);
             if (one_in(3))      // Kitchen windows
             {
@@ -1621,7 +1621,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 ter(lw, rn) = t_window_domestic;
                 ter(lw, rn + 1) = t_window_domestic;
             }
-// Door to bedroom
+            // Door to bedroom
             if (one_in(4))
             {
                 ter(rng(lw + 1, mw - 1), cw) = t_door_c;
@@ -1630,7 +1630,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             {
                 ter(mw, rng(cw + 3, bw - 4)) = t_door_c;
             }
-// Door to bathrom
+            // Door to bathrom
             if (one_in(4))
             {
                 ter(mw, bw - 1) = t_door_c;
@@ -1639,7 +1639,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             {
                 ter(rng(mw + 2, rw - 2), bw - 3) = t_door_c;
             }
-// Back windows
+            // Back windows
             rn = rng(lw + 1, mw - 2);
             ter(rn    , bw) = t_window_domestic;
             ter(rn + 1, bw) = t_window_domestic;
@@ -1650,7 +1650,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         case 3: // Long center hallway
             mw = int((lw + rw) / 2);
             cw = bw - rng(5, 7);
-// Hallway doors and windows
+            // Hallway doors and windows
             ter(mw    , tw) = (one_in(6) ? t_door_c : t_door_locked);
             if (one_in(4))
             {
@@ -1672,7 +1672,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 house_room(this, room_kitchen, lw, tw, mw - 2, cw);
                 house_room(this, room_living, mw + 2, tw, rw, cw);
             }
-// Front windows
+            // Front windows
             rn = rng(lw + 1, mw - 4);
             ter(rn    , tw) = t_window_domestic;
             ter(rn + 1, tw) = t_window_domestic;
@@ -1740,7 +1740,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                     ter(lw, rng(cw + 1, bw - 1));
                 }
             }
-// Doors off the sides of the hallway
+            // Doors off the sides of the hallway
             ter(mw - 2, rng(tw + 3, cw - 3)) = t_door_c;
             ter(mw + 2, rng(tw + 3, cw - 3)) = t_door_c;
             ter(mw, cw) = t_door_c;
@@ -2384,8 +2384,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     case ot_s_hardware_south:
     case ot_s_hardware_west:
         rn = 0; // No back door
-//  if (!one_in(3))
-//   rn = 1;    // Old-style back door
+        //  if (!one_in(3))
+        //   rn = 1;    // Old-style back door
         if (!one_in(6))
         {
             rn = 2;    // Paved back area
@@ -3148,7 +3148,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     case ot_s_restaurant_south:
     case ot_s_restaurant_west:
     {
-// Init to grass/dirt
+        // Init to grass/dirt
         for (int i = 0; i < SEEX * 2; i++)
         {
             for (int j = 0; j < SEEY * 2; j++)
@@ -3161,20 +3161,20 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         rw = rng(19, 23);
         tw = rng(0, 4);
         bw = rng(17, 23);
-// Fill in with floor
+        // Fill in with floor
         square(this, t_floor, lw + 1, tw + 1, rw - 1, bw - 1);
-// Draw the walls
+        // Draw the walls
         line(this, t_wall_h, lw, tw, rw, tw);
         line(this, t_wall_h, lw, bw, rw, bw);
         line(this, t_wall_v, lw, tw + 1, lw, bw - 1);
         line(this, t_wall_v, rw, tw + 1, rw, bw - 1);
 
-// What's the front wall look like?
+        // What's the front wall look like?
         switch (rng(1, 3))
         {
         case 1: // Door to one side
         case 2:
-// Mirror it?
+            // Mirror it?
             if (one_in(2))
             {
                 ter(lw + 2, tw) = doortype;
@@ -3188,7 +3188,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             line(this, doortype, (lw + rw) / 2, tw, 1 + ((lw + rw) / 2), tw);
             break;
         }
-// What type of windows?
+        // What type of windows?
         switch (rng(1, 6))
         {
         case 1: // None!
@@ -3235,7 +3235,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         }
         break;
         } // Done building windows
-// Build a kitchen
+        // Build a kitchen
         mw = rng(bw - 6, bw - 3);
         cw = (one_in(3) ? rw - 3 : rw - 1); // 1 in 3 chance for corridor to back
         line(this, t_wall_h, lw + 1, mw, cw, mw);
@@ -3245,7 +3245,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         place_items(mi_fridge, 80, lw + 1, mw + 1, lw + 2, mw + 1, false, 0);
         line(this, t_counter, lw + 3, mw + 1, cw - 1, mw + 1);
         place_items(mi_kitchen, 70, lw + 3, mw + 1, cw - 1, mw + 1, false, 0);
-// Place a door to the kitchen
+        // Place a door to the kitchen
         if (cw != rw - 1 && one_in(2)) // side door
         {
             ter(cw, rng(mw + 2, bw - 1)) = t_door_c;
@@ -3253,17 +3253,17 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         else   // north-facing door
         {
             rn = rng(lw + 4, cw - 2);
-// Clear the counters around the door
+            // Clear the counters around the door
             line(this, t_floor, rn - 1, mw + 1, rn + 1, mw + 1);
             ter(rn, mw) = t_door_c;
         }
-// Back door?
+        // Back door?
         if (bw <= 19 || one_in(3))
         {
-// If we have a corridor, put it over there
+            // If we have a corridor, put it over there
             if (cw == rw - 3)
             {
-// One in two chance of a double-door
+                // One in two chance of a double-door
                 if (one_in(2))
                 {
                     line(this, t_door_locked, cw + 1, bw, rw - 1, bw);
@@ -3278,7 +3278,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 ter(rng(lw + 1, rw - 1), bw) = t_door_locked;
             }
         }
-// Build a dining area
+        // Build a dining area
         int table_spacing = rng(2, 4);
         for (int i = lw + table_spacing + 1; i <= rw - 2 - table_spacing;
                 i += table_spacing + 2)
@@ -3290,7 +3290,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 place_items(mi_dining, 70, i, j, i + 1, j + 1, false, 0);
             }
         }
-// Dumpster out back?
+        // Dumpster out back?
         if (rng(18, 21) > bw)
         {
             square(this, t_pavement, lw, bw + 1, rw, 24);
@@ -3315,10 +3315,10 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     }
     break;
 
-//....
+    //....
     case ot_shelter:
     {
-// Init to grass & dirt;
+        // Init to grass & dirt;
         for (int i = 0; i < SEEX * 2; i++)
         {
             for (int j = 0; j < SEEY * 2; j++)
@@ -3364,7 +3364,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     }
 
     break;
-//....
+    //....
 
     case ot_shelter_under:
         square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
@@ -3376,7 +3376,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         //....
     case ot_lmoe:
     {
-// Init to grass & dirt;
+        // Init to grass & dirt;
         for (int i = 0; i < SEEX * 2; i++)
         {
             for (int j = 0; j < SEEY * 2; j++)
@@ -3412,7 +3412,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     }
 
     break;
-//....
+    //....
 
     case ot_lmoe_under:
         square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
@@ -3482,7 +3482,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     case ot_lab:
     case ot_lab_stairs:
     case ot_lab_core:
-// Check for adjacent sewers; used below
+        // Check for adjacent sewers; used below
         tw = 0;
         rw = 0;
         bw = 0;
@@ -3602,7 +3602,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         }
         else     // We're below ground, and no sewers
         {
-// Set up the boudaries of walls (connect to adjacent lab squares)
+            // Set up the boudaries of walls (connect to adjacent lab squares)
             tw = (t_north >= ot_lab && t_north <= ot_lab_finale) ? 0 : 2;
             rw = (t_east  >= ot_lab && t_east  <= ot_lab_finale) ? 1 : 2;
             bw = (t_south >= ot_lab && t_south <= ot_lab_finale) ? 1 : 2;
@@ -3634,7 +3634,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 {
                     ter(rng(SEEX - 1, SEEX), rng(SEEY - 1, SEEY)) = t_stairs_up;
                 }
-// Top left
+                // Top left
                 if (one_in(2))
                 {
                     ter(SEEX - 2, int(SEEY / 2)) = t_door_metal_c;
@@ -3645,7 +3645,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                     ter(int(SEEX / 2), SEEY - 2) = t_door_metal_c;
                     science_room(this, lw, tw, SEEX - 3, SEEY - 3, 2);
                 }
-// Top right
+                // Top right
                 if (one_in(2))
                 {
                     ter(SEEX + 1, int(SEEY / 2)) = t_door_metal_c;
@@ -3656,7 +3656,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                     ter(SEEX + int(SEEX / 2), SEEY - 2) = t_door_metal_c;
                     science_room(this, SEEX + 2, tw, SEEX * 2 - 1 - rw, SEEY - 3, 2);
                 }
-// Bottom left
+                // Bottom left
                 if (one_in(2))
                 {
                     ter(int(SEEX / 2), SEEY + 1) = t_door_metal_c;
@@ -3667,7 +3667,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                     ter(SEEX - 2, SEEY + int(SEEY / 2)) = t_door_metal_c;
                     science_room(this, lw, SEEY + 2, SEEX - 3, SEEY * 2 - 1 - bw, 1);
                 }
-// Bottom right
+                // Bottom right
                 if (one_in(2))
                 {
                     ter(SEEX + int(SEEX / 2), SEEY + 1) = t_door_metal_c;
@@ -3850,7 +3850,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 break;
             }
         }
-// Ants will totally wreck up the place
+        // Ants will totally wreck up the place
         tw = 0;
         rw = 0;
         bw = 0;
@@ -3895,7 +3895,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             }
         }
 
-// Slimes pretty much wreck up the place, too, but only underground
+        // Slimes pretty much wreck up the place, too, but only underground
         tw = (t_north == ot_slimepit ? SEEY     : 0);
         rw = (t_east  == ot_slimepit ? SEEX + 1 : 0);
         bw = (t_south == ot_slimepit ? SEEY + 1 : 0);
@@ -3929,7 +3929,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         rw = (t_east  >= ot_lab && t_east  <= ot_lab_finale) ? 1 : 2;
         bw = (t_south >= ot_lab && t_south <= ot_lab_finale) ? 1 : 2;
         lw = (t_west  >= ot_lab && t_west  <= ot_lab_finale) ? 0 : 2;
-// Start by setting up a large, empty room.
+        // Start by setting up a large, empty room.
         for (int i = 0; i < SEEX * 2; i++)
         {
             for (int j = 0; j < SEEY * 2; j++)
@@ -4137,7 +4137,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 line(this, t_wall_metal_v,  9, j + 5,  9, j + 6);
                 line(this, t_wall_metal_v, 14, j + 5, 14, j + 6);
 
-// Fill rooms with items!
+                // Fill rooms with items!
                 for (int i = 2; i <= 15; i += 13)
                 {
                     items_location goods;
@@ -4214,7 +4214,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         line(this, t_chainfence_v,  2, 13,  2, 20);
         line(this, t_chainfence_v, 21, 13, 21, 20);
         line(this, t_chaingate_l,      21, 11, 21, 12);
-// Place some random buildings
+        // Place some random buildings
 
         bool okay = true;
         while (okay)
@@ -4315,7 +4315,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 ter(doorx, doory) = t_door_c;
             }
         }
-// Seal up the entrances if there's walls there
+        // Seal up the entrances if there's walls there
         if (ter(11,  3) != t_dirt)
         {
             ter(11,  2) = t_concrete_h;
@@ -4352,7 +4352,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             ter(2, 12) = t_concrete_v;
         }
 
-// Place turrets by (possible) entrances
+        // Place turrets by (possible) entrances
         add_spawn(mon_turret, 1,  3, 11);
         add_spawn(mon_turret, 1,  3, 12);
         add_spawn(mon_turret, 1, 20, 11);
@@ -4362,7 +4362,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         add_spawn(mon_turret, 1, 11, 20);
         add_spawn(mon_turret, 1, 12, 20);
 
-// Finally, scatter dead bodies / mil zombies
+        // Finally, scatter dead bodies / mil zombies
         for (int i = 0; i < 20; i++)
         {
             int rnx = rng(3, 20), rny = rng(3, 20);
@@ -4389,7 +4389,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 }
             }
         }
-// Oh wait--let's also put radiation in any rubble
+        // Oh wait--let's also put radiation in any rubble
         for (int i = 0; i < SEEX * 2; i++)
         {
             for (int j = 0; j < SEEY * 2; j++)
@@ -4530,17 +4530,17 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     case ot_temple_stairs:
         if (t_above == ot_null)   // Ground floor
         {
-// TODO: More varieties?
+            // TODO: More varieties?
             square(this, t_dirt, 0, 0, 23, 23);
             square(this, t_grate, SEEX - 1, SEEY - 1, SEEX, SEEX);
             ter(SEEX + 1, SEEY + 1) = t_pedestal_temple;
         }
         else     // Underground!  Shit's about to get interesting!
         {
-// Start with all rock floor
+            // Start with all rock floor
             square(this, t_rock_floor, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
-// We always start at the south and go north.
-// We use (g->levx / 2 + g->levz) % 5 to guarantee that rooms don't repeat.
+            // We always start at the south and go north.
+            // We use (g->levx / 2 + g->levz) % 5 to guarantee that rooms don't repeat.
             switch (1 + int(g->levy / 2 + g->levz) % 4)  // TODO: More varieties!
             {
 
@@ -4593,15 +4593,15 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 ter(15, 1) = t_switch_gb;
                 ter(16, 1) = t_switch_rb;
                 ter(17, 1) = t_switch_even;
-// Start with clear floors--then work backwards to the starting state
+                // Start with clear floors--then work backwards to the starting state
                 line(this, t_floor_red,   SEEX, 1, SEEX + 1, 1);
                 line(this, t_floor_green, SEEX, 2, SEEX + 1, 2);
                 line(this, t_floor_blue,  SEEX, 3, SEEX + 1, 3);
                 line(this, t_floor_red,   SEEX, 4, SEEX + 1, 4);
                 line(this, t_floor_green, SEEX, 5, SEEX + 1, 5);
                 line(this, t_floor_blue,  SEEX, 6, SEEX + 1, 6);
-// Now, randomly choose actions
-// Set up an actions vector so that there's not undue repetion
+                // Now, randomly choose actions
+                // Set up an actions vector so that there's not undue repetion
                 std::vector<int> actions;
                 actions.push_back(1);
                 actions.push_back(2);
@@ -4752,7 +4752,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                         y = next[index].y;
                     }
                 }
-// Now go backwards through path (start to finish), toggling any tiles that need
+                // Now go backwards through path (start to finish), toggling any tiles that need
                 bool toggle_red = false, toggle_green = false, toggle_blue = false;
                 for (int i = path.size() - 1; i >= 0; i--)
                 {
@@ -4781,7 +4781,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                         }
                     }
                 }
-// Finally, fill in the rest with random tiles, and place toggle traps
+                // Finally, fill in the rest with random tiles, and place toggle traps
                 for (int i = SEEX - 3; i <= SEEX + 4; i++)
                 {
                     for (int j = 2; j <= SEEY * 2 - 2; j++)
@@ -4796,12 +4796,12 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             }
             break;
             } // Done with room type switch
-// Stairs down if we need them
+            // Stairs down if we need them
             if (terrain_type == ot_temple_stairs)
             {
                 line(this, t_stairs_down, SEEX, 0, SEEX + 1, 0);
             }
-// Stairs at the south if t_above has stairs down.
+            // Stairs at the south if t_above has stairs down.
             if (t_above == ot_temple_stairs)
             {
                 line(this, t_stairs_up, SEEX, SEEY * 2 - 1, SEEX + 1, SEEY * 2 - 1);
@@ -4838,24 +4838,24 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         line(this, t_wall_glass_h,  8, 20, 13, 20); // Interior glass (flow)
         line(this, t_counter,  1,  3,  3,  3); // Desk (front office);
         line(this, t_counter,  1,  6,  1, 13); // Counter (equipment);
-// Central tanks:
+        // Central tanks:
         square(this, t_sewage, 10,  3, 13,  6);
         square(this, t_sewage, 17,  3, 20,  6);
         square(this, t_sewage, 10, 10, 13, 13);
         square(this, t_sewage, 17, 10, 20, 13);
-// Drainage tank
+        // Drainage tank
         square(this, t_sewage, 16, 16, 21, 18);
         square(this, t_grate,  18, 16, 19, 17);
         line(this, t_sewage, 17, 19, 20, 19);
         line(this, t_sewage, 18, 20, 19, 20);
         line(this, t_sewage,  2, 21, 19, 21);
         line(this, t_sewage,  2, 22, 19, 22);
-// Pipes and pumps
+        // Pipes and pumps
         line(this, t_sewage_pipe,  1, 15,  1, 19);
         line(this, t_sewage_pump,  1, 21,  1, 22);
-// Stairs down
+        // Stairs down
         ter(2, 15) = t_stairs_down;
-// Now place doors
+        // Now place doors
         ter(rng(2, 5), 0) = t_door_c;
         ter(rng(3, 5), 5) = t_door_c;
         ter(5, 14) = t_door_c;
@@ -4868,7 +4868,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         ter(4, 19) = t_door_metal_locked;
         ter(2, 19) = t_console;
         ter(6, 19) = t_console;
-// Computers to unlock stair room, and items
+        // Computers to unlock stair room, and items
         tmpcomp = add_computer(2, 19, "EnviroCom OS v2.03", 1);
         tmpcomp->add_option("Unlock stairs", COMPACT_OPEN, 0);
         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
@@ -4882,10 +4882,10 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 
     case ot_sewage_treatment_hub: // Stairs up, center of 3x3 of treatment_below
         square(this, t_rock_floor, 0,  0, 23, 23);
-// Top & left walls; right & bottom are handled by adjacent terrain
+        // Top & left walls; right & bottom are handled by adjacent terrain
         line(this, t_wall_h,  0,  0, 23,  0);
         line(this, t_wall_v,  0,  1,  0, 23);
-// Top-left room
+        // Top-left room
         line(this, t_wall_v,  8,  1,  8,  8);
         line(this, t_wall_h,  1,  9,  9,  9);
         line(this, t_wall_glass_h, rng(1, 3), 9, rng(4, 7), 9);
@@ -4893,7 +4893,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         ter(8, 8) = t_door_c;
         ter(3, 0) = t_door_c;
 
-// Bottom-left room - stairs and equipment
+        // Bottom-left room - stairs and equipment
         line(this, t_wall_h,  1, 14,  8, 14);
         line(this, t_wall_glass_h, rng(1, 3), 14, rng(5, 8), 14);
         line(this, t_wall_v,  9, 14,  9, 23);
@@ -4903,7 +4903,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         ter(0, 20) = t_door_c;
         ter(9, 20) = t_door_c;
 
-// Bottom-right room
+        // Bottom-right room
         line(this, t_wall_v, 14, 19, 14, 23);
         line(this, t_wall_h, 14, 18, 19, 18);
         line(this, t_wall_h, 21, 14, 23, 14);
@@ -4912,7 +4912,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         ter(15, 18) = t_door_c;
         line(this, t_wall_v, 20, 15, 20, 18);
 
-// Tanks and their content
+        // Tanks and their content
         for (int i = 9; i <= 16; i += 7)
         {
             for (int j = 2; j <= 9; j += 7)
@@ -4923,16 +4923,16 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         }
         square(this, t_rock, 16, 15, 19, 17); // Wall around sewage from above
         square(this, t_rock, 10, 15, 14, 17); // Extra walls for southward flow
-// Flow in from north, east, and west always connects to the corresponding tank
+        // Flow in from north, east, and west always connects to the corresponding tank
         square(this, t_sewage, 10,  0, 13,  2); // North -> NE tank
         square(this, t_sewage, 21, 10, 23, 13); // East  -> SE tank
         square(this, t_sewage,  0, 10,  9, 13); // West  -> SW tank
-// Flow from south may go to SW tank or SE tank
+        // Flow from south may go to SW tank or SE tank
         square(this, t_sewage, 10, 16, 13, 23);
         if (one_in(2))   // To SW tank
         {
             square(this, t_sewage, 10, 14, 13, 17);
-// Then, flow from above may be either to flow from south, to SE tank, or both
+            // Then, flow from above may be either to flow from south, to SE tank, or both
             switch (rng(1, 5))
             {
             case 1:
@@ -4982,7 +4982,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             }
         }
 
-// Next, determine how the tanks interconnect.
+        // Next, determine how the tanks interconnect.
         rn = rng(1, 4); // Which of the 4 possible connections is missing?
         if (rn != 1)
         {
@@ -5008,9 +5008,9 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             line(this, t_bridge, 11,  8, 12,  8);
             line(this, t_sewage, 11,  9, 12,  9);
         }
-// Bridge connecting bottom two rooms
+        // Bridge connecting bottom two rooms
         line(this, t_bridge, 10, 20, 13, 20);
-// Possibility of extra equipment shelves
+        // Possibility of extra equipment shelves
         if (!one_in(3))
         {
             line(this, t_rack, 23, 1, 23, 4);
@@ -5018,10 +5018,10 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         }
 
 
-// Finally, choose what the top-left and bottom-right rooms do.
+        // Finally, choose what the top-left and bottom-right rooms do.
         if (one_in(2))   // Upper left is sampling, lower right valuable finds
         {
-// Upper left...
+            // Upper left...
             line(this, t_wall_h, 1, 3, 2, 3);
             line(this, t_wall_h, 1, 5, 2, 5);
             line(this, t_wall_h, 1, 7, 2, 7);
@@ -5035,7 +5035,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             tmpcomp->add_option("Divert sample", COMPACT_SAMPLE, 3);
             tmpcomp->add_failure(COMPFAIL_PUMP_EXPLODE);
             tmpcomp->add_failure(COMPFAIL_PUMP_LEAK);
-// Lower right...
+            // Lower right...
             line(this, t_counter, 15, 23, 22, 23);
             place_items(mi_sewer, 65, 15, 23, 22, 23, false, 0);
             line(this, t_counter, 23, 15, 23, 19);
@@ -5043,12 +5043,12 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         }
         else     // Upper left is valuable finds, lower right is sampling
         {
-// Upper left...
+            // Upper left...
             line(this, t_counter,     1, 1, 1, 7);
             place_items(mi_sewer, 65, 1, 1, 1, 7, false, 0);
             line(this, t_counter,     7, 1, 7, 7);
             place_items(mi_sewer, 65, 7, 1, 7, 7, false, 0);
-// Lower right...
+            // Lower right...
             line(this, t_wall_v, 17, 22, 17, 23);
             line(this, t_wall_v, 19, 22, 19, 23);
             line(this, t_wall_v, 21, 22, 21, 23);
@@ -5563,7 +5563,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 
     case ot_mine_finale:
     {
-// Set up the basic chamber
+        // Set up the basic chamber
         for (int i = 0; i < SEEX * 2; i++)
         {
             for (int j = 0; j < SEEY * 2; j++)
@@ -5580,7 +5580,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             }
         }
         std::vector<direction> face; // Which walls are solid, and can be a facing?
-// Now draw the entrance(s)
+        // Now draw the entrance(s)
         if (t_north == ot_mine)
         {
             square(this, t_rock_floor, SEEX, 0, SEEX + 1, 3);
@@ -5617,7 +5617,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             face.push_back(WEST);
         }
 
-// Now, pick and generate a type of finale!
+        // Now, pick and generate a type of finale!
         if (face.empty())
         {
             rn = rng(1, 3);    // Amigara fault is not valid
@@ -5675,7 +5675,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         case 4:   // Amigara fault
         {
             direction fault = face[rng(0, face.size() - 1)];
-// Construct the fault on the appropriate face
+            // Construct the fault on the appropriate face
             switch (fault)
             {
             case NORTH:
@@ -5924,9 +5924,9 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         }
         else     // We're above ground!
         {
-// First, draw a forest
+            // First, draw a forest
             draw_map(ot_forest, t_north, t_east, t_south, t_west, t_above, turn, g);
-// Clear the center with some rocks
+            // Clear the center with some rocks
             square(this, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5);
             int pathx, pathy;
             if (one_in(2))
@@ -6002,7 +6002,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 }
             }
             while (cavey > 2);
-// Now draw some extra passages!
+            // Now draw some extra passages!
             do
             {
                 int tox = (one_in(2) ? 2 : SEEX * 2 - 3), toy = rng(2, SEEY * 2 - 3);
@@ -6032,7 +6032,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 }
             }
             while (one_in(2));
-// Finally, draw the stairs up and down.
+            // Finally, draw the stairs up and down.
             ter(SEEX - 1, SEEX * 2 - 2) = t_slope_up;
             ter(SEEX    , SEEX * 2 - 2) = t_slope_up;
             ter(stairsx, stairsy) = t_slope_down;
@@ -6649,7 +6649,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         tmpcomp->add_option("Open Vault", COMPACT_OPEN, 3);
         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
         tmpcomp->add_failure(COMPFAIL_ALARM);
-// Front wall--glass or windows?
+        // Front wall--glass or windows?
         if (!one_in(4))
         {
             line(this, t_wall_glass_h_alarm, 2, 1, 21, 1);
@@ -6671,11 +6671,11 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             ter(rn    , 1) = t_window_alarm;
             ter(rn + 1, 1) = t_window_alarm;
         }
-// Doors for offices
+        // Doors for offices
         ter(8, rng(7, 8)) = t_door_c;
         ter(rng(10, 17), 9) = t_door_c;
         ter(19, rng(15, 20)) = t_door_c;
-// Side and back windows
+        // Side and back windows
         ter(1, rng(7, 12)) = t_window_alarm;
         ter(1, rng(7, 12)) = t_window_alarm;
         ter(rng(14, 18), 22) = t_window_alarm;
@@ -6696,7 +6696,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             ter(22, rn) = t_window_alarm;
             ter(22, rn + 1) = t_window_alarm;
         }
-// Finally, place the front doors.
+        // Finally, place the front doors.
         if (one_in(4))   // 1 in 4 are unlocked
         {
             ter(10, 1) = t_door_c;
@@ -6832,7 +6832,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     case ot_pawn_east:
     case ot_pawn_south:
     case ot_pawn_west:
-// Init to plain grass/dirt
+        // Init to plain grass/dirt
         for (int i = 0; i < SEEX * 2; i++)
         {
             for (int j = 0; j < SEEY * 2; j++)
@@ -6853,13 +6853,13 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 line(this, t_pavement_y, i, 1, i, tw - 1);
             }
         }
-// Floor and walls
+        // Floor and walls
         square(this, t_floor, lw, tw, rw, bw);
         line(this, t_wall_h, lw, tw, rw, tw);
         line(this, t_wall_h, lw, bw, rw, bw);
         line(this, t_wall_v, lw, tw + 1, lw, bw - 1);
         line(this, t_wall_v, rw, tw + 1, rw, bw - 1);
-// Doors and windows--almost certainly alarmed
+        // Doors and windows--almost certainly alarmed
         if (one_in(15))
         {
             line(this, t_window, lw + 2, tw, lw + 5, tw);
@@ -6872,17 +6872,17 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             line(this, t_window_alarm, rw - 5, tw, rw - 2, tw);
             line(this, t_door_locked_alarm, SEEX, tw, SEEX + 1, tw);
         }
-// Some display racks by the left and right walls
+        // Some display racks by the left and right walls
         line(this, t_rack, lw + 1, tw + 1, lw + 1, bw - 1);
         place_items(mi_pawn, 86, lw + 1, tw + 1, lw + 1, bw - 1, false, 0);
         line(this, t_rack, rw - 1, tw + 1, rw - 1, bw - 1);
         place_items(mi_pawn, 86, rw - 1, tw + 1, rw - 1, bw - 1, false, 0);
-// Some display counters
+        // Some display counters
         line(this, t_counter, lw + 4, tw + 2, lw + 4, bw - 3);
         place_items(mi_pawn, 80, lw + 4, tw + 2, lw + 4, bw - 3, false, 0);
         line(this, t_counter, rw - 4, tw + 2, rw - 4, bw - 3);
         place_items(mi_pawn, 80, rw - 4, tw + 2, rw - 4, bw - 3, false, 0);
-// More display counters, if there's room for them
+        // More display counters, if there's room for them
         if (rw - lw >= 18 && one_in(rw - lw - 17))
         {
             for (int j = tw + rng(3, 5); j <= bw - 3; j += 3)
@@ -6891,13 +6891,13 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 place_items(mi_pawn, 75, lw + 6, j, rw - 6, j, false, 0);
             }
         }
-// Finally, place an office sometimes
+        // Finally, place an office sometimes
         if (!one_in(5))
         {
             if (one_in(2))   // Office on the left side
             {
                 int office_top = bw - rng(3, 5), office_right = lw + rng(4, 7);
-// Clear out any items in that area!  And reset to floor.
+                // Clear out any items in that area!  And reset to floor.
                 for (int i = lw + 1; i <= office_right; i++)
                 {
                     for (int j = office_top; j <= bw - 1; j++)
@@ -6913,7 +6913,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 {
                     ter(rng(lw + 1, office_right - 1), bw) = t_door_locked_alarm;
                 }
-// Finally, add some stuff in there
+                // Finally, add some stuff in there
                 place_items(mi_office, 70, lw + 1, office_top + 1, office_right - 1, bw - 1,
                             false, 0);
                 place_items(mi_homeguns, 50, lw + 1, office_top + 1, office_right - 1,
@@ -6965,7 +6965,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     case ot_mil_surplus_east:
     case ot_mil_surplus_south:
     case ot_mil_surplus_west:
-// Init to plain grass/dirt
+        // Init to plain grass/dirt
         for (int i = 0; i < SEEX * 2; i++)
         {
             for (int j = 0; j < SEEY * 2; j++)
@@ -7047,11 +7047,11 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     case ot_megastore_entrance:
     {
         square(this, t_floor, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
-// Construct facing north; below, we'll rotate to face road
+        // Construct facing north; below, we'll rotate to face road
         line(this, t_wall_glass_h, 0, 0, SEEX * 2 - 1, 0);
         ter(SEEX, 0) = t_door_glass_c;
         ter(SEEX + 1, 0) = t_door_glass_c;
-// Long checkout lanes
+        // Long checkout lanes
         for (int x = 2; x <= 18; x += 4)
         {
             line(this, t_counter, x, 4, x, 14);
@@ -7067,7 +7067,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 add_spawn(mon_zombie, 1, x, y);
             }
         }
-// Finally, figure out where the road is; contruct our entrance facing that.
+        // Finally, figure out where the road is; contruct our entrance facing that.
         std::vector<direction> faces_road;
         if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
         {
@@ -7087,7 +7087,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     case ot_megastore:
         square(this, t_floor, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
 
-// Randomly pick contents
+        // Randomly pick contents
         switch (rng(1, 5))
         {
         case 1:   // Groceries
@@ -7248,7 +7248,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             break;
         }
 
-// Add some spawns
+        // Add some spawns
         for (int i = 0; i < 15; i++)
         {
             int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
@@ -7257,9 +7257,9 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 add_spawn(mon_zombie, 1, x, y);
             }
         }
-// Rotate randomly...
+        // Rotate randomly...
         rotate(rng(0, 3));
-// ... then place walls as needed.
+        // ... then place walls as needed.
         if (t_north != ot_megastore_entrance && t_north != ot_megastore)
         {
             line(this, t_wall_h, 0, 0, SEEX * 2 - 1, 0);
@@ -7281,25 +7281,25 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     case ot_hospital_entrance:
         square(this, t_pavement, 0, 0, SEEX * 2 - 1, 5);
         square(this, t_floor, 0, 6, SEEX * 2 - 1, SEEY * 2 - 1);
-// Ambulance parking place
+        // Ambulance parking place
         line(this, t_pavement_y,  5, 1, 22, 1);
         line(this, t_pavement_y,  5, 2,  5, 5);
         line(this, t_pavement_y, 22, 2, 22, 5);
-// Top wall
+        // Top wall
         line(this, t_wall_h, 0, 6, 6, 6);
         line(this, t_door_glass_c, 3, 6, 4, 6);
         line(this, t_wall_glass_h, 7, 6, 19, 6);
         line(this, t_wall_h, 20, 6, SEEX * 2 - 1, 6);
-// Left wall
+        // Left wall
         line(this, t_wall_v, 0, 0, 0, SEEY * 2 - 1);
         line(this, t_floor, 0, 11, 0, 12);
-// Waiting area
+        // Waiting area
         line(this, t_bench,  8, 7, 11,  7);
         line(this, t_bench, 13, 7, 17,  7);
         line(this, t_bench, 20, 7, 22,  7);
         line(this, t_bench, 22, 8, 22, 10);
         place_items(mi_magazines, 70, 8, 7, 22, 10, false, 0);
-// Reception and examination rooms
+        // Reception and examination rooms
         line(this, t_counter, 8, 13, 9, 13);
         line(this, t_wall_h, 10, 13, SEEX * 2 - 1, 13);
         line(this, t_door_c, 15, 13, 16, 13);
@@ -7321,7 +7321,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         ter(17, rng(15, 16)) = t_door_locked; // Hard drugs room is locked
         ter(17, rng(18, 19)) = t_door_c;
         ter(17, rng(21, 22)) = t_door_c;
-// ER and bottom wall
+        // ER and bottom wall
         line(this, t_wall_h, 0, 16, 6, 16);
         line(this, t_door_c, 3, 16, 4, 16);
         square(this, t_bed, 3, 19, 4, 20);
@@ -7329,7 +7329,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         place_items(mi_surgery, 78, 1, 22, 6, 22, false, 0);
         line(this, t_wall_h, 1, 23, 22, 23);
         line(this, t_floor, 11, 23, 12, 23);
-// Right side wall (needed sometimes!)
+        // Right side wall (needed sometimes!)
         line(this, t_wall_v, 23,  0, 23, 10);
         line(this, t_wall_v, 23, 13, 23, 23);
 
@@ -7352,7 +7352,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
            }
           }
         */
-// Rotate to face the road
+        // Rotate to face the road
         if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
         {
             rotate(1);
@@ -7369,10 +7369,10 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 
     case ot_hospital:
         square(this, t_floor, 0, 0, 23, 23);
-// We always have walls on the left and bottom
+        // We always have walls on the left and bottom
         line(this, t_wall_v, 0,  0,  0, 22);
         line(this, t_wall_h, 0, 23, 23, 23);
-// These walls contain doors if they lead to more hospital
+        // These walls contain doors if they lead to more hospital
         if (t_west == ot_hospital_entrance || t_west == ot_hospital)
         {
             line(this, t_door_c, 0, 11, 0, 12);
@@ -7387,8 +7387,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 (t_south == ot_hospital_entrance || t_south == ot_hospital) &&
                 (t_west  == ot_hospital_entrance || t_west  == ot_hospital))
         {
-// We're in the center; center is always blood lab
-// Large lab
+            // We're in the center; center is always blood lab
+            // Large lab
             line(this, t_wall_h,  1,  2, 21,  2);
             line(this, t_wall_h,  1, 10, 21, 10);
             line(this, t_wall_v, 21,  3, 21,  9);
@@ -7411,7 +7411,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 line(this, t_counter, 20, 3, 20, 9);
                 place_items(mi_hospital_lab, 70, 20, 3, 20, 9, false, 0);
             }
-// Blood testing facility
+            // Blood testing facility
             line(this, t_wall_h,  1, 13, 10, 13);
             line(this, t_wall_v, 10, 14, 10, 22);
             rn = rng(1, 3);
@@ -7431,7 +7431,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             tmpcomp = add_computer(5, 18, "Centrifuge", 0);
             tmpcomp->add_option("Analyze blood", COMPACT_BLOOD_ANAL, 4);
             tmpcomp->add_failure(COMPFAIL_DESTROY_BLOOD);
-// Sample storage
+            // Sample storage
             line(this, t_wall_h, 13, 13, 23, 13);
             line(this, t_wall_v, 13, 14, 13, 23);
             rn = rng(1, 3);
@@ -7457,7 +7457,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             switch (rng(1, 4))   // What type?
             {
             case 1: // Dorms
-// Upper left rooms
+                // Upper left rooms
                 line(this, t_wall_h, 1, 5, 9, 5);
                 for (int i = 1; i <= 7; i += 3)
                 {
@@ -7465,7 +7465,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                     line(this, t_wall_v, i + 2, 0, i + 2, 4);
                     ter(rng(i, i + 1), 5) = t_door_c;
                 }
-// Upper right rooms
+                // Upper right rooms
                 line(this, t_wall_h, 14, 5, 23, 5);
                 line(this, t_wall_v, 14, 0, 14, 4);
                 line(this, t_bed, 15, 1, 15, 2);
@@ -7476,7 +7476,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 line(this, t_wall_v, 20, 0, 20, 4);
                 line(this, t_bed, 21, 1, 21, 2);
                 ter(rng(21, 22), 5) = t_door_c;
-// Waiting area
+                // Waiting area
                 for (int i = 1; i <= 9; i += 4)
                 {
                     line(this, t_bench, i, 7, i, 10);
@@ -7485,7 +7485,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 place_items(mi_magazines, 50, 3, 8, 3, 9, false, 0);
                 line(this, t_table, 7, 8, 7, 9);
                 place_items(mi_magazines, 50, 7, 8, 7, 9, false, 0);
-// Middle right rooms
+                // Middle right rooms
                 line(this, t_wall_v, 14, 7, 14, 10);
                 line(this, t_wall_h, 15, 7, 23, 7);
                 line(this, t_wall_h, 15, 10, 23, 10);
@@ -7518,7 +7518,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                     ter(rng(15, 16), 13) = t_door_c;
                     ter(rng(21, 22), 13) = t_door_c;
                 }
-// Lower left rooms
+                // Lower left rooms
                 line(this, t_wall_v, 5, 13, 5, 22);
                 line(this, t_wall_h, 1, 13, 4, 13);
                 line(this, t_bed, 1, 14, 1, 15);
@@ -7545,7 +7545,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                     ter(10, rng(14, 16)) = t_door_c;
                     ter(10, rng(19, 21)) = t_door_c;
                 }
-// Lower-right rooms
+                // Lower-right rooms
                 line(this, t_wall_h, 14, 18, 23, 18);
                 for (int i = 14; i <= 20; i += 3)
                 {
@@ -7556,7 +7556,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 break;
 
             case 2: // Offices and cafeteria
-// Offices to north
+                // Offices to north
                 line(this, t_wall_v, 10, 0, 10, 8);
                 line(this, t_wall_v, 13, 0, 13, 8);
                 line(this, t_wall_h,  1, 5,  9, 5);
@@ -7575,7 +7575,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 place_items(mi_office, 70, 14, 1, 22, 3, false, 0);
                 place_items(mi_office, 70,  1, 5,  9, 8, false, 0);
                 place_items(mi_office, 70, 14, 5, 22, 8, false, 0);
-// Cafeteria to south
+                // Cafeteria to south
                 line(this, t_wall_h,  1, 14,  8, 14);
                 line(this, t_wall_h, 15, 14, 23, 14);
                 for (int i = 16; i <= 19; i += 3)
@@ -7599,7 +7599,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 break;
 
             case 3: // Operating rooms
-// First, walls and doors; divide it into four big operating rooms
+                // First, walls and doors; divide it into four big operating rooms
                 line(this, t_wall_v, 10,  0, 10,  9);
                 line(this, t_door_c, 10,  4, 10,  5);
                 line(this, t_wall_v, 13,  0, 13,  9);
@@ -7608,7 +7608,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 line(this, t_door_c, 10, 18, 10, 19);
                 line(this, t_wall_v, 13, 14, 13, 22);
                 line(this, t_door_c, 13, 18, 13, 19);
-// Horizontal walls/doors
+                // Horizontal walls/doors
                 line(this, t_wall_h,  1, 10, 10, 10);
                 line(this, t_door_c,  5, 10,  6, 10);
                 line(this, t_wall_h, 13, 10, 23, 10);
@@ -7617,7 +7617,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 line(this, t_door_c,  5, 13,  6, 13);
                 line(this, t_wall_h, 13, 13, 23, 13);
                 line(this, t_door_c, 18, 13, 19, 13);
-// Next, the contents of each operating room
+                // Next, the contents of each operating room
                 line(this, t_counter, 1, 0, 1, 9);
                 place_items(mi_surgery, 70, 1, 1, 1, 9, false, 0);
                 square(this, t_bed, 5, 4, 6, 5);
@@ -7645,7 +7645,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 break;
 
             case 4: // Storage
-// Soft drug storage
+                // Soft drug storage
                 line(this, t_wall_h, 3,  2, 12,  2);
                 line(this, t_wall_h, 3, 10, 12, 10);
                 line(this, t_wall_v, 3,  3,  3,  9);
@@ -7658,7 +7658,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 place_items(mi_softdrugs, 80, 6, 5, 10, 5, false, 0);
                 line(this, t_rack, 6, 7, 10, 7);
                 place_items(mi_softdrugs, 80, 6, 7, 10, 7, false, 0);
-// Hard drug storage
+                // Hard drug storage
                 line(this, t_wall_v, 13, 0, 13, 19);
                 ter(13, 6) = t_door_locked;
                 line(this, t_rack, 14, 0, 14, 4);
@@ -7678,7 +7678,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 line(this, t_wall_v, 20, 11, 20, 19);
                 line(this, t_wall_h, 13, 20, 20, 20);
                 line(this, t_door_c, 16, 20, 17, 20);
-// Laundry room
+                // Laundry room
                 line(this, t_wall_h, 1, 13, 10, 13);
                 ter(rng(3, 8), 13) = t_door_c;
                 line(this, t_wall_v, 10, 14, 10, 22);
@@ -7705,7 +7705,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             }
 
 
-// We have walls to the north and east if they're not hospitals
+            // We have walls to the north and east if they're not hospitals
             if (t_east != ot_hospital_entrance && t_east != ot_hospital)
             {
                 line(this, t_wall_v, 23, 0, 23, 23);
@@ -7715,7 +7715,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 line(this, t_wall_h, 0, 0, 23, 0);
             }
         }
-// Generate bodies / zombies
+        // Generate bodies / zombies
         rn = rng(15, 20);
         for (int i = 0; i < rn; i++)
         {
@@ -7744,10 +7744,10 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 
     case ot_mansion_entrance:
     {
-// Left wall
+        // Left wall
         line(this, t_wall_v,  0,  0,  0, SEEY * 2 - 2);
         line(this, t_door_c,  0, SEEY - 1, 0, SEEY);
-// Front wall
+        // Front wall
         line(this, t_wall_h,  1, 10,  SEEX * 2 - 1, 10);
         line(this, t_door_locked, SEEX - 1, 10, SEEX, 10);
         int winx1 = rng(2, 4);
@@ -7759,14 +7759,14 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         line(this, t_window, winx1, 10, winx2, 10);
         line(this, t_window, SEEX * 2 - 1 - winx1, 10, SEEX * 2 - 1 - winx2, 10);
         line(this, t_door_c, SEEX - 1, 10, SEEX, 10);
-// Bottom wall
+        // Bottom wall
         line(this, t_wall_h,  0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
         line(this, t_door_c, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
 
         build_mansion_room(this, room_mansion_courtyard, 1, 0, SEEX * 2 - 1, 9);
         square(this, t_floor, 1, 11, SEEX * 2 - 1, SEEY * 2 - 2);
         build_mansion_room(this, room_mansion_entry, 1, 11, SEEX * 2 - 1, SEEY * 2 - 2);
-// Rotate to face the road
+        // Rotate to face the road
         if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
         {
             rotate(1);
@@ -7783,16 +7783,16 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     break;
 
     case ot_mansion:
-// Start with floors all over
+        // Start with floors all over
         square(this, t_floor, 1, 0, SEEX * 2 - 1, SEEY * 2 - 2);
-// We always have a left and bottom wall
+        // We always have a left and bottom wall
         line(this, t_wall_v, 0, 0, 0, SEEY * 2 - 2);
         line(this, t_wall_h, 0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
-// tw and rw are the boundaries of the rooms inside...
+        // tw and rw are the boundaries of the rooms inside...
         tw = 0;
         rw = SEEX * 2 - 1;
-// ...if we need outside walls, adjust tw & rw and build them
-// We build windows below.
+        // ...if we need outside walls, adjust tw & rw and build them
+        // We build windows below.
         if (t_north != ot_mansion_entrance && t_north != ot_mansion)
         {
             tw = 1;
@@ -7803,7 +7803,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             rw = SEEX * 2 - 2;
             line(this, t_wall_v, SEEX * 2 - 1, 0, SEEX * 2 - 1, SEEX * 2 - 1);
         }
-// Now pick a random layout
+        // Now pick a random layout
         switch (rng(1, 4))
         {
 
@@ -7861,7 +7861,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             line(this, t_wall_h,  1, 13, 10, 13);
             line(this, t_wall_h, 13, 10, rw, 10);
             line(this, t_wall_h, 13, 13, rw, 13);
-// Doors
+            // Doors
             if (one_in(2))
             {
                 ter(10, rng(tw + 1, 8)) = t_door_c;
@@ -7922,7 +7922,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             line(this, t_wall_v, cw, mw + 1, cw, SEEY * 2 - 2);
             ter(cw, rng(y + 2, SEEY * 2 - 3)) = t_door_c;
             mansion_room(this, 1, mw + 1, cw - 1, SEEY * 2 - 2);
-// And a couple small rooms in the UL LR corners
+            // And a couple small rooms in the UL LR corners
             line(this, t_wall_v, x, tw, x, mw - 1);
             mansion_room(this, 1, tw, x - 1, mw - 1);
             if (one_in(2))
@@ -7955,7 +7955,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             break;
         } // switch (rng(1, 4))
 
-// Finally, place windows on outside-facing walls if necessary
+        // Finally, place windows on outside-facing walls if necessary
         if (t_west != ot_mansion_entrance && t_west != ot_mansion)
         {
             int consecutive = 0;
@@ -8060,7 +8060,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     case ot_fema_entrance:
     {
         square(this, t_dirt, 0, 0, 23, 23);
-// Left wall
+        // Left wall
         line(this, t_chainfence_v,  0,  0,  0, SEEY * 2 - 2);
         line(this, t_fence_barbed, 1, 4, 9, 12);
         line(this, t_fence_barbed, 1, 5, 8, 12);
@@ -8435,9 +8435,9 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                 w_fac = rng(2, 6);
             }
         }
-// Negative *_fac values indicate rock floor connection, otherwise solid rock
-// Of course, if we connect to a rift, *_fac = 0, and thus lava extends all the
-//  way.
+        // Negative *_fac values indicate rock floor connection, otherwise solid rock
+        // Of course, if we connect to a rift, *_fac = 0, and thus lava extends all the
+        //  way.
         for (int i = 0; i < SEEX * 2; i++)
         {
             for (int j = 0; j < SEEY * 2; j++)
@@ -8687,9 +8687,9 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             node_built[node] = true;
             step++;
             int nodex = 1 + 6 * (node % 4), nodey = 1 + 6 * int(node / 4);
-// Clear a 4x4 dirt square
+            // Clear a 4x4 dirt square
             square(this, t_dirt, nodex, nodey, nodex + 3, nodey + 3);
-// Spawn a monster in there
+            // Spawn a monster in there
             if (step > 2)   // First couple of chambers are safe
             {
                 int monrng = rng(1, 20);
@@ -8718,8 +8718,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                     add_spawn(mon_spider_web, 1, spawnx, spawny);
                 }
             }
-// TODO: Non-monster hazards?
-// Next, pick a cell to move to
+            // TODO: Non-monster hazards?
+            // Next, pick a cell to move to
             std::vector<direction> move;
             if (node % 4 > 0 && !node_built[node - 1])
             {
@@ -8778,9 +8778,9 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         square(this, t_root_wall, 0, 0, 23, 23);
         square(this, t_dirt, 1, 1, 4, 4);
         square(this, t_dirt, 19, 19, 22, 22);
-// Drunken walk until we reach the heart (lower right, [19, 19])
-// Chance increases by 1 each turn, and gives the % chance of forcing a move
-// to the right or down.
+        // Drunken walk until we reach the heart (lower right, [19, 19])
+        // Chance increases by 1 each turn, and gives the % chance of forcing a move
+        // to the right or down.
         int chance = 0;
         int x = 4, y = 4;
         do
@@ -8828,7 +8828,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
             else
             {
                 chance++; // Increase chance of forced movement down/right
-// Weigh movement towards directions with lots of existing walls
+                // Weigh movement towards directions with lots of existing walls
                 int chance_west = 0, chance_east = 0, chance_north = 0, chance_south = 0;
                 for (int dist = 1; dist <= 5; dist++)
                 {
@@ -8978,7 +8978,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         }
         break;
 
-// TODO: Maybe subway systems could have broken down trains in them?
+        // TODO: Maybe subway systems could have broken down trains in them?
     case ot_subway_station:
         if (t_north >= ot_subway_ns && t_north <= ot_subway_nesw &&
                 connects_to(t_north, 2))
@@ -9352,7 +9352,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         x = SEEX;
         y = 1;
         rn = 0;
-// First, set it all to rock
+        // First, set it all to rock
         for (int i = 0; i < SEEX * 2; i++)
         {
             for (int j = 0; j < SEEY * 2; j++)
@@ -9838,7 +9838,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
         break;
     }
 
-// Now, fix sewers and subways so that they interconnect.
+    // Now, fix sewers and subways so that they interconnect.
 
     if (terrain_type >= ot_subway_ns && terrain_type <= ot_subway_nesw)
     {
@@ -10152,7 +10152,7 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
             px = rng(x1, x2);
             py = rng(y1, y2);
             tries++;
-// Only place on valid terrain
+            // Only place on valid terrain
         }
         while (((terlist[ter(px, py)].movecost == 0 &&
                  !(terlist[ter(px, py)].flags & mfb(place_item))) ||
@@ -10161,8 +10161,8 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
         if (tries < 20)
         {
             add_item(px, py, (*itypes)[eligible[selection]], turn);
-// Guns in the home and behind counters are generated with their ammo
-// TODO: Make this less of a hack
+            // Guns in the home and behind counters are generated with their ammo
+            // TODO: Make this less of a hack
             if ((*itypes)[eligible[selection]]->is_gun() &&
                     (loc == mi_homeguns || loc == mi_behindcounter))
             {
@@ -10255,14 +10255,14 @@ vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir)
         debugmsg("Bad add_vehicle t=%d d=%d x=%d y=%d", type, dir, x, y);
         return 0;
     }
-// debugmsg("add_vehicle t=%d d=%d x=%d y=%d", type, dir, x, y);
+    // debugmsg("add_vehicle t=%d d=%d x=%d y=%d", type, dir, x, y);
 
     int smx = x / SEEX;
     int smy = y / SEEY;
     int nonant = smx + smy * my_MAPSIZE;
     x %= SEEX;
     y %= SEEY;
-// debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
+    // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
     vehicle * veh = new vehicle(g, type);
     veh->posx = x;
     veh->posy = y;
@@ -10277,7 +10277,7 @@ vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir)
     vehicle_list.insert(veh);
     update_vehicle_cache(veh, true);
 
-//debugmsg ("grid[%d]->vehicles.size=%d veh.parts.size=%d", nonant, grid[nonant]->vehicles.size(),veh.parts.size());
+    //debugmsg ("grid[%d]->vehicles.size=%d veh.parts.size=%d", nonant, grid[nonant]->vehicles.size(),veh.parts.size());
     return veh;
 }
 
@@ -10311,7 +10311,7 @@ void map::rotate(int turns)
                 i_clear(j, SEEX * 2 - 1 - i);
             }
         }
-// Now, spawn points
+        // Now, spawn points
         for (int sx = 0; sx < 2; sx++)
         {
             for (int sy = 0; sy < 2; sy++)
@@ -10328,13 +10328,13 @@ void map::rotate(int turns)
                 }
             }
         }
-// Finally, computers
+        // Finally, computers
         tmpcomp = grid[0]->comp;
         grid[0]->comp = grid[my_MAPSIZE]->comp;
         grid[my_MAPSIZE]->comp = grid[my_MAPSIZE + 1]->comp;
         grid[my_MAPSIZE + 1]->comp = grid[1]->comp;
         grid[1]->comp = tmpcomp;
-// ...and vehicles
+        // ...and vehicles
         tmpveh = grid[0]->vehicles;
         grid[0]->vehicles = grid[my_MAPSIZE]->vehicles;
         grid[my_MAPSIZE]->vehicles = grid[my_MAPSIZE + 1]->vehicles;
@@ -10353,7 +10353,7 @@ void map::rotate(int turns)
                 i_clear(SEEX * 2 - 1 - i, SEEY * 2 - 1 - j);
             }
         }
-// Now, spawn points
+        // Now, spawn points
         for (int sx = 0; sx < 2; sx++)
         {
             for (int sy = 0; sy < 2; sy++)
@@ -10375,7 +10375,7 @@ void map::rotate(int turns)
         tmpcomp = grid[1]->comp;
         grid[1]->comp = grid[my_MAPSIZE]->comp;
         grid[my_MAPSIZE]->comp = tmpcomp;
-// ...and vehicles
+        // ...and vehicles
         tmpveh = grid[0]->vehicles;
         grid[0]->vehicles = grid[my_MAPSIZE + 1]->vehicles;
         grid[my_MAPSIZE + 1]->vehicles = tmpveh;
@@ -10395,7 +10395,7 @@ void map::rotate(int turns)
                 i_clear(SEEY * 2 - 1 - j, i);
             }
         }
-// Now, spawn points
+        // Now, spawn points
         for (int sx = 0; sx < 2; sx++)
         {
             for (int sy = 0; sy < 2; sy++)
@@ -10417,7 +10417,7 @@ void map::rotate(int turns)
         grid[1]->comp = grid[my_MAPSIZE + 1]->comp;
         grid[my_MAPSIZE + 1]->comp = grid[my_MAPSIZE]->comp;
         grid[my_MAPSIZE]->comp = tmpcomp;
-// ...and vehicles
+        // ...and vehicles
         tmpveh = grid[0]->vehicles;
         grid[0]->vehicles = grid[1]->vehicles;
         grid[1]->vehicles = grid[my_MAPSIZE + 1]->vehicles;
@@ -10429,7 +10429,7 @@ void map::rotate(int turns)
         return;
     }
 
-// change vehicles' directions
+    // change vehicles' directions
     for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++)
         for (int v = 0; v < grid[i]->vehicles.size(); v++)
             if (turns >= 1 && turns <= 3)
@@ -10437,7 +10437,7 @@ void map::rotate(int turns)
                 grid[i]->vehicles[v]->turn(turns * 90);
             }
 
-// Set the spawn points
+    // Set the spawn points
     grid[0]->spawns = sprot[0];
     grid[1]->spawns = sprot[1];
     grid[my_MAPSIZE]->spawns = sprot[my_MAPSIZE];
@@ -11221,7 +11221,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
 
 void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
 {
-// TODO: More types!
+    // TODO: More types!
     int type = rng(0, 4);
     int x2 = x1 + 7;
     int y2 = y1 + 4;
@@ -11230,11 +11230,11 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
     case 0: // Empty!
         return;
     case 1: // Chemistry.
-// #######.
-// #.......
-// #.......
-// #.......
-// #######.
+        // #######.
+        // #.......
+        // #.......
+        // #.......
+        // #######.
         for (int i = x1; i <= x2; i++)
         {
             for (int j = y1; j <= y2; j++)
@@ -11251,11 +11251,11 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
         break;
 
     case 2: // Hydroponics.
-// #.......
-// #.~~~~~.
-// #.......
-// #.~~~~~.
-// #.......
+        // #.......
+        // #.~~~~~.
+        // #.......
+        // #.~~~~~.
+        // #.......
         for (int i = x1; i <= x2; i++)
         {
             for (int j = y1; j <= y2; j++)
@@ -11276,11 +11276,11 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
         break;
 
     case 3: // Electronics.
-// #######.
-// #.......
-// #.......
-// #.......
-// #######.
+        // #######.
+        // #.......
+        // #.......
+        // #.......
+        // #######.
         for (int i = x1; i <= x2; i++)
         {
             for (int j = y1; j <= y2; j++)
@@ -11297,11 +11297,11 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
         break;
 
     case 4: // Monster research.
-// .|.####.
-// -|......
-// .|......
-// -|......
-// .|.####.
+        // .|.####.
+        // -|......
+        // .|......
+        // -|......
+        // .|.####.
         for (int i = x1; i <= x2; i++)
         {
             for (int j = y1; j <= y2; j++)
@@ -11320,7 +11320,7 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
                 }
             }
         }
-// TODO: Place a monster in the sealed areas.
+        // TODO: Place a monster in the sealed areas.
         m->place_items(mi_monparts, 70, x1 + 3, y1, 2 - 1, y1, false, turn - 100);
         m->place_items(mi_monparts, 70, x1 + 3, y2, 2 - 1, y2, false, turn - 100);
         break;
@@ -11473,7 +11473,7 @@ void silo_rooms(map *m)
                 closest = i;
             }
         }
-// We chose the closest room; now draw a corridor there
+        // We chose the closest room; now draw a corridor there
         point origin = rooms[0], origsize = room_sizes[0], dest = rooms[closest];
         int x = origin.x + origsize.x, y = origin.y + origsize.y;
         bool x_first = (abs(origin.x - dest.x) > abs(origin.y - dest.y));
@@ -11579,7 +11579,7 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2)
     line(m, t_wall_h, x1, y2, x2, y2);
     line(m, t_wall_v, x1, y1 + 1, x1, y2 - 1);
     line(m, t_wall_v, x2, y1 + 1, x2, y2 - 1);
-// Main build switch!
+    // Main build switch!
     switch (type)
     {
     case room_mine_shaft:
@@ -11700,12 +11700,12 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2)
 map_extra random_map_extra(map_extras embellishments)
 {
     int pick = 0;
-// Set pick to the total of all the chances for map extras
+    // Set pick to the total of all the chances for map extras
     for (int i = 0; i < num_map_extras; i++)
     {
         pick += embellishments.chances[i];
     }
-// Set pick to a number between 0 and the total
+    // Set pick to a number between 0 and the total
     pick = rng(0, pick - 1);
     int choice = -1;
     while (pick >= 0)
@@ -12269,7 +12269,7 @@ void map::add_extra(map_extra type, game *g)
         }
         place_items(stash, size, x, y, x, y, true, 0);
 
-// Now add traps around that stash
+        // Now add traps around that stash
         for (int i = x - 4; i <= x + 4; i++)
         {
             for (int j = y - 4; j <= y + 4; j++)
@@ -12315,7 +12315,7 @@ void map::add_extra(map_extra type, game *g)
 
     case mx_drugdeal:
     {
-// Decide on a drug type
+        // Decide on a drug type
         int num_drugs;
         itype* drugtype;
         switch (rng(1, 10))

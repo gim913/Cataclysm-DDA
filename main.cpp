@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 #endif
     int seed = time(NULL);
 
-//args: world seeding only.
+    //args: world seeding only.
     argc--;
     argv++;
     while (argc)
@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
         argv++;
     }
 
-// ncurses stuff
+    // ncurses stuff
     load_options(); // For getting size options
     initscr(); // Initialize ncurses
     noecho();  // Don't echo keypresses

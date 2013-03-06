@@ -72,15 +72,15 @@ public:
     ~computer();
 
     computer & operator=(const computer &rhs);
-// Initialization
+    // Initialization
     void set_security(int Security);
     void add_option(std::string opt_name, computer_action action, int Security);
     void add_failure(computer_failure failure);
-// Basic usage
+    // Basic usage
     void shutdown_terminal(); // Shutdown (free w_terminal, etc)
     void use(game *g);
     bool hack_attempt(player *p, int Security = -1);// -1 defaults to main security
-// Save/load
+    // Save/load
     std::string save_data();
     void load_data(std::string data);
 
@@ -93,25 +93,25 @@ private:
     std::vector<computer_failure> failures; // Things that happen if we fail a hack
     WINDOW *w_terminal; // Output window
 
-// Called by use()
+    // Called by use()
     void activate_function(game *g, computer_action action);
-// Generally called when we fail a hack attempt
+    // Generally called when we fail a hack attempt
     void activate_random_failure(game *g);
-// ...but we can also choose a specific failure.
+    // ...but we can also choose a specific failure.
     void activate_failure(game *g, computer_failure fail);
 
-// OUTPUT/INPUT
-// Reset to a blank terminal (e.g. at start of usage loop)
+    // OUTPUT/INPUT
+    // Reset to a blank terminal (e.g. at start of usage loop)
     void reset_terminal();
-// Prints a line to the terminal (with printf flags)
+    // Prints a line to the terminal (with printf flags)
     void print_line(const char *text, ...);
-// For now, the same as print_line but in red (TODO: change this?)
+    // For now, the same as print_line but in red (TODO: change this?)
     void print_error(const char *text, ...);
-// Prints code-looking gibberish
+    // Prints code-looking gibberish
     void print_gibberish_line();
-// Prints a line and waits for Y/N/Q
+    // Prints a line and waits for Y/N/Q
     char query_ynq(const char *text, ...);
-// Same as query_ynq, but returns true for y or Y
+    // Same as query_ynq, but returns true for y or Y
     bool query_bool(const char *text, ...);
 };
 

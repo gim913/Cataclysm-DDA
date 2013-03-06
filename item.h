@@ -44,7 +44,7 @@ public:
     ~item();
     void make(itype* it);
 
-// returns the default container of this item, with this item in it
+    // returns the default container of this item, with this item in it
     item in_its_container(std::vector<itype*> *itypes);
 
     nc_color color(player *u);
@@ -53,7 +53,7 @@ public:
     void use(player &u);
     bool burn(int amount = 1); // Returns true if destroyed
 
-// Firearm specifics
+    // Firearm specifics
     int reload_time(player &u);
     int clip_size();
     int accuracy();
@@ -69,7 +69,7 @@ public:
 
     std::string save_info();    // Formatted for save files
     void load_info(std::string data, game *g);
-//std::string info(bool showtext = false);  // Formatted for human viewing
+    //std::string info(bool showtext = false);  // Formatted for human viewing
     std::string info(bool showtext = false);
     std::string info(bool showtext, std::vector<iteminfo> *dump);
     char symbol();
@@ -97,17 +97,17 @@ public:
     int num_charges();
     bool rotten(game *g);
 
-// Our value as a weapon, given particular skills
+    // Our value as a weapon, given particular skills
     int  weapon_value(int skills[num_skill_types]);
-// As above, but discounts its use as a ranged weapon
+    // As above, but discounts its use as a ranged weapon
     int  melee_value(int skills[num_skill_types]);
-// Returns the data associated with tech, if we are an it_style
+    // Returns the data associated with tech, if we are an it_style
     style_move style_data(technique_id tech);
     bool is_two_handed(player *u);
     bool made_of(material mat);
     bool conductive(); // Electricity
     bool destroyed_at_zero_charges();
-// Most of the is_whatever() functions call the same function in our itype
+    // Most of the is_whatever() functions call the same function in our itype
     bool is_null(); // True if type is NULL, or points to the null item (id == 0)
     bool is_food(player *u);// Some non-food items are food to certain players
     bool is_food_container(player *u);  // Ditto

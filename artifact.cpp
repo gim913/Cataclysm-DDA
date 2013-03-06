@@ -27,13 +27,13 @@ itype* game::new_artifact()
         art->m2 = info->m2;
         art->volume = rng(info->volume_min, info->volume_max);
         art->weight = rng(info->weight_min, info->weight_max);
-// Set up the basic weapon type
+        // Set up the basic weapon type
         artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
         art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
         art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
         art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
         art->item_flags = weapon->flags;
-// Add an extra weapon perhaps?
+        // Add an extra weapon perhaps?
         if (one_in(2))
         {
             int select = rng(0, 2);
@@ -58,14 +58,14 @@ It is the only one of its kind.\n\
 It may have unknown powers; use 'a' to activate them.";
         art->description = description.str();
 
-// Finally, pick some powers
+        // Finally, pick some powers
         art_effect_passive passive_tmp = AEP_NULL;
         art_effect_active active_tmp = AEA_NULL;
         int num_good = 0, num_bad = 0, value = 0;
         std::vector<art_effect_passive> good_effects = fill_good_passive();
         std::vector<art_effect_passive> bad_effects = fill_bad_passive();
 
-// Wielded effects first
+        // Wielded effects first
         while (!good_effects.empty() && !bad_effects.empty() &&
                 num_good < 3 && num_bad < 3 &&
                 (num_good < 1 || num_bad < 1 || one_in(num_good + 1) ||
@@ -88,7 +88,7 @@ It may have unknown powers; use 'a' to activate them.";
             value += passive_effect_cost[passive_tmp];
             art->effects_wielded.push_back(passive_tmp);
         }
-// Next, carried effects; more likely to be just bad
+        // Next, carried effects; more likely to be just bad
         num_good = 0;
         num_bad = 0;
         value = 0;
@@ -116,7 +116,7 @@ It may have unknown powers; use 'a' to activate them.";
             value += passive_effect_cost[passive_tmp];
             art->effects_carried.push_back(passive_tmp);
         }
-// Finally, activated effects; not necessarily good or bad
+        // Finally, activated effects; not necessarily good or bad
         num_good = 0;
         num_bad = 0;
         value = 0;
@@ -149,7 +149,7 @@ It may have unknown powers; use 'a' to activate them.";
             art->max_charges += rng(1, 3);
         }
         art->def_charges = art->max_charges;
-// If we have charges, pick a recharge mechanism
+        // If we have charges, pick a recharge mechanism
         if (art->max_charges > 0)
         {
             art->charge_type = art_charge(rng(ARTC_NULL + 1, NUM_ARTCS - 1));
@@ -194,7 +194,7 @@ It may have unknown powers; use 'a' to activate them.";
                     (info->plural ? "They are the only ones of their kind." :
                      "It is the only one of its kind.");
 
-// Modify the armor further
+        // Modify the armor further
         if (!one_in(4))
         {
             int index = rng(0, 4);
@@ -266,7 +266,7 @@ It may have unknown powers; use 'a' to activate them.";
 
         art->description = description.str();
 
-// Finally, pick some effects
+        // Finally, pick some effects
         int num_good = 0, num_bad = 0, value = 0;
         art_effect_passive passive_tmp = AEP_NULL;
         std::vector<art_effect_passive> good_effects = fill_good_passive();
@@ -303,13 +303,13 @@ It may have unknown powers; use 'a' to activate them.";
 
 itype* game::new_natural_artifact(artifact_natural_property prop)
 {
-// Natural artifacts are always tools.
+    // Natural artifacts are always tools.
     it_artifact_tool *art = new it_artifact_tool();
-// Pick a form
+    // Pick a form
     artifact_natural_shape shape =
         artifact_natural_shape(rng(ARTSHAPE_NULL + 1, ARTSHAPE_MAX - 1));
     artifact_shape_datum *shape_data = &(artifact_shape_data[shape]);
-// Pick a property
+    // Pick a property
     artifact_natural_property property = (prop > ARTPROP_NULL ? prop :
                                           artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1)));
     artifact_property_datum *property_data = &(artifact_property_data[property]);
@@ -329,7 +329,7 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
     std::stringstream desc;
     desc << "This " << shape_data->desc << " " << property_data->desc << ".";
     art->description = desc.str();
-// Add line breaks to the description as necessary
+    // Add line breaks to the description as necessary
     size_t pos = 76;
     while (art->description.length() - pos >= 76)
     {
@@ -345,8 +345,8 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
         }
     }
 
-// Three possibilities: good passive + bad passive, good active + bad active,
-// and bad passive + good active
+    // Three possibilities: good passive + bad passive, good active + bad active,
+    // and bad passive + good active
     bool good_passive = false, bad_passive = false,
          good_active  = false, bad_active  = false;
     switch (rng(1, 3))
@@ -428,8 +428,8 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
         art->effects_activated.push_back(aea_bad);
     }
 
-// Natural artifacts ALWAYS can recharge
-// (When "implanting" them in a mundane item, this ability may be lost
+    // Natural artifacts ALWAYS can recharge
+    // (When "implanting" them in a mundane item, this ability may be lost
     if (!art->effects_activated.empty())
     {
         art->max_charges = rng(1, 4);
@@ -516,7 +516,7 @@ void game::process_artifact(item *it, player *p, bool wielded)
                 effects.push_back(tool->effects_wielded[i]);
             }
         }
-// Recharge it if necessary
+        // Recharge it if necessary
         if (it->charges < tool->max_charges)
         {
             switch (tool->charge_type)

@@ -28,9 +28,9 @@ A character loaded from a template file.",
 enum dis_type
 {
     DI_NULL,
-// Weather
+    // Weather
     DI_GLARE, DI_WET,
-// Temperature, the order is important
+    // Temperature, the order is important
     DI_COLD,
     DI_COLD_HEAD, DI_COLD_EYES, DI_COLD_MOUTH, DI_COLD_TORSO,
     DI_COLD_ARMS, DI_COLD_HANDS, DI_COLD_LEGS, DI_COLD_FEET,
@@ -43,12 +43,12 @@ enum dis_type
     DI_BLISTERS,
     DI_BLISTERS_HEAD, DI_BLISTERS_EYES, DI_BLISTERS_MOUTH, DI_BLISTERS_TORSO,
     DI_BLISTERS_ARMS, DI_BLISTERS_HANDS, DI_BLISTERS_LEGS, DI_BLISTERS_FEET,
-// Diseases
+    // Diseases
     DI_INFECTION,
     DI_COMMON_COLD, DI_FLU,
-// Fields
+    // Fields
     DI_SMOKE, DI_ONFIRE, DI_TEARGAS,
-// Monsters
+    // Monsters
     DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
     DI_DEAF, DI_BLIND,
     DI_LYING_DOWN, DI_SLEEP,
@@ -56,20 +56,20 @@ enum dis_type
     DI_DERMATIK, DI_FORMICATION,
     DI_WEBBED,
     DI_RAT,
-// Food & Drugs
+    // Food & Drugs
     DI_PKILL1, DI_PKILL2, DI_PKILL3, DI_PKILL_L, DI_DRUNK, DI_CIG, DI_HIGH,
     DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
     DI_TOOK_FLUMED, DI_ADRENALINE, DI_ASTHMA, DI_GRACK, DI_METH,
-// Traps
+    // Traps
     DI_BEARTRAP, DI_IN_PIT, DI_STUNNED, DI_DOWNED,
-// Martial Arts
+    // Martial Arts
     DI_ATTACK_BOOST, DI_DAMAGE_BOOST, DI_DODGE_BOOST, DI_ARMOR_BOOST,
     DI_SPEED_BOOST, DI_VIPER_COMBO,
-// Other
+    // Other
     DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL,
-// Inflicted by an NPC
+    // Inflicted by an NPC
     DI_ASKED_TO_FOLLOW, DI_ASKED_TO_LEAD, DI_ASKED_FOR_ITEM,
-// NPC-only
+    // NPC-only
     DI_CATCH_UP
 };
 
@@ -258,8 +258,8 @@ enum pl_flag
     PF_UGLY, // +1 grotesqueness
 
     PF_MAX,
-// Below this point is mutations and other mid-game perks.
-// They are NOT available during character creation.
+    // Below this point is mutations and other mid-game perks.
+    // They are NOT available during character creation.
     PF_SKIN_ROUGH,//
     PF_NIGHTVISION2,//
     PF_NIGHTVISION3,//

@@ -12,7 +12,7 @@ enum vpart_id
 {
     vp_null = 0,
 
-// external parts
+    // external parts
     vp_seat,
     vp_bed,
     vp_frame_h,
@@ -64,7 +64,7 @@ enum vpart_id
     vp_cargo_trunk, // over
     vp_cargo_box,   // over
 
-// pure internal parts
+    // pure internal parts
     vp_controls,
     vp_muffler,
     vp_seatbelt,
@@ -73,8 +73,8 @@ enum vpart_id
     vp_flamethrower,
     vp_plasmagun,
 
-// plating -- special case. mounted as internal, work as first line
-// of defence and gives color to external part
+    // plating -- special case. mounted as internal, work as first line
+    // of defence and gives color to external part
     vp_steel_plate,
     vp_superalloy_plate,
     vp_spiked_plate,
@@ -99,7 +99,7 @@ enum vpart_flags
     vpf_sharp,              // cutting damage instead of bashing
     vpf_unmount_on_damage,  // when damaged, part is unmounted, rather than broken
 
-// functional flags (only one of each can be mounted per tile)
+    // functional flags (only one of each can be mounted per tile)
     vpf_over,               // can be mounted over other part
     vpf_roof,               // is a roof (cover)
     vpf_wheel,              // this part touches ground (trigger traps)
@@ -268,7 +268,7 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_external) | mfb(vpf_unmount_on_damage) | mfb(vpf_sharp) | mfb(vpf_no_reinforce)
     },
 
-//                                                           wheel_width(inches)
+    //                                                           wheel_width(inches)
     {
         "wheel",      '0',    c_dkgray,  'x', c_ltgray,  50,  200, 9, 0, itm_wheel, 4,
         mfb(vpf_external) | mfb(vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size)
@@ -289,7 +289,7 @@ const vpart_info vpart_list[num_vparts] =
         "small wheel",    'o', c_dkgray, 'x', c_ltgray,  50,  70, 6, 0, itm_wheel_small, 2,
         mfb(vpf_external) | mfb(vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size)
     },
-//
+    //
     {
         "1-cylinder engine",    '*', c_ltred,  '#', c_red,     80, 150, 40, AT_GAS, itm_1cyl_combustion, 2,
         mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size)
@@ -326,7 +326,7 @@ const vpart_info vpart_list[num_vparts] =
         "Foot pedals",                '*', c_ltgray,  '#', c_red,     50, 50, 70, AT_MUSCLE, itm_foot_crank, 1,
         mfb(vpf_internal) | mfb(vpf_engine)
     },
-//                                                                         capacity type
+    //                                                                         capacity type
     {
         "gasoline tank",              'O', c_ltred,  '#', c_red,     80, 150, 3000, AT_GAS, itm_metal_tank, 1,
         mfb(vpf_internal) | mfb(vpf_fuel_tank)
@@ -356,7 +356,7 @@ const vpart_info vpart_list[num_vparts] =
         "controls",   '$', c_ltgray,  '$', c_red,     10, 250, 0, 0, itm_vehicle_controls, 3,
         mfb(vpf_internal)  | mfb(vpf_controls)
     },
-//                                                          bonus
+    //                                                          bonus
     {
         "muffler",    '/', c_ltgray,  '/', c_ltgray,  10, 150, 40, 0, itm_muffler, 2,
         mfb(vpf_internal)  | mfb(vpf_muffler)
@@ -411,7 +411,7 @@ enum vhtype_id
     veh_null = 0,
     veh_custom,
 
-// in-built vehicles
+    // in-built vehicles
     veh_bicycle,
     veh_motorcycle_chassis,
     veh_motorcycle,

@@ -773,7 +773,7 @@ void game::init_mapitems()
         itm_two_way_radio, itm_radio, itm_UPS_off, itm_beltrig,
         itm_pants_army_fit, itm_boots_fit, itm_rucksack, NULL);
 
-// TODO: Replace kevlar with the ceramic plate armor
+    // TODO: Replace kevlar with the ceramic plate armor
     setvector(
         mapitems[mi_military],
         itm_water_clean, itm_mre_beef, itm_mre_veggy, itm_bandages, itm_1st_aid,
@@ -860,7 +860,7 @@ void game::init_mapitems()
         itm_battery, itm_manual_computers, itm_textbook_computers,
         itm_SICP, itm_soldering_iron, NULL);
 
-// This one kind of an inverted list; what an NPC will NOT carry
+    // This one kind of an inverted list; what an NPC will NOT carry
     setvector(
         mapitems[mi_trader_avoid],
         itm_null, itm_corpse, itm_fire, itm_toolset, itm_meat, itm_veggy,

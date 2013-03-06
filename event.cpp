@@ -257,7 +257,7 @@ void event::actualize(game *g)
         {
             return;    // We finished flooding the entire chamber!
         }
-// Check if we should print a message
+        // Check if we should print a message
         if (flood_buf[g->u.posx][g->u.posy] != g->m.ter(g->u.posx, g->u.posy))
         {
             if (flood_buf[g->u.posx][g->u.posy] == t_water_sh)
@@ -270,7 +270,7 @@ void event::actualize(game *g)
                 g->plswim(g->u.posx, g->u.posy);
             }
         }
-// flood_buf is filled with correct tiles; now copy them back to g->m
+        // flood_buf is filled with correct tiles; now copy them back to g->m
         for (int x = 0; x < SEEX * MAPSIZE; x++)
         {
             for (int y = 0; y < SEEY * MAPSIZE; y++)

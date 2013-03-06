@@ -52,8 +52,8 @@ public:
     item& item_by_letter(char ch);
     int   index_by_letter(char ch);
 
-// Below, "amount" refers to quantity
-//        "charges" refers to charges
+    // Below, "amount" refers to quantity
+    //        "charges" refers to charges
     int  amount_of(itype_id it);
     int  charges_of(itype_id it);
 

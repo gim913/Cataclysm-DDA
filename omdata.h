@@ -32,12 +32,12 @@ struct oter_t
 
 const map_extras no_extras(0);
 const map_extras road_extras(
-// %%% HEL MIL SCI STA DRG SUP PRT MIN WLF CGR PUD CRT FUM 1WY ART
+    // %%% HEL MIL SCI STA DRG SUP PRT MIN WLF CGR PUD CRT FUM 1WY ART
     50, 40, 50, 120, 200, 30, 10,  5, 80, 20, 20, 200, 10,  8,  2,  3);
 const map_extras field_extras(
     60, 40, 15, 40, 80, 10, 10,  3, 50, 30, 40, 300, 10,  8,  1,  3);
 const map_extras subway_extras(
-// %%% HEL MIL SCI STA DRG SUP PRT MIN WLF CGR PUD CRT FUM 1WY ART
+    // %%% HEL MIL SCI STA DRG SUP PRT MIN WLF CGR PUD CRT FUM 1WY ART
     75,  0,  5, 12,  5,  5,  0,  7,  0,  0, 0, 120,  0, 20,  1,  3);
 const map_extras build_extras(
     90,  0,  5, 12,  0, 10,  0,  5,  5,  0, 0, 0, 60,  8,  1,  3);
@@ -46,10 +46,10 @@ enum oter_id
 {
     ot_null = 0,
     ot_crater,
-// Wild terrain
+    // Wild terrain
     ot_field, ot_dirtlot, ot_forest, ot_forest_thick, ot_forest_water, ot_hive, ot_spider_pit,
     ot_fungal_bloom,
-// Roads
+    // Roads
     ot_hiway_ns, ot_hiway_ew,
     ot_road_null,
     ot_road_ns, ot_road_ew,
@@ -61,7 +61,7 @@ enum oter_id
     ot_river_c_not_ne, ot_river_c_not_nw, ot_river_c_not_se, ot_river_c_not_sw,
     ot_river_north, ot_river_east, ot_river_south, ot_river_west,
     ot_river_ne, ot_river_se, ot_river_sw, ot_river_nw,
-// City buildings
+    // City buildings
     ot_house_north, ot_house_east, ot_house_south, ot_house_west,
     ot_house_base_north, ot_house_base_east, ot_house_base_south,
     ot_house_base_west,
@@ -92,7 +92,7 @@ enum oter_id
     ot_megastore_entrance, ot_megastore,
     ot_hospital_entrance, ot_hospital,
     ot_mansion_entrance, ot_mansion, ot_fema_entrance, ot_fema,
-// Goodies/dungeons
+    // Goodies/dungeons
     ot_shelter, ot_shelter_under, ot_lmoe, ot_lmoe_under,
     ot_lab, ot_lab_stairs, ot_lab_core, ot_lab_finale,
     ot_nuke_plant_entrance, ot_nuke_plant, // TODO
@@ -105,7 +105,7 @@ enum oter_id
     ot_radio_tower,
     ot_toxic_dump,
     ot_cave, ot_cave_rat,
-// Underground terrain
+    // Underground terrain
     ot_spider_pit_under,
     ot_anthill,
     ot_rock, ot_rift, ot_hellmouth,
@@ -382,7 +382,7 @@ enum omspec_flag
 
 struct omspec_place
 {
-// Able functions - true if p is valid
+    // Able functions - true if p is valid
     bool never(overmap *om, point p)
     {
         return false;
@@ -456,7 +456,7 @@ enum omspec_id
 const overmap_special overmap_specials[NUM_OMSPECS] =
 {
 
-// Terrain   MIN MAX DISTANCE
+    // Terrain   MIN MAX DISTANCE
     {
         ot_crater,     0, 10,  0, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::land, mfb(OMS_FLAG_BLOB)
@@ -507,7 +507,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] =
         &omspec_place::land, mfb(OMS_FLAG_3X3_SECOND)
     }, //Oddzball-Fema test
 
-// Terrain   MIN MAX DISTANCE
+    // Terrain   MIN MAX DISTANCE
     {
         ot_bunker,     2, 10,  4, -1, mcat_null, 0, 0, 0, 0,
         &omspec_place::land, mfb(OMS_FLAG_ROAD)
@@ -558,7 +558,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] =
         &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT)
     },
 
-// Terrain   MIN MAX DISTANCE
+    // Terrain   MIN MAX DISTANCE
     {
         ot_anthill,    0, 30,  10, -1, mcat_ant, 10, 30, 1000, 2000,
         &omspec_place::wilderness, 0
@@ -589,7 +589,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] =
         &omspec_place::always, mfb(OMS_FLAG_BLOB)
     },
 
-// Terrain   MIN MAX DISTANCE
+    // Terrain   MIN MAX DISTANCE
     {
         ot_shelter,       5, 10,  5, 10, mcat_null, 0, 0, 0, 0,
         &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)

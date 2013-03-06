@@ -17,9 +17,9 @@ void game::init_recipes()
     int tl, cl;
 
 #define RECIPE(result, category, skill1, skill2, difficulty, time, reversible) \
-tl = 0; cl = 0; id++;\
-recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
-                              time, reversible) )
+    tl = 0; cl = 0; id++;\
+    recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
+                                  time, reversible) )
 #define TOOL(...)  setvector(recipes[id]->tools[tl],      __VA_ARGS__); tl++
 #define COMP(...)  setvector(recipes[id]->components[cl], __VA_ARGS__); cl++
 
@@ -28,7 +28,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
      * is still not great; a good 25% improvement over the difficulty is important
      */
 
-// NON-CRAFTABLE BUT CAN BE DISASSEMBLED (set category to CC_NONCRAFT)
+    // NON-CRAFTABLE BUT CAN BE DISASSEMBLED (set category to CC_NONCRAFT)
 
     RECIPE(itm_lawnmower, CC_NONCRAFT, NULL, NULL, 0, 1000, true);
     TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
@@ -49,9 +49,9 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
 
     RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
     COMP(itm_rag, 5, NULL);
-// CRAFTABLE
+    // CRAFTABLE
 
-// WEAPONS
+    // WEAPONS
 
     RECIPE(itm_lawnmower_machete, CC_WEAPON, NULL, NULL, 0, 5000, true);
     COMP(itm_duct_tape, 50, NULL);
@@ -94,7 +94,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
     COMP(itm_bat, 1, NULL);
     COMP(itm_nail, 6, NULL);
 
-// molotovs use 250ml of flammable liquids
+    // molotovs use 250ml of flammable liquids
     RECIPE(itm_molotov, CC_WEAPON, NULL, NULL, 0, 500, false);
     COMP(itm_rag, 1, NULL);
     COMP(itm_bottle_glass, 1, itm_flask_glass, 1, NULL);
@@ -452,7 +452,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
      COMP(itm_power_supply, 1, NULL);
     */
 
-// FOOD
+    // FOOD
 
     RECIPE(itm_water_clean, CC_DRINK, "cooking", NULL, 0, 5000, false);
     TOOL(itm_hotplate, 3, itm_toolset, 1, itm_fire, -1, NULL);
@@ -625,7 +625,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
     COMP(itm_bleach, 3, NULL);
     COMP(itm_ammonia, 2, NULL);
 
-// ELECTRONICS
+    // ELECTRONICS
 
     RECIPE(itm_antenna, CC_ELECTRONIC, NULL, NULL, 0, 3000, false);
     TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
@@ -778,7 +778,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
     COMP(itm_scrap, 10, NULL);
     COMP(itm_cable, 20, NULL);
 
-// ARMOR
+    // ARMOR
 
     RECIPE(itm_thread, CC_ARMOR, "tailor", NULL, 1, 3000, false);
     TOOL(itm_knife_combat, -1, itm_knife_steak, -1, itm_scissors, -1, NULL);
@@ -888,7 +888,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
     TOOL(itm_sewing_kit, 20, NULL);
     COMP(itm_rag, 20, itm_fur, 16, itm_leather, 12, NULL);
 
-// MISC
+    // MISC
 
     RECIPE(itm_rag, CC_MISC, NULL, NULL, 0, 3000, false);
     TOOL(itm_fire, -1, itm_hotplate, 3, itm_toolset, 1, NULL);
@@ -1046,8 +1046,8 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
     COMP(itm_processor, 1, NULL);
     COMP(itm_RAM, 1, NULL);
     COMP(itm_power_supply, 1, NULL);
-//  COMP(itm_battery, 400, itm_plut_cell, 1, NULL);
-//  COMP(itm_scrap, 15, NULL);
+    //  COMP(itm_battery, 400, itm_plut_cell, 1, NULL);
+    //  COMP(itm_scrap, 15, NULL);
 
     RECIPE(itm_bot_turret, CC_MISC, "electronics", "computer", 7, 9000, true);
     TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
@@ -1057,8 +1057,8 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
     COMP(itm_processor, 2, NULL);
     COMP(itm_RAM, 2, NULL);
     COMP(itm_power_supply, 1, NULL);
-//  COMP(itm_battery, 500, itm_plut_cell, 1, NULL);
-//  COMP(itm_scrap, 30, NULL);
+    //  COMP(itm_battery, 500, itm_plut_cell, 1, NULL);
+    //  COMP(itm_scrap, 30, NULL);
 }
 
 void game::craft()
@@ -1090,11 +1090,11 @@ void game::craft()
             draw_recipe_tabs(w_head, tab);
             current.clear();
             available.clear();
-// Set current to all recipes in the current tab; available are possible to make
+            // Set current to all recipes in the current tab; available are possible to make
             pick_recipes(current, available, tab);
         }
 
-// Clear the screen of recipe data, and draw it anew
+        // Clear the screen of recipe data, and draw it anew
         werase(w_data);
         mvwprintz(w_data, 20, 0, c_white, "\
 Press ? to describe object.  Press <ENTER> to attempt to craft object.");
@@ -1191,7 +1191,7 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
             else
             {
                 ypos = 5;
-// Loop to print the required tools
+                // Loop to print the required tools
                 for (int i = 0; i < 5 && current[line]->tools[i].size() > 0; i++)
                 {
                     ypos++;
@@ -1240,7 +1240,7 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
                     }
                 }
             }
-// Loop to print the required components
+            // Loop to print the required components
             ypos++;
             mvwprintz(w_data, ypos, 30, col, "Components required:");
             for (int i = 0; i < 5; i++)
@@ -1541,7 +1541,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
     available.clear();
     for (int i = 0; i < recipes.size(); i++)
     {
-// Check if the category matches the tab, and we have the requisite skills
+        // Check if the category matches the tab, and we have the requisite skills
         if (recipes[i]->category == tab &&
                 (recipes[i]->sk_primary == NULL ||
                  u.skillLevel(recipes[i]->sk_primary) >= recipes[i]->difficulty) &&
@@ -1557,7 +1557,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
     }
     for (int i = 0; i < current.size() && i < 51; i++)
     {
-//Check if we have the requisite tools and components
+        //Check if we have the requisite tools and components
         for (int j = 0; j < 5; j++)
         {
             have_tool[j] = false;
@@ -1625,7 +1625,7 @@ void game::complete_craft()
 {
     recipe* making = recipes[u.activity.index]; // Which recipe is it?
 
-// # of dice is 75% primary skill, 25% secondary (unless secondary is null)
+    // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
     int skill_dice = u.skillLevel(making->sk_primary).level() * 3;
     if (making->sk_secondary == NULL)
     {
@@ -1635,7 +1635,7 @@ void game::complete_craft()
     {
         skill_dice += u.skillLevel(making->sk_secondary).level();
     }
-// Sides on dice is 16 plus your current intelligence
+    // Sides on dice is 16 plus your current intelligence
     int skill_sides = 16 + u.int_cur;
 
     int diff_dice = making->difficulty * 4; // Since skill level is * 4 also
@@ -1653,7 +1653,7 @@ void game::complete_craft()
         u.practice(making->sk_secondary, 5);
     }
 
-// Messed up badly; waste some components.
+    // Messed up badly; waste some components.
     if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5)))
     {
         add_msg("You fail to make the %s, and waste some materials.",
@@ -1685,8 +1685,8 @@ void game::complete_craft()
         u.activity.type = ACT_NULL;
         return;
     }
-// If we're here, the craft was a success!
-// Use up the components and tools
+    // If we're here, the craft was a success!
+    // Use up the components and tools
     for (int i = 0; i < 5; i++)
     {
         if (making->components[i].size() > 0)
@@ -1703,7 +1703,7 @@ void game::complete_craft()
     int iter = 0;
     item newit(itypes[making->result], turn, nextinv);
 
-// for food stacking
+    // for food stacking
     if (newit.is_food())
     {
         int bday_tmp = turn % 3600;
@@ -1720,14 +1720,14 @@ void game::complete_craft()
         iter++;
     }
     while (u.has_item(newit.invlet) && iter < 52);
-//newit = newit.in_its_container(&itypes);
+    //newit = newit.in_its_container(&itypes);
     if (newit.made_of(LIQUID))
     {
         handle_liquid(newit, false, false);
     }
     else
     {
-// We might not have space for the item
+        // We might not have space for the item
         if (iter == 52 || u.volume_carried() + newit.volume() > u.volume_capacity())
         {
             add_msg("There's no room in your inventory for the %s, so you drop it.",
@@ -1750,8 +1750,8 @@ void game::complete_craft()
 
 void game::consume_items(std::vector<component> components)
 {
-// For each set of components in the recipe, fill you_have with the list of all
-// matching ingredients the player has.
+    // For each set of components in the recipe, fill you_have with the list of all
+    // matching ingredients the player has.
     std::vector<component> player_has;
     std::vector<component> map_has;
     std::vector<component> mixed;
@@ -1826,7 +1826,7 @@ void game::consume_items(std::vector<component> components)
     else     // Let the player pick which component they want to use
     {
         std::vector<std::string> options; // List for the menu_vec below
-// Populate options with the names of the items
+        // Populate options with the names of the items
         for (int i = 0; i < map_has.size(); i++)
         {
             std::string tmpStr = itypes[map_has[i].type]->name + " (nearby)";
@@ -1847,7 +1847,7 @@ void game::consume_items(std::vector<component> components)
             return;    // and the fire goes out.
         }
 
-// Get the selection via a menu popup
+        // Get the selection via a menu popup
         int selection = menu_vec("Use which component?", options) - 1;
         if (selection < map_has.size())
         {
@@ -1916,7 +1916,7 @@ void game::consume_tools(std::vector<component> tools)
     map_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
     std::vector<component> player_has;
     std::vector<component> map_has;
-// Use charges of any tools that require charges used
+    // Use charges of any tools that require charges used
     for (int i = 0; i < tools.size() && !found_nocharge; i++)
     {
         itype_id type = tools[i].type;
@@ -1951,7 +1951,7 @@ void game::consume_tools(std::vector<component> tools)
                       map_has[0].type, map_has[0].count);
     else   // Variety of options, list them and pick one
     {
-// Populate the list
+        // Populate the list
         std::vector<std::string> options;
         for (int i = 0; i < map_has.size(); i++)
         {
@@ -1968,7 +1968,7 @@ void game::consume_tools(std::vector<component> tools)
             return;    // and the fire goes out.
         }
 
-// Get selection via a popup menu
+        // Get selection via a popup menu
         int selection = menu_vec("Use which tool?", options) - 1;
         if (selection < map_has.size())
             m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,

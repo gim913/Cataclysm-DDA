@@ -7,7 +7,7 @@
 enum art_effect_passive
 {
     AEP_NULL = 0,
-// Good
+    // Good
     AEP_STR_UP, // Strength + 4
     AEP_DEX_UP, // Dexterity + 4
     AEP_PER_UP, // Perception + 4
@@ -25,9 +25,9 @@ enum art_effect_passive
     AEP_RESIST_ELECTRICITY, // Protection from electricity
     AEP_CARRY_MORE, // Increases carrying capacity by 200
     AEP_SAP_LIFE, // Killing non-zombie monsters may heal you
-// Splits good from bad
+    // Splits good from bad
     AEP_SPLIT,
-// Bad
+    // Bad
     AEP_HUNGER, // Increases hunger
     AEP_THIRST, // Increases thirst
     AEP_SMOKE, // Emits smoke occasionally

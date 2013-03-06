@@ -8,11 +8,11 @@
 enum material
 {
     MNULL = 0,
-//Food Materials
+    //Food Materials
     LIQUID, VEGGY, FLESH, POWDER,
-//Clothing
+    //Clothing
     COTTON, WOOL, LEATHER, KEVLAR,
-//Other
+    //Other
     STONE, PAPER, WOOD, PLASTIC, GLASS, IRON, STEEL, SILVER
 };
 

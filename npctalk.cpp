@@ -15,26 +15,26 @@
 
 // Some aliases to help with gen_responses
 #define RESPONSE(txt)      ret.push_back(talk_response());\
-                           ret.back().text = txt
+    ret.back().text = txt
 
 #define SELECT_MISS(txt, index)  ret.push_back(talk_response());\
-                                 ret.back().text = txt;\
-                                 ret.back().mission_index = index
+    ret.back().text = txt;\
+    ret.back().mission_index = index
 
 #define SELECT_TEMP(txt, index)  ret.push_back(talk_response());\
-                                 ret.back().text = txt;\
-                                 ret.back().tempvalue = index
+    ret.back().text = txt;\
+    ret.back().tempvalue = index
 
 #define TRIAL(tr, diff) ret.back().trial = tr;\
-                        ret.back().difficulty = diff
+    ret.back().difficulty = diff
 
 #define SUCCESS(topic)  ret.back().success = topic
 #define FAILURE(topic)  ret.back().failure = topic
 
 #define SUCCESS_OPINION(T, F, V, A, O)   ret.back().opinion_success =\
-                                         npc_opinion(T, F, V, A, O)
+        npc_opinion(T, F, V, A, O)
 #define FAILURE_OPINION(T, F, V, A, O)   ret.back().opinion_failure =\
-                                         npc_opinion(T, F, V, A, O)
+        npc_opinion(T, F, V, A, O)
 
 #define SUCCESS_ACTION(func)  ret.back().effect_success = func
 #define FAILURE_ACTION(func)  ret.back().effect_failure = func
@@ -53,7 +53,7 @@ bool trade(game *g, npc *p, int cost, std::string deal);
 
 void npc::talk_to_u(game *g)
 {
-// This is necessary so that we don't bug the player over and over
+    // This is necessary so that we don't bug the player over and over
     if (attitude == NPCATT_TALK)
     {
         attitude = NPCATT_NULL;
@@ -130,7 +130,7 @@ void npc::talk_to_u(game *g)
     mvwprintz(d.win, 1,  1, c_white, "Dialogue with %s", name.c_str());
     mvwprintz(d.win, 1, 43, c_white, "Your response:");
 
-// Main dialogue loop
+    // Main dialogue loop
     do
     {
         talk_topic next = d.opt(d.topic_stack.back(), g);
@@ -159,7 +159,7 @@ void npc::talk_to_u(game *g)
 
 std::string dynamic_line(talk_topic topic, game *g, npc *p)
 {
-// First, a sanity test for mission stuff
+    // First, a sanity test for mission stuff
     if (topic >= TALK_MISSION_START && topic <= TALK_MISSION_END)
     {
 
@@ -196,7 +196,7 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
             id = p->chatbin.missions[ p->chatbin.mission_selected ];
         }
 
-// Mission stuff is a special case, so we'll handle it up here
+        // Mission stuff is a special case, so we'll handle it up here
         mission *miss = g->find_mission(id);
         mission_type *type = miss->type;
         std::string ret = mission_dialogue(mission_id(type->id), topic);
@@ -711,7 +711,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
         }
         else
         {
-// TODO: Lie about mission
+            // TODO: Lie about mission
             mission_type *type = g->find_mission_type(id);
             switch (type->goal)
             {
@@ -815,7 +815,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
         break;
 
     case TALK_SHELTER_PLANS:
-// TODO: Add "follow me"
+        // TODO: Add "follow me"
         RESPONSE("Hmm, okay.  Bye.");
         SUCCESS(TALK_DONE);
         break;
@@ -1705,7 +1705,7 @@ void talk_function::start_training(game *g, npc *p)
         time = 10000 + 5000 * g->u.skillLevel(Skill::skill(sk_used)).level();
     }
 
-// Pay for it
+    // Pay for it
     if (p->op_of_u.owed >= 0 - cost)
     {
         p->op_of_u.owed += cost;
@@ -1714,7 +1714,7 @@ void talk_function::start_training(game *g, npc *p)
     {
         return;
     }
-// Then receive it
+    // Then receive it
     g->u.assign_activity(ACT_TRAIN, time, p->chatbin.tempvalue);
 }
 
@@ -1808,19 +1808,19 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
 {
     std::string challenge = dynamic_line(topic, g, beta);
     std::vector<talk_response> responses = gen_responses(topic, g, beta);
-// Put quotes around challenge (unless it's an action)
+    // Put quotes around challenge (unless it's an action)
     if (challenge[0] != '*' && challenge[0] != '&')
     {
         std::stringstream tmp;
         tmp << "\"" << challenge << "\"";
     }
-// Parse any tags in challenge
+    // Parse any tags in challenge
     parse_tags(challenge, alpha, beta);
     if (challenge[0] >= 'a' && challenge[0] <= 'z')
     {
         challenge[0] += 'A' - 'a';
     }
-// Prepend "My Name: "
+    // Prepend "My Name: "
     if (challenge[0] == '&') // No name prepended!
     {
         challenge = challenge.substr(1);
@@ -1835,7 +1835,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
     }
     history.push_back(""); // Empty line between lines of dialogue
 
-// Number of lines to highlight
+    // Number of lines to highlight
     int hilight_lines = 1;
     size_t split;
     while (challenge.length() > 40)
@@ -2044,7 +2044,7 @@ Trading with %s\n\
 Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n\
 ? to get information on an item", p->name.c_str());
 
-// Set up line drawings
+    // Set up line drawings
     for (int i = 0; i < 80; i++)
     {
         mvwputch(w_head,  3, i, c_white, LINE_OXOX);
@@ -2052,16 +2052,16 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
     wrefresh(w_head);
 
 
-// End of line drawings
+    // End of line drawings
 
-// Populate the list of what the NPC is willing to buy, and the prices they pay
-// Note that the NPC's barter skill is factored into these prices.
+    // Populate the list of what the NPC is willing to buy, and the prices they pay
+    // Note that the NPC's barter skill is factored into these prices.
     std::vector<int> theirs, their_price, yours, your_price;
     p->init_selling(theirs, their_price);
     p->init_buying(g->u.inv, yours, your_price);
     bool getting_theirs[theirs.size()], getting_yours[yours.size()];
 
-// Adjust the prices based on your barter skill.
+    // Adjust the prices based on your barter skill.
     for (int i = 0; i < their_price.size(); i++)
     {
         their_price[i] *= (price_adjustment(g->u.sklevel[sk_barter]) +
@@ -2086,7 +2086,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
         if (update)     // Time to re-draw
         {
             update = false;
-// Draw borders, one of which is highlighted
+            // Draw borders, one of which is highlighted
             werase(w_them);
             werase(w_you);
             for (int i = 1; i < 80; i++)
@@ -2119,7 +2119,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
                       "%s: $%d", p->name.c_str(), p->cash);
             mvwprintz(w_you,  0, 2, (cash > 0 || g->u.cash >= cash * -1 ? c_green : c_red),
                       "You: $%d", g->u.cash);
-// Draw their list of items, starting from them_off
+            // Draw their list of items, starting from them_off
             for (int i = them_off; i < theirs.size() && i < 17; i++)
                 mvwprintz(w_them, i - them_off + 1, 1,
                           (getting_theirs[i] ? c_white : c_ltgray), "%c %c %s - $%d",
@@ -2134,7 +2134,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
             {
                 mvwprintw(w_them, 19, 9, "More >");
             }
-// Draw your list of items, starting from you_off
+            // Draw your list of items, starting from you_off
             for (int i = you_off; i < yours.size() && i < 17; i++)
                 mvwprintz(w_you, i - you_off + 1, 1,
                           (getting_yours[i] ? c_white : c_ltgray), "%c %c %s - $%d",
@@ -2291,7 +2291,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
                 removing.push_back(g->u.inv[yours[i]].invlet);
             }
         }
-// Do it in two passes, so removing items doesn't corrupt yours[]
+        // Do it in two passes, so removing items doesn't corrupt yours[]
         for (int i = 0; i < removing.size(); i++)
         {
             g->u.i_rem(removing[i]);

@@ -21,7 +21,7 @@ void weather_effect::wet(game *g)
     {
         g->u.add_morale(MORALE_WET, -1, -30);
     }
-// Put out fires and reduce scent
+    // Put out fires and reduce scent
     for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++)
     {
         for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++)
@@ -49,7 +49,7 @@ void weather_effect::very_wet(game *g)
     {
         g->u.add_morale(MORALE_WET, -1, -60);
     }
-// Put out fires and reduce scent
+    // Put out fires and reduce scent
     for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++)
     {
         for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++)

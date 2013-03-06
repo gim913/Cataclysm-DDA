@@ -56,7 +56,7 @@ public:
     void poly(mtype *t);
     void spawn(int x, int y); // All this does is moves the monster to x,y
 
-// Access
+    // Access
     std::string name();         // Returns the monster's formal name
     std::string name_with_armor(); // Name, with whatever our armor is called
     void print_info(game *g, WINDOW* w); // Prints information to w.
@@ -73,7 +73,7 @@ public:
     std::string save_info();    // String of all data, for save files
     void debug(player &u);  // Gives debug info
 
-// Movement
+    // Movement
     void receive_moves();       // Gives us movement points
     void shift(int sx, int sy);     // Shifts the monster to the appropriate submap
     // Updates current pos AND our plans
@@ -98,7 +98,7 @@ public:
     void stumble(game *g, bool moved);
     void knock_back_from(game *g, int posx, int posy);
 
-// Combat
+    // Combat
     bool is_fleeing(player &u); // True if we're fleeing
     monster_attitude attitude(player *u = NULL);    // See the enum above
     int morale_level(player &u);    // Looks at our HP etc.
@@ -115,7 +115,7 @@ public:
     int  fall_damage(); // How much a fall hurts us
     void die(game *g);
 
-// Other
+    // Other
     void add_effect(monster_effect_type effect, int duration);
     bool has_effect(monster_effect_type effect); // True if we have the effect
     void rem_effect(monster_effect_type effect); // Remove a given effect
@@ -125,17 +125,17 @@ public:
     void make_friendly();
     void add_item(item it); // Add an item to inventory
 
-// TEMP VALUES
+    // TEMP VALUES
     int posx, posy;
     int wandx, wandy; // Wander destination - Just try to move in that direction
     int wandf;     // Urge to wander - Increased by sound, decrements each move
     std::vector<item> inv; // Inventory
     std::vector<monster_effect> effects; // Active effects, e.g. on fire
 
-// If we were spawned by the map, store our origin for later use
+    // If we were spawned by the map, store our origin for later use
     int spawnmapx, spawnmapy, spawnposx, spawnposy;
 
-// DEFINING VALUES
+    // DEFINING VALUES
     int moves, speed;
     int hp;
     int sp_timeout;

@@ -27,19 +27,19 @@ struct special_game
     {
         return SGAME_NULL;
     };
-// init is run when the game begins
+    // init is run when the game begins
     virtual bool init(game *g)
     {
         return true;
     };
-// per_turn is run every turn--before any player actions
+    // per_turn is run every turn--before any player actions
     virtual void per_turn(game *g) { };
-// pre_action is run after a keypress, but before the game handles the action
-// It may modify the action, e.g. to cancel it
+    // pre_action is run after a keypress, but before the game handles the action
+    // It may modify the action, e.g. to cancel it
     virtual void pre_action(game *g, action_id &act) { };
-// post_action is run after the game handles the action
+    // post_action is run after the game handles the action
     virtual void post_action(game *g, action_id act) { };
-// game_over is run when the player dies (or the game otherwise ends)
+    // game_over is run when the player dies (or the game otherwise ends)
     virtual void game_over(game *g) { };
 
 };
@@ -165,7 +165,7 @@ private:
     std::string special_wave_message(std::string name);
 
 
-// DATA
+    // DATA
     int current_wave;
 
     defense_style style;    // What type of game is it?

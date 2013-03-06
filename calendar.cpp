@@ -237,7 +237,7 @@ void calendar::standardize()
 
 int calendar::minutes_past_midnight()
 {
-//debugmsg("minute: %d  hour: %d");
+    //debugmsg("minute: %d  hour: %d");
     int ret = minute + hour * 60;
     return ret;
 }
@@ -245,7 +245,7 @@ int calendar::minutes_past_midnight()
 moon_phase calendar::moon()
 {
     int phase = day / (DAYS_IN_SEASON / 4);
-//phase %= 4;   Redundant?
+    //phase %= 4;   Redundant?
     if (phase == 3)
     {
         return MOON_HALF;
@@ -435,7 +435,7 @@ std::string calendar::textify_period()
     std::stringstream ret;
     int am;
     std::string tx;
-// Describe the biggest time period, as "<am> <tx>s", am = amount, tx = name
+    // Describe the biggest time period, as "<am> <tx>s", am = amount, tx = name
     if (year > 0)
     {
         am = year;

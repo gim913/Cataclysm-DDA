@@ -4,7 +4,7 @@
 enum action_id
 {
     ACTION_NULL = 0,
-// Movement
+    // Movement
     ACTION_PAUSE,
     ACTION_MOVE_N,
     ACTION_MOVE_NE,
@@ -16,7 +16,7 @@ enum action_id
     ACTION_MOVE_NW,
     ACTION_MOVE_DOWN,
     ACTION_MOVE_UP,
-// Shift view
+    // Shift view
     ACTION_CENTER,
     ACTION_SHIFT_N,
     ACTION_SHIFT_NE,
@@ -26,7 +26,7 @@ enum action_id
     ACTION_SHIFT_SW,
     ACTION_SHIFT_W,
     ACTION_SHIFT_NW,
-// Environment Interaction
+    // Environment Interaction
     ACTION_OPEN,
     ACTION_CLOSE,
     ACTION_SMASH,
@@ -37,7 +37,7 @@ enum action_id
     ACTION_LOOK,
     ACTION_PEEK,
     ACTION_LIST_ITEMS,
-// Inventory Interaction (including quasi-inventories like bionics)
+    // Inventory Interaction (including quasi-inventories like bionics)
     ACTION_INVENTORY,
     ACTION_COMPARE,
     ACTION_ORGANIZE,
@@ -58,7 +58,7 @@ enum action_id
     ACTION_DROP,
     ACTION_DIR_DROP,
     ACTION_BIONICS,
-// Long-term / special actions
+    // Long-term / special actions
     ACTION_WAIT,
     ACTION_CRAFT,
     ACTION_CONSTRUCT,
@@ -69,7 +69,7 @@ enum action_id
     ACTION_IGNORE_ENEMY,
     ACTION_SAVE,
     ACTION_QUIT,
-// Info Screens
+    // Info Screens
     ACTION_PL_INFO,
     ACTION_MAP,
     ACTION_MISSIONS,
@@ -77,7 +77,7 @@ enum action_id
     ACTION_MORALE,
     ACTION_MESSAGES,
     ACTION_HELP,
-// Debug Functions
+    // Debug Functions
     ACTION_DEBUG,
     ACTION_DISPLAY_SCENT,
     ACTION_TOGGLE_DEBUGMON,

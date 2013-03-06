@@ -38,14 +38,14 @@ enum moon_phase
 class calendar
 {
 public:
-// The basic data; note that "second" should always be a multiple of 6
+    // The basic data; note that "second" should always be a multiple of 6
     int second;
     int minute;
     int hour;
     int day;
     season_type season;
     int year;
-// End data
+    // End data
 
     calendar();
     calendar(const calendar &copy);
@@ -70,7 +70,7 @@ public:
 
     void standardize(); // Ensure minutes <= 59, hour <= 23, etc.
 
-// Sunlight and day/night calcuations
+    // Sunlight and day/night calcuations
     int minutes_past_midnight(); // Useful for sunrise/set calculations
     moon_phase moon();  // Find phase of moon
     calendar sunrise(); // Current time of sunrise
@@ -78,7 +78,7 @@ public:
     bool is_night();    // After sunset + TWILIGHT_MINUTES, before sunrise
     int sunlight();     // Current amount of sun/moonlight; uses preceding funcs
 
-// Print-friendly stuff
+    // Print-friendly stuff
     std::string print_time(bool twentyfour = false);
     std::string textify_period(); // "1 second" "2 hours" "two days"
 };

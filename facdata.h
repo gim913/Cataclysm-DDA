@@ -67,8 +67,8 @@ struct faction_value_datum
 
 faction_value_datum facgoal_data[NUM_FACGOALS] =
 {
-// "Their ultimate goal is <name>"
-//Name              Good    Str Sneak   Crime   Cult
+    // "Their ultimate goal is <name>"
+    //Name              Good    Str Sneak   Crime   Cult
     {"Null",             0,  0,  0,  0,  0},
     {"basic survival",       0,  0,  0,  0,  0},
     {"financial wealth",         0, -1,  0,  2, -1},
@@ -86,8 +86,8 @@ faction_value_datum facgoal_data[NUM_FACGOALS] =
 
 faction_value_datum facjob_data[NUM_FACJOBS] =
 {
-// "They earn money via <name>"
-//Name              Good    Str Sneak   Crime   Cult
+    // "They earn money via <name>"
+    //Name              Good    Str Sneak   Crime   Cult
     {"Null",             0,  0,  0,  0,  0},
     {"protection rackets",      -3,  2, -1,  4,  0},
     {"the sale of information", -1, -1,  4,  1,  0},
@@ -108,8 +108,8 @@ faction_value_datum facjob_data[NUM_FACJOBS] =
 
 faction_value_datum facval_data[NUM_FACVALS] =
 {
-// "They are known for <name>"
-//Name              Good    Str Sneak   Crime   Cult
+    // "They are known for <name>"
+    //Name              Good    Str Sneak   Crime   Cult
     {"Null",             0,  0,  0,  0,  0},
     {"their charitable nature",  5, -1, -1, -2, -2},
     {"their isolationism",       0, -2,  1,  0,  2},

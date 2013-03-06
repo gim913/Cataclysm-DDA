@@ -40,20 +40,20 @@ class map
 {
 public:
 
-// Constructors & Initialization
+    // Constructors & Initialization
     map();
     map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
         std::vector<trap*> *trptr);
     ~map();
 
-// Visual Output
+    // Visual Output
     void draw(game *g, WINDOW* w, const point center);
     void debug();
     void drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert, const bool show_items,
                 const int cx = -1, const int cy = -1,
                 const bool low_light = false, const bool bright_level = false);
 
-// File I/O
+    // File I/O
     virtual void save(overmap *om, unsigned const int turn, const int x, const int y);
     virtual void load(game *g, const int wx, const int wy, const bool update_vehicles = true);
     void shift(game *g, const int wx, const int wy, const int x, const int y);
@@ -61,30 +61,30 @@ public:
     void clear_spawns();
     void clear_traps();
 
-// Movement and LOS
+    // Movement and LOS
     int move_cost(const int x, const int y); // Cost to move through; 0 = impassible
     int move_cost_ter_only(const int x, const int y); // same as above, but don't take vehicles into account
     bool trans(const int x, const int y, char * trans_buf = NULL); // Transparent?
-// (Fx, Fy) sees (Tx, Ty), within a range of (range)?
-// tc indicates the Bresenham line used to connect the two points, and may
-//  subsequently be used to form a path between them
+    // (Fx, Fy) sees (Tx, Ty), within a range of (range)?
+    // tc indicates the Bresenham line used to connect the two points, and may
+    //  subsequently be used to form a path between them
     bool sees(const int Fx, const int Fy, const int Tx, const int Ty,
               const int range, int &tc, char * trans_buf = NULL);
-// clear_path is the same idea, but uses cost_min <= move_cost <= cost_max
+    // clear_path is the same idea, but uses cost_min <= move_cost <= cost_max
     bool clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
                     const int range, const int cost_min, const int cost_max, int &tc);
-// route() generates an A* best path; if bash is true, we can bash through doors
+    // route() generates an A* best path; if bash is true, we can bash through doors
     std::vector<point> route(const int Fx, const int Fy, const int Tx, const int Ty,
                              const bool bash = true);
 
-// vehicles
+    // vehicles
     VehicleList get_vehicles();
     VehicleList get_vehicles(const int sx, const int sy, const int ex, const int ey);
 
-// checks, if tile is occupied by vehicle and by which part
+    // checks, if tile is occupied by vehicle and by which part
     vehicle* veh_at(const int x, const int y, int &part_num);
     vehicle* veh_at(const int x, const int y);// checks, if tile is occupied by vehicle
-// put player on vehicle at x,y
+    // put player on vehicle at x,y
     void board_vehicle(game *g, int x, int y, player *p);
     void unboard_vehicle(game *g, const int x, const int y);//remove player from vehicle at x,y
     void update_vehicle_cache(vehicle *, const bool brand_new = false);
@@ -93,17 +93,17 @@ public:
     void update_vehicle_list(const int to);
 
     void destroy_vehicle(vehicle *veh);
-// Change vehicle coords and move vehicle's driver along.
-// Returns true, if there was a submap change.
-// If test is true, function only checks for submap change, no displacement
-// WARNING: not checking collisions!
+    // Change vehicle coords and move vehicle's driver along.
+    // Returns true, if there was a submap change.
+    // If test is true, function only checks for submap change, no displacement
+    // WARNING: not checking collisions!
     bool displace_vehicle(game *g, int &x, int &y, const int dx, const int dy, bool test);
     void vehmove(game* g);          // Vehicle movement
     bool vehproceed(game* g);
-// move water under wheels. true if moved
+    // move water under wheels. true if moved
     bool displace_water(const int x, const int y);
 
-// Terrain
+    // Terrain
     ter_id& ter(const int x, const int y); // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
     bool is_indoor(const int x, const int y); // Check if current ter is indoors
     std::string tername(const int x, const int y); // Name of terrain at (x, y)
@@ -120,7 +120,7 @@ public:
     void translate(const ter_id from, const ter_id to); // Change all instances of $from->$to
     bool close_door(const int x, const int y, const bool inside);
     bool open_door(const int x, const int y, const bool inside);
-// bash: if res pointer is supplied, res will contain absorbed impact or -1
+    // bash: if res pointer is supplied, res will contain absorbed impact or -1
     bool bash(const int x, const int y, const int str, std::string &sound, int *res = 0);
     void destroy(game *g, const int x, const int y, const bool makesound);
     void shoot(game *g, const int x, const int y, int &dam, const bool hit_items, const unsigned flags);
@@ -129,10 +129,10 @@ public:
     bool has_adjacent_furniture(const int x, const int y);
     void mop_spills(const int x, const int y);
 
-// Radiation
+    // Radiation
     int& radiation(const int x, const int y);   // Amount of radiation at (x, y);
 
-// Items
+    // Items
     std::vector<item>& i_at(int x, int y);
     item water_from(const int x, const int y);
     void i_clear(const int x, const int y);
@@ -148,12 +148,12 @@ public:
                     const bool use_container = false);
     void use_charges(const point origin, const int range, const itype_id type, const int amount);
 
-// Traps
+    // Traps
     trap_id& tr_at(const int x, const int y);
     void add_trap(const int x, const int y, const trap_id t);
     void disarm_trap(game *g, const int x, const int y);
 
-// Fields
+    // Fields
     field& field_at(const int x, const int y);
     bool add_field(game *g, const int x, const int y, const field_id t, const unsigned char density);
     void remove_field(const int x, const int y);
@@ -162,21 +162,21 @@ public:
     void step_in_field(const int x, const int y, game *g);      // See fields.cpp
     void mon_in_field(const int x, const int y, game *g, monster *z);   // See fields.cpp
 
-// Computers
+    // Computers
     computer* computer_at(const int x, const int y);
 
-// Graffiti
+    // Graffiti
     graffiti graffiti_at(int x, int y);
     bool add_graffiti(game *g, int x, int y, std::string contents);
 
-// mapgen.cpp functions
+    // mapgen.cpp functions
     void generate(game *g, overmap *om, const int x, const int y, const int turn);
     void post_process(game *g, unsigned zones);
     void place_spawns(game *g, moncat_id monster_type, int chance, int x1, int y1,
                       int x2, int y2, int min, int max);
     void place_items(items_location loc, const int chance, const int x1, const int y1,
                      const int x2, const int y2, bool ongrass, const int turn);
-// put_items_from puts exactly num items, based on chances
+    // put_items_from puts exactly num items, based on chances
     void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0);
     void add_spawn(mon_id type, const int count, const int x, const int y, bool friendly = false,
                    const int faction_id = -1, const int mission_id = -1,

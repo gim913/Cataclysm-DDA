@@ -5,7 +5,7 @@
 
 #define INBOUNDS(x, y) (x >= -SEEX && x <= SEEX && y >= -SEEY && y <= SEEY)
 #define INBOUNDS_LARGE(x, y) (x >= -LIGHTMAP_RANGE_X && x <= LIGHTMAP_RANGE_X &&\
-                               y >= -LIGHTMAP_RANGE_Y && y <= LIGHTMAP_RANGE_Y)
+                              y >= -LIGHTMAP_RANGE_Y && y <= LIGHTMAP_RANGE_Y)
 
 light_map::light_map()
     : lm()
@@ -25,7 +25,7 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
     int dir_y[] = { 0, 1 ,  0, -1 };
     int dir_d[] = { 180, 270, 0, 90 };
 
-// Daylight vision handling returned back to map due to issues it causes here
+    // Daylight vision handling returned back to map due to issues it causes here
     if (natural_light > LIGHT_SOURCE_BRIGHT)
     {
         // Apply sunlight, first light source so just assign
@@ -42,7 +42,7 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
         }
     }
 
-// Apply player light sources
+    // Apply player light sources
     if (luminance > LIGHT_AMBIENT_LOW)
     {
         apply_light_source(g->u.posx, g->u.posy, x, y, luminance);
@@ -223,7 +223,7 @@ float light_map::ambient_at(int dx, int dy)
 
 bool light_map::is_outside(int dx, int dy)
 {
-// We don't know and true seems a better default than false
+    // We don't know and true seems a better default than false
     if (!INBOUNDS_LARGE(dx, dy))
     {
         return true;
@@ -251,7 +251,7 @@ bool light_map::sees(int fx, int fy, int tx, int ty, int max_range)
     int x = fx;
     int y = fy;
 
-// TODO: [lightmap] Pull out the common code here rather than duplication
+    // TODO: [lightmap] Pull out the common code here rather than duplication
     if (ax > ay)
     {
         int t = ay - (ax >> 1);
@@ -348,10 +348,10 @@ void light_map::apply_light_arc(int x, int y, int angle, int cx, int cy, float l
     int range = LIGHT_RANGE(luminance);
     apply_light_source(x, y, cx, cy, LIGHT_SOURCE_LOCAL);
 
-// Normalise (should work with negative values too)
+    // Normalise (should work with negative values too)
     angle = angle % 360;
 
-// East side
+    // East side
     if (angle < 90 || angle > 270)
     {
         int sy = y - cy - ((angle <  90) ? range * ((45 - angle) / 45.0f) : range);
@@ -364,7 +364,7 @@ void light_map::apply_light_arc(int x, int y, int angle, int cx, int cy, float l
         }
     }
 
-// South side
+    // South side
     if (angle < 180)
     {
         int sx = x - cx - ((angle < 90) ? range * ((angle - 45) / 45.0f) : range);
@@ -377,7 +377,7 @@ void light_map::apply_light_arc(int x, int y, int angle, int cx, int cy, float l
         }
     }
 
-// West side
+    // West side
     if (angle > 90 && angle < 270)
     {
         int sy = y - cy - ((angle < 180) ? range * ((angle - 135) / 45.0f) : range);
@@ -390,7 +390,7 @@ void light_map::apply_light_arc(int x, int y, int angle, int cx, int cy, float l
         }
     }
 
-// North side
+    // North side
     if (angle > 180)
     {
         int sx = x - cx - ((angle > 270) ? range * ((315 - angle) / 45.0f) : range);
@@ -416,7 +416,7 @@ void light_map::apply_light_ray(bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy
 
     float transparency = LIGHT_TRANSPARENCY_CLEAR;
 
-// TODO: [lightmap] Pull out the common code here rather than duplication
+    // TODO: [lightmap] Pull out the common code here rather than duplication
     if (ax > ay)
     {
         int t = ay - (ax >> 1);
@@ -520,8 +520,8 @@ void light_map::build_outside_cache(map *m, const int x, const int y, const int 
 // generation. As well as close to that for the veh_at function.
 void light_map::build_light_cache(game* g, int cx, int cy)
 {
-// Clear cache
-// Initialize cache of outside tiles
+    // Clear cache
+    // Initialize cache of outside tiles
     memset(outside_cache, true, sizeof(outside_cache));
     for (int sx = cx - LIGHTMAP_RANGE_X; sx <= cx + LIGHTMAP_RANGE_X; ++sx)
     {
@@ -539,14 +539,14 @@ void light_map::build_light_cache(game* g, int cx, int cy)
         }
     }
 
-// Check for critters and cache
+    // Check for critters and cache
     for (int i = 0; i < g->z.size(); ++i)
         if (INBOUNDS(g->z[i].posx - cx, g->z[i].posy - cy))
         {
             c[g->z[i].posx - cx + LIGHTMAP_RANGE_X][g->z[i].posy - cy + LIGHTMAP_RANGE_Y].mon = i;
         }
 
-// Check for vehicles and cache
+    // Check for vehicles and cache
     VehicleList vehs = g->m.get_vehicles(cx - LIGHTMAP_RANGE_X, cy - LIGHTMAP_RANGE_Y, cx + LIGHTMAP_RANGE_X, cy + LIGHTMAP_RANGE_Y);
     for (int v = 0; v < vehs.size(); ++v)
     {

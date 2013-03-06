@@ -10,14 +10,14 @@ void mattack::antqueen(game *g, monster *z)
     std::vector<point> egg_points;
     std::vector<int> ants;
     z->sp_timeout = z->type->sp_freq;   // Reset timer
-// Count up all adjacent tiles the contain at least one egg.
+    // Count up all adjacent tiles the contain at least one egg.
     for (int x = z->posx - 2; x <= z->posx + 2; x++)
     {
         for (int y = z->posy - 2; y <= z->posy + 2; y++)
         {
             for (int i = 0; i < g->m.i_at(x, y).size(); i++)
             {
-// is_empty() because we can't hatch an ant under the player, a monster, etc.
+                // is_empty() because we can't hatch an ant under the player, a monster, etc.
                 if (g->m.i_at(x, y)[i].type->id == itm_ant_egg && g->is_empty(x, y))
                 {
                     egg_points.push_back(point(x, y));
@@ -168,7 +168,7 @@ void mattack::shockstorm(game *g, monster *z)
             g->m.add_field(g, bolt[i].x, bolt[i].y, fd_electricity, rng(1, 3));
         }
     }
-// 3x3 cloud of electricity at the square hit
+    // 3x3 cloud of electricity at the square hit
     for (int i = tarx - 1; i <= tarx + 1; i++)
     {
         for (int j = tary - 1; j <= tary + 1; j++)
@@ -213,7 +213,7 @@ void mattack::boomer(game *g, monster *z)
         {
             g->m.add_field(g, line[i].x, line[i].y, fd_bile, 1);
         }
-// If bile hit a solid tile, return.
+        // If bile hit a solid tile, return.
         if (g->m.move_cost(line[i].x, line[i].y) == 0)
         {
             g->m.add_field(g, line[i].x, line[i].y, fd_bile, 3);
@@ -241,7 +241,7 @@ void mattack::resurrect(game *g, monster *z)
     }
     std::vector<point> corpses;
     int junk;
-// Find all corposes that we can see within 4 tiles.
+    // Find all corposes that we can see within 4 tiles.
     for (int x = z->posx - 4; x <= z->posx + 4; x++)
     {
         for (int y = z->posy - 4; y <= z->posy + 4; y++)
@@ -461,7 +461,7 @@ void mattack::growplants(game *g, monster *z)
                     }
                     else if (g->u.posx == z->posx + i && g->u.posy == z->posy + j)
                     {
-// Player is hit by a growing tree
+                        // Player is hit by a growing tree
                         body_part hit = bp_legs;
                         int side = rng(1, 2);
                         if (one_in(4))
@@ -522,7 +522,7 @@ void mattack::growplants(game *g, monster *z)
                     }
                     else if (g->m.ter(z->posx + i, z->posy + j) == t_underbrush)
                     {
-// Underbrush => young tree
+                        // Underbrush => young tree
                         int mondex = g->mon_at(z->posx + i, z->posy + j);
                         if (mondex != -1)
                         {
@@ -640,7 +640,7 @@ void mattack::vine(game *g, monster *z)
             }
         }
     }
-// Calculate distance from nearest hub
+    // Calculate distance from nearest hub
     int dist_from_hub = 999;
     for (int i = 0; i < g->z.size(); i++)
     {
@@ -667,7 +667,7 @@ void mattack::vine(game *g, monster *z)
 
 void mattack::spit_sap(game *g, monster *z)
 {
-// TODO: Friendly biollantes?
+    // TODO: Friendly biollantes?
     int t = 0;
     if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 12 ||
             !g->sees_u(z->posx, z->posy, t))
@@ -760,7 +760,7 @@ void mattack::triffid_heartbeat(game *g, monster *z)
                 }
             }
         }
-// Open blank tiles as long as there's no possible route
+        // Open blank tiles as long as there's no possible route
         int tries = 0;
         while (g->m.route(g->u.posx, g->u.posy, z->posx, z->posy).empty() &&
                 tries < 20)
@@ -812,7 +812,7 @@ void mattack::fungus(game *g, monster *z)
     {
         return;    // Prevent crowding the monster list.
     }
-// TODO: Infect NPCs?
+    // TODO: Infect NPCs?
     z->moves = -200;            // It takes a while
     z->sp_timeout = z->type->sp_freq;   // Reset timer
     monster spore(g->mtypes[mon_spore]);
@@ -917,7 +917,7 @@ void mattack::leap(game *g, monster *z)
         }
     }
 
-// Go back and remove all options that aren't tied for best
+    // Go back and remove all options that aren't tied for best
     for (int i = 0; i < options.size() && options.size() > 1; i++)
     {
         point p = options[i];
@@ -956,7 +956,7 @@ void mattack::dermatik(game *g, monster *z)
 
     z->sp_timeout = z->type->sp_freq;   // Reset timer
 
-// Can we dodge the attack?
+    // Can we dodge the attack?
     int attack_roll = dice(z->type->melee_skill, 10);
     int player_dodge = g->u.dodge_roll(g);
     if (player_dodge > attack_roll)
@@ -966,7 +966,7 @@ void mattack::dermatik(game *g, monster *z)
         return;
     }
 
-// Can we swat the bug away?
+    // Can we swat the bug away?
     int dodge_roll = z->dodge_roll();
     int swat_skill = (g->u.skillLevel("melee").level() + g->u.skillLevel("unarmed").level() * 2) / 3;
     int player_swat = dice(swat_skill, 10);
@@ -984,7 +984,7 @@ void mattack::dermatik(game *g, monster *z)
         return;
     }
 
-// Can the bug penetrate our armor?
+    // Can the bug penetrate our armor?
     body_part targeted = bp_head;
     if (!one_in(4))
     {
@@ -1010,7 +1010,7 @@ void mattack::dermatik(game *g, monster *z)
         return;
     }
 
-// Success!
+    // Success!
     z->moves -= 500; // Successful laying takes a long time
     g->add_msg("The %s sinks its ovipositor into you!", z->name().c_str());
     g->u.add_disease(DI_DERMATIK, -1, g); // -1 = infinite
@@ -1018,7 +1018,7 @@ void mattack::dermatik(game *g, monster *z)
 
 void mattack::plant(game *g, monster *z)
 {
-// Spores taking seed and growing into a fungaloid
+    // Spores taking seed and growing into a fungaloid
     int j;
     if (g->m.has_flag(diggable, z->posx, z->posy))
     {
@@ -1046,13 +1046,13 @@ void mattack::formblob(game *g, monster *z)
             thatmon = g->mon_at(z->posx + i, z->posy + j);
             if (g->u.posx == z->posx + i && g->u.posy == z->posy + i)
             {
-// If we hit the player, cover them with slime
+                // If we hit the player, cover them with slime
                 didit = true;
                 g->u.add_disease(DI_SLIMED, rng(0, z->hp), g);
             }
             else if (thatmon != -1)
             {
-// Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
+                // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
                 if (z->speed > 20 && g->z[thatmon].type->id == mon_blob &&
                         g->z[thatmon].speed < 85)
                 {
@@ -1081,7 +1081,7 @@ void mattack::formblob(game *g, monster *z)
             }
             else if (z->speed >= 85 && rng(0, 250) < z->speed)
             {
-// If we're big enough, spawn a baby blob.
+                // If we're big enough, spawn a baby blob.
                 didit = true;
                 z->speed -= 15;
                 monster blob(g->mtypes[mon_blob_small]);
@@ -1163,7 +1163,7 @@ void mattack::tentacle(game *g, monster *z)
 
 void mattack::vortex(game *g, monster *z)
 {
-// Make sure that the player's butchering is interrupted!
+    // Make sure that the player's butchering is interrupted!
     if (g->u.activity.type == ACT_BUTCHER &&
             rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) <= 2)
     {
@@ -1171,9 +1171,9 @@ void mattack::vortex(game *g, monster *z)
         g->u.activity.type = ACT_NULL;
     }
     int t;
-// Moves are NOT used up by this attack, as it is "passive"
+    // Moves are NOT used up by this attack, as it is "passive"
     z->sp_timeout = z->type->sp_freq;
-// Before anything else, smash terrain!
+    // Before anything else, smash terrain!
     for (int x = z->posx - 2; x <= z->posx + 2; x++)
     {
         for (int y = z->posx - 2; y <= z->posy + 2; y++)
@@ -1231,7 +1231,7 @@ void mattack::vortex(game *g, monster *z)
                             g->u.hit(g, hit, side, dam, 0);
                             dam = 0;
                         }
-// TODO: Hit NPCs
+                        // TODO: Hit NPCs
                         if (dam == 0 || i == traj.size() - 1)
                         {
                             if (thrown.made_of(GLASS))
@@ -1254,7 +1254,7 @@ void mattack::vortex(game *g, monster *z)
                     }
                 } // Done throwing item
             } // Done getting items
-// Throw monsters
+            // Throw monsters
             int mondex = g->mon_at(x, y);
             if (mondex != -1)
             {
@@ -1519,7 +1519,7 @@ void mattack::photograph(game *g, monster *z)
     z->sp_timeout = z->type->sp_freq;
     z->moves -= 150;
     g->add_msg("The %s takes your picture!", z->name().c_str());
-// TODO: Make the player known to the faction
+    // TODO: Make the player known to the faction
     g->add_event(EVENT_ROBOT_ATTACK, int(g->turn) + rng(15, 30), z->faction_id,
                  g->levx, g->levy);
 }
@@ -1590,7 +1590,7 @@ void mattack::smg(game *g, monster *z)
         return;
     }
 
-// Not friendly; hence, firing at the player
+    // Not friendly; hence, firing at the player
     if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 24 ||
             !g->sees_u(z->posx, z->posy, t))
     {
@@ -1611,7 +1611,7 @@ void mattack::smg(game *g, monster *z)
     {
         g->add_msg("The %s fires its smg!", z->name().c_str());
     }
-// Set up a temporary player to fire this gun
+    // Set up a temporary player to fire this gun
     player tmp;
     tmp.name = "The " + z->name();
 

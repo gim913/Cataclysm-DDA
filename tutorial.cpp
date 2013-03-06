@@ -10,7 +10,7 @@ bool tutorial_game::init(game *g)
     {
         tutorials_seen[i] = false;
     }
-// Set the scent map to 0
+    // Set the scent map to 0
     for (int i = 0; i < SEEX * MAPSIZE; i++)
     {
         for (int j = 0; j < SEEX * MAPSIZE; j++)
@@ -19,8 +19,8 @@ bool tutorial_game::init(game *g)
         }
     }
     g->temperature = 65;
-// We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
-// middle of the "real" game world
+    // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
+    // middle of the "real" game world
     g->u.normalize(g);
     g->u.str_cur = g->u.str_max;
     g->u.per_cur = g->u.per_max;
@@ -38,7 +38,7 @@ bool tutorial_game::init(game *g)
     g->u.inv.push_back(item(g->itypes[itm_lighter], 0, 'e'));
     g->u.skillLevel("gun").level(5);
     g->u.skillLevel("melee").level(5);
-// Init the starting map at g location.
+    // Init the starting map at g location.
     for (int i = 0; i <= MAPSIZE; i += 2)
     {
         for (int j = 0; j <= MAPSIZE; j += 2)
@@ -47,7 +47,7 @@ bool tutorial_game::init(game *g)
             tm.generate(g, &(g->cur_om), g->levx + i - 1, g->levy + j - 1, int(g->turn));
         }
     }
-// Start with the overmap revealed
+    // Start with the overmap revealed
     for (int x = 0; x < OMAPX; x++)
     {
         for (int y = 0; y < OMAPY; y++)
@@ -245,7 +245,7 @@ void tutorial_game::post_action(game *g, action_id act)
 
     case ACTION_EXAMINE:
         add_message(g, LESSON_INTERACT);
-// Fall through to...
+        // Fall through to...
     case ACTION_PICKUP:
     {
         itype *it = g->itypes[ g->u.last_item ];
@@ -286,7 +286,7 @@ void tutorial_game::post_action(game *g, action_id act)
 
 void tutorial_game::add_message(game *g, tut_lesson lesson)
 {
-// Cycle through intro lessons
+    // Cycle through intro lessons
     if (lesson == LESSON_INTRO)
     {
         while (lesson != NUM_LESSONS && tutorials_seen[lesson])

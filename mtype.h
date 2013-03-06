@@ -31,55 +31,55 @@ enum monster_species
 enum mon_id
 {
     mon_null = 0,
-// Wildlife
+    // Wildlife
     mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_cougar,
-// Friendly animals
+    // Friendly animals
     mon_dog, mon_cat,
-// Ants
+    // Ants
     mon_ant_larva, mon_ant, mon_ant_soldier, mon_ant_queen, mon_ant_fungus,
-// Bees
+    // Bees
     mon_fly, mon_bee, mon_wasp,
-// Worms
+    // Worms
     mon_graboid, mon_worm, mon_halfworm,
-// Zombies
+    // Zombies
     mon_zombie, mon_zombie_cop, mon_zombie_shrieker, mon_zombie_spitter, mon_zombie_electric,
     mon_zombie_fast, mon_zombie_brute, mon_zombie_hulk, mon_zombie_fungus,
     mon_boomer, mon_boomer_fungus, mon_skeleton, mon_zombie_necro,
     mon_zombie_scientist, mon_zombie_soldier, mon_zombie_grabber,
     mon_zombie_master,  mon_beekeeper, mon_shia, mon_zombie_child,
-// Triffids
+    // Triffids
     mon_triffid, mon_triffid_young, mon_triffid_queen, mon_creeper_hub,
     mon_creeper_vine, mon_biollante, mon_vinebeast, mon_triffid_heart,
-// Fungaloids
+    // Fungaloids
     mon_fungaloid, mon_fungaloid_dormant, mon_fungaloid_young, mon_spore,
     mon_fungaloid_queen, mon_fungal_wall,
-// Blobs
+    // Blobs
     mon_blob, mon_blob_small,
-// Sewer mutants
+    // Sewer mutants
     mon_chud, mon_one_eye, mon_crawler,
-// Sewer animals
+    // Sewer animals
     mon_sewer_fish, mon_sewer_snake, mon_sewer_rat, mon_rat_king,
-// Swamp monsters
+    // Swamp monsters
     mon_mosquito, mon_dragonfly, mon_centipede, mon_frog, mon_slug,
     mon_dermatik_larva, mon_dermatik,
-// SPIDERS
+    // SPIDERS
     mon_spider_wolf, mon_spider_web, mon_spider_jumping, mon_spider_trapdoor,
     mon_spider_widow,
-// Unearthed Horrors
+    // Unearthed Horrors
     mon_dark_wyrm, mon_amigara_horror, mon_dog_thing, mon_headless_dog_thing,
     mon_thing,
-// Spiral monsters
+    // Spiral monsters
     mon_human_snail, mon_twisted_body, mon_vortex,
-// Subspace monsters
+    // Subspace monsters
     mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
     mon_flaming_eye, mon_kreck, mon_gracke, mon_blank, mon_gozu, mon_shadow, mon_breather_hub,
     mon_breather, mon_shadow_snake,
-// Robots
+    // Robots
     mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_copbot, mon_molebot,
     mon_tripod, mon_chickenbot, mon_tankbot, mon_turret, mon_exploder,
-// Hallucinations
+    // Hallucinations
     mon_hallu_zom, mon_hallu_bee, mon_hallu_ant, mon_hallu_mom,
-// Special monsters
+    // Special monsters
     mon_generator,
     num_monsters
 };
@@ -202,7 +202,7 @@ struct mtype
     void (mattack::*sp_attack)(game *, monster *); // This monster's special attack
 
 
-// Default constructor
+    // Default constructor
     mtype()
     {
         id = 0;
@@ -232,7 +232,7 @@ struct mtype
         sp_attack = NULL;
         flags.push_back(MF_HUMAN);
     }
-// Non-default (messy)
+    // Non-default (messy)
     mtype(int pid, std::string pname, monster_species pspecies, char psym,
           nc_color pcolor, m_size psize, material pmat,
           unsigned char pfreq, unsigned int pdiff, signed char pagro,

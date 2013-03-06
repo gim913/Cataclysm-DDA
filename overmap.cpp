@@ -190,7 +190,7 @@ oter_id house(int dir)
 
 overmap::overmap()
 {
-// debugmsg("Warning - null overmap!");
+    // debugmsg("Warning - null overmap!");
     nullret = ot_null;
     posx = 999;
     posy = 999;
@@ -463,7 +463,7 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
     std::vector<point> river_start;// West/North endpoints of rivers
     std::vector<point> river_end;   // East/South endpoints of rivers
 
-// Determine points where rivers & roads should connect w/ adjacent maps
+    // Determine points where rivers & roads should connect w/ adjacent maps
     if (north != NULL)
     {
         for (int i = 2; i < OMAPX - 2; i++)
@@ -582,8 +582,8 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
             }
         }
     }
-// Even up the start and end points of rivers. (difference of 1 is acceptable)
-// Also ensure there's at least one of each.
+    // Even up the start and end points of rivers. (difference of 1 is acceptable)
+    // Also ensure there's at least one of each.
     std::vector<point> new_rivers;
     if (north == NULL || west == NULL)
     {
@@ -617,7 +617,7 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
             river_end.push_back(new_rivers[rng(0, new_rivers.size() - 1)]);
         }
     }
-// Now actually place those rivers.
+    // Now actually place those rivers.
     if (river_start.size() > river_end.size() && river_end.size() > 0)
     {
         std::vector<point> river_end_copy = river_end;
@@ -665,19 +665,19 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
         }
     }
 
-// Cities, forests, and settlements come next.
-// These're agnostic of adjacent maps, so it's very simple.
+    // Cities, forests, and settlements come next.
+    // These're agnostic of adjacent maps, so it's very simple.
     place_cities();
     place_forest();
 
-// Ideally we should have at least two exit points for roads, on different sides
+    // Ideally we should have at least two exit points for roads, on different sides
     if (roads_out.size() < 2)
     {
         std::vector<city> viable_roads;
         int tmp;
-// Populate viable_roads with one point for each neighborless side.
-// Make sure these points don't conflict with rivers.
-// TODO: In theory this is a potential infinte loop...
+        // Populate viable_roads with one point for each neighborless side.
+        // Make sure these points don't conflict with rivers.
+        // TODO: In theory this is a potential infinte loop...
         if (north == NULL)
         {
             do
@@ -725,7 +725,7 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
             viable_roads.erase(viable_roads.begin() + tmp);
         }
     }
-// Compile our master list of roads; it's less messy if roads_out is first
+    // Compile our master list of roads; it's less messy if roads_out is first
     for (int i = 0; i < roads_out.size(); i++)
     {
         road_points.push_back(roads_out[i]);
@@ -734,18 +734,18 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
     {
         road_points.push_back(cities[i]);
     }
-// And finally connect them via "highways"
+    // And finally connect them via "highways"
     place_hiways(road_points, ot_road_null);
-// Place specials
+    // Place specials
     place_specials();
-// Make the roads out road points;
+    // Make the roads out road points;
     for (int i = 0; i < roads_out.size(); i++)
     {
         ter(roads_out[i].x, roads_out[i].y) = ot_road_nesw;
     }
-// Clean up our roads and rivers
+    // Clean up our roads and rivers
     polish();
-// Place the monsters, now that the terrain is laid out
+    // Place the monsters, now that the terrain is laid out
     place_mongroups();
     place_radios();
 }
@@ -957,7 +957,7 @@ void overmap::generate_sub(overmap* above)
     {
         build_mine(mine_points[i].x, mine_points[i].y, mine_points[i].s);
     }
-// Basements done last so sewers, etc. don't overwrite them
+    // Basements done last so sewers, etc. don't overwrite them
     for (int i = 0; i < OMAPX; i++)
     {
         for (int j = 0; j < OMAPY; j++)
@@ -1046,7 +1046,7 @@ bool overmap::ter_in_type_range(int x, int y, oter_id type, int type_range)
 point overmap::find_closest(point origin, oter_id type, int type_range,
                             int &dist, bool must_be_seen)
 {
-//does origin qualify?
+    //does origin qualify?
     if (ter_in_type_range(origin.x, origin.y, type, type_range))
         if (!must_be_seen || seen(origin.x, origin.y))
         {
@@ -1054,7 +1054,7 @@ point overmap::find_closest(point origin, oter_id type, int type_range,
         }
 
     int max = (dist == 0 ? OMAPX : dist);
-// expanding box
+    // expanding box
     for (dist = 0; dist <= max; dist++)
     {
         // each edge length is 2*dist-2, because corners belong to one edge
@@ -1257,7 +1257,7 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
         vert = overmap(g, posx, posy + 1, posz);
     }
 
-// Now actually draw the map
+    // Now actually draw the map
     bool csee = false;
     oter_id ccur_ter;
     for (int i = -(om_map_width / 2); i < (om_map_width / 2); i++)
@@ -1292,7 +1292,7 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
                         npc_name = "";
                     }
                 }
-// <Out of bounds placement>
+                // <Out of bounds placement>
             }
             else if (omx < 0)
             {
@@ -1370,7 +1370,7 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
             {
                 debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
             }
-// </Out of bounds replacement>
+            // </Out of bounds replacement>
             if (see)
             {
                 if (note_here && blink)
@@ -1492,12 +1492,12 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
     if (legend)
     {
         cur_ter = ter(cursx, cursy);
-// Draw the vertical line
+        // Draw the vertical line
         for (int j = 0; j < om_map_height; j++)
         {
             mvwputch(w, j, om_map_width, c_white, LINE_XOXO);
         }
-// Clear the legend
+        // Clear the legend
         for (int i = om_map_width + 1; i < om_map_width + 55; i++)
         {
             for (int j = 0; j < om_map_height; j++)
@@ -1531,7 +1531,7 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
         mvwprintz(w, 23, om_map_width + 1, c_magenta, "L - List notes             ");
         mvwprintz(w, 24, om_map_width + 1, c_magenta, "Esc or q - Return to game  ");
     }
-// Done with all drawing!
+    // Done with all drawing!
     wrefresh(w);
 }
 
@@ -1743,19 +1743,19 @@ void overmap::place_forest()
     int fors;
     for (int i = 0; i < NUM_FOREST; i++)
     {
-// forx and fory determine the epicenter of the forest
+        // forx and fory determine the epicenter of the forest
         forx = rng(0, OMAPX - 1);
         fory = rng(0, OMAPY - 1);
-// fors determinds its basic size
+        // fors determinds its basic size
         fors = rng(15, 40);
         for (int j = 0; j < cities.size(); j++)
         {
             while (dist(forx, fory, cities[j].x, cities[j].y) - fors / 2 < cities[j].s)
             {
-// Set forx and fory far enough from cities
+                // Set forx and fory far enough from cities
                 forx = rng(0, OMAPX - 1);
                 fory = rng(0, OMAPY - 1);
-// Set fors to determine the size of the forest; usually won't overlap w/ cities
+                // Set fors to determine the size of the forest; usually won't overlap w/ cities
                 fors = rng(15, 40);
                 j = 0;
             }
@@ -1763,7 +1763,7 @@ void overmap::place_forest()
         int swamps = SWAMPINESS;    // How big the swamp may be...
         x = forx;
         y = fory;
-// Depending on the size on the forest...
+        // Depending on the size on the forest...
         for (int j = 0; j < fors; j++)
         {
             int swamp_chance = 0;
@@ -1783,7 +1783,7 @@ void overmap::place_forest()
                     (ter(x, y) == ot_forest || ter(x, y) == ot_forest_thick ||
                      ter(x, y) == ot_field  || one_in(SWAMPCHANCE)))
             {
-// ...and make a swamp.
+                // ...and make a swamp.
                 ter(x, y) = ot_forest_water;
                 swampy = true;
                 swamps--;
@@ -1852,7 +1852,7 @@ void overmap::place_forest()
             {
                 ter(x + 1, y) = ot_forest;
             }
-// Random walk our forest
+            // Random walk our forest
             x += rng(-2, 2);
             if (x < 0)
             {
@@ -1954,9 +1954,9 @@ void overmap::place_river(point pa, point pb)
         {
             for (int j = -1; j <= 1; j++)
             {
-// We don't want our riverbanks touching the edge of the map for many reasons
+                // We don't want our riverbanks touching the edge of the map for many reasons
                 if ((y + i >= 1 && y + i < OMAPY - 1 && x + j >= 1 && x + j < OMAPX - 1) ||
-// UNLESS, of course, that's where the river is headed!
+                        // UNLESS, of course, that's where the river is headed!
                         (abs(pb.y - (y + i)) < 4 && abs(pb.x - (x + j)) < 4))
                 {
                     ter(x + j, y + i) = ot_river_center;
@@ -2412,8 +2412,8 @@ void overmap::place_rifts()
         int y = rng(MAX_RIFT_SIZE, OMAPY - MAX_RIFT_SIZE);
         int xdist = rng(MIN_RIFT_SIZE, MAX_RIFT_SIZE),
             ydist = rng(MIN_RIFT_SIZE, MAX_RIFT_SIZE);
-// We use rng(0, 10) as the t-value for this Bresenham Line, because by
-// repeating this twice, we can get a thick line, and a more interesting rift.
+        // We use rng(0, 10) as the t-value for this Bresenham Line, because by
+        // repeating this twice, we can get a thick line, and a more interesting rift.
         for (int o = 0; o < 3; o++)
         {
             if (xdist > ydist)
@@ -2480,7 +2480,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, oter_id base)
                 x = next[i].x;
                 y = next[i].y;
                 dir = i; // We are moving... whichever way that highway is moving
-// If we're closer to the destination than to the origin, this highway is done!
+                // If we're closer to the destination than to the origin, this highway is done!
                 if (dist(x, y, x1, y1) > dist(x, y, x2, y2))
                 {
                     return;
@@ -2705,7 +2705,7 @@ void overmap::place_hiways(std::vector<city> cities, oter_id base)
 // a single loop; much more efficient
 void overmap::polish(oter_id min, oter_id max)
 {
-// Main loop--checks roads and rivers that aren't on the borders of the map
+    // Main loop--checks roads and rivers that aren't on the borders of the map
     for (int x = 0; x < OMAPX; x++)
     {
         for (int y = 0; y < OMAPY; y++)
@@ -2740,8 +2740,8 @@ void overmap::polish(oter_id min, oter_id max)
                 {
                     good_river(x, y);
                 }
-// Sometimes a bridge will start at the edge of a river, and this looks ugly
-// So, fix it by making that square normal road; bit of a kludge but it works
+                // Sometimes a bridge will start at the edge of a river, and this looks ugly
+                // So, fix it by making that square normal road; bit of a kludge but it works
                 else if (ter(x, y) == ot_bridge_ns &&
                          (!is_river(ter(x - 1, y)) || !is_river(ter(x + 1, y))))
                 {
@@ -2755,10 +2755,10 @@ void overmap::polish(oter_id min, oter_id max)
             }
         }
     }
-// Fixes stretches of parallel roads--turns them into two-lane highways
-// Note that this fixes 2x2 areas... a "tail" of 1x2 parallel roads may be left.
-// This can actually be a good thing; it ensures nice connections
-// Also, this leaves, say, 3x3 areas of road.  TODO: fix this?  courtyards etc?
+    // Fixes stretches of parallel roads--turns them into two-lane highways
+    // Note that this fixes 2x2 areas... a "tail" of 1x2 parallel roads may be left.
+    // This can actually be a good thing; it ensures nice connections
+    // Also, this leaves, say, 3x3 areas of road.  TODO: fix this?  courtyards etc?
     for (int y = 0; y < OMAPY - 1; y++)
     {
         for (int x = 0; x < OMAPX - 1; x++)
@@ -2981,7 +2981,7 @@ void overmap::good_river(int x, int y)
             {
                 if (is_river(ter(x + 1, y)))
                 {
-// River on N, S, E, W; but we might need to take a "bite" out of the corner
+                    // River on N, S, E, W; but we might need to take a "bite" out of the corner
                     if (!is_river(ter(x - 1, y - 1)))
                     {
                         ter(x, y) = ot_river_c_not_nw;
@@ -3153,7 +3153,7 @@ void overmap::place_specials()
 
         if (tries < 15)   // We found a valid spot!
         {
-// Place the MUST HAVE ones first, to try and guarantee that they appear
+            // Place the MUST HAVE ones first, to try and guarantee that they appear
             std::vector<omspec_id> must_place;
             for (int i = 0; i < valid.size(); i++)
             {
@@ -3184,9 +3184,9 @@ void overmap::place_specials()
 void overmap::place_special(overmap_special special, point p)
 {
     bool rotated = false;
-// First, place terrain...
+    // First, place terrain...
     ter(p.x, p.y) = special.ter;
-// Next, obey any special effects the flags might have
+    // Next, obey any special effects the flags might have
     if (special.flags & mfb(OMS_FLAG_ROTATE_ROAD))
     {
         if (is_road(p.x, p.y - 1))
@@ -3354,7 +3354,7 @@ void overmap::place_special(overmap_special special, point p)
         make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, ot_road_null);
     }
 
-// Finally, place monsters if applicable
+    // Finally, place monsters if applicable
     if (special.monsters != mcat_null)
     {
         if (special.monster_pop_min == 0 || special.monster_pop_max == 0 ||
@@ -3376,7 +3376,7 @@ void overmap::place_special(overmap_special special, point p)
 
 void overmap::place_mongroups()
 {
-// Cities are full of zombies
+    // Cities are full of zombies
     for (int i = 0; i < cities.size(); i++)
     {
         if (!one_in(16) || cities[i].s > 5)
@@ -3385,7 +3385,7 @@ void overmap::place_mongroups()
                          int(cities[i].s * 2.5), cities[i].s * 80));
     }
 
-// Figure out where swamps are, and place swamp monsters
+    // Figure out where swamps are, and place swamp monsters
     for (int x = 3; x < OMAPX - 3; x += 7)
     {
         for (int y = 3; y < OMAPY - 3; y += 7)
@@ -3411,7 +3411,7 @@ void overmap::place_mongroups()
         }
     }
 
-// Place the "put me anywhere" groups
+    // Place the "put me anywhere" groups
     int numgroups = rng(0, 3);
     for (int i = 0; i < numgroups; i++)
     {
@@ -3420,7 +3420,7 @@ void overmap::place_mongroups()
                      rng(20, 40), rng(500, 1000)));
     }
 
-// Forest groups cover the entire map
+    // Forest groups cover the entire map
     zg.push_back(
         mongroup(mcat_forest, 0, OMAPY, OMAPY,
                  rng(2000, 12000)));
@@ -3552,12 +3552,12 @@ void overmap::open(game *g, int x, int y, int z)
 
     plrfilename << "save/" << g->u.name << ".seen." << x << "." << y << "." << z;
     terfilename << "save/o." << x << "." << y << "." << z;
-// Set position IDs
+    // Set position IDs
     posx = x;
     posy = y;
     posz = z;
     fin.open(terfilename.str().c_str());
-// DEBUG VARS
+    // DEBUG VARS
     int nummg = 0;
     if (fin.is_open())
     {
@@ -3656,13 +3656,13 @@ void overmap::open(game *g, int x, int y, int z)
                 }
             }
         }
-// If we accrued an npc_inventory, assign it now
+        // If we accrued an npc_inventory, assign it now
         if (!npc_inventory.empty() && !npcs.empty())
         {
             npcs.back().inv.add_stack(npc_inventory);
         }
 
-// Private/per-character data
+        // Private/per-character data
         fin.close();
         fin.open(plrfilename.str().c_str());
         if (fin.is_open())      // Load private seen data
@@ -3709,7 +3709,7 @@ void overmap::open(game *g, int x, int y, int z)
     }
     else if (z <= -1)   // No map exists, and we are underground!
     {
-// Fetch the terrain above
+        // Fetch the terrain above
         overmap* above = new overmap(g, x, y, z + 1);
         generate_sub(above);
         save(g->u.name, x, y, z);
@@ -3718,7 +3718,7 @@ void overmap::open(game *g, int x, int y, int z)
     else    // No map exists!  Prepare neighbors, and generate one.
     {
         std::vector<overmap*> pointers;
-// Fetch north and south
+        // Fetch north and south
         for (int i = -1; i <= 1; i += 2)
         {
             std::stringstream tmpfilename;
@@ -3734,7 +3734,7 @@ void overmap::open(game *g, int x, int y, int z)
                 pointers.push_back(NULL);
             }
         }
-// Fetch east and west
+        // Fetch east and west
         for (int i = -1; i <= 1; i += 2)
         {
             std::stringstream tmpfilename;
@@ -3750,7 +3750,7 @@ void overmap::open(game *g, int x, int y, int z)
                 pointers.push_back(NULL);
             }
         }
-// pointers looks like (north, south, west, east)
+        // pointers looks like (north, south, west, east)
         generate(g, pointers[0], pointers[3], pointers[1], pointers[2]);
         for (int i = 0; i < 4; i++)
         {

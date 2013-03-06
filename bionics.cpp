@@ -40,12 +40,12 @@ void player::activate_bionic(int b, game *g)
 
     if (my_bionics[b].powered && my_bionics[b].charge > 0)
     {
-// Already-on units just lose a bit of charge
+        // Already-on units just lose a bit of charge
         my_bionics[b].charge--;
     }
     else
     {
-// Not-on units, or those with zero charge, have to pay the power cost
+        // Not-on units, or those with zero charge, have to pay the power cost
         if (bionics[bio.id].charge_time > 0)
         {
             my_bionics[b].powered = true;
@@ -120,7 +120,7 @@ void player::activate_bionic(int b, game *g)
         add_disease(DI_TELEGLOW, 300, g);
         break;
 
-// TODO: More stuff here (and bio_blood_filter)
+        // TODO: More stuff here (and bio_blood_filter)
     case bio_blood_anal:
         w = newwin(20, 40, 3, 10);
         wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -495,24 +495,24 @@ bool player::install_bionics(game *g, it_bionic* type)
     int skint = int(pl_skill / 4);
     int skdec = int((pl_skill * 10) / 4) % 10;
 
-// Header text
+    // Header text
     mvwprintz(w, 0,  0, c_white, "Installing bionics:");
     mvwprintz(w, 0, 20, type->color, bio_name.c_str());
 
-// Dividing bars
+    // Dividing bars
     for (int i = 0; i < 80; i++)
     {
         mvwputch(w,  1, i, c_ltgray, LINE_OXOX);
         mvwputch(w, 21, i, c_ltgray, LINE_OXOX);
     }
-// Init the list of bionics
+    // Init the list of bionics
     for (int i = 1; i < type->options.size(); i++)
     {
         bionic_id id = type->options[i];
         mvwprintz(w, i + 2, 0, (has_bionic(id) ? c_ltred : c_ltblue),
                   bionics[id].name.c_str());
     }
-// Helper text
+    // Helper text
     mvwprintz(w, 2, 40, c_white,        "Difficulty of this module: %d",
               type->difficulty);
     mvwprintz(w, 3, 40, c_white,        "Your installation skill:   %d.%d",
@@ -605,12 +605,12 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
         mvwprintz(w, 2 + selection, 0, (has_bionic(id) ? h_ltred : h_ltblue),
                   bionics[id].name.c_str());
 
-// Clear the bottom three lines...
+        // Clear the bottom three lines...
         mvwprintz(w, 22, 0, c_ltgray, "\
                                                                              \n\
                                                                              \n\
                                                                              ");
-// ...and then fill them with the description of the selected bionic
+        // ...and then fill them with the description of the selected bionic
         mvwprintz(w, 22, 0, c_ltblue, bionics[id].description.c_str());
 
         wrefresh(w);
@@ -777,7 +777,7 @@ void bionics_install_failure(game *g, player *u, int success)
                 g->add_msg("You lose power capacity!");
                 u->max_power_level = rng(0, u->max_power_level - 1);
             }
-// TODO: What if we can't lose power capacity?  No penalty?
+            // TODO: What if we can't lose power capacity?  No penalty?
         }
         else
         {

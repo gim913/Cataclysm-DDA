@@ -46,12 +46,12 @@ public:
 
     player& operator= (const player & rhs);
 
-// newcharacter.cpp
+    // newcharacter.cpp
     bool create(game *g, character_type type, std::string tempname = "");
     int  random_good_trait();
     int  random_bad_trait();
     void normalize(game *g);    // Starting set up of HP and inventory
-// </newcharacter.cpp>
+    // </newcharacter.cpp>
 
     void pick_name(); // Picks a name from NAMES_*
 
@@ -105,7 +105,7 @@ public:
 
     void pause(game *g); // '.' command; pauses & reduces recoil
 
-// melee.cpp
+    // melee.cpp
     int  hit_mon(game *g, monster *z, bool allow_grab = true);
     void hit_player(game *g, player &p, bool allow_grab = true);
 
@@ -141,42 +141,42 @@ public:
     int  dodge(game *g);     // Returns the players's dodge, modded by clothing etc
     int  dodge_roll(game *g);// For comparison to hit_roll()
 
-// ranged.cpp
+    // ranged.cpp
     int throw_range(int index); // Range of throwing item; -1:ERR 0:Can't throw
     int ranged_dex_mod(bool real_life = true);
     int ranged_per_mod(bool real_life = true);
     int throw_dex_mod(bool real_life = true);
 
-// Mental skills and stats
+    // Mental skills and stats
     int comprehension_percent(skill s, bool real_life = true);
     int read_speed(bool real_life = true);
     int talk_skill(); // Skill at convincing NPCs of stuff
     int intimidation(); // Physical intimidation
 
-// Converts bphurt to a hp_part (if side == 0, the left), then does/heals dam
-// hit() processes damage through armor
+    // Converts bphurt to a hp_part (if side == 0, the left), then does/heals dam
+    // hit() processes damage through armor
     void hit(game *g, body_part bphurt, int side, int  dam, int  cut);
-// absorb() reduces dam and cut by your armor (and bionics, traits, etc)
+    // absorb() reduces dam and cut by your armor (and bionics, traits, etc)
     void absorb(game *g, body_part bp,               int &dam, int &cut);
-// hurt() doesn't--effects of disease, what have you
+    // hurt() doesn't--effects of disease, what have you
     void hurt(game *g, body_part bphurt, int side, int  dam);
 
     void heal(body_part healed, int side, int dam);
     void heal(hp_part healed, int dam);
     void healall(int dam);
     void hurtall(int dam);
-// checks armor. if vary > 0, then damage to parts are random within 'vary' percent (1-100)
+    // checks armor. if vary > 0, then damage to parts are random within 'vary' percent (1-100)
     void hitall(game *g, int dam, int vary = 0);
-// Sends us flying one tile
+    // Sends us flying one tile
     void knock_back_from(game *g, int x, int y);
 
     int hp_percentage();    // % of HP remaining, overall
 
     void get_sick(game *g); // Process diseases
-// infect() gives us a chance to save (mostly from armor)
+    // infect() gives us a chance to save (mostly from armor)
     void infect(dis_type type, body_part vector, int strength, int duration,
                 game *g);
-// add_disease() does NOT give us a chance to save
+    // add_disease() does NOT give us a chance to save
     void add_disease(dis_type type, int duration, game *g, int intensity = 0,
                      int max_intensity = -1);
     void rem_disease(dis_type type);
@@ -248,8 +248,8 @@ public:
     bool is_wearing(itype_id it);   // Are we wearing a specific itype?
     bool has_artifact_with(art_effect_passive effect);
 
-// has_amount works ONLY for quantity.
-// has_charges works ONLY for charges.
+    // has_amount works ONLY for quantity.
+    // has_charges works ONLY for charges.
     void use_amount(itype_id it, int quantity, bool use_container = false);
     void use_charges(itype_id it, int quantity);// Uses up charges
     bool has_amount(itype_id it, int quantity);
@@ -265,14 +265,14 @@ public:
     bool has_mission_item(int mission_id);  // Has item with mission_id
     std::vector<int> has_ammo(ammotype at);// Returns a list of indices of the ammo
 
-// ---------------VALUES-----------------
+    // ---------------VALUES-----------------
     int id; // A unique ID number, assigned by the game class
     int posx, posy;
     int view_offset_x, view_offset_y;
     bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
     player_activity activity;
     player_activity backlog;
-// _missions vectors are of mission IDs
+    // _missions vectors are of mission IDs
     std::vector<int> active_missions;
     std::vector<int> completed_missions;
     std::vector<int> failed_missions;
@@ -284,9 +284,9 @@ public:
     bool my_mutations[PF_MAX2];
     int mutation_category_level[NUM_MUTATION_CATEGORIES];
     std::vector<bionic> my_bionics;
-// Current--i.e. modified by disease, pain, etc.
+    // Current--i.e. modified by disease, pain, etc.
     int str_cur, dex_cur, int_cur, per_cur;
-// Maximum--i.e. unmodified by disease
+    // Maximum--i.e. unmodified by disease
     int str_max, dex_max, int_max, per_max;
     int power_level, max_power_level;
     int hunger, thirst, fatigue, health;
@@ -316,7 +316,7 @@ public:
     SkillLevel& skillLevel(size_t id);
 
     bool inv_sorted;
-//std::vector <item> inv;
+    //std::vector <item> inv;
     inventory inv;
     itype_id last_item;
     std::vector <item> worn;

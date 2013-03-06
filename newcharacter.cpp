@@ -258,7 +258,7 @@ bool player::create(game *g, character_type type, std::string tempname)
         return false;
     }
 
-// Character is finalized.  Now just set up HP, &c
+    // Character is finalized.  Now just set up HP, &c
     for (int i = 0; i < num_hp_parts; i++)
     {
         hp_max[i] = calc_HP(str_max, has_trait(PF_TOUGH));
@@ -348,26 +348,26 @@ bool player::create(game *g, character_type type, std::string tempname)
     {
         weapon   = item(g->itypes[0], 0);
     }
-// Nice to start out less than naked.
+    // Nice to start out less than naked.
     item tmp(g->itypes[itm_jeans_fit], 0, 'a');
     worn.push_back(tmp);
     tmp = item(g->itypes[itm_tshirt_fit], 0, 'b');
     worn.push_back(tmp);
     tmp = item(g->itypes[itm_sneakers_fit], 0, 'c');
     worn.push_back(tmp);
-// The near-sighted get to start with glasses.
+    // The near-sighted get to start with glasses.
     if (has_trait(PF_MYOPIC))
     {
         tmp = item(g->itypes[itm_glasses_eye], 0, 'd');
         worn.push_back(tmp);
     }
-// Likewise, the asthmatic start with their medication.
+    // Likewise, the asthmatic start with their medication.
     if (has_trait(PF_ASTHMA))
     {
         tmp = item(g->itypes[itm_inhaler], 0, 'a' + worn.size());
         inv.push_back(tmp);
     }
-// make sure we have no mutations
+    // make sure we have no mutations
     for (int i = 0; i < PF_MAX2; i++)
     {
         my_mutations[i] = false;
@@ -417,7 +417,7 @@ int set_stats(WINDOW* w, player *u, int &points)
 {
     unsigned char sel = 1;
     char ch;
-// Draw horizontal lines, with a gap for the active tab
+    // Draw horizontal lines, with a gap for the active tab
     for (int i = 0; i < 80; i++)
     {
         if (i < 4 || i > 14)
@@ -427,7 +427,7 @@ int set_stats(WINDOW* w, player *u, int &points)
         mvwputch(w,  4, i, c_ltgray, LINE_OXOX);
         mvwputch(w, 21, i, c_ltgray, LINE_OXOX);
     }
-// Attaching lines for tabs
+    // Attaching lines for tabs
     mvwputch(w, 1,  2, h_ltgray, '<');
     mvwputch(w, 1, 16, h_ltgray, '>');
     mvwputch(w, 2,  4, c_ltgray, LINE_XOOX);
@@ -664,7 +664,7 @@ int set_stats(WINDOW* w, player *u, int &points)
 
 int set_traits(WINDOW* w, player *u, int &points)
 {
-// Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
+    // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
     int num_good = 0, num_bad = 0;
     for (int i = 0; i < PF_SPLIT; i++)
     {
@@ -680,7 +680,7 @@ int set_traits(WINDOW* w, player *u, int &points)
             num_bad += abs(traits[i].points);
         }
     }
-// Draw horizontal lines, with a gap for the active tab
+    // Draw horizontal lines, with a gap for the active tab
     for (int i = 0; i < 80; i++)
     {
         if (i < 21 || i > 32)
@@ -690,7 +690,7 @@ int set_traits(WINDOW* w, player *u, int &points)
         mvwputch(w,  4, i, c_ltgray, LINE_OXOX);
         mvwputch(w, 21, i, c_ltgray, LINE_OXOX);
     }
-// Attaching lines for tabs
+    // Attaching lines for tabs
     mvwputch(w, 1, 19, h_ltgray, '<');
     mvwputch(w, 1, 34, h_ltgray, '>');
     mvwputch(w, 2, 4, c_ltgray, LINE_XXOX);
@@ -727,7 +727,7 @@ int set_traits(WINDOW* w, player *u, int &points)
                   num_good, MAX_TRAIT_POINTS);
         mvwprintz(w,  3, 33, c_ltred, "%s%d/%d", (num_bad < 10 ? " " : ""),
                   num_bad, MAX_TRAIT_POINTS);
-// Clear the bottom of the screen.
+        // Clear the bottom of the screen.
         mvwprintz(w, 22, 0, c_ltgray, "\
                                                                              ");
         mvwprintz(w, 23, 0, c_ltgray, "\
@@ -969,7 +969,7 @@ int set_traits(WINDOW* w, player *u, int &points)
 
 int set_skills(WINDOW* w, player *u, int &points)
 {
-// Draw horizontal lines, with a gap for the active tab
+    // Draw horizontal lines, with a gap for the active tab
     for (int i = 0; i < 80; i++)
     {
         if (i < 39 || i > 50)
@@ -979,7 +979,7 @@ int set_skills(WINDOW* w, player *u, int &points)
         mvwputch(w,  4, i, c_ltgray, LINE_OXOX);
         mvwputch(w, 21, i, c_ltgray, LINE_OXOX);
     }
-// Attaching lines for tabs
+    // Attaching lines for tabs
     mvwputch(w, 1, 37, h_ltgray, '<');
     mvwputch(w, 1, 52, h_ltgray, '>');
     mvwputch(w, 2, 4, c_ltgray, LINE_XXOX);
@@ -998,7 +998,7 @@ int set_skills(WINDOW* w, player *u, int &points)
     do
     {
         mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
-// Clear the bottom of the screen.
+        // Clear the bottom of the screen.
         mvwprintz(w, 22, 0, c_ltgray, "\
                                                                              ");
         mvwprintz(w, 23, 0, c_ltgray, "\
@@ -1129,7 +1129,7 @@ int set_skills(WINDOW* w, player *u, int &points)
 
 int set_description(WINDOW* w, player *u, int &points)
 {
-// Draw horizontal lines, with a gap for the active tab
+    // Draw horizontal lines, with a gap for the active tab
     for (int i = 0; i < 80; i++)
     {
         if (i < 57 || i > 73)
@@ -1139,7 +1139,7 @@ int set_description(WINDOW* w, player *u, int &points)
         mvwputch(w,  4, i, c_ltgray, LINE_OXOX);
         mvwputch(w, 21, i, c_ltgray, LINE_OXOX);
     }
-// Attaching lines for tabs
+    // Attaching lines for tabs
     mvwputch(w, 1, 55, h_ltgray, '<');
     mvwputch(w, 1, 75, h_ltgray, '>');
     mvwputch(w, 2, 4, c_ltgray, LINE_XXOX);

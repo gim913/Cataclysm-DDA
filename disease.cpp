@@ -766,7 +766,7 @@ void dis_effect(game *g, player &p, disease &dis)
         }
         if (int(g->turn) % 100 == 0 && !p.has_bionic(bio_recycler))
         {
-// Hunger and thirst advance more slowly while we sleep.
+            // Hunger and thirst advance more slowly while we sleep.
             p.hunger--;
             p.thirst--;
         }
@@ -857,9 +857,9 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_DRUNK:
-// We get 600 turns, or one hour, of DI_DRUNK for each drink we have (on avg)
-// So, the duration of DI_DRUNK is a good indicator of how much alcohol is in
-//  our system.
+        // We get 600 turns, or one hour, of DI_DRUNK for each drink we have (on avg)
+        // So, the duration of DI_DRUNK is a good indicator of how much alcohol is in
+        //  our system.
         p.per_cur -= int(dis.duration / 1000);
         p.dex_cur -= int(dis.duration / 1000);
         p.int_cur -= int(dis.duration /  700);
@@ -1016,13 +1016,13 @@ void dis_effect(game *g, player &p, disease &dis)
 
         if (dis.duration < -14400)   // Spawn some larvae!
         {
-// Choose how many insects; more for large characters
+            // Choose how many insects; more for large characters
             int num_insects = 1;
             while (num_insects < 6 && rng(0, 10) < p.str_max)
             {
                 num_insects++;
             }
-// Figure out where they may be placed
+            // Figure out where they may be placed
             std::vector<point> valid_spawns;
             for (int x = p.posx - 1; x <= p.posy + 1; x++)
             {
@@ -1051,7 +1051,7 @@ void dis_effect(game *g, player &p, disease &dis)
                 while (valid_spawns.size() > 0 && num_insects > 0)
                 {
                     num_insects--;
-// Hurt the player
+                    // Hurt the player
                     body_part burst = bp_torso;
                     if (one_in(3))
                     {
@@ -1062,11 +1062,11 @@ void dis_effect(game *g, player &p, disease &dis)
                         burst = bp_legs;
                     }
                     p.hurt(g, burst, rng(0, 1), rng(4, 8));
-// Spawn a larva
+                    // Spawn a larva
                     int sel = rng(0, valid_spawns.size() - 1);
                     grub.spawn(valid_spawns[sel].x, valid_spawns[sel].y);
                     valid_spawns.erase(valid_spawns.begin() + sel);
-// Sometimes it's a friendly larva!
+                    // Sometimes it's a friendly larva!
                     if (one_in(3))
                     {
                         grub.friendly = -1;
@@ -1125,7 +1125,7 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_HALLU:
-// This assumes that we were given DI_HALLU with a 3600 (6-hour) lifespan
+        // This assumes that we were given DI_HALLU with a 3600 (6-hour) lifespan
         if (dis.duration > 3000)    // First hour symptoms
         {
             if (one_in(300))
@@ -1254,9 +1254,9 @@ void dis_effect(game *g, player &p, disease &dis)
         break;
 
     case DI_TELEGLOW:
-// Default we get around 300 duration points per teleport (possibly more
-// depending on the source).
-// TODO: Include a chance to teleport to the nether realm.
+        // Default we get around 300 duration points per teleport (possibly more
+        // depending on the source).
+        // TODO: Include a chance to teleport to the nether realm.
         if (dis.duration > 6000)    // 20 teles (no decay; in practice at least 21)
         {
             if (one_in(1000 - ((dis.duration - 6000) / 10)))

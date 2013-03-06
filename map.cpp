@@ -13,7 +13,7 @@
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define INBOUNDS(x, y) \
- (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
+    (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
 #define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 enum astar_list
@@ -109,7 +109,7 @@ VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const in
 
 vehicle* map::veh_at(const int x, const int y, int &part_num)
 {
-// This function is called A LOT. Move as much out of here as possible.
+    // This function is called A LOT. Move as much out of here as possible.
     if (!veh_in_active_range || !inbounds(x, y))
     {
         return NULL;    // Out-of-bounds - null vehicle
@@ -139,7 +139,7 @@ vehicle* map::veh_at(const int x, const int y)
 void map::reset_vehicle_cache()
 {
     clear_vehicle_cache();
-// Cache all vehicles
+    // Cache all vehicles
     veh_in_active_range = false;
     for (std::set<vehicle*>::iterator veh = vehicle_list.begin(),
             it_end = vehicle_list.end(); veh != it_end; ++veh)
@@ -153,7 +153,7 @@ void map::update_vehicle_cache(vehicle * veh, const bool brand_new)
     veh_in_active_range = true;
     if (!brand_new)
     {
-// Existing must be cleared
+        // Existing must be cleared
         std::map< std::pair<int, int>, std::pair<vehicle*, int> >::iterator it =
             veh_cached_parts.begin(), end = veh_cached_parts.end(), tmp;
         while (it != end)
@@ -178,7 +178,7 @@ void map::update_vehicle_cache(vehicle * veh, const bool brand_new)
             }
         }
     }
-// Get parts
+    // Get parts
     std::vector<vehicle_part> & parts = veh->parts;
     const int gx = veh->global_x();
     const int gy = veh->global_y();
@@ -219,7 +219,7 @@ void map::clear_vehicle_cache()
 
 void map::update_vehicle_list(const int to)
 {
-// Update vehicle data
+    // Update vehicle data
     for (std::vector<vehicle*>::iterator it = grid[to]->vehicles.begin(),
             end = grid[to]->vehicles.end(); it != end; ++it)
     {
@@ -350,7 +350,7 @@ bool map::displace_vehicle(game *g, int &x, int &y, const int dx, const int dy, 
         return src_na != dst_na;
     }
 
-// first, let's find our position in current vehicles vector
+    // first, let's find our position in current vehicles vector
     int our_i = -1;
     for (int i = 0; i < grid[src_na]->vehicles.size(); i++)
     {
@@ -366,9 +366,9 @@ bool map::displace_vehicle(game *g, int &x, int &y, const int dx, const int dy, 
         debugmsg("displace_vehicle our_i=%d", our_i);
         return false;
     }
-// move the vehicle
+    // move the vehicle
     vehicle *veh = grid[src_na]->vehicles[our_i];
-// don't let it go off grid
+    // don't let it go off grid
     if (!inbounds(x2, y2))
     {
         veh->stop();
@@ -388,7 +388,7 @@ bool map::displace_vehicle(game *g, int &x, int &y, const int dx, const int dy, 
 
     bool need_update = false;
     int upd_x, upd_y;
-// move passengers
+    // move passengers
     for (int i = 0; i < psg_parts.size(); i++)
     {
         player *psg = psgs[i];
@@ -448,7 +448,7 @@ bool map::displace_vehicle(game *g, int &x, int &y, const int dx, const int dy, 
              upd_x >= SEEX * (1 + int(my_MAPSIZE / 2)) ||
              upd_y >= SEEY * (1 + int(my_MAPSIZE / 2))))
     {
-// map will shift, so adjust vehicle coords we've been passed
+        // map will shift, so adjust vehicle coords we've been passed
         if (upd_x < SEEX * int(my_MAPSIZE / 2))
         {
             x += SEEX;
@@ -992,8 +992,8 @@ std::string map::tername(const int x, const int y)
 
 std::string map::features(const int x, const int y)
 {
-// This is used in an info window that is 46 characters wide, and is expected
-// to take up one line.  So, make sure it does that.
+    // This is used in an info window that is 46 characters wide, and is expected
+    // to take up one line.  So, make sure it does that.
     std::string ret;
     if (has_flag(bashable, x, y))
     {
@@ -1046,9 +1046,9 @@ bool map::trans(const int x, const int y, char * trans_buf)
         return trans_buf[x + (y + my_MAPSIZE * SEEX)];
     }
 
-// Control statement is a problem. Normally returning false on an out-of-bounds
-// is how we stop rays from going on forever.  Instead we'll have to include
-// this check in the ray loop.
+    // Control statement is a problem. Normally returning false on an out-of-bounds
+    // is how we stop rays from going on forever.  Instead we'll have to include
+    // this check in the ray loop.
     int vpart = -1;
     vehicle *veh = veh_at(x, y, vpart);
     bool tertr;
@@ -2331,13 +2331,13 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         add_field(g, x, y, fd_smoke, rng(1, 2));
     }
 
-// Set damage to 0 if it's less
+    // Set damage to 0 if it's less
     if (dam < 0)
     {
         dam = 0;
     }
 
-// Check fields?
+    // Check fields?
     field *fieldhit = &(field_at(x, y));
     switch (fieldhit->type)
     {
@@ -2354,7 +2354,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         break;
     }
 
-// Now, destroy items on that tile.
+    // Now, destroy items on that tile.
 
     if ((move_cost(x, y) == 2 && !hit_items) || !INBOUNDS(x, y))
     {
@@ -2924,7 +2924,7 @@ void map::use_charges(const point origin, const int range, const itype_id type, 
                     for (int n = 0; n < i_at(x, y).size(); n++)
                     {
                         item* curit = &(i_at(x, y)[n]);
-// Check contents first
+                        // Check contents first
                         for (int m = 0; m < curit->contents.size() && quantity > 0; m++)
                         {
                             if (curit->contents[m].type->id == type)
@@ -2949,7 +2949,7 @@ void map::use_charges(const point origin, const int range, const itype_id type, 
                                 }
                             }
                         }
-// Now check the actual item
+                        // Now check the actual item
                         if (curit->type->id == type)
                         {
                             if (curit->charges <= quantity)
@@ -3375,7 +3375,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     {
         show_items = false;    // Can only see underwater items if WE are underwater
     }
-// If there's a trap here, and we have sufficient perception, draw that instead
+    // If there's a trap here, and we have sufficient perception, draw that instead
     if (tr_at(x, y) != tr_null &&
             u.per_cur - u.encumb(bp_eyes) >= (*traps)[tr_at(x, y)]->visibility)
     {
@@ -3406,7 +3406,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
             sym = (*traps)[tr_at(x, y)]->sym;
         }
     }
-// If there's a field here, draw that instead (unless its symbol is %)
+    // If there's a field here, draw that instead (unless its symbol is %)
     if (field_at(x, y).type != fd_null &&
             fieldlist[field_at(x, y).type].sym != '&')
     {
@@ -3440,7 +3440,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
             drew_field = false;
         }
     }
-// If there's items here, draw those instead
+    // If there's items here, draw those instead
     if (show_items && !has_flag(container, x, y) && i_at(x, y).size() > 0 && !drew_field)
     {
         if ((terlist[ter(x, y)].sym != '.'))
@@ -3468,7 +3468,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
             tercol = veh->part_color(veh_part);
         }
     }
-// If there's graffiti here, change background color
+    // If there's graffiti here, change background color
     if (graffiti_at(x, y).contents)
     {
         graf = true;
@@ -3517,9 +3517,9 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
     if (ax > ay)   // Mostly-horizontal line
     {
         st = SGN(ay - (ax >> 1));
-// Doing it "backwards" prioritizes straight lines before diagonal.
-// This will help avoid creating a string of zombies behind you and will
-// promote "mobbing" behavior (zombies surround you to beat on you)
+        // Doing it "backwards" prioritizes straight lines before diagonal.
+        // This will help avoid creating a string of zombies behind you and will
+        // promote "mobbing" behavior (zombies surround you to beat on you)
         for (tc = abs(ay - (ax >> 1)) * 2 + 1; tc >= -1; tc--)
         {
             t = tc * st;
@@ -3595,9 +3595,9 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
     if (ax > ay)   // Mostly-horizontal line
     {
         st = SGN(ay - (ax >> 1));
-// Doing it "backwards" prioritizes straight lines before diagonal.
-// This will help avoid creating a string of zombies behind you and will
-// promote "mobbing" behavior (zombies surround you to beat on you)
+        // Doing it "backwards" prioritizes straight lines before diagonal.
+        // This will help avoid creating a string of zombies behind you and will
+        // promote "mobbing" behavior (zombies surround you to beat on you)
         for (tc = abs(ay - (ax >> 1)) * 2 + 1; tc >= -1; tc--)
         {
             t = tc * st;
@@ -3674,7 +3674,7 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
             return empty;
         }
     }
-// First, check for a simple straight line on flat ground
+    // First, check for a simple straight line on flat ground
     int linet = 0;
     if (clear_path(Fx, Fy, Tx, Ty, -1, 2, 2, linet))
     {
@@ -3859,7 +3859,7 @@ void map::load(game *g, const int wx, const int wy, const bool update_vehicle)
 
 void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
 {
-// Special case of 0-shift; refresh the map
+    // Special case of 0-shift; refresh the map
     if (sx == 0 && sy == 0)
     {
         return; // Skip this?
@@ -3876,19 +3876,19 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
         return;
     }
 
-// if player is driving vehicle, (s)he must be shifted with vehicle too
+    // if player is driving vehicle, (s)he must be shifted with vehicle too
     if (g->u.in_vehicle && (sx != 0 || sy != 0))
     {
         g->u.posx -= sx * SEEX;
         g->u.posy -= sy * SEEY;
     }
 
-// Clear vehicle list and rebuild after shift
+    // Clear vehicle list and rebuild after shift
     clear_vehicle_cache();
     vehicle_list.clear();
-// Shift the map sx submaps to the right and sy submaps down.
-// sx and sy should never be bigger than +/-1.
-// wx and wy are our position in the world, for saving/loading purposes.
+    // Shift the map sx submaps to the right and sy submaps down.
+    // sx and sy should never be bigger than +/-1.
+    // wx and wy are our position in the world, for saving/loading purposes.
     if (sx >= 0)
     {
         for (int gridx = 0; gridx < my_MAPSIZE; gridx++)
@@ -4058,9 +4058,9 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int gridx, co
     {
         dbg(D_INFO | D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
         map tmp_map(itypes, mapitems, traps);
-// overx, overy is where in the overmap we need to pull data from
-// Each overmap square is two nonants; to prevent overlap, generate only at
-//  squares divisible by 2.
+        // overx, overy is where in the overmap we need to pull data from
+        // Each overmap square is two nonants; to prevent overlap, generate only at
+        //  squares divisible by 2.
         int newmapx = worldx + gridx - ((worldx + gridx) % 2);
         int newmapy = worldy + gridy - ((worldy + gridy) % 2);
         overmap* this_om = &(g->cur_om);

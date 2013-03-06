@@ -5,20 +5,20 @@
 void game::init_missions()
 {
 #define MISSION(name, goal, diff, val, urgent, place, start, end, fail) \
- id++; mission_types.push_back( \
-mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
+    id++; mission_types.push_back( \
+                                   mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
 
 #define ORIGINS(...) setvector(mission_types[id].origins, __VA_ARGS__, NULL)
 #define ITEM(itid)     mission_types[id].item_id = itid
 
-// DEADLINE defines the low and high end time limits, in hours
-// Omitting DEADLINE means the mission never times out
+    // DEADLINE defines the low and high end time limits, in hours
+    // Omitting DEADLINE means the mission never times out
 #define DEADLINE(low, high) mission_types[id].deadline_low  = low  * 600;\
-                             mission_types[id].deadline_high = high * 600
-//#define NPCS   (...) setvector(missions[id].npc
+    mission_types[id].deadline_high = high * 600
+    //#define NPCS   (...) setvector(missions[id].npc
 
 
-// The order of missions should match enum mission_id in mission.h
+    // The order of missions should match enum mission_id in mission.h
     int id = -1;
 
     MISSION("Null mission", MGOAL_NULL, 0, 0, false,

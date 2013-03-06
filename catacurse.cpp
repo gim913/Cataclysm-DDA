@@ -351,7 +351,7 @@ WINDOW *initscr(void)
     //FixedSys will be user-changable at some point in time??
     SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
     SelectObject(backbuffer, font);//Load our font into the DC
-//    WindowCount=0;
+    //    WindowCount=0;
 
     delete typeface_c;
     mainwin = newwin((OPTIONS[OPT_VIEWPORT_Y] * 2 + 1), (55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1)), 0, 0);
@@ -880,7 +880,7 @@ int waddch(WINDOW *win, const chtype ch)
     int curx = win->cursorx;
     int cury = win->cursory;
 
-//if (win2 > -1){
+    //if (win2 > -1){
     win->line[cury].chars[curx] = charcode;
     win->line[cury].FG[curx] = win->FG;
     win->line[cury].BG[curx] = win->BG;

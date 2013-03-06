@@ -153,10 +153,10 @@ std::string monster::name_with_armor()
 
 void monster::print_info(game *g, WINDOW* w)
 {
-// First line of w is the border; the next two are terrain info, and after that
-// is a blank line. w is 13 characters tall, and we can't use the last one
-// because it's a border as well; so we have lines 4 through 11.
-// w is also 48 characters wide - 2 characters for border = 46 characters for us
+    // First line of w is the border; the next two are terrain info, and after that
+    // is a blank line. w is 13 characters tall, and we can't use the last one
+    // because it's a border as well; so we have lines 4 through 11.
+    // w is also 48 characters wide - 2 characters for border = 46 characters for us
     mvwprintz(w, 6, 1, c_white, "%s ", type->name.c_str());
     switch (attitude(&(g->u)))
     {
@@ -723,7 +723,7 @@ bool monster::hurt(int dam)
 
 int monster::armor_cut()
 {
-// TODO: Add support for worn armor?
+    // TODO: Add support for worn armor?
     return int(type->armor_cut);
 }
 
@@ -808,7 +808,7 @@ void monster::die(game *g)
     {
         dead = true;
     }
-// Drop goodies
+    // Drop goodies
     int total_chance = 0, total_it_chance, cur_chance, selected_location,
         selected_item;
     bool animal_done = false;
@@ -854,7 +854,7 @@ void monster::die(game *g)
         }
     } // Done dropping items
 
-// If we're a queen, make nearby groups of our type start to die out
+    // If we're a queen, make nearby groups of our type start to die out
     if (has_flag(MF_QUEEN))
     {
         std::vector<mongroup*> groups = g->cur_om.monsters_at(g->levx, g->levy);
@@ -874,7 +874,7 @@ void monster::die(game *g)
                 groups[i]->dying = true;
             }
         }
-// Do it for overmap above/below too
+        // Do it for overmap above/below too
         overmap tmp;
         if (g->cur_om.posz == 0)
         {
@@ -903,7 +903,7 @@ void monster::die(game *g)
             }
         }
     }
-// If we're a mission monster, update the mission
+    // If we're a mission monster, update the mission
     if (mission_id != -1)
     {
         mission_type *misstype = g->find_mission_type(mission_id);
@@ -916,10 +916,10 @@ void monster::die(game *g)
             g->mission_step_complete(mission_id, 1);
         }
     }
-// Also, perform our death function
+    // Also, perform our death function
     mdeath md;
     (md.*type->dies)(g, this);
-// If our species fears seeing one of our own die, process that
+    // If our species fears seeing one of our own die, process that
     int anger_adjust = 0, morale_adjust = 0;
     for (int i = 0; i < type->anger.size(); i++)
     {

@@ -242,7 +242,7 @@ void inventory::form_from_map(game *g, point origin, int range)
                 {
                     add_item(g->m.i_at(x, y)[i]);
                 }
-// Kludges for now!
+            // Kludges for now!
             if (g->m.field_at(x, y).type == fd_fire)
             {
                 item fire(g->itypes[itm_fire], 0);
@@ -335,7 +335,7 @@ item inventory::remove_item_by_letter(char ch)
 
 item inventory::remove_item_by_quantity(int index, int quantity)
 {
-// using this assumes the item has charges
+    // using this assumes the item has charges
 
     if (index < 0 || index >= items.size())
     {
@@ -456,7 +456,7 @@ void inventory::use_amount(itype_id it, int quantity, bool use_container)
     {
         for (int j = 0; j < items[i].size() && quantity > 0; j++)
         {
-// First, check contents
+            // First, check contents
             bool used_item_contents = false;
             for (int k = 0; k < items[i][j].contents.size() && quantity > 0; k++)
             {
@@ -468,7 +468,7 @@ void inventory::use_amount(itype_id it, int quantity, bool use_container)
                     used_item_contents = true;
                 }
             }
-// Now check the item itself
+            // Now check the item itself
             if (use_container && used_item_contents)
             {
                 items[i].erase(items[i].begin() + j);
@@ -502,7 +502,7 @@ void inventory::use_charges(itype_id it, int quantity)
     {
         for (int j = 0; j < items[i].size() && quantity > 0; j++)
         {
-// First, check contents
+            // First, check contents
             for (int k = 0; k < items[i][j].contents.size() && quantity > 0; k++)
             {
                 if (items[i][j].contents[k].type->id == it)
@@ -527,7 +527,7 @@ void inventory::use_charges(itype_id it, int quantity)
                     }
                 }
             }
-// Now check the item itself
+            // Now check the item itself
             if (items[i][j].type->id == it)
             {
                 if (items[i][j].charges <= quantity)
@@ -614,5 +614,5 @@ void inventory::assign_empty_invlet(item &it, player *p)
         }
     }
     it.invlet = '`';
-//debugmsg("Couldn't find empty invlet");
+    //debugmsg("Couldn't find empty invlet");
 }
