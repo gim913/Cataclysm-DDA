@@ -3,12 +3,12 @@
 
 graffiti::graffiti()
 {
- this->contents = NULL;
+    this->contents = NULL;
 }
 
 graffiti::graffiti(std::string newstr)
 {
- this->contents = new std::string(newstr);
+    this->contents = new std::string(newstr);
 }
 
 graffiti::~graffiti()
@@ -18,9 +18,9 @@ graffiti::~graffiti()
 
 graffiti graffiti::operator=(graffiti rhs)
 {
- if(rhs.contents)
-  this->contents = new std::string(*rhs.contents);
- else
-  this->contents = 0;
- return *this;
+    if(rhs.contents)
+        this->contents = new std::string(*rhs.contents);
+    else
+        this->contents = 0;
+    return *this;
 }

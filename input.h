@@ -2,27 +2,27 @@
 #define _INPUT_H_
 
 enum InputEvent {
-	Confirm,
-	Cancel,
-	Close,
-	Help,
+    Confirm,
+    Cancel,
+    Close,
+    Help,
 
-	DirectionN,
-	DirectionS,
-	DirectionE,
-	DirectionW,
-	DirectionNW,
-	DirectionNE,
-	DirectionSE,
-	DirectionSW,
-	DirectionNone,
+    DirectionN,
+    DirectionS,
+    DirectionE,
+    DirectionW,
+    DirectionNW,
+    DirectionNE,
+    DirectionSE,
+    DirectionSW,
+    DirectionNone,
 
-	DirectionDown, /* Think stairs */
-	DirectionUp,
+    DirectionDown, /* Think stairs */
+    DirectionUp,
 
-	Pickup,
-	Nothing,
-	Undefined
+    Pickup,
+    Nothing,
+    Undefined
 };
 
 InputEvent get_input(int ch = '\0');

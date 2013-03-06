@@ -21,27 +21,27 @@ const int k_mvel = 200;
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
 // 3 - thin_obstacle, 4 - bashable, 5 - destructible, 6 - other
 enum veh_coll_type {
- veh_coll_nothing = 0,
- veh_coll_body,
- veh_coll_veh,
- veh_coll_thin_obstacle,
- veh_coll_bashable,
- veh_coll_destructable,
- veh_coll_other,
+    veh_coll_nothing = 0,
+    veh_coll_body,
+    veh_coll_veh,
+    veh_coll_thin_obstacle,
+    veh_coll_bashable,
+    veh_coll_destructable,
+    veh_coll_other,
 
- num_veh_coll_types
+    num_veh_coll_types
 };
 
 struct veh_collision {
- //int veh?
- int part;
- veh_coll_type type;
- int imp; // impulse
+//int veh?
+    int part;
+    veh_coll_type type;
+    int imp; // impulse
 
- void* target;  //vehicle
- int target_part; //veh partnum
- std::string target_name;
- veh_collision(){};
+    void* target;  //vehicle
+    int target_part; //veh partnum
+    std::string target_name;
+    veh_collision() {};
 };
 
 
@@ -49,14 +49,20 @@ struct veh_collision {
 struct vehicle_part
 {
     vehicle_part() : id(vp_null), mount_dx(0), mount_dy(0), hp(0),
-    blood(0), inside(false), flags(0), passenger_id(0), bigness(0)
+        blood(0), inside(false), flags(0), passenger_id(0), bigness(0)
     {
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
     }
-    bool has_flag( int flag ) { return flag & flags; }
-    int set_flag( int flag ) { return flags |= flag; }
-    int remove_flag( int flag ) { return flags &= ~flag; }
+    bool has_flag( int flag ) {
+        return flag & flags;
+    }
+    int set_flag( int flag ) {
+        return flags |= flag;
+    }
+    int remove_flag( int flag ) {
+        return flags &= ~flag;
+    }
 
     static const int passenger_flag = 1;
 
